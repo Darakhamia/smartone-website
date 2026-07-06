@@ -77,33 +77,20 @@ export function Hero() {
       <div className="pointer-events-none absolute -top-40 right-[-10%] size-150 rounded-full bg-[radial-gradient(circle,rgba(90,25,181,0.09),transparent_65%)]" />
       <div className="relative mx-auto grid max-w-6xl items-center gap-14 px-6 lg:grid-cols-[1.05fr_0.95fr]">
         <div>
-          <div className="anim-fade-up mb-6 inline-flex flex-wrap items-center gap-2.5 rounded-full bg-bg-2 py-1.5 pr-4 pl-2 text-[12.5px] font-medium text-ink-2">
-            <span className="rounded-full bg-brand px-2.5 py-0.5 text-[11px] font-semibold text-white">
-              All-in-one
-            </span>
-            Terminal · fiscal register · receipt printer
-          </div>
-          <h1 className="anim-fade-up anim-d-1 h-display text-[clamp(40px,5.6vw,72px)] leading-[1.03]">
+          <h1 className="anim-fade-up h-display text-[clamp(40px,5.6vw,72px)] leading-[1.03]">
             One device to <span className="text-brand">run your business.</span>
           </h1>
-          <p className="anim-fade-up anim-d-2 mt-6 mb-9 max-w-125 text-[clamp(17px,1.4vw,20px)] leading-relaxed text-ink-2">
-            One certified box instead of a stack — and every fee in plain
-            euros. No hidden anything.
+          <p className="anim-fade-up anim-d-1 mt-6 mb-9 max-w-130 text-[clamp(17px,1.4vw,20px)] leading-relaxed text-ink-2">
+            Card terminal, fiscal register and receipt printer in one
+            certified box — and every fee in plain euros.
           </p>
-          <div className="anim-fade-up anim-d-3 flex flex-wrap items-center gap-3.5">
+          <div className="anim-fade-up anim-d-2 flex flex-wrap items-center gap-3.5">
             <Link href="/contact" className="btn-primary">
               Get a terminal →
             </Link>
             <Link href="/pricing" className="btn-ghost">
               See pricing
             </Link>
-          </div>
-          <div className="anim-fade-up anim-d-4 mt-8 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[13px] text-ink-3">
-            <span>Certified across Europe</span>
-            <span className="size-1 rounded-full bg-line-2" />
-            <span>Money to your own bank, T+1</span>
-            <span className="size-1 rounded-full bg-line-2" />
-            <span>≤4 working days to go live</span>
           </div>
         </div>
         <DeviceVisual />
