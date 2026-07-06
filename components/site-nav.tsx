@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { Logo } from "@/components/logo";
 
 const links = [
   { href: "/product", label: "Product" },
@@ -15,12 +16,10 @@ export function Brand({ light = false }: { light?: boolean }) {
   return (
     <Link
       href="/"
-      className={`flex items-center gap-2.5 font-display text-[19px] font-bold tracking-tight ${light ? "text-white" : "text-ink"}`}
+      aria-label="SmartOne — home"
+      className={light ? "text-white" : "text-brand"}
     >
-      <span className="grid size-8 place-items-center rounded-lg bg-brand text-[13px] font-bold text-white shadow-[0_6px_14px_-6px_rgba(90,25,181,0.8)]">
-        S1
-      </span>
-      SmartOne
+      <Logo className="h-5.5 w-auto" />
     </Link>
   );
 }
