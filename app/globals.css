@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+@theme {
+  /* SmartOne palette — "the honest receipt": warm paper, deep ink-green, money green */
+  --color-paper: #faf9f5;
+  --color-paper-2: #f1efe7;
+  --color-card: #ffffff;
+  --color-ink: #15211a;
+  --color-ink-2: #4b5a51;
+  --color-ink-3: #8a948c;
+  --color-line: #e7e4d9;
+  --color-line-2: #d5d1c2;
+  --color-green: #0e8a5f;
+  --color-green-d: #0a6b4a;
+  --color-green-l: #3ecf8e;
+  --color-green-tint: #e5f3ec;
+  --color-amber: #c97b12;
+  --color-amber-tint: #fbf0dd;
+  --color-night: #0e1a14;
+  --color-night-2: #16261d;
+
+  --font-display: "Bricolage Grotesque Variable", system-ui, sans-serif;
+  --font-sans: "Inter Variable", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-green);
+  color: #fff;
+}
+
+@layer components {
+  .btn-primary,
+  .btn-ghost,
+  .btn-light,
+  .btn-ghost-dark {
+    @apply inline-flex items-center justify-center gap-2.5 rounded-xl px-6 py-3.5 text-[15px] font-semibold whitespace-nowrap transition-all duration-200 ease-out;
+  }
+  .btn-primary {
+    @apply bg-ink text-paper shadow-[0_12px_28px_-14px_rgba(21,33,26,0.8)] hover:-translate-y-0.5 hover:bg-night-2;
+  }
+  .btn-ghost {
+    @apply text-ink shadow-[inset_0_0_0_1.5px_var(--color-line-2)] hover:text-green-d hover:shadow-[inset_0_0_0_1.5px_var(--color-green)];
+  }
+  .btn-light {
+    @apply bg-paper text-ink hover:-translate-y-0.5 hover:bg-white;
+  }
+  .btn-ghost-dark {
+    @apply text-paper shadow-[inset_0_0_0_1.5px_rgba(255,255,255,0.28)] hover:shadow-[inset_0_0_0_1.5px_rgba(255,255,255,0.6)];
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 rounded-full border border-line-2 bg-green-tint px-3.5 py-1.5 font-mono text-[11px] font-semibold tracking-[0.14em] text-green-d uppercase;
+  }
+  .eyebrow::before {
+    content: "";
+    @apply size-1.5 rounded-full bg-green;
+  }
+  .eyebrow-dark {
+    @apply border-white/15 bg-white/8 text-green-l;
+  }
+
+  .h-display {
+    @apply font-display font-bold tracking-[-0.03em];
+  }
+}
