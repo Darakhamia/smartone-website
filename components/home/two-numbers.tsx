@@ -13,6 +13,22 @@ function ReceiptRow({ label, value, accent = false }: { label: string; value: st
   );
 }
 
+function ReceiptIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      className="size-4 stroke-ink-3"
+      fill="none"
+      strokeWidth="1.7"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <path d="M7 3h10v18l-2.5-1.5L12 21l-2.5-1.5L7 21V3Zm3 5h4m-4 4h4" />
+    </svg>
+  );
+}
+
 export function TwoNumbers() {
   return (
     <section className="py-24">
@@ -30,13 +46,22 @@ export function TwoNumbers() {
             </p>
           </div>
         </Reveal>
-        <div className="mt-11 grid gap-4 md:grid-cols-2">
+        <div className="relative mt-11 grid gap-4 md:grid-cols-2 md:gap-6">
+          {/* connector between the receipts */}
+          <div className="pointer-events-none absolute top-1/2 left-1/2 z-10 hidden -translate-x-1/2 -translate-y-1/2 md:grid">
+            <span className="grid size-12 place-items-center rounded-full bg-brand text-lg text-white shadow-[0_8px_20px_-6px_rgba(90,25,181,0.6)] ring-6 ring-white">
+              →
+            </span>
+          </div>
           <Reveal className="h-full">
-          <div className="h-full rounded-3xl border border-line bg-white p-8">
-            <div className="text-[12px] font-semibold tracking-[0.12em] text-ink-3 uppercase">
-              № 1 · What you sold
+          <div className="receipt-bottom h-full rounded-t-3xl border border-line bg-white p-8 pb-10 shadow-[0_20px_40px_-32px_rgba(29,29,31,0.4)]">
+            <div className="flex items-center justify-between">
+              <div className="text-[12px] font-semibold tracking-[0.12em] text-ink-3 uppercase">
+                № 1 · What you sold
+              </div>
+              <ReceiptIcon />
             </div>
-            <div className="h-display mt-3 text-[44px] leading-none">€1,240.00</div>
+            <div className="h-display mt-4 text-[44px] leading-none">€1,240.00</div>
             <p className="mt-2.5 text-[14.5px] text-ink-2">
               Sales for the period – the fiscal gross, straight from your
               Z-report.
@@ -49,11 +74,14 @@ export function TwoNumbers() {
           </div>
           </Reveal>
           <Reveal delay={120} className="h-full">
-          <div className="h-full rounded-3xl border border-line bg-white p-8">
-            <div className="text-[12px] font-semibold tracking-[0.12em] text-ink-3 uppercase">
-              № 2 · What you&apos;ll receive
+          <div className="receipt-bottom h-full rounded-t-3xl border border-brand/25 bg-gradient-to-b from-brand-tint/70 to-white p-8 pb-10 shadow-[0_20px_40px_-32px_rgba(90,25,181,0.5)]">
+            <div className="flex items-center justify-between">
+              <div className="text-[12px] font-semibold tracking-[0.12em] text-brand uppercase">
+                № 2 · What you&apos;ll receive
+              </div>
+              <ReceiptIcon />
             </div>
-            <div className="h-display mt-3 text-[44px] leading-none text-brand">
+            <div className="h-display mt-4 text-[44px] leading-none text-brand">
               €970.40
             </div>
             <p className="mt-2.5 text-[14.5px] text-ink-2">
@@ -68,7 +96,7 @@ export function TwoNumbers() {
           </div>
           </Reveal>
         </div>
-        <p className="mt-5 text-[13px] text-ink-3">
+        <p className="mt-6 text-[13px] text-ink-3">
           Two views, never blended into one total. Illustrative figures.
         </p>
       </div>

@@ -91,6 +91,14 @@ body {
     transform: translateY(-7px);
   }
 }
+@keyframes grow-x {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .anim-fade-up {
@@ -132,6 +140,25 @@ body {
     opacity: 1;
     transform: none;
   }
+
+  /* auto-advancing step tabs (how-it-works) */
+  .step-progress {
+    animation: grow-x var(--step-duration, 6s) linear forwards;
+  }
+}
+
+/* receipt paper: scalloped bottom edge */
+.receipt-bottom {
+  -webkit-mask-image: radial-gradient(
+    circle 7px at 7px 100%,
+    transparent 6.5px,
+    black 7px
+  );
+  -webkit-mask-size: 14px 100%;
+  -webkit-mask-repeat: repeat-x;
+  mask-image: radial-gradient(circle 7px at 7px 100%, transparent 6.5px, black 7px);
+  mask-size: 14px 100%;
+  mask-repeat: repeat-x;
 }
 
 /* brand range slider (pricing calculator) */
