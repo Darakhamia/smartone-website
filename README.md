@@ -8,7 +8,8 @@ in plain euros.
 
 - [Next.js](https://nextjs.org) (App Router, TypeScript)
 - Tailwind CSS v4
-- Self-hosted fonts via Fontsource (Bricolage Grotesque, Inter, IBM Plex Mono)
+- Self-hosted fonts via Fontsource (Inter, IBM Plex Mono)
+- Brand color: `#5A19B5` (design tokens in `app/globals.css`)
 
 ## Local development
 
@@ -29,7 +30,13 @@ server (`output: "standalone"` in `next.config.ts`).
 3. Port: **3000** (exposed by the image).
 4. Attach your domain and deploy.
 
-No database or environment variables are required at this stage.
+No database is required at this stage.
+
+### Environment variables
+
+| Variable | Purpose |
+| --- | --- |
+| `NEXT_PUBLIC_TRUSTPILOT_BUSINESS_UNIT_ID` | Enables the official Trustpilot TrustBox widget in the trust line (live stars + review count). Get it in Trustpilot Business → Integrations → TrustBox. Until set, the site shows a plain link to the [Trustpilot profile](https://ie.trustpilot.com/review/smartoneglobal.com) instead. Build-time variable — set it in Coolify **build** args/env and redeploy. |
 
 ## Structure
 
@@ -42,8 +49,8 @@ No database or environment variables are required at this stage.
 
 ### Content TODOs before launch
 
-- Substantiate the trust-line figures (Trustpilot rating, device count) —
-  `components/home/trust-line.tsx`
+- Set `NEXT_PUBLIC_TRUSTPILOT_BUSINESS_UNIT_ID` to show the live Trustpilot
+  widget (`components/trustpilot.tsx`)
 - Real sales email / phone on `/contact`
 - Merchant portal URL for `/login`
 - Replace the hero SVG placeholder and industry emoji tiles with the real

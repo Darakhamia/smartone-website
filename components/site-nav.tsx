@@ -15,9 +15,9 @@ export function Brand({ light = false }: { light?: boolean }) {
   return (
     <Link
       href="/"
-      className={`flex items-center gap-2.5 font-display text-[19px] font-bold tracking-tight ${light ? "text-paper" : "text-ink"}`}
+      className={`flex items-center gap-2.5 font-display text-[19px] font-bold tracking-tight ${light ? "text-white" : "text-ink"}`}
     >
-      <span className="grid size-8 place-items-center rounded-lg bg-green text-[13px] font-bold text-paper shadow-[0_6px_14px_-6px_rgba(14,138,95,0.8)]">
+      <span className="grid size-8 place-items-center rounded-lg bg-brand text-[13px] font-bold text-white shadow-[0_6px_14px_-6px_rgba(90,25,181,0.8)]">
         S1
       </span>
       SmartOne
@@ -29,7 +29,7 @@ export function SiteNav() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-line bg-paper/80 backdrop-blur-md">
+    <header className="sticky top-0 z-40 border-b border-line bg-white/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-6xl items-center gap-7 px-6">
         <Brand />
         <nav className="hidden gap-6 lg:flex">
@@ -68,7 +68,7 @@ export function SiteNav() {
         </button>
       </div>
       {open && (
-        <nav className="border-t border-line bg-paper px-6 py-4 lg:hidden">
+        <nav className="border-t border-line bg-white px-6 py-4 lg:hidden">
           {links.map((l) => (
             <Link
               key={l.href}

@@ -42,11 +42,11 @@ const replaces = ["POS register", "card terminal", "accountant tool", "spreadshe
 
 export function Breadth() {
   return (
-    <section className="py-20">
+    <section className="py-24">
       <div className="mx-auto max-w-6xl px-6">
         <div className="max-w-165">
           <span className="eyebrow">One device, as much as you need</span>
-          <h2 className="h-display mt-5 text-[clamp(28px,4vw,46px)] leading-[1.05] font-semibold">
+          <h2 className="h-display mt-4 text-[clamp(30px,4vw,48px)] leading-[1.06]">
             Everything your business needs — one device instead of a stack.
           </h2>
           <p className="mt-4 text-lg leading-relaxed text-ink-2">
@@ -54,17 +54,17 @@ export function Breadth() {
             a four-vendor stack.
           </p>
         </div>
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-11 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {jobs.map((job) => (
             <Link
               key={job.title}
               href={job.href}
-              className="group relative overflow-hidden rounded-2xl bg-night p-6 pb-7 text-paper transition-transform duration-200 hover:-translate-y-1"
+              className="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-night-2 to-night p-6 pb-7 text-white transition-transform duration-200 hover:-translate-y-1"
             >
-              <div className="pointer-events-none absolute -right-10 -bottom-10 size-40 rounded-full bg-[radial-gradient(circle,rgba(62,207,142,0.35),transparent_70%)]" />
+              <div className="pointer-events-none absolute -right-10 -bottom-10 size-44 rounded-full bg-[radial-gradient(circle,rgba(90,25,181,0.55),transparent_70%)]" />
               <svg
                 viewBox="0 0 24 24"
-                className="size-9 stroke-green-l"
+                className="size-9 stroke-brand-l"
                 fill="none"
                 strokeWidth="1.6"
                 strokeLinecap="round"
@@ -75,18 +75,18 @@ export function Breadth() {
               </svg>
               <h3 className="mt-14 flex items-center justify-between font-display text-[21px] font-semibold tracking-tight">
                 {job.title}
-                <span className="text-green-l transition-transform duration-200 group-hover:translate-x-1">
+                <span className="text-brand-l transition-transform duration-200 group-hover:translate-x-1">
                   →
                 </span>
               </h3>
-              <p className="mt-2 text-[14.5px] leading-relaxed text-white/60">
+              <p className="mt-2 text-[14.5px] leading-relaxed text-white/65">
                 {job.text}
               </p>
             </Link>
           ))}
         </div>
-        <div className="mt-8 flex flex-wrap items-center gap-x-4 gap-y-2 text-[14.5px] text-ink-3">
-          <span className="font-mono text-[11px] font-semibold tracking-[0.12em] text-ink-2 uppercase">
+        <div className="mt-9 flex flex-wrap items-center gap-x-4 gap-y-2 text-[14.5px] text-ink-3">
+          <span className="text-[12px] font-semibold tracking-[0.1em] text-ink-2 uppercase">
             Replaces
           </span>
           {replaces.map((item) => (

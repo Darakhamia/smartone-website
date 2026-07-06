@@ -13,7 +13,7 @@ const placeholders = [
 
 export function Proof() {
   return (
-    <section className="bg-paper-2 py-20">
+    <section className="bg-bg-2 py-24">
       <div className="mx-auto max-w-6xl px-6">
         <div className="max-w-165">
           <span className="eyebrow">Real businesses</span>
@@ -24,7 +24,7 @@ export function Proof() {
         <div className="mt-10 grid gap-4 md:grid-cols-3">
           {placeholders.map((p) => (
             <div key={p.label} className="rounded-2xl border border-line bg-card p-4">
-              <div className="grid min-h-38 place-items-center rounded-xl border border-dashed border-line-2 bg-gradient-to-br from-green-tint to-amber-tint p-4 text-center">
+              <div className="grid min-h-38 place-items-center rounded-xl border border-dashed border-line-2 bg-gradient-to-br from-brand-tint to-white p-4 text-center">
                 <div>
                   <span className="block text-3xl">{p.em}</span>
                   <span className="mt-2 block font-mono text-[11px] leading-relaxed text-ink-2">

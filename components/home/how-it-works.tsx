@@ -23,18 +23,18 @@ const steps = [
 
 export function HowItWorks() {
   return (
-    <section className="py-20">
+    <section className="py-24">
       <div className="mx-auto max-w-6xl px-6">
         <div className="max-w-165">
           <span className="eyebrow">From the counter to your accountant</span>
-          <h2 className="h-display mt-5 text-[clamp(28px,4vw,46px)] leading-[1.05] font-semibold">
+          <h2 className="h-display mt-4 text-[clamp(30px,4vw,48px)] leading-[1.06]">
             Close the day. Know your real numbers.
           </h2>
         </div>
-        <div className="mt-10 grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-11 grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
           {steps.map((s) => (
             <div key={s.n} className="border-t-2 border-line-2 pt-5">
-              <span className="font-mono text-[13px] font-semibold text-green-d">
+              <span className="font-mono text-[13px] font-semibold text-brand">
                 {s.n}
               </span>
               <h3 className="mt-2 font-display text-lg font-semibold tracking-tight">

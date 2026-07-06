@@ -13,27 +13,27 @@ const gaps = [
 
 export function Gap() {
   return (
-    <section className="bg-night py-20 text-paper">
+    <section className="bg-night py-24 text-white">
       <div className="mx-auto max-w-6xl px-6">
         <div className="max-w-165">
           <span className="eyebrow eyebrow-dark">Why no one else does this</span>
-          <h2 className="h-display mt-5 text-[clamp(28px,4vw,46px)] leading-[1.05] font-semibold">
+          <h2 className="h-display mt-4 text-[clamp(30px,4vw,48px)] leading-[1.06]">
             Two gaps your current provider won&apos;t close.
           </h2>
         </div>
-        <div className="mt-10 grid gap-4 md:grid-cols-2">
+        <div className="mt-11 grid gap-4 md:grid-cols-2">
           {gaps.map((g) => (
             <div
               key={g.tag}
-              className="rounded-2xl border border-white/10 bg-white/4 p-7"
+              className="rounded-3xl border border-white/10 bg-white/4 p-8"
             >
-              <span className="rounded-full bg-green-l/15 px-3 py-1 font-mono text-[11px] font-semibold tracking-wide text-green-l uppercase">
+              <span className="rounded-full bg-brand/30 px-3.5 py-1 text-[11px] font-semibold tracking-wide text-brand-l uppercase">
                 {g.tag}
               </span>
-              <h3 className="mt-4 font-display text-[22px] font-semibold tracking-tight">
+              <h3 className="mt-5 font-display text-[22px] font-semibold tracking-tight">
                 {g.title}
               </h3>
-              <p className="mt-2.5 leading-relaxed text-white/60">{g.text}</p>
+              <p className="mt-2.5 leading-relaxed text-white/65">{g.text}</p>
             </div>
           ))}
         </div>

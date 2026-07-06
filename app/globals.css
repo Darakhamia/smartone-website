@@ -1,25 +1,24 @@
 @import "tailwindcss";
 
 @theme {
-  /* SmartOne palette — "the honest receipt": warm paper, deep ink-green, money green */
-  --color-paper: #faf9f5;
-  --color-paper-2: #f1efe7;
+  /* SmartOne palette — brand purple #5A19B5 on clean white, premium & airy */
+  --color-bg: #ffffff;
+  --color-bg-2: #f5f5f7;
   --color-card: #ffffff;
-  --color-ink: #15211a;
-  --color-ink-2: #4b5a51;
-  --color-ink-3: #8a948c;
-  --color-line: #e7e4d9;
-  --color-line-2: #d5d1c2;
-  --color-green: #0e8a5f;
-  --color-green-d: #0a6b4a;
-  --color-green-l: #3ecf8e;
-  --color-green-tint: #e5f3ec;
-  --color-amber: #c97b12;
-  --color-amber-tint: #fbf0dd;
-  --color-night: #0e1a14;
-  --color-night-2: #16261d;
+  --color-ink: #1d1d1f;
+  --color-ink-2: #55555e;
+  --color-ink-3: #86868b;
+  --color-line: #e8e8ed;
+  --color-line-2: #d9d9e3;
+  --color-brand: #5a19b5;
+  --color-brand-d: #480e97;
+  --color-brand-l: #a578e8;
+  --color-brand-tint: #f4eefc;
+  --color-night: #120722;
+  --color-night-2: #1e0d38;
+  --color-tp: #00b67a; /* Trustpilot brand green — their stars only */
 
-  --font-display: "Bricolage Grotesque Variable", system-ui, sans-serif;
+  --font-display: "Inter Variable", system-ui, sans-serif;
   --font-sans: "Inter Variable", system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
 }
@@ -29,14 +28,14 @@ html {
 }
 
 body {
-  background: var(--color-paper);
+  background: var(--color-bg);
   color: var(--color-ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
 }
 
 ::selection {
-  background: var(--color-green);
+  background: var(--color-brand);
   color: #fff;
 }
 
@@ -45,33 +44,29 @@ body {
   .btn-ghost,
   .btn-light,
   .btn-ghost-dark {
-    @apply inline-flex items-center justify-center gap-2.5 rounded-xl px-6 py-3.5 text-[15px] font-semibold whitespace-nowrap transition-all duration-200 ease-out;
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-[15px] font-semibold whitespace-nowrap transition-all duration-200 ease-out;
   }
   .btn-primary {
-    @apply bg-ink text-paper shadow-[0_12px_28px_-14px_rgba(21,33,26,0.8)] hover:-translate-y-0.5 hover:bg-night-2;
+    @apply bg-brand text-white shadow-[0_12px_28px_-14px_rgba(90,25,181,0.7)] hover:-translate-y-0.5 hover:bg-brand-d;
   }
   .btn-ghost {
-    @apply text-ink shadow-[inset_0_0_0_1.5px_var(--color-line-2)] hover:text-green-d hover:shadow-[inset_0_0_0_1.5px_var(--color-green)];
+    @apply text-ink shadow-[inset_0_0_0_1.5px_var(--color-line-2)] hover:text-brand hover:shadow-[inset_0_0_0_1.5px_var(--color-brand)];
   }
   .btn-light {
-    @apply bg-paper text-ink hover:-translate-y-0.5 hover:bg-white;
+    @apply bg-white text-brand-d hover:-translate-y-0.5 hover:bg-brand-tint;
   }
   .btn-ghost-dark {
-    @apply text-paper shadow-[inset_0_0_0_1.5px_rgba(255,255,255,0.28)] hover:shadow-[inset_0_0_0_1.5px_rgba(255,255,255,0.6)];
+    @apply text-white shadow-[inset_0_0_0_1.5px_rgba(255,255,255,0.35)] hover:shadow-[inset_0_0_0_1.5px_rgba(255,255,255,0.7)];
   }
 
   .eyebrow {
-    @apply inline-flex items-center gap-2 rounded-full border border-line-2 bg-green-tint px-3.5 py-1.5 font-mono text-[11px] font-semibold tracking-[0.14em] text-green-d uppercase;
-  }
-  .eyebrow::before {
-    content: "";
-    @apply size-1.5 rounded-full bg-green;
+    @apply text-[13px] font-semibold tracking-[0.08em] text-brand uppercase;
   }
   .eyebrow-dark {
-    @apply border-white/15 bg-white/8 text-green-l;
+    @apply text-brand-l;
   }
 
   .h-display {
-    @apply font-display font-bold tracking-[-0.03em];
+    @apply font-display font-semibold tracking-[-0.03em];
   }
 }
