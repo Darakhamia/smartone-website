@@ -53,5 +53,11 @@ No database is required at this stage.
   widget (`components/trustpilot.tsx`)
 - Real sales email / phone on `/contact`
 - Merchant portal URL for `/login`
-- Replace the hero SVG placeholder and industry emoji tiles with the real
-  photo/video shoot (real merchants, aprons, counters)
+- Replace the hero SVG placeholder and the stock industry photos with the
+  real photo/video shoot (real merchants, aprons, counters)
+
+### Stock photo credits (Unsplash license, free commercial use)
+
+`public/industries/`: vets — unsplash.com/photos/1628009368231-7bb7cfcb0def,
+retail — 1556740738-b6a63e27c4df, cafés — 1509042239860-f550ce710b93,
+services — 1585747860715-2ba37e788b70, mobile — 1565123409695-7b5ef63a2efb

@@ -1,14 +1,40 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 
-/* Persona tiles: emoji placeholders until the real photoshoot — the brief
-   calls for photos of real merchants (aprons, counters), not stock art. */
+/* Stock photos (Unsplash license — free commercial use) as placeholders
+   until the real merchant photoshoot; sources credited in the README. */
 const industries = [
-  { em: "🐾", title: "Vets & services", note: "flagship" },
-  { em: "🧑‍🍳", title: "Retail", note: "" },
-  { em: "☕", title: "Cafés & HoReCa", note: "+ Click" },
-  { em: "💈", title: "Professional services", note: "" },
-  { em: "🚚", title: "Mobile / street", note: "" },
+  {
+    img: "/industries/vets.jpg",
+    alt: "Vet gently examining a cat",
+    title: "Vets & services",
+    note: "flagship",
+  },
+  {
+    img: "/industries/retail.jpg",
+    alt: "Shop owner taking a card payment at the counter",
+    title: "Retail",
+    note: "",
+  },
+  {
+    img: "/industries/cafes.jpg",
+    alt: "Freshly made latte art on a café table",
+    title: "Cafés & HoReCa",
+    note: "+ Click",
+  },
+  {
+    img: "/industries/services.jpg",
+    alt: "Barbershop interior with classic chairs",
+    title: "Professional services",
+    note: "",
+  },
+  {
+    img: "/industries/mobile.jpg",
+    alt: "Food truck parked on a city street",
+    title: "Mobile / street",
+    note: "",
+  },
 ];
 
 export function Industries() {
@@ -28,15 +54,21 @@ export function Industries() {
             <Reveal key={ind.title} delay={i * 70} className="h-full">
             <Link
               href="/industries"
-              className="group flex h-full flex-col rounded-3xl bg-bg-2 p-4 transition-all duration-200 hover:-translate-y-1 hover:bg-brand-tint"
+              className="group flex h-full flex-col rounded-3xl bg-bg-2 p-3 transition-all duration-200 hover:-translate-y-1 hover:bg-brand-tint"
             >
-              <div className="grid min-h-28 place-items-center rounded-2xl bg-white text-4xl transition-transform duration-300 group-hover:scale-[1.03]">
-                {ind.em}
+              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
+                <Image
+                  src={ind.img}
+                  alt={ind.alt}
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
               </div>
-              <h3 className="mt-4 px-1 font-display text-[16px] font-semibold tracking-tight">
+              <h3 className="mt-4 px-1.5 font-display text-[16px] font-semibold tracking-tight">
                 {ind.title}
               </h3>
-              <p className="mt-0.5 min-h-4.5 px-1 text-[12px] font-medium text-brand">
+              <p className="mt-0.5 mb-1 min-h-4.5 px-1.5 text-[12px] font-medium text-brand">
                 {ind.note}
               </p>
             </Link>
