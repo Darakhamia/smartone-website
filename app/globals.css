@@ -70,3 +70,34 @@ body {
     @apply font-display font-semibold tracking-[-0.03em];
   }
 }
+
+/* brand range slider (pricing calculator) */
+.range-brand {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  outline-offset: 4px;
+  cursor: pointer;
+}
+.range-brand::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2.5px solid var(--color-brand);
+  box-shadow: 0 2px 8px rgba(90, 25, 181, 0.3);
+  cursor: pointer;
+}
+.range-brand::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2.5px solid var(--color-brand);
+  box-shadow: 0 2px 8px rgba(90, 25, 181, 0.3);
+  cursor: pointer;
+}
