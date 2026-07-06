@@ -1,3 +1,5 @@
+import { Reveal } from "@/components/reveal";
+
 /* The AHA block: Sales ≠ Settlement, shown as TWO separate views.
    Guardrail: never blend the two into one total; "confirmed to pay",
    never "landed in your account". Figures below are illustrative. */
@@ -15,19 +17,22 @@ export function TwoNumbers() {
   return (
     <section className="py-24">
       <div className="mx-auto max-w-6xl px-6">
-        <div className="max-w-165">
-          <span className="eyebrow">The 30-second proof</span>
-          <h2 className="h-display mt-4 text-[clamp(30px,4vw,48px)] leading-[1.06]">
-            Two numbers you can trust.
-          </h2>
-          <p className="mt-4 text-lg leading-relaxed text-ink-2">
-            What you sold and what you&apos;ll receive are two different
-            numbers. Most providers blur them. We show both — separately, to
-            the cent.
-          </p>
-        </div>
+        <Reveal>
+          <div className="max-w-165">
+            <span className="eyebrow">The 30-second proof</span>
+            <h2 className="h-display mt-4 text-[clamp(30px,4vw,48px)] leading-[1.06]">
+              Two numbers you can trust.
+            </h2>
+            <p className="mt-4 text-lg leading-relaxed text-ink-2">
+              What you sold and what you&apos;ll receive are two different
+              numbers. Most providers blur them. We show both — separately, to
+              the cent.
+            </p>
+          </div>
+        </Reveal>
         <div className="mt-11 grid gap-4 md:grid-cols-2">
-          <div className="rounded-3xl border border-line bg-white p-8">
+          <Reveal className="h-full">
+          <div className="h-full rounded-3xl border border-line bg-white p-8">
             <div className="text-[12px] font-semibold tracking-[0.12em] text-ink-3 uppercase">
               № 1 · What you sold
             </div>
@@ -42,7 +47,9 @@ export function TwoNumbers() {
               <ReceiptRow label="Receipts" value="41" />
             </div>
           </div>
-          <div className="rounded-3xl border border-line bg-white p-8">
+          </Reveal>
+          <Reveal delay={120} className="h-full">
+          <div className="h-full rounded-3xl border border-line bg-white p-8">
             <div className="text-[12px] font-semibold tracking-[0.12em] text-ink-3 uppercase">
               № 2 · What you&apos;ll receive
             </div>
@@ -59,6 +66,7 @@ export function TwoNumbers() {
               <ReceiptRow label="Status" value="Processed" />
             </div>
           </div>
+          </Reveal>
         </div>
         <p className="mt-5 text-[13px] text-ink-3">
           Two views, never blended into one total. Illustrative figures.

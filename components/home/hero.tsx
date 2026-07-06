@@ -5,8 +5,8 @@ import Link from "next/link";
    around it. Swap for hero-loop.mp4 + real-person shot when available. */
 function DeviceVisual() {
   return (
-    <div className="relative mx-auto w-full max-w-115">
-      <div className="rounded-[28px] bg-bg-2 px-8 pt-10 pb-8">
+    <div className="anim-fade-up anim-d-2 relative mx-auto w-full max-w-115">
+      <div className="rounded-[28px] bg-gradient-to-br from-brand-tint via-bg-2 to-bg-2 px-8 pt-10 pb-8">
         <svg viewBox="0 0 300 400" className="mx-auto w-full max-w-65" aria-hidden>
           {/* receipt sliding out of the device */}
           <g fontFamily="IBM Plex Mono, monospace">
@@ -52,14 +52,20 @@ function DeviceVisual() {
         </svg>
       </div>
       {/* floating fact chips */}
-      <div className="absolute top-8 -left-3 -rotate-3 rounded-full border border-line bg-white px-4 py-2 text-[12px] font-medium text-ink-2 shadow-lg shadow-black/5 sm:-left-6">
-        Fiscal receipt · <span className="font-semibold text-ink">built in</span>
+      <div className="absolute top-8 -left-3 -rotate-3 sm:-left-6">
+        <div className="chip-float rounded-full border border-line bg-white px-4 py-2 text-[12px] font-medium text-ink-2 shadow-lg shadow-black/5">
+          Fiscal receipt · <span className="font-semibold text-ink">built in</span>
+        </div>
       </div>
-      <div className="absolute top-1/2 -right-2 rotate-2 rounded-full border border-line bg-white px-4 py-2 text-[12px] font-medium text-ink-2 shadow-lg shadow-black/5 sm:-right-5">
-        Fee €0.24 · <span className="font-semibold text-brand">in plain euros</span>
+      <div className="absolute top-1/2 -right-2 rotate-2 sm:-right-5">
+        <div className="chip-float-slow rounded-full border border-line bg-white px-4 py-2 text-[12px] font-medium text-ink-2 shadow-lg shadow-black/5">
+          Fee €0.24 · <span className="font-semibold text-brand">in plain euros</span>
+        </div>
       </div>
-      <div className="absolute -bottom-4 left-8 rotate-1 rounded-full border border-line bg-white px-4 py-2 text-[12px] font-medium text-ink-2 shadow-lg shadow-black/5">
-        T+1 · <span className="font-semibold text-ink">to your own bank</span>
+      <div className="absolute -bottom-4 left-8 rotate-1">
+        <div className="chip-float rounded-full border border-line bg-white px-4 py-2 text-[12px] font-medium text-ink-2 shadow-lg shadow-black/5" style={{ animationDelay: "2s" }}>
+          T+1 · <span className="font-semibold text-ink">to your own bank</span>
+        </div>
       </div>
     </div>
   );
@@ -67,35 +73,35 @@ function DeviceVisual() {
 
 export function Hero() {
   return (
-    <section className="overflow-x-clip pt-16 pb-18 lg:pt-24">
-      <div className="mx-auto grid max-w-6xl items-center gap-14 px-6 lg:grid-cols-[1.05fr_0.95fr]">
+    <section className="relative overflow-x-clip pt-16 pb-18 lg:pt-24">
+      <div className="pointer-events-none absolute -top-40 right-[-10%] size-150 rounded-full bg-[radial-gradient(circle,rgba(90,25,181,0.09),transparent_65%)]" />
+      <div className="relative mx-auto grid max-w-6xl items-center gap-14 px-6 lg:grid-cols-[1.05fr_0.95fr]">
         <div>
-          <div className="mb-6 inline-flex flex-wrap items-center gap-2.5 rounded-full bg-bg-2 py-1.5 pr-4 pl-2 text-[12.5px] font-medium text-ink-2">
+          <div className="anim-fade-up mb-6 inline-flex flex-wrap items-center gap-2.5 rounded-full bg-bg-2 py-1.5 pr-4 pl-2 text-[12.5px] font-medium text-ink-2">
             <span className="rounded-full bg-brand px-2.5 py-0.5 text-[11px] font-semibold text-white">
               All-in-one
             </span>
             Terminal · fiscal register · receipt printer
           </div>
-          <h1 className="h-display text-[clamp(40px,5.6vw,72px)] leading-[1.03]">
+          <h1 className="anim-fade-up anim-d-1 h-display text-[clamp(40px,5.6vw,72px)] leading-[1.03]">
             One device to <span className="text-brand">run your business.</span>
           </h1>
-          <p className="mt-6 mb-9 max-w-135 text-[clamp(17px,1.4vw,20px)] leading-relaxed text-ink-2">
-            Your card terminal, fiscal register, and receipt printer in one
-            certified box — plus a portal that shows the money behind every
-            sale, in plain euros. No hidden fees.
+          <p className="anim-fade-up anim-d-2 mt-6 mb-9 max-w-125 text-[clamp(17px,1.4vw,20px)] leading-relaxed text-ink-2">
+            One certified box instead of a stack — and every fee in plain
+            euros. No hidden anything.
           </p>
-          <div className="flex flex-wrap items-center gap-3.5">
+          <div className="anim-fade-up anim-d-3 flex flex-wrap items-center gap-3.5">
             <Link href="/contact" className="btn-primary">
               Get a terminal →
             </Link>
-            <Link href="/contact" className="btn-ghost">
-              Contact sales
+            <Link href="/pricing" className="btn-ghost">
+              See pricing
             </Link>
           </div>
-          <div className="mt-8 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[13px] text-ink-3">
+          <div className="anim-fade-up anim-d-4 mt-8 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[13px] text-ink-3">
             <span>Certified across Europe</span>
             <span className="size-1 rounded-full bg-line-2" />
-            <span>Every fee in plain euros</span>
+            <span>Money to your own bank, T+1</span>
             <span className="size-1 rounded-full bg-line-2" />
             <span>≤4 working days to go live</span>
           </div>

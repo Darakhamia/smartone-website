@@ -1,9 +1,11 @@
 import Link from "next/link";
+import { Reveal } from "@/components/reveal";
 
 export function FinalCta() {
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-brand to-brand-d py-24 text-center text-white">
       <div className="pointer-events-none absolute top-1/2 left-1/2 size-150 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.14),transparent_65%)]" />
+      <Reveal>
       <div className="relative mx-auto max-w-6xl px-6">
         <h2 className="h-display mx-auto max-w-175 text-[clamp(30px,4vw,48px)] leading-[1.06]">
           Know what you sold. Know what you&apos;ll receive.
@@ -21,6 +23,7 @@ export function FinalCta() {
           </Link>
         </div>
       </div>
+      </Reveal>
     </section>
   );
 }

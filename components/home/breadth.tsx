@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Reveal } from "@/components/reveal";
 
 const jobs = [
   {
@@ -44,61 +45,68 @@ export function Breadth() {
   return (
     <section className="py-24">
       <div className="mx-auto max-w-6xl px-6">
-        <div className="max-w-165">
-          <span className="eyebrow">One device, as much as you need</span>
-          <h2 className="h-display mt-4 text-[clamp(30px,4vw,48px)] leading-[1.06]">
-            Everything your business needs — one device instead of a stack.
-          </h2>
-          <p className="mt-4 text-lg leading-relaxed text-ink-2">
-            Take payments, stay compliant, sell, and know your money — without
-            a four-vendor stack.
-          </p>
-        </div>
+        <Reveal>
+          <div className="max-w-165">
+            <span className="eyebrow">One device, as much as you need</span>
+            <h2 className="h-display mt-4 text-[clamp(30px,4vw,48px)] leading-[1.06]">
+              Everything your business needs — one device instead of a stack.
+            </h2>
+            <p className="mt-4 text-lg leading-relaxed text-ink-2">
+              Take payments, stay compliant, sell, and know your money —
+              without a four-vendor stack.
+            </p>
+          </div>
+        </Reveal>
         <div className="mt-11 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {jobs.map((job) => (
-            <Link
-              key={job.title}
-              href={job.href}
-              className="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-night-2 to-night p-6 pb-7 text-white transition-transform duration-200 hover:-translate-y-1"
-            >
-              <div className="pointer-events-none absolute -right-10 -bottom-10 size-44 rounded-full bg-[radial-gradient(circle,rgba(90,25,181,0.55),transparent_70%)]" />
-              <svg
-                viewBox="0 0 24 24"
-                className="size-9 stroke-brand-l"
-                fill="none"
-                strokeWidth="1.6"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden
+          {jobs.map((job, i) => (
+            <Reveal key={job.title} delay={i * 90}>
+              <Link
+                href={job.href}
+                className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-night-2 to-night p-6 text-white transition-transform duration-300 hover:-translate-y-1.5"
               >
-                {job.icon}
-              </svg>
-              <h3 className="mt-14 flex items-center justify-between font-display text-[21px] font-semibold tracking-tight">
-                {job.title}
-                <span className="text-brand-l transition-transform duration-200 group-hover:translate-x-1">
-                  →
+                <div className="pointer-events-none absolute -right-10 -bottom-10 size-44 rounded-full bg-[radial-gradient(circle,rgba(90,25,181,0.55),transparent_70%)] opacity-70 transition-opacity duration-300 group-hover:opacity-100" />
+                <span className="grid size-12 place-items-center rounded-xl bg-white/8 ring-1 ring-white/10 transition-colors duration-300 group-hover:bg-brand/30">
+                  <svg
+                    viewBox="0 0 24 24"
+                    className="size-6 stroke-brand-l"
+                    fill="none"
+                    strokeWidth="1.6"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden
+                  >
+                    {job.icon}
+                  </svg>
                 </span>
-              </h3>
-              <p className="mt-2 text-[14.5px] leading-relaxed text-white/65">
-                {job.text}
-              </p>
-            </Link>
+                <h3 className="mt-9 flex items-center justify-between font-display text-[20px] font-semibold tracking-tight">
+                  {job.title}
+                  <span className="text-brand-l transition-transform duration-300 group-hover:translate-x-1.5">
+                    →
+                  </span>
+                </h3>
+                <p className="mt-2 text-[14.5px] leading-relaxed text-white/65">
+                  {job.text}
+                </p>
+              </Link>
+            </Reveal>
           ))}
         </div>
-        <div className="mt-9 flex flex-wrap items-center gap-x-4 gap-y-2 text-[14.5px] text-ink-3">
-          <span className="text-[12px] font-semibold tracking-[0.1em] text-ink-2 uppercase">
-            Replaces
-          </span>
-          {replaces.map((item) => (
-            <span key={item} className="line-through decoration-line-2 decoration-2">
-              {item}
+        <Reveal>
+          <div className="mt-9 flex flex-wrap items-center gap-x-4 gap-y-2 text-[14.5px] text-ink-3">
+            <span className="text-[12px] font-semibold tracking-[0.1em] text-ink-2 uppercase">
+              Replaces
             </span>
-          ))}
-        </div>
-        <p className="mt-4 max-w-150 text-[14.5px] leading-relaxed text-ink-2">
-          Use the full stack — or just the terminal, or just the register. Each
-          works on its own, and grows with you when you&apos;re ready.
-        </p>
+            {replaces.map((item) => (
+              <span key={item} className="line-through decoration-line-2 decoration-2">
+                {item}
+              </span>
+            ))}
+          </div>
+          <p className="mt-4 max-w-150 text-[14.5px] leading-relaxed text-ink-2">
+            Use the full stack — or just the terminal, or just the register.
+            Each works on its own, and grows with you when you&apos;re ready.
+          </p>
+        </Reveal>
       </div>
     </section>
   );

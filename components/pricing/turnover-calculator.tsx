@@ -110,7 +110,7 @@ export function TurnoverCalculator() {
       </div>
 
       {/* right: the plan */}
-      <div className="rounded-3xl bg-bg-2 p-8">
+      <div className="rounded-3xl bg-white p-8 shadow-[0_0_0_2px_var(--color-brand),0_24px_48px_-32px_rgba(90,25,181,0.5)]">
         <h2 className="flex items-center justify-between text-sm font-semibold text-ink-2">
           Your plan
           <span className="rounded-full bg-brand px-3 py-1 text-[11px] font-semibold tracking-wide text-white uppercase">

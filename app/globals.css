@@ -71,6 +71,69 @@ body {
   }
 }
 
+/* micro-animations — all gated behind prefers-reduced-motion */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .anim-fade-up {
+    opacity: 0;
+    animation: fade-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  .anim-d-1 {
+    animation-delay: 0.1s;
+  }
+  .anim-d-2 {
+    animation-delay: 0.2s;
+  }
+  .anim-d-3 {
+    animation-delay: 0.3s;
+  }
+  .anim-d-4 {
+    animation-delay: 0.4s;
+  }
+  .anim-d-5 {
+    animation-delay: 0.5s;
+  }
+
+  .chip-float {
+    animation: float-y 5s ease-in-out infinite;
+  }
+  .chip-float-slow {
+    animation: float-y 7s ease-in-out 1s infinite;
+  }
+
+  /* scroll reveal (driven by components/reveal.tsx) */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition:
+      opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 /* brand range slider (pricing calculator) */
 .range-brand {
   appearance: none;

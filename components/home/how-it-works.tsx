@@ -1,3 +1,5 @@
+import { Reveal } from "@/components/reveal";
+
 const steps = [
   {
     n: "01",
@@ -25,15 +27,18 @@ export function HowItWorks() {
   return (
     <section className="py-24">
       <div className="mx-auto max-w-6xl px-6">
-        <div className="max-w-165">
-          <span className="eyebrow">From the counter to your accountant</span>
-          <h2 className="h-display mt-4 text-[clamp(30px,4vw,48px)] leading-[1.06]">
-            Close the day. Know your real numbers.
-          </h2>
-        </div>
+        <Reveal>
+          <div className="max-w-165">
+            <span className="eyebrow">From the counter to your accountant</span>
+            <h2 className="h-display mt-4 text-[clamp(30px,4vw,48px)] leading-[1.06]">
+              Close the day. Know your real numbers.
+            </h2>
+          </div>
+        </Reveal>
         <div className="mt-11 grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
-          {steps.map((s) => (
-            <div key={s.n} className="border-t-2 border-line-2 pt-5">
+          {steps.map((s, i) => (
+            <Reveal key={s.n} delay={i * 90}>
+            <div className="border-t-2 border-line-2 pt-5 transition-colors duration-300 hover:border-brand">
               <span className="font-mono text-[13px] font-semibold text-brand">
                 {s.n}
               </span>
@@ -44,6 +49,7 @@ export function HowItWorks() {
                 {s.text}
               </p>
             </div>
+            </Reveal>
           ))}
         </div>
       </div>
