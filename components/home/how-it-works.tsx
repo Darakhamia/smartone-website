@@ -4,7 +4,7 @@ const steps = [
   {
     n: "01",
     title: "Money & transparency",
-    text: "Know what you'll receive and what you paid — in euros.",
+    text: "Know what you'll receive and what you paid – in euros.",
   },
   {
     n: "02",

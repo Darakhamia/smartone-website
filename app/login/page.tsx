@@ -9,7 +9,7 @@ export default function LoginPage() {
     <StubPage
       eyebrow="Merchant portal"
       title="Your portal is on its way."
-      description="The merchant portal login will live here — what you sold, what you'll receive, receipts and Z-reports, all in one place."
+      description="The merchant portal login will live here – what you sold, what you'll receive, receipts and Z-reports, all in one place."
     />
   );
 }

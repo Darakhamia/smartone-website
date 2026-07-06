@@ -9,7 +9,7 @@ const gaps = [
   {
     tag: "Incentive gap",
     title: "Every fee in plain euros",
-    text: "The commission stops hiding inside a monthly statement. Competitors could show it — their margin depends on not showing it.",
+    text: "The commission stops hiding inside a monthly statement. Competitors could show it – their margin depends on not showing it.",
   },
 ];
 

@@ -82,7 +82,7 @@ export function Hero() {
           </h1>
           <p className="anim-fade-up anim-d-1 mt-6 mb-9 max-w-130 text-[clamp(17px,1.4vw,20px)] leading-relaxed text-ink-2">
             Card terminal, fiscal register and receipt printer in one
-            certified box — and every fee in plain euros.
+            certified box – and every fee in plain euros.
           </p>
           <div className="anim-fade-up anim-d-2 flex flex-wrap items-center gap-3.5">
             <Link href="/contact" className="btn-primary">

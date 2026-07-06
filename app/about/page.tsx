@@ -8,7 +8,7 @@ export default function AboutPage() {
     <StubPage
       eyebrow="About"
       title="We think you should see every fee."
-      description="The story of SmartOne — why we built a certified fiscal device with honest pricing — is coming soon."
+      description="The story of SmartOne – why we built a certified fiscal device with honest pricing – is coming soon."
     />
   );
 }

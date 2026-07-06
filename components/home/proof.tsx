@@ -1,4 +1,4 @@
-/* Social-proof block. Guardrail from the brief: REAL customers only — no
+/* Social-proof block. Guardrail from the brief: REAL customers only – no
    fabricated testimonials or numbers (a fake face kills the transparency
    position). Keep SHOW_PROOF = false until real cases / a photoshoot exist,
    then replace the placeholders with real photos, quotes and names. */
@@ -6,9 +6,9 @@
 export const SHOW_PROOF = false;
 
 const placeholders = [
-  { em: "🧑‍🍳", label: "Retail merchant — photo + quote" },
-  { em: "🐾", label: "Vet clinic owner — photo + quote" },
-  { em: "☕", label: "Café owner — photo + quote" },
+  { em: "🧑‍🍳", label: "Retail merchant – photo + quote" },
+  { em: "🐾", label: "Vet clinic owner – photo + quote" },
+  { em: "☕", label: "Café owner – photo + quote" },
 ];
 
 export function Proof() {

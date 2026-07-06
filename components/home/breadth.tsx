@@ -16,7 +16,7 @@ const jobs = [
   {
     href: "/product",
     title: "Stay compliant",
-    text: "Fiscal register, receipts and Z-reports — built in.",
+    text: "Fiscal register, receipts and Z-reports – built in.",
     icon: (
       <path d="M7 3h10v18l-2.5-1.5L12 21l-2.5-1.5L7 21V3Zm3 5h4m-4 4h4" />
     ),
@@ -24,7 +24,7 @@ const jobs = [
   {
     href: "/product",
     title: "Sell & manage",
-    text: "Products, prices and categories once — ring up on the register, or take orders via Click.",
+    text: "Products, prices and categories once – ring up on the register, or take orders via Click.",
     icon: (
       <path d="M5 8h14l-1 12H6L5 8Zm4 0V6a3 3 0 0 1 6 0v2" />
     ),
@@ -32,7 +32,7 @@ const jobs = [
   {
     href: "/product",
     title: "Know your money",
-    text: "Every fee in plain euros — what you sold, and what you'll receive.",
+    text: "Every fee in plain euros – what you sold, and what you'll receive.",
     icon: (
       <path d="M4 10h12M4 14h9m6-8a7.7 7.7 0 0 0-5.2-2A7.9 7.9 0 0 0 6 12c0 4.4 3.5 8 7.8 8 2 0 3.8-.8 5.2-2" />
     ),
@@ -49,10 +49,10 @@ export function Breadth() {
           <div className="max-w-165">
             <span className="eyebrow">One device, as much as you need</span>
             <h2 className="h-display mt-4 text-[clamp(30px,4vw,48px)] leading-[1.06]">
-              Everything your business needs — one device instead of a stack.
+              Everything your business needs – one device instead of a stack.
             </h2>
             <p className="mt-4 text-lg leading-relaxed text-ink-2">
-              Take payments, stay compliant, sell, and know your money —
+              Take payments, stay compliant, sell, and know your money –
               without a four-vendor stack.
             </p>
           </div>
@@ -103,7 +103,7 @@ export function Breadth() {
             ))}
           </div>
           <p className="mt-4 max-w-150 text-[14.5px] leading-relaxed text-ink-2">
-            Use the full stack — or just the terminal, or just the register.
+            Use the full stack – or just the terminal, or just the register.
             Each works on its own, and grows with you when you&apos;re ready.
           </p>
         </Reveal>

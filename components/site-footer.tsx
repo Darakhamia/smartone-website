@@ -38,7 +38,7 @@ export function SiteFooter() {
           <div>
             <Brand light />
             <p className="mt-4 max-w-70 text-[13.5px] leading-relaxed">
-              One device to run your business — payments, fiscal receipts, and
+              One device to run your business – payments, fiscal receipts, and
               the money behind them.
             </p>
           </div>

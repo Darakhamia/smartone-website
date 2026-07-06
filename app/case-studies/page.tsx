@@ -8,7 +8,7 @@ export default function CaseStudiesPage() {
     <StubPage
       eyebrow="Case studies"
       title="Stories from the counter."
-      description="Real merchants, real numbers — no fabricated testimonials. We'll publish case studies here as soon as our first customers are ready to share theirs."
+      description="Real merchants, real numbers – no fabricated testimonials. We'll publish case studies here as soon as our first customers are ready to share theirs."
     />
   );
 }

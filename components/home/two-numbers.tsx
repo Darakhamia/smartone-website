@@ -25,7 +25,7 @@ export function TwoNumbers() {
             </h2>
             <p className="mt-4 text-lg leading-relaxed text-ink-2">
               What you sold and what you&apos;ll receive are two different
-              numbers. Most providers blur them. We show both — separately, to
+              numbers. Most providers blur them. We show both – separately, to
               the cent.
             </p>
           </div>
@@ -38,7 +38,7 @@ export function TwoNumbers() {
             </div>
             <div className="h-display mt-3 text-[44px] leading-none">€1,240.00</div>
             <p className="mt-2.5 text-[14.5px] text-ink-2">
-              Sales for the period — the fiscal gross, straight from your
+              Sales for the period – the fiscal gross, straight from your
               Z-report.
             </p>
             <div className="mt-5 space-y-2 border-t border-dashed border-line-2 pt-4">
@@ -57,7 +57,7 @@ export function TwoNumbers() {
               €970.40
             </div>
             <p className="mt-2.5 text-[14.5px] text-ink-2">
-              Net after commission — what processing has confirmed to pay you,
+              Net after commission – what processing has confirmed to pay you,
               every fee in plain euros.
             </p>
             <div className="mt-5 space-y-2 border-t border-dashed border-line-2 pt-4">

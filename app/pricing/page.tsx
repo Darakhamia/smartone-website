@@ -6,7 +6,7 @@ import { Faq } from "@/components/pricing/faq";
 export const metadata: Metadata = {
   title: "Pricing",
   description:
-    "One clear rate that drops as you grow. Slide to your monthly turnover and see exactly what you'd pay — every fee in plain euros.",
+    "One clear rate that drops as you grow. Slide to your monthly turnover and see exactly what you'd pay – every fee in plain euros.",
 };
 
 const devices = [
@@ -34,11 +34,11 @@ export default function PricingPage() {
           <div className="mx-auto max-w-170 text-center">
             <span className="eyebrow">Pricing</span>
             <h1 className="h-display mt-4 text-[clamp(36px,4.6vw,60px)] leading-[1.04]">
-              One clear rate — and it drops as you grow.
+              One clear rate – and it drops as you grow.
             </h1>
             <p className="mx-auto mt-5 max-w-135 text-lg leading-relaxed text-ink-2">
               Slide to your monthly card turnover and see exactly what
-              you&apos;d pay. Fiscal register, printer and portal included —
+              you&apos;d pay. Fiscal register, printer and portal included –
               every fee in plain euros.
             </p>
           </div>
@@ -53,7 +53,7 @@ export default function PricingPage() {
           <div className="mx-auto max-w-165 text-center">
             <span className="eyebrow">The device</span>
             <h2 className="h-display mt-4 text-[clamp(28px,3.4vw,40px)] leading-[1.06]">
-              Buy it once, or rent it — your call.
+              Buy it once, or rent it – your call.
             </h2>
           </div>
           <div className="mx-auto mt-10 grid max-w-185 gap-4 sm:grid-cols-2">
@@ -92,7 +92,7 @@ export default function PricingPage() {
             ))}
           </div>
           <p className="mx-auto mt-6 max-w-185 text-center text-[12.5px] leading-relaxed text-ink-3">
-            Device prices are indicative — final pricing is confirmed at
+            Device prices are indicative – final pricing is confirmed at
             checkout for your country. Transaction rate applies per tier, see
             the calculator above.
           </p>
@@ -114,7 +114,7 @@ export default function PricingPage() {
                 Ready to see your real rate?
               </h2>
               <p className="mx-auto mt-3 mb-8 max-w-120 text-[16.5px] leading-relaxed text-white/80">
-                Order a terminal in minutes — or ask us anything first.
+                Order a terminal in minutes – or ask us anything first.
               </p>
               <div className="flex flex-wrap justify-center gap-3.5">
                 <Link href="/contact" className="btn-light">

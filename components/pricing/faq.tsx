@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 
-/* FAQ accordion adapted from the 21st.dev "FAQ Accordion" pattern —
+/* FAQ accordion adapted from the 21st.dev "FAQ Accordion" pattern –
    reimplemented on CSS grid-rows transitions, no animation libraries. */
 
 const faqs = [
@@ -13,11 +13,11 @@ const faqs = [
   },
   {
     q: "Do I need to open a new bank account?",
-    a: "No. Your money settles to the bank account you already have — we work through our licensed European bank, so there's no new interface to learn and zero switching cost.",
+    a: "No. Your money settles to the bank account you already have – we work through our licensed European bank, so there's no new interface to learn and zero switching cost.",
   },
   {
     q: "When do I get my money?",
-    a: "Next working day (T+1). The portal shows exactly what processing has confirmed to pay you — net of commission, in plain euros.",
+    a: "Next working day (T+1). The portal shows exactly what processing has confirmed to pay you – net of commission, in plain euros.",
   },
   {
     q: "Are there any hidden fees?",
@@ -25,10 +25,10 @@ const faqs = [
   },
   {
     q: "How fast can I start taking payments?",
-    a: "Four working days or less from signing up to going live — including fiscal registration of the device for your market.",
+    a: "Four working days or less from signing up to going live – including fiscal registration of the device for your market.",
   },
   {
-    q: "My turnover is above €10,000 a month — what rate do I get?",
+    q: "My turnover is above €10,000 a month – what rate do I get?",
     a: "A personal one. Above €10,000 we price individually, and the rate only drops as you grow. Contact sales and you'll have an offer within one working day.",
   },
 ];

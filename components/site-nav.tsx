@@ -16,11 +16,11 @@ export function Brand({ light = false }: { light?: boolean }) {
   return (
     <Link
       href="/"
-      aria-label="SmartOne — home"
+      aria-label="SmartOne – home"
       className={light ? "text-white" : "text-brand"}
     >
       {/* the mark's rays extend above the cap line, so the box centre sits
-          below the letters — nudge up to optically centre the wordmark */}
+          below the letters – nudge up to optically centre the wordmark */}
       <Logo className="h-5.5 w-auto -translate-y-[2px]" />
     </Link>
   );

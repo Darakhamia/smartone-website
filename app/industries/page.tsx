@@ -8,7 +8,7 @@ export default function IndustriesPage() {
     <StubPage
       eyebrow="Industries"
       title="Built for your kind of business."
-      description="Vets & services, retail, cafés & HoReCa, professional services, mobile vendors — dedicated pages for each industry are coming soon."
+      description="Vets & services, retail, cafés & HoReCa, professional services, mobile vendors – dedicated pages for each industry are coming soon."
     />
   );
 }

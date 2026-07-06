@@ -8,7 +8,7 @@ import { useState } from "react";
      ≤ €5,000/mo  → Starter
      ≤ €10,000/mo → Growth
      > €10,000/mo → custom quote, talk to sales.
-   TODO: rates below are placeholders — confirm the real per-tier pricing. */
+   TODO: rates below are placeholders – confirm the real per-tier pricing. */
 
 const STOPS: number[] = [
   ...Array.from({ length: 39 }, (_, i) => 500 + i * 250), // €500 … €10,000
@@ -37,7 +37,7 @@ function tierFor(turnover: number): Tier {
       name: "Growth",
       rate: 0.9,
       blurb:
-        "Same full stack, lower rate — your commission drops as your turnover grows. Everything stays included.",
+        "Same full stack, lower rate – your commission drops as your turnover grows. Everything stays included.",
       cta: "Get a terminal →",
     };
   }
@@ -45,7 +45,7 @@ function tierFor(turnover: number): Tier {
     name: "Custom",
     rate: null,
     blurb:
-      "At your volume we price individually — and the rate only goes down from here. Tell us about your business and we'll send a personal offer within one working day.",
+      "At your volume we price individually – and the rate only goes down from here. Tell us about your business and we'll send a personal offer within one working day.",
     cta: "Contact sales →",
   };
 }
@@ -63,7 +63,7 @@ const eurCents = new Intl.NumberFormat("en-IE", {
 });
 
 export function TurnoverCalculator() {
-  const [index, setIndex] = useState(17); // €4,750 by default — near the tier edge
+  const [index, setIndex] = useState(17); // €4,750 by default – near the tier edge
 
   const turnover = STOPS[index];
   const tier = tierFor(turnover);
@@ -135,7 +135,7 @@ export function TurnoverCalculator() {
             <b className="text-ink">
               {eurCents.format((turnover * tier.rate) / 100)}
             </b>{" "}
-            commission per month — every fee in plain euros, visible in your
+            commission per month – every fee in plain euros, visible in your
             portal.
           </p>
         )}

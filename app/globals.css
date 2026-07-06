@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  /* SmartOne palette — brand purple #5A19B5 on clean white, premium & airy */
+  /* SmartOne palette – brand purple #5A19B5 on clean white, premium & airy */
   --color-bg: #ffffff;
   --color-bg-2: #f5f5f7;
   --color-card: #ffffff;
@@ -16,7 +16,7 @@
   --color-brand-tint: #f4eefc;
   --color-night: #120722;
   --color-night-2: #1e0d38;
-  --color-tp: #00b67a; /* Trustpilot brand green — their stars only */
+  --color-tp: #00b67a; /* Trustpilot brand green – their stars only */
 
   --font-display: "Inter Variable", system-ui, sans-serif;
   --font-sans: "Inter Variable", system-ui, sans-serif;
@@ -71,7 +71,7 @@ body {
   }
 }
 
-/* micro-animations — all gated behind prefers-reduced-motion */
+/* micro-animations – all gated behind prefers-reduced-motion */
 @keyframes fade-up {
   from {
     opacity: 0;

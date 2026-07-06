@@ -6,7 +6,7 @@ export const TRUSTPILOT_PROFILE_URL =
 /* Official Trustpilot TrustBox (Micro Combo). Needs the Business Unit ID from
    Trustpilot Business → Integrations → TrustBox: set
    NEXT_PUBLIC_TRUSTPILOT_BUSINESS_UNIT_ID at build time (Coolify env var).
-   Until it's set we render an honest link to the real profile instead —
+   Until it's set we render an honest link to the real profile instead –
    never fabricated numbers. */
 const businessUnitId = process.env.NEXT_PUBLIC_TRUSTPILOT_BUSINESS_UNIT_ID;
 

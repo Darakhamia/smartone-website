@@ -9,11 +9,11 @@ import { SiteFooter } from "@/components/site-footer";
 
 export const metadata: Metadata = {
   title: {
-    default: "SmartOne — One device to run your business",
-    template: "%s — SmartOne",
+    default: "SmartOne – One device to run your business",
+    template: "%s – SmartOne",
   },
   description:
-    "Card terminal, fiscal register, and receipt printer in one certified device — plus a portal that shows every fee in plain euros. No hidden fees.",
+    "Card terminal, fiscal register, and receipt printer in one certified device – plus a portal that shows every fee in plain euros. No hidden fees.",
 };
 
 export default function RootLayout({

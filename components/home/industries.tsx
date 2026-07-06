@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 
-/* Stock photos (Unsplash license — free commercial use) as placeholders
+/* Stock photos (Unsplash license – free commercial use) as placeholders
    until the real merchant photoshoot; sources credited in the README. */
 const industries = [
   {

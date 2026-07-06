@@ -8,7 +8,7 @@ export default function ProductPage() {
     <StubPage
       eyebrow="Product"
       title="One certified device. Everything inside."
-      description="Terminal, fiscal register, receipt printer and the merchant portal — the full walkthrough of the SmartOne stack is coming soon."
+      description="Terminal, fiscal register, receipt printer and the merchant portal – the full walkthrough of the SmartOne stack is coming soon."
     />
   );
 }
