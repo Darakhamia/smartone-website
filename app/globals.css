@@ -99,6 +99,37 @@ body {
     width: 100%;
   }
 }
+@keyframes tier-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes badge-pop {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.12);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@keyframes tier-ripple {
+  from {
+    box-shadow: 0 0 0 0 rgba(90, 25, 181, 0.35);
+  }
+  to {
+    box-shadow: 0 0 0 22px rgba(90, 25, 181, 0);
+  }
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .anim-fade-up {
@@ -144,6 +175,17 @@ body {
   /* auto-advancing step tabs (how-it-works) */
   .step-progress {
     animation: grow-x var(--step-duration, 6s) linear forwards;
+  }
+
+  /* pricing calculator: tier change */
+  .anim-tier-in {
+    animation: tier-in 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .anim-badge-pop {
+    animation: badge-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .anim-tier-ripple {
+    animation: tier-ripple 0.7s ease-out;
   }
 }
 

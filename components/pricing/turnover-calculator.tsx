@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /* Interactive pricing by monthly card turnover (adapted from the 21st.dev
    "PricingSlider" pattern). Tiers:
@@ -62,13 +62,49 @@ const eurCents = new Intl.NumberFormat("en-IE", {
   maximumFractionDigits: 2,
 });
 
+/* Smoothly tween a number towards its target (skipped for users who
+   prefer reduced motion). */
+function useTween(target: number, ms = 320) {
+  const [value, setValue] = useState(target);
+  const current = useRef(target);
+
+  useEffect(() => {
+    const from = current.current;
+    if (from === target) return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const t0 = performance.now();
+    let raf = 0;
+    const step = (t: number) => {
+      const p = reduce ? 1 : Math.min(1, (t - t0) / ms);
+      const eased = 1 - Math.pow(1 - p, 3);
+      const v = from + (target - from) * eased;
+      current.current = v;
+      setValue(v);
+      if (p < 1) raf = requestAnimationFrame(step);
+    };
+    raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
+  }, [target, ms]);
+
+  return value;
+}
+
 export function TurnoverCalculator() {
   const [index, setIndex] = useState(17); // €4,750 by default – near the tier edge
 
   const turnover = STOPS[index];
   const tier = tierFor(turnover);
   const pct = (index / (STOPS.length - 1)) * 100;
-  const label = turnover === Infinity ? ">€10,000" : eur.format(turnover);
+
+  // tween the big numbers; the ">€10,000" stop freezes at the last finite value
+  const finiteTurnover = turnover === Infinity ? 10000 : turnover;
+  const shownTurnover = useTween(finiteTurnover);
+  const commissionTarget =
+    tier.rate !== null ? (finiteTurnover * tier.rate) / 100 : 0;
+  const shownCommission = useTween(commissionTarget);
+
+  const label =
+    turnover === Infinity ? ">€10,000" : eur.format(Math.round(shownTurnover));
 
   return (
     <div className="grid gap-4 lg:grid-cols-2">
@@ -77,7 +113,7 @@ export function TurnoverCalculator() {
         <h2 className="text-sm font-semibold text-ink-2">
           Your card turnover per month
         </h2>
-        <div className="h-display mt-3 mb-9 text-[clamp(32px,3vw,42px)] leading-none">
+        <div className="h-display mt-3 mb-9 text-[clamp(32px,3vw,42px)] leading-none tabular-nums">
           {label}
           <span className="ml-2 align-middle text-[15px] font-normal tracking-normal text-ink-3">
             / month
@@ -109,44 +145,53 @@ export function TurnoverCalculator() {
         </div>
       </div>
 
-      {/* right: the plan */}
-      <div className="rounded-3xl bg-white p-8 shadow-[0_0_0_2px_var(--color-brand),0_24px_48px_-32px_rgba(90,25,181,0.5)]">
-        <h2 className="flex items-center justify-between text-sm font-semibold text-ink-2">
-          Your plan
-          <span className="rounded-full bg-brand px-3 py-1 text-[11px] font-semibold tracking-wide text-white uppercase">
-            {tier.name}
-          </span>
-        </h2>
-        <div className="h-display mt-3 text-[clamp(32px,3vw,42px)] leading-none">
-          {tier.rate === null ? (
-            "Let's talk"
-          ) : (
-            <>
-              {tier.rate.toFixed(2)}%
-              <span className="ml-2 align-middle text-[15px] font-normal tracking-normal text-ink-3">
-                + €0.02 / transaction
+      {/* right: the plan – ripple wrapper re-mounts on tier change */}
+      <div
+        key={`ripple-${tier.name}`}
+        className="anim-tier-ripple rounded-3xl"
+      >
+        <div className="h-full rounded-3xl bg-white p-8 shadow-[0_0_0_2px_var(--color-brand),0_24px_48px_-32px_rgba(90,25,181,0.5)]">
+          <div key={tier.name} className="anim-tier-in flex h-full flex-col">
+            <h2 className="flex items-center justify-between text-sm font-semibold text-ink-2">
+              Your plan
+              <span className="anim-badge-pop rounded-full bg-brand px-3 py-1 text-[11px] font-semibold tracking-wide text-white uppercase">
+                {tier.name}
               </span>
-            </>
-          )}
+            </h2>
+            <div className="h-display mt-3 text-[clamp(32px,3vw,42px)] leading-none">
+              {tier.rate === null ? (
+                "Let's talk"
+              ) : (
+                <>
+                  {tier.rate.toFixed(2)}%
+                  <span className="ml-2 align-middle text-[15px] font-normal tracking-normal text-ink-3">
+                    + €0.02 / transaction
+                  </span>
+                </>
+              )}
+            </div>
+            {tier.rate !== null && turnover !== Infinity && (
+              <p className="mt-4 text-[14.5px] text-ink-2">
+                ≈{" "}
+                <b className="text-ink tabular-nums">
+                  {eurCents.format(shownCommission)}
+                </b>{" "}
+                commission per month – every fee in plain euros, visible in
+                your portal.
+              </p>
+            )}
+            <p className="mt-4 text-[14.5px] leading-relaxed text-ink-2">
+              {tier.blurb}
+            </p>
+            <Link href="/contact" className="btn-primary mt-7 self-start">
+              {tier.cta}
+            </Link>
+            <p className="mt-5 text-[12.5px] leading-relaxed text-ink-3">
+              Renting the device? Your rate drops another 0.05 pp. Rates shown
+              for 🇲🇹 Malta.
+            </p>
+          </div>
         </div>
-        {tier.rate !== null && turnover !== Infinity && (
-          <p className="mt-4 text-[14.5px] text-ink-2">
-            ≈{" "}
-            <b className="text-ink">
-              {eurCents.format((turnover * tier.rate) / 100)}
-            </b>{" "}
-            commission per month – every fee in plain euros, visible in your
-            portal.
-          </p>
-        )}
-        <p className="mt-4 text-[14.5px] leading-relaxed text-ink-2">{tier.blurb}</p>
-        <Link href="/contact" className="btn-primary mt-7">
-          {tier.cta}
-        </Link>
-        <p className="mt-5 text-[12.5px] leading-relaxed text-ink-3">
-          Renting the device? Your rate drops another 0.05 pp. Rates shown for
-          🇲🇹 Malta.
-        </p>
       </div>
     </div>
   );
