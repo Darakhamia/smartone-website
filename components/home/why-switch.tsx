@@ -103,7 +103,7 @@ export function WhySwitch() {
         </div>
 
         {/* live pricing calculator – makes "cheaper" concrete */}
-        <div className="mt-10 border-t border-line-2 pt-10">
+        <div className="mt-18 border-t border-line-2 pt-16">
           <Reveal>
             <div className="mb-7 flex flex-wrap items-end justify-between gap-5">
               <div>
