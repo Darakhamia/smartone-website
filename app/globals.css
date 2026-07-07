@@ -130,6 +130,11 @@ body {
     box-shadow: 0 0 0 22px rgba(90, 25, 181, 0);
   }
 }
+@keyframes marquee-x {
+  to {
+    transform: translateX(-50%);
+  }
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .anim-fade-up {
@@ -186,6 +191,14 @@ body {
   }
   .anim-tier-ripple {
     animation: tier-ripple 0.7s ease-out;
+  }
+
+  /* industries carousel */
+  .marquee-track {
+    animation: marquee-x 45s linear infinite;
+  }
+  .marquee:hover .marquee-track {
+    animation-play-state: paused;
   }
 }
 
