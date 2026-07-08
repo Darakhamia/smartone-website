@@ -135,6 +135,68 @@ body {
     transform: translateX(-50%);
   }
 }
+/* why-switch mini-visuals */
+@keyframes fee-pulse {
+  0%,
+  55%,
+  100% {
+    background-color: transparent;
+    transform: scale(1);
+  }
+  70%,
+  85% {
+    background-color: var(--color-brand-tint);
+    transform: scale(1.08);
+  }
+}
+@keyframes dash-march {
+  to {
+    background-position-x: 12px;
+  }
+}
+@keyframes dot-travel {
+  0% {
+    left: 0%;
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  82% {
+    opacity: 1;
+  }
+  100% {
+    left: calc(100% - 8px);
+    opacity: 0;
+  }
+}
+@keyframes fill-x {
+  0% {
+    transform: scaleX(0);
+  }
+  45% {
+    transform: scaleX(1);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+@keyframes dot-pop {
+  0%,
+  40% {
+    transform: scale(0.55);
+    opacity: 0.35;
+  }
+  52% {
+    transform: scale(1.25);
+    opacity: 1;
+  }
+  62%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .anim-fade-up {
@@ -199,6 +261,23 @@ body {
   }
   .marquee:hover .marquee-track {
     animation-play-state: paused;
+  }
+
+  /* why-switch mini-visuals */
+  .fee-pulse {
+    animation: fee-pulse 3.2s ease-in-out infinite;
+  }
+  .dash-line {
+    animation: dash-march 0.8s linear infinite;
+  }
+  .dot-travel {
+    animation: dot-travel 2.6s ease-in-out infinite;
+  }
+  .tline-fill {
+    animation: fill-x 3.6s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  }
+  .tline-dot {
+    animation: dot-pop 3.6s ease-out infinite;
   }
 }
 

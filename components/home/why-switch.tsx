@@ -15,7 +15,9 @@ function FeeVisual() {
       </div>
       <div className="mt-2 flex items-baseline justify-between border-t border-dashed border-line-2 pt-2">
         <span className="text-ink-3">Fee</span>
-        <b className="font-semibold text-brand">−€0.24</b>
+        <b className="fee-pulse -mx-1.5 inline-block rounded-md px-1.5 font-semibold text-brand">
+          −€0.24
+        </b>
       </div>
     </div>
   );
@@ -27,10 +29,15 @@ function BankVisual() {
       <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-brand">
         <LogoMark className="size-5.5 text-white" />
       </span>
-      <span className="relative flex-1 border-t-2 border-dashed border-line-2">
-        <span className="absolute -top-2 left-1/2 -translate-x-1/2 text-[13px] text-ink-3 bg-bg-2 px-1.5 leading-none">
-          →
-        </span>
+      <span
+        className="dash-line relative h-0.5 flex-1"
+        style={{
+          backgroundImage:
+            "repeating-linear-gradient(90deg, var(--color-line-2) 0 6px, transparent 6px 12px)",
+        }}
+      >
+        {/* the payment travelling to the bank */}
+        <span className="dot-travel absolute -top-[3px] left-0 hidden size-2 rounded-full bg-brand motion-safe:block" />
       </span>
       <span className="flex shrink-0 items-center gap-2 rounded-xl border border-line bg-white px-3 py-2.5">
         <svg viewBox="0 0 24 24" className="size-4.5 stroke-ink" fill="none" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
@@ -47,8 +54,10 @@ function TplusOneVisual() {
     <div className="rounded-2xl bg-bg-2 p-4">
       <div className="flex items-center gap-2">
         <span className="size-2.5 shrink-0 rounded-full bg-ink-3" />
-        <span className="h-1 flex-1 rounded-full bg-gradient-to-r from-line-2 to-brand" />
-        <span className="size-2.5 shrink-0 rounded-full bg-brand ring-4 ring-brand/20" />
+        <span className="relative h-1 flex-1 overflow-hidden rounded-full bg-line-2">
+          <span className="tline-fill absolute inset-0 origin-left rounded-full bg-gradient-to-r from-brand-l to-brand" />
+        </span>
+        <span className="tline-dot size-2.5 shrink-0 rounded-full bg-brand ring-4 ring-brand/20" />
       </div>
       <div className="mt-2.5 flex items-baseline justify-between font-mono text-[12px]">
         <span className="text-ink-3">Sold · Mon</span>
