@@ -1,69 +1,38 @@
+import Image from "next/image";
 import Link from "next/link";
 
-/* Placeholder visual until the real photo/video shoot: a stylised SmartOne
-   terminal printing a fiscal receipt, with the two-number story floating
-   around it. Swap for hero-loop.mp4 + real-person shot when available. */
+/* Hero photo: a merchant taking a card payment on a SmartOne terminal.
+   public/hero.jpg is currently a stock stand-in – drop in the branded
+   render with the same filename to swap it. */
 function DeviceVisual() {
   return (
-    <div className="anim-fade-up anim-d-2 relative mx-auto w-full max-w-115">
-      <div className="rounded-[28px] bg-gradient-to-br from-brand-tint via-bg-2 to-bg-2 px-8 pt-10 pb-8">
-        <svg viewBox="0 0 300 400" className="mx-auto w-full max-w-65" aria-hidden>
-          {/* receipt sliding out of the device */}
-          <g fontFamily="IBM Plex Mono, monospace">
-            <rect x="88" y="8" width="124" height="128" rx="4" fill="#fff" stroke="#e8e8ed" />
-            <text x="100" y="32" fontSize="11" fontWeight="600" fill="#1d1d1f">SmartOne</text>
-            <text x="100" y="50" fontSize="9" fill="#86868b">FISCAL RECEIPT #0421</text>
-            <line x1="100" y1="62" x2="200" y2="62" stroke="#d9d9e3" strokeDasharray="3 3" />
-            <text x="100" y="82" fontSize="10" fill="#55555e">Sale</text>
-            <text x="200" y="82" fontSize="10" fill="#1d1d1f" textAnchor="end">€24.60</text>
-            <text x="100" y="100" fontSize="10" fill="#55555e">Fee</text>
-            <text x="200" y="100" fontSize="10" fill="#5a19b5" textAnchor="end">€0.24</text>
-            <line x1="100" y1="112" x2="200" y2="112" stroke="#d9d9e3" strokeDasharray="3 3" />
-            <text x="100" y="130" fontSize="9" fill="#86868b">VAT · Z-REPORT · T+1</text>
-          </g>
-          {/* terminal body */}
-          <rect x="66" y="136" width="168" height="256" rx="26" fill="#1d1d1f" />
-          <rect x="66" y="136" width="168" height="256" rx="26" fill="url(#sheen)" />
-          {/* printer slot */}
-          <rect x="86" y="148" width="128" height="6" rx="3" fill="#0e0e10" />
-          {/* screen */}
-          <rect x="86" y="168" width="128" height="112" rx="12" fill="#0e0e10" />
-          <text x="150" y="216" fontSize="26" fontWeight="700" textAnchor="middle" fill="#ffffff" fontFamily="IBM Plex Mono, monospace">€24.60</text>
-          <text x="150" y="242" fontSize="11" textAnchor="middle" fill="#a578e8" fontFamily="IBM Plex Mono, monospace">Approved ✓</text>
-          {/* contactless waves */}
-          <g stroke="rgba(255,255,255,0.35)" strokeWidth="2" fill="none" strokeLinecap="round">
-            <path d="M136 190 a14 14 0 0 1 28 0" />
-            <path d="M142 190 a8 8 0 0 1 16 0" />
-          </g>
-          {/* keypad */}
-          <g fill="rgba(255,255,255,0.14)">
-            {[0, 1, 2].map((c) =>
-              [0, 1, 2, 3].map((r) => (
-                <circle key={`${c}-${r}`} cx={110 + c * 40} cy={308 + r * 24} r="8" />
-              ))
-            )}
-          </g>
-          <defs>
-            <linearGradient id="sheen" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stopColor="rgba(255,255,255,0.10)" />
-              <stop offset="0.5" stopColor="rgba(255,255,255,0)" />
-            </linearGradient>
-          </defs>
-        </svg>
+    <div className="anim-fade-up anim-d-2 relative mx-auto w-full max-w-130">
+      <div className="pointer-events-none absolute -inset-6 rounded-[40px] bg-[radial-gradient(circle,rgba(90,25,181,0.12),transparent_70%)]" />
+      <div className="relative aspect-[10/9] overflow-hidden rounded-[32px] shadow-[0_48px_90px_-48px_rgba(90,25,181,0.55)]">
+        <Image
+          src="/hero.jpg"
+          alt="Merchant taking a contactless card payment on a SmartOne terminal"
+          fill
+          priority
+          sizes="(max-width: 1024px) 100vw, 50vw"
+          className="object-cover"
+        />
+        {/* soft vignette so the chips stay readable on any photo */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-night/15 via-transparent to-transparent" />
       </div>
       {/* floating fact chips */}
-      <div className="absolute top-8 -left-3 -rotate-3 sm:-left-6">
-        <div className="chip-float rounded-full border border-line bg-white px-4 py-2 text-[12px] font-medium text-ink-2 shadow-lg shadow-black/5">
+      <div className="absolute top-7 -left-3 -rotate-3 sm:-left-6">
+        <div className="chip-float rounded-full border border-line bg-white px-4 py-2 text-[12px] font-medium text-ink-2 shadow-lg shadow-black/10">
           Fiscal receipt · <span className="font-semibold text-ink">built in</span>
         </div>
       </div>
       <div className="absolute top-1/2 -right-2 rotate-2 sm:-right-5">
-        <div className="chip-float-slow rounded-full border border-line bg-white px-4 py-2 text-[12px] font-medium text-ink-2 shadow-lg shadow-black/5">
+        <div className="chip-float-slow rounded-full border border-line bg-white px-4 py-2 text-[12px] font-medium text-ink-2 shadow-lg shadow-black/10">
           Fee €0.24 · <span className="font-semibold text-brand">in plain euros</span>
         </div>
       </div>
       <div className="absolute -bottom-4 left-8 rotate-1">
-        <div className="chip-float rounded-full border border-line bg-white px-4 py-2 text-[12px] font-medium text-ink-2 shadow-lg shadow-black/5" style={{ animationDelay: "2s" }}>
+        <div className="chip-float rounded-full border border-line bg-white px-4 py-2 text-[12px] font-medium text-ink-2 shadow-lg shadow-black/10" style={{ animationDelay: "2s" }}>
           T+1 · <span className="font-semibold text-ink">to your own bank</span>
         </div>
       </div>
