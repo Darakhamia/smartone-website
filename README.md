@@ -60,7 +60,7 @@ No database is required at this stage.
 
 `public/industries/`: vets — unsplash.com/photos/1628009368231-7bb7cfcb0def,
 retail — 1556740738-b6a63e27c4df, cafés — 1509042239860-f550ce710b93,
-services — 1585747860715-2ba37e788b70, mobile — 1565123409695-7b5ef63a2efb,
+services — 1625047509168-a7026f36de04, mobile — 1565123409695-7b5ef63a2efb,
 bakery — 1509440159596-0249088772ff, beauty — 1604654894610-df63bc536371,
 grocery — 1542838132-92c53300491e
 

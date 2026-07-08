@@ -12,7 +12,7 @@ const industries = [
   { img: "/industries/vets.jpg", alt: "Vet gently examining a cat", title: "Vets & services" },
   { img: "/industries/retail.jpg", alt: "Shop owner taking a card payment at the counter", title: "Retail" },
   { img: "/industries/cafes.jpg", alt: "Freshly made latte art on a café table", title: "Cafés & HoReCa" },
-  { img: "/industries/services.jpg", alt: "Barbershop interior with classic chairs", title: "Professional services" },
+  { img: "/industries/services.jpg", alt: "Mechanic working under the hood at an auto service", title: "Professional services" },
   { img: "/industries/mobile.jpg", alt: "Food truck parked on a city street", title: "Mobile / street" },
   { img: "/industries/bakery.jpg", alt: "Fresh rustic bread loaves", title: "Bakeries" },
   { img: "/industries/beauty.jpg", alt: "Manicured nails close-up", title: "Beauty & wellness" },
