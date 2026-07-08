@@ -1,9 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
-/* Hero photo: a merchant taking a card payment on a SmartOne terminal.
-   public/hero.jpg is currently a stock stand-in – drop in the branded
-   render with the same filename to swap it. On desktop the photo bleeds
+/* Hero photo: the branded render of a florist taking a card payment on a
+   SmartOne terminal (public/hero-florist.jpg). On desktop the photo bleeds
    past the grid to the right edge of the viewport. */
 function DeviceVisual() {
   return (
@@ -11,7 +10,7 @@ function DeviceVisual() {
       <div className="pointer-events-none absolute -inset-8 rounded-[48px] bg-[radial-gradient(circle,rgba(90,25,181,0.12),transparent_70%)]" />
       <div className="relative aspect-[16/11] overflow-hidden rounded-[32px] shadow-[0_48px_90px_-48px_rgba(90,25,181,0.55)] lg:aspect-[16/10.5] lg:rounded-r-none">
         <Image
-          src="/hero.jpg"
+          src="/hero-florist.jpg"
           alt="Merchant taking a contactless card payment on a SmartOne terminal"
           fill
           priority
