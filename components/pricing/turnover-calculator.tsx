@@ -89,7 +89,12 @@ function useTween(target: number, ms = 320) {
   return value;
 }
 
-export function TurnoverCalculator() {
+/* Benchmark for the "gap calculator" (pricing page only): the merchant's
+   CURRENT provider, always "estimated" – effective-rate % may appear on
+   this side only, never as our number. */
+const PROVIDER_EFFECTIVE_RATE = 1.6;
+
+export function TurnoverCalculator({ compare = false }: { compare?: boolean }) {
   const [index, setIndex] = useState(17); // €4,750 by default – near the tier edge
 
   const turnover = STOPS[index];
@@ -102,6 +107,9 @@ export function TurnoverCalculator() {
   const commissionTarget =
     tier.rate !== null ? (finiteTurnover * tier.rate) / 100 : 0;
   const shownCommission = useTween(commissionTarget);
+  const providerCost = (finiteTurnover * PROVIDER_EFFECTIVE_RATE) / 100;
+  const shownProviderCost = useTween(providerCost);
+  const shownSavings = useTween(Math.max(0, providerCost - commissionTarget));
 
   const label =
     turnover === Infinity ? ">€10,000" : eur.format(Math.round(shownTurnover));
@@ -137,6 +145,23 @@ export function TurnoverCalculator() {
           <span>€5,000</span>
           <span>&gt;€10,000</span>
         </div>
+        {compare && turnover !== Infinity && (
+          <div className="mt-7 rounded-2xl bg-bg-2 p-4">
+            <div className="flex items-baseline justify-between font-mono text-[12.5px]">
+              <span className="text-ink-3">Your current provider*</span>
+              <span className="text-ink-2">est. {PROVIDER_EFFECTIVE_RATE.toFixed(1)}% effective</span>
+            </div>
+            <div className="mt-1.5 flex items-baseline justify-between font-mono text-[12.5px]">
+              <span className="text-ink-3">Estimated cost</span>
+              <b className="font-semibold text-ink tabular-nums">
+                ≈ {eurCents.format(shownProviderCost)} / mo
+              </b>
+            </div>
+            <p className="mt-2.5 text-[11px] leading-relaxed text-ink-3">
+              *Estimated, based on public EU acquirer benchmarks.
+            </p>
+          </div>
+        )}
         <div className="mt-auto flex flex-wrap items-center justify-between gap-2 border-t border-line pt-5 text-sm text-ink-3">
           <span>Not sure about your volume?</span>
           <Link href="/contact" className="font-semibold text-ink hover:text-brand">
@@ -176,8 +201,15 @@ export function TurnoverCalculator() {
                 <b className="text-ink tabular-nums">
                   {eurCents.format(shownCommission)}
                 </b>{" "}
-                commission per month – every fee in plain euros, visible in
+                commission per month – every fee shown in euros, visible in
                 your portal.
+              </p>
+            )}
+            {compare && tier.rate !== null && turnover !== Infinity && (
+              <p className="mt-2.5 inline-flex items-baseline gap-1.5 self-start rounded-full bg-brand-tint px-3.5 py-1.5 text-[13.5px] font-semibold text-brand">
+                You&apos;d save ≈{" "}
+                <span className="tabular-nums">{eurCents.format(shownSavings)}</span> / month
+                <span className="font-normal text-brand/70">(estimated*)</span>
               </p>
             )}
             <p className="mt-4 text-[14.5px] leading-relaxed text-ink-2">
