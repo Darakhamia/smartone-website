@@ -47,7 +47,10 @@ export function Hero() {
       <div className="relative mx-auto grid max-w-6xl items-center gap-14 px-6 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
         <div>
           <h1 className="anim-fade-up h-display text-[clamp(40px,5.6vw,72px)] leading-[1.03]">
-            One device to <span className="text-brand">run your business.</span>
+            One device to{" "}
+            <span className="bg-gradient-to-r from-brand via-[#7b3ce8] to-[#a86cf5] bg-clip-text text-transparent">
+              run your business.
+            </span>
           </h1>
           <p className="anim-fade-up anim-d-1 mt-6 mb-9 max-w-130 text-[clamp(17px,1.4vw,20px)] leading-relaxed text-ink-2">
             Card terminal, fiscal register and receipt printer in one
