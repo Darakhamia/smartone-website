@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { PhoneField, COUNTRY_DIAL, flag } from "@/components/lead/phone-field";
 
 /* SmartOne lead form. Posts JSON to the Vercel serverless endpoint (no keys
    on the site). The field `name` attributes and every <option> value are
@@ -9,7 +10,9 @@ import { useEffect, useRef, useState } from "react";
 
 const ENDPOINT = "https://smartone-lead-form.vercel.app/api/lead";
 
-const labelCls = "mb-1.5 block text-[13.5px] font-medium text-ink-2";
+// min-height keeps the label box the same height whether it wraps to one or
+// two lines, so the inputs in a row never drift out of alignment.
+const labelCls = "mb-1.5 flex min-h-[34px] items-end text-[13.5px] font-medium text-ink-2";
 const fieldCls =
   "w-full rounded-xl border border-line-2 bg-white px-4 py-3 text-[15px] text-ink outline-none transition-colors placeholder:text-ink-3 focus:border-brand focus:ring-2 focus:ring-brand/15";
 const selectCls = `${fieldCls} appearance-none bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22 fill=%22none%22 stroke=%22%2386868b%22 stroke-width=%221.6%22 stroke-linecap=%22round%22><path d=%22m4 6 4 4 4-4%22/></svg>')] bg-[length:16px] bg-[right_1rem_center] bg-no-repeat pr-10`;
@@ -26,6 +29,15 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 export function LeadForm() {
   const formRef = useRef<HTMLFormElement>(null);
   const [status, setStatus] = useState<"idle" | "sending" | "error" | "done">("idle");
+  const [country, setCountry] = useState("");
+  const [phone, setPhone] = useState("");
+
+  // pick a country → prefill the phone dial code (only if phone is empty),
+  // so the flag lights up straight away
+  const onCountry = (c: string) => {
+    setCountry(c);
+    if (!phone.trim() && COUNTRY_DIAL[c]) setPhone(`+${COUNTRY_DIAL[c]} `);
+  };
 
   // populate the hidden attribution fields from first-touch storage
   useEffect(() => {
@@ -103,15 +115,21 @@ export function LeadForm() {
           <input name="email" type="email" required maxLength={200} autoComplete="email" className={fieldCls} />
         </Field>
         <Field label="Phone (optional)">
-          <input name="phone" maxLength={50} autoComplete="tel" className={fieldCls} />
+          <PhoneField value={phone} onChange={setPhone} className={fieldCls} />
         </Field>
         <Field label="Country">
-          <select name="country" required defaultValue="" className={selectCls}>
+          <select
+            name="country"
+            required
+            value={country}
+            onChange={(e) => onCountry(e.target.value)}
+            className={selectCls}
+          >
             <option value="" disabled>Choose…</option>
-            <option>Malta</option>
-            <option>Spain</option>
-            <option>Slovakia</option>
-            <option>Other</option>
+            <option value="Malta">{flag("MT")} Malta</option>
+            <option value="Spain">{flag("ES")} Spain</option>
+            <option value="Slovakia">{flag("SK")} Slovakia</option>
+            <option value="Other">🌐 Other</option>
           </select>
         </Field>
         <Field label="Type of business">
