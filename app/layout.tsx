@@ -6,6 +6,7 @@ import "@fontsource/ibm-plex-mono/600.css";
 import "./globals.css";
 import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
+import { LeadAttribution } from "@/components/lead/attribution";
 
 export const metadata: Metadata = {
   title: {
@@ -27,6 +28,7 @@ export default function RootLayout({
         <SiteNav />
         <main className="flex-1">{children}</main>
         <SiteFooter />
+        <LeadAttribution />
       </body>
     </html>
   );
