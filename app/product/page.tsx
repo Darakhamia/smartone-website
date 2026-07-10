@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 import { DeviceChooser } from "@/components/product/device-chooser";
+import { DayWalk } from "@/components/product/day-walk";
 import { Terminal } from "@/components/product/device-visuals";
 
 export const metadata: Metadata = {
@@ -75,29 +76,6 @@ const portalJobs = [
     title: "Know your money",
     text: "What you sold and what you'll receive – every fee shown in euros.",
     icon: <path d="M4 10h12M4 14h9m6-8a7.7 7.7 0 0 0-5.2-2A7.9 7.9 0 0 0 6 12c0 4.4 3.5 8 7.8 8 2 0 3.8-.8 5.2-2" />,
-  },
-];
-
-const daySteps = [
-  {
-    title: "Take a payment",
-    text: "Card, contactless or cash – one tap on one device.",
-  },
-  {
-    title: "The fiscal receipt prints",
-    text: "Certified, numbered, from the built-in printer.",
-  },
-  {
-    title: "Close the day",
-    text: "Z-report in one tap – the till is reconciled.",
-  },
-  {
-    title: "See the money",
-    text: "What you sold and what you'll receive – every fee shown in euros.",
-  },
-  {
-    title: "Hand it to your accountant",
-    text: "Receipts and reports in one place, nothing to collect.",
   },
 ];
 
@@ -264,24 +242,9 @@ export default function ProductPage() {
             eyebrow="A day with SmartOne"
             title="From the first tap to the accountant."
           />
-          <div className="mx-auto mt-12 max-w-155">
-            {daySteps.map((s, i) => (
-              <Reveal key={s.title} delay={i * 80}>
-                <div className="relative flex gap-5 pb-10 last:pb-0">
-                  {i < daySteps.length - 1 && (
-                    <span className="absolute top-11 left-[19px] bottom-1 w-px border-l-2 border-dashed border-line-2" />
-                  )}
-                  <span className="grid size-10 shrink-0 place-items-center rounded-full bg-brand font-mono text-[13px] font-semibold text-white">
-                    {i + 1}
-                  </span>
-                  <div className="pt-1.5">
-                    <h3 className="font-display text-[18px] font-semibold tracking-tight">{s.title}</h3>
-                    <p className="mt-1 text-[14.5px] leading-relaxed text-ink-2">{s.text}</p>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
+          <Reveal>
+            <DayWalk />
+          </Reveal>
         </div>
       </section>
 
