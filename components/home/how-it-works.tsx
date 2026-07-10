@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Reveal } from "@/components/reveal";
 
 const STEP_MS = 6000;
@@ -166,21 +166,12 @@ const steps = [
 
 export function HowItWorks() {
   const [active, setActive] = useState(0);
-  const [cycle, setCycle] = useState(0); // bump to restart the timer on manual pick
   const [paused, setPaused] = useState(false);
 
-  useEffect(() => {
-    if (paused) return;
-    const id = setInterval(() => {
-      setActive((a) => (a + 1) % steps.length);
-    }, STEP_MS);
-    return () => clearInterval(id);
-  }, [paused, cycle]);
-
-  const pick = (i: number) => {
-    setActive(i);
-    setCycle((c) => c + 1);
-  };
+  // The progress bar is the timer: when it finishes, advance. Hover pauses
+  // it in place via animation-play-state, so it resumes where it stopped.
+  const advance = () => setActive((a) => (a + 1) % steps.length);
+  const pick = (i: number) => setActive(i);
 
   return (
     <section className="bg-bg-2 py-24">
@@ -228,15 +219,15 @@ export function HowItWorks() {
                     </p>
                     {isActive && (
                       <span className="absolute inset-x-0 bottom-0 h-0.5 bg-line">
-                        {paused ? (
-                          <span className="block h-full w-full bg-brand" />
-                        ) : (
-                          <span
-                            key={`${active}-${cycle}`}
-                            className="step-progress block h-full bg-brand"
-                            style={{ ["--step-duration" as string]: `${STEP_MS}ms` }}
-                          />
-                        )}
+                        <span
+                          key={active}
+                          className="step-progress block h-full bg-brand"
+                          style={{
+                            ["--step-duration" as string]: `${STEP_MS}ms`,
+                            animationPlayState: paused ? "paused" : "running",
+                          }}
+                          onAnimationEnd={advance}
+                        />
                       </span>
                     )}
                   </button>

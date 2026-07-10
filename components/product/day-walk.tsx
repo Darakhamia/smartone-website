@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const STEP_MS = 4500;
 
@@ -113,19 +113,10 @@ const steps = [
 
 export function DayWalk() {
   const [active, setActive] = useState(0);
-  const [cycle, setCycle] = useState(0);
   const [paused, setPaused] = useState(false);
 
-  useEffect(() => {
-    if (paused) return;
-    const id = setInterval(() => setActive((a) => (a + 1) % steps.length), STEP_MS);
-    return () => clearInterval(id);
-  }, [paused, cycle]);
-
-  const pick = (i: number) => {
-    setActive(i);
-    setCycle((c) => c + 1);
-  };
+  const advance = () => setActive((a) => (a + 1) % steps.length);
+  const pick = (i: number) => setActive(i);
 
   return (
     <div
@@ -188,17 +179,17 @@ export function DayWalk() {
             <p className="mt-2.5 text-[15px] leading-relaxed text-ink-2">
               {steps[active].text}
             </p>
-            {/* progress bar for the current step */}
+            {/* progress bar for the current step – also the step timer */}
             <div className="mx-auto mt-5 h-1 max-w-56 overflow-hidden rounded-full bg-line sm:mx-0">
-              {paused ? (
-                <span className="block h-full w-full bg-brand" />
-              ) : (
-                <span
-                  key={`${active}-${cycle}`}
-                  className="step-progress block h-full bg-brand"
-                  style={{ ["--step-duration" as string]: `${STEP_MS}ms` }}
-                />
-              )}
+              <span
+                key={active}
+                className="step-progress block h-full bg-brand"
+                style={{
+                  ["--step-duration" as string]: `${STEP_MS}ms`,
+                  animationPlayState: paused ? "paused" : "running",
+                }}
+                onAnimationEnd={advance}
+              />
             </div>
           </div>
         </div>

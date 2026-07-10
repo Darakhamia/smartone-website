@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const STEP_MS = 5000;
 
@@ -160,19 +160,10 @@ const jobs = [
 
 export function PortalPreview() {
   const [active, setActive] = useState(0);
-  const [cycle, setCycle] = useState(0);
   const [paused, setPaused] = useState(false);
 
-  useEffect(() => {
-    if (paused) return;
-    const id = setInterval(() => setActive((a) => (a + 1) % jobs.length), STEP_MS);
-    return () => clearInterval(id);
-  }, [paused, cycle]);
-
-  const pick = (i: number) => {
-    setActive(i);
-    setCycle((c) => c + 1);
-  };
+  const advance = () => setActive((a) => (a + 1) % jobs.length);
+  const pick = (i: number) => setActive(i);
 
   return (
     <div
@@ -224,15 +215,15 @@ export function PortalPreview() {
               </div>
               {isActive && (
                 <span className="absolute inset-x-0 bottom-0 h-0.5 bg-line">
-                  {paused ? (
-                    <span className="block h-full w-full bg-brand" />
-                  ) : (
-                    <span
-                      key={`${active}-${cycle}`}
-                      className="step-progress block h-full bg-brand"
-                      style={{ ["--step-duration" as string]: `${STEP_MS}ms` }}
-                    />
-                  )}
+                  <span
+                    key={active}
+                    className="step-progress block h-full bg-brand"
+                    style={{
+                      ["--step-duration" as string]: `${STEP_MS}ms`,
+                      animationPlayState: paused ? "paused" : "running",
+                    }}
+                    onAnimationEnd={advance}
+                  />
                 </span>
               )}
             </button>
