@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 import { DeviceChooser } from "@/components/product/device-chooser";
 import { DayWalk } from "@/components/product/day-walk";
+import { PortalPreview } from "@/components/product/portal-preview";
 import { Terminal } from "@/components/product/device-visuals";
 
 export const metadata: Metadata = {
@@ -48,34 +49,6 @@ const deviceFacts = [
   {
     label: "Receipt printer built in",
     icon: <path d="M7 3h10v18l-2.5-1.5L12 21l-2.5-1.5L7 21V3Zm3 5h4m-4 4h4" />,
-  },
-];
-
-const portalJobs = [
-  {
-    title: "Follow your payments",
-    text: "Every transaction with its status – confirmed to pay, in euros.",
-    icon: (
-      <>
-        <rect x="2.5" y="5.5" width="19" height="13" rx="2.5" />
-        <path d="M2.5 10h19M6 15h4" />
-      </>
-    ),
-  },
-  {
-    title: "Stay compliant",
-    text: "Fiscal receipts and Z-reports – reprint or email any one.",
-    icon: <path d="M7 3h10v18l-2.5-1.5L12 21l-2.5-1.5L7 21V3Zm3 5h4m-4 4h4" />,
-  },
-  {
-    title: "Sell & manage",
-    text: "Products and prices in one catalog – orders via Click for HoReCa.",
-    icon: <path d="M5 8h14l-1 12H6L5 8Zm4 0V6a3 3 0 0 1 6 0v2" />,
-  },
-  {
-    title: "Know your money",
-    text: "What you sold and what you'll receive – every fee shown in euros.",
-    icon: <path d="M4 10h12M4 14h9m6-8a7.7 7.7 0 0 0-5.2-2A7.9 7.9 0 0 0 6 12c0 4.4 3.5 8 7.8 8 2 0 3.8-.8 5.2-2" />,
   },
 ];
 
@@ -256,21 +229,9 @@ export default function ProductPage() {
             title="Four jobs, one login."
             sub="Everything the device does at the counter, the portal explains in numbers."
           />
-          <div className="mt-11 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {portalJobs.map((job, i) => (
-              <Reveal key={job.title} delay={i * 90} className="h-full">
-                <div className="flex h-full flex-col rounded-3xl bg-white p-6 shadow-sm shadow-black/3 transition-transform duration-300 hover:-translate-y-1">
-                  <span className="grid size-12 place-items-center rounded-xl bg-brand-tint">
-                    <svg viewBox="0 0 24 24" className="size-6 stroke-brand" fill="none" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                      {job.icon}
-                    </svg>
-                  </span>
-                  <h3 className="mt-5 font-display text-[17px] font-semibold tracking-tight">{job.title}</h3>
-                  <p className="mt-1.5 text-[14px] leading-relaxed text-ink-2">{job.text}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
+          <Reveal>
+            <PortalPreview />
+          </Reveal>
         </div>
       </section>
 
