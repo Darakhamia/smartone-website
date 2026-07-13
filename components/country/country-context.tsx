@@ -16,6 +16,9 @@ type Ctx = {
   lang: Lang;
   setCountry: (code: CountryCode) => void;
   setLang: (lang: Lang) => void;
+  /* Set country + language together without a refresh – used by the country
+     picker right before it navigates into the site. */
+  enter: (code: CountryCode, lang?: Lang) => void;
 };
 
 const CountryContext = createContext<Ctx | null>(null);
@@ -68,9 +71,19 @@ export function CountryProvider({
     [lang, router],
   );
 
+  const enter = useCallback((code: CountryCode, nextLang?: Lang) => {
+    setCode(code);
+    writeCookie(COUNTRY_COOKIE, code);
+    const c = getCountry(code);
+    const finalLang = nextLang && c.languages.includes(nextLang) ? nextLang : c.languages[0];
+    setLangState(finalLang);
+    writeCookie(LANG_COOKIE, finalLang);
+    document.documentElement.lang = finalLang;
+  }, []);
+
   const value = useMemo(
-    () => ({ country, lang, setCountry, setLang }),
-    [country, lang, setCountry, setLang],
+    () => ({ country, lang, setCountry, setLang, enter }),
+    [country, lang, setCountry, setLang, enter],
   );
 
   return <CountryContext.Provider value={value}>{children}</CountryContext.Provider>;

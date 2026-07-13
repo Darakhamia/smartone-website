@@ -29,6 +29,8 @@ export type Dict = {
     noFiscal: string;
     fiscal: string;
     verifactu: string;
+    language: string;
+    languageSub: string;
   };
   footer: {
     tagline: string;
@@ -63,6 +65,8 @@ export const DICT: Record<Lang, Dict> = {
       noFiscal: "Card payments · Merchant Portal · business tools",
       fiscal: "Card payments · fiscal receipts · Merchant Portal",
       verifactu: "Verifactu-ready for the 2027 deadline",
+      language: "Choose your language",
+      languageSub: "Which language should we open the site in?",
     },
     footer: {
       tagline:
@@ -97,6 +101,8 @@ export const DICT: Record<Lang, Dict> = {
       noFiscal: "Pagos con tarjeta · Portal del comercio · herramientas de negocio",
       fiscal: "Pagos con tarjeta · tickets fiscales · Portal del comercio",
       verifactu: "Preparado para Verifactu antes del plazo de 2027",
+      language: "Elige tu idioma",
+      languageSub: "¿En qué idioma abrimos el sitio?",
     },
     footer: {
       tagline:

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Brand } from "@/components/site-nav";
-import { CountrySwitcher } from "@/components/country/country-switcher";
+import { FooterRegion } from "@/components/country/footer-region";
 import { getActiveLang } from "@/lib/country-server";
 import { DICT } from "@/lib/dictionaries";
 
@@ -44,9 +44,7 @@ export async function SiteFooter() {
           <div>
             <Brand light />
             <p className="mt-4 max-w-70 text-[13.5px] leading-relaxed">{t.tagline}</p>
-            <div className="mt-5">
-              <CountrySwitcher align="left" openUp dark />
-            </div>
+            <FooterRegion />
           </div>
           {columns.map((col) => (
             <div key={col.titleKey}>

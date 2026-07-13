@@ -12,10 +12,10 @@ export const metadata: Metadata = {
 };
 
 const neverPay = [
-  { label: "Inactivity fee", desc: "Quiet month? You pay nothing extra." },
-  { label: "Statement fee", desc: "Your monthly statement is free." },
-  { label: "PCI compliance fee", desc: "No surcharge for staying compliant." },
-  { label: "“Service” surcharges", desc: "No vague line items you can’t explain." },
+  { label: "Rate mark-ups", desc: "The rate you agreed at signing is the rate you pay – never more." },
+  { label: "Settlement fee", desc: "No cut taken when your money is paid out to you." },
+  { label: "Minimum fee", desc: "Low-turnover month? We never add a minimum charge." },
+  { label: "“Service” surcharges", desc: "No vague extra line items you can’t explain." },
 ];
 
 export default async function PricingPage() {
@@ -53,6 +53,8 @@ export default async function PricingPage() {
           </Reveal>
           <Reveal>
             <p className="mx-auto mt-8 max-w-2xl text-center text-[12.5px] leading-relaxed text-ink-3">
+              The rate shown is for domestic cards – corporate and international
+              cards have their own clear rate, confirmed for your business.{" "}
               {included} · paid out to your own bank next business day (T+1).
               Device prices are indicative and confirmed for your country.
             </p>
@@ -69,6 +71,10 @@ export default async function PricingPage() {
               <h2 className="h-display mt-4 text-[clamp(28px,3.4vw,42px)] leading-[1.06]">
                 What you&apos;ll never pay.
               </h2>
+              <p className="mx-auto mt-4 max-w-135 text-lg leading-relaxed text-ink-2">
+                What you agreed at signing is exactly what you pay – nothing
+                added, nothing hidden.
+              </p>
             </Reveal>
           </div>
           <div className="mt-11 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
