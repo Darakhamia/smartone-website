@@ -214,7 +214,7 @@ export default async function ProductPage() {
         <div className="mx-auto max-w-6xl px-6">
           <SectionHead
             eyebrow="Which device do I need?"
-            title="Answer three questions."
+            title="Answer two questions."
             center
           />
           <Reveal delay={100}>
