@@ -3,57 +3,89 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useCountry } from "@/components/country/country-context";
+import { tr } from "@/lib/dictionaries";
+import type { Lang } from "@/lib/countries";
 
 /* Buy / Rent plan picker – a segmented toggle over three volume-based tiers.
-   Replaces the turnover slider on the pricing page.
    NOTE: rates and device prices below follow the agreed reference figures –
    change them in one place here if commercial terms change. */
 
 type Mode = "buy" | "rent";
 
-const modes: { id: Mode; label: string }[] = [
-  { id: "buy", label: "Buy terminal" },
-  { id: "rent", label: "Rent terminal" },
-];
+function copyFor(lang: Lang) {
+  return tr(
+    lang,
+    {
+      modes: { buy: "Buy terminal", rent: "Rent terminal" },
+      device: {
+        buy: { label: "Buy terminal", price: "399", suffix: "+ VAT", term: "No minimum term" },
+        rent: { label: "Rent terminal", price: "30", suffix: "+ VAT / month", term: "1-year minimum term" },
+      },
+      tiers: [
+        { name: "Getting Started", band: "under {c}4,000 / month" },
+        { name: "Up & Running", band: "{c}4,000 – {c}15,000 / month" },
+        { name: "Flying", band: "over {c}15,000 / month" },
+      ],
+      popular: "Most popular",
+      bestFor: "Best for",
+      perTx: "per card transaction",
+      fixed: "fixed fee per transaction",
+      cta: "Get a terminal →",
+      anchor1: "That {c}399 is a certified cash register",
+      anchor2: "– on its own, a fiscal till runs {c}1,000–1,500. You get the register and the payment terminal in one.",
+      speak: "Speak to us about your rate",
+    },
+    {
+      modes: { buy: "Compra el terminal", rent: "Alquila el terminal" },
+      device: {
+        buy: { label: "Compra", price: "399", suffix: "+ IVA", term: "Sin permanencia" },
+        rent: { label: "Alquiler", price: "30", suffix: "+ IVA / mes", term: "Permanencia de 1 año" },
+      },
+      tiers: [
+        { name: "Para empezar", band: "menos de {c}4,000 / mes" },
+        { name: "En marcha", band: "{c}4,000 – {c}15,000 / mes" },
+        { name: "Despegando", band: "más de {c}15,000 / mes" },
+      ],
+      popular: "Más popular",
+      bestFor: "Ideal para",
+      perTx: "por operación con tarjeta",
+      fixed: "de comisión fija por operación",
+      cta: "Solicita tu terminal →",
+      anchor1: "Esos {c}399 son una caja registradora certificada",
+      anchor2: "– por separado, una caja fiscal cuesta {c}1,000–1,500. Te llevas la caja y el terminal de pago en uno.",
+      speak: "Consulta tu tarifa",
+    },
+  );
+}
 
-const device: Record<Mode, { label: string; price: string; suffix: string; term: string }> = {
-  buy: { label: "Buy terminal", price: "399", suffix: "+ VAT", term: "No minimum term" },
-  rent: { label: "Rent terminal", price: "30", suffix: "+ VAT / month", term: "1-year minimum term" },
+const RATES: Record<Mode, [string, string, string]> = {
+  buy: ["1.65", "1.00", "0.85"],
+  rent: ["1.90", "1.20", "0.90"],
 };
 
-const tiers: {
-  name: string;
-  band: string; // uses {c} as the currency-symbol placeholder
-  rate: Record<Mode, string>;
-  popular?: boolean;
-}[] = [
-  { name: "Getting Started", band: "under {c}4,000 / month", rate: { buy: "1.65", rent: "1.90" } },
-  { name: "Up & Running", band: "{c}4,000 – {c}15,000 / month", rate: { buy: "1.00", rent: "1.20" }, popular: true },
-  { name: "Flying", band: "over {c}15,000 / month", rate: { buy: "0.85", rent: "0.90" } },
-];
-
 export function PlanPicker() {
-  const { country } = useCountry();
+  const { country, lang } = useCountry();
   const c = country.currencySymbol;
+  const t = copyFor(lang);
   const [mode, setMode] = useState<Mode>("buy");
-  const d = device[mode];
+  const d = t.device[mode];
 
   return (
     <div>
       {/* segmented toggle */}
       <div className="mx-auto flex w-fit items-center gap-1 rounded-full bg-bg-2 p-1">
-        {modes.map((m) => {
-          const active = m.id === mode;
+        {(["buy", "rent"] as Mode[]).map((m) => {
+          const active = m === mode;
           return (
             <button
-              key={m.id}
-              onClick={() => setMode(m.id)}
+              key={m}
+              onClick={() => setMode(m)}
               aria-pressed={active}
               className={`rounded-full px-6 py-2.5 text-[14.5px] font-semibold transition-colors ${
                 active ? "bg-brand text-white shadow-sm shadow-brand/30" : "text-ink-2 hover:text-ink"
               }`}
             >
-              {m.label}
+              {t.modes[m]}
             </button>
           );
         })}
@@ -61,11 +93,11 @@ export function PlanPicker() {
 
       {/* cards – re-mount on toggle for a soft transition */}
       <div key={mode} className="anim-tier-in mt-10 grid items-start gap-4 md:grid-cols-3">
-        {tiers.map((tier, i) => {
-          const popular = !!tier.popular;
+        {t.tiers.map((tier, i) => {
+          const popular = i === 1;
           const first = i === 0;
           const band = tier.band.replaceAll("{c}", c);
-          const rate = tier.rate[mode];
+          const rate = RATES[mode][i];
           return (
             <div
               key={tier.name}
@@ -77,7 +109,7 @@ export function PlanPicker() {
             >
               {popular && (
                 <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-white px-3.5 py-1 text-[11px] font-semibold tracking-wide text-brand uppercase shadow-sm">
-                  Most popular
+                  {t.popular}
                 </span>
               )}
 
@@ -85,15 +117,11 @@ export function PlanPicker() {
                 {tier.name}
               </h3>
               <p className={`mt-1 text-[13.5px] ${popular ? "text-white/75" : "text-ink-3"}`}>
-                Best for <b className={popular ? "font-semibold text-white" : "font-semibold text-ink-2"}>{band}</b>
+                {t.bestFor} <b className={popular ? "font-semibold text-white" : "font-semibold text-ink-2"}>{band}</b>
               </p>
 
               {/* device cost */}
-              <div
-                className={`mt-5 flex items-center justify-between rounded-2xl px-4 py-3 text-[14px] ${
-                  popular ? "bg-white/15" : "bg-bg-2"
-                }`}
-              >
+              <div className={`mt-5 flex items-center justify-between rounded-2xl px-4 py-3 text-[14px] ${popular ? "bg-white/15" : "bg-bg-2"}`}>
                 <span className={popular ? "text-white/80" : "text-ink-2"}>{d.label}</span>
                 <span className={`font-semibold ${popular ? "text-white" : "text-ink"}`}>
                   {c}
@@ -103,35 +131,24 @@ export function PlanPicker() {
 
               {/* rate */}
               <div className="mt-6 flex items-end gap-2">
-                <span
-                  className={`h-display text-[46px] leading-none tracking-tight ${
-                    popular ? "text-white" : first ? "text-brand" : "text-brand-l"
-                  }`}
-                >
+                <span className={`h-display text-[46px] leading-none tracking-tight ${popular ? "text-white" : first ? "text-brand" : "text-brand-l"}`}>
                   {rate}%
                 </span>
                 <span className={`mb-1.5 max-w-24 text-[13px] leading-tight ${popular ? "text-white/75" : "text-ink-3"}`}>
-                  per card transaction
+                  {t.perTx}
                 </span>
               </div>
               <p className={`mt-2.5 text-[13px] ${popular ? "text-white/70" : "text-ink-3"}`}>
-                + {c}0.02 fixed fee per transaction
+                + {c}0.02 {t.fixed}
               </p>
 
               {/* term */}
-              <span
-                className={`mt-4 inline-flex w-fit rounded-full px-3.5 py-1.5 text-[12.5px] font-semibold ${
-                  popular ? "bg-white/15 text-white" : "bg-bg-2 text-ink-2"
-                }`}
-              >
+              <span className={`mt-4 inline-flex w-fit rounded-full px-3.5 py-1.5 text-[12.5px] font-semibold ${popular ? "bg-white/15 text-white" : "bg-bg-2 text-ink-2"}`}>
                 {d.term}
               </span>
 
-              <Link
-                href="/contact"
-                className={`mt-7 w-full ${popular ? "btn-light" : "btn-ghost"}`}
-              >
-                Get a terminal →
+              <Link href="/contact" className={`mt-7 w-full ${popular ? "btn-light" : "btn-ghost"}`}>
+                {t.cta}
               </Link>
             </div>
           );
@@ -146,15 +163,14 @@ export function PlanPicker() {
             </svg>
           </span>
           <p className="text-[13.5px] leading-relaxed text-ink-2">
-            <b className="font-semibold text-ink">That {c}399 is a certified cash register</b> – on its
-            own, a fiscal till runs {c}1,000–1,500. You get the register and the payment terminal in one.
+            <b className="font-semibold text-ink">{t.anchor1.replaceAll("{c}", c)}</b> {t.anchor2.replaceAll("{c}", c)}
           </p>
         </div>
       )}
 
       <div className="mt-8 text-center">
         <Link href="/contact" className="btn-ghost">
-          Speak to us about your rate
+          {t.speak}
         </Link>
       </div>
     </div>

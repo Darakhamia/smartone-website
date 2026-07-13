@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { PhoneField, COUNTRY_DIAL, flag } from "@/components/lead/phone-field";
+import { useCountry } from "@/components/country/country-context";
+import { tr } from "@/lib/dictionaries";
 
 /* SmartOne lead form. Posts JSON to the Vercel serverless endpoint (no keys
    on the site). The field `name` attributes and every <option> value are
@@ -27,6 +29,74 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 }
 
 export function LeadForm() {
+  const { lang } = useCountry();
+  /* Only the display text is translated – every <option> value stays exactly
+     as the endpoint contract expects it. */
+  const t = tr(
+    lang,
+    {
+      choose: "Choose…",
+      name: "Your name",
+      business: "Business name (optional)",
+      email: "Email",
+      phone: "Phone (optional)",
+      countryL: "Country",
+      spain: "Spain",
+      slovakia: "Slovakia",
+      other: "Other",
+      typeL: "Type of business",
+      vets: "Vets",
+      retail: "Retail",
+      cafes: "Café & Restaurants",
+      services: "Services",
+      mobile: "Mobile / Street",
+      acquirerL: "Who processes your cards today? (optional)",
+      bank: "Bank",
+      none: "None",
+      volumeL: "Monthly card sales (optional)",
+      under: "Under €4,000",
+      over: "Over €15,000",
+      messageL: "Anything you'd like to ask? (optional)",
+      heardL: "How did you hear about us? (optional)",
+      submit: "Contact sales",
+      sending: "Sending…",
+      reply: "We'll reply within one business day.",
+      doneTitle: "Thanks — we got it!",
+      doneText: "We'll get back to you within one business day.",
+      error: "Something went wrong — please try again, or email us directly.",
+    },
+    {
+      choose: "Elige…",
+      name: "Tu nombre",
+      business: "Nombre del negocio (opcional)",
+      email: "Email",
+      phone: "Teléfono (opcional)",
+      countryL: "País",
+      spain: "España",
+      slovakia: "Eslovaquia",
+      other: "Otro",
+      typeL: "Tipo de negocio",
+      vets: "Veterinaria",
+      retail: "Retail",
+      cafes: "Cafeterías y restaurantes",
+      services: "Servicios",
+      mobile: "Móvil / calle",
+      acquirerL: "¿Quién procesa tus tarjetas hoy? (opcional)",
+      bank: "Banco",
+      none: "Ninguno",
+      volumeL: "Ventas mensuales con tarjeta (opcional)",
+      under: "Menos de €4,000",
+      over: "Más de €15,000",
+      messageL: "¿Algo que quieras preguntar? (opcional)",
+      heardL: "¿Cómo nos conociste? (opcional)",
+      submit: "Contactar con ventas",
+      sending: "Enviando…",
+      reply: "Respondemos en un día hábil.",
+      doneTitle: "¡Gracias, lo recibimos!",
+      doneText: "Te responderemos en un día hábil.",
+      error: "Algo salió mal. Inténtalo de nuevo o escríbenos por email.",
+    },
+  );
   const formRef = useRef<HTMLFormElement>(null);
   const [status, setStatus] = useState<"idle" | "sending" | "error" | "done">("idle");
   const [country, setCountry] = useState("");
@@ -87,10 +157,8 @@ export function LeadForm() {
             <path d="M4 12.5l5 5L20 6" />
           </svg>
         </span>
-        <h2 className="h-display mt-5 text-[28px] leading-tight">Thanks — we got it!</h2>
-        <p className="mt-2.5 text-[15px] leading-relaxed text-ink-2">
-          We&apos;ll get back to you within one business day.
-        </p>
+        <h2 className="h-display mt-5 text-[28px] leading-tight">{t.doneTitle}</h2>
+        <p className="mt-2.5 text-[15px] leading-relaxed text-ink-2">{t.doneText}</p>
       </div>
     );
   }
@@ -105,19 +173,19 @@ export function LeadForm() {
       className="rounded-3xl border border-line bg-white p-6 shadow-[0_24px_48px_-36px_rgba(29,29,31,0.4)] sm:p-8"
     >
       <div className="grid gap-4 sm:grid-cols-2">
-        <Field label="Your name">
+        <Field label={t.name}>
           <input name="name" required maxLength={200} autoComplete="name" className={fieldCls} />
         </Field>
-        <Field label="Business name (optional)">
+        <Field label={t.business}>
           <input name="business_name" maxLength={200} autoComplete="organization" className={fieldCls} />
         </Field>
-        <Field label="Email">
+        <Field label={t.email}>
           <input name="email" type="email" required maxLength={200} autoComplete="email" className={fieldCls} />
         </Field>
-        <Field label="Phone (optional)">
+        <Field label={t.phone}>
           <PhoneField value={phone} onChange={setPhone} className={fieldCls} />
         </Field>
-        <Field label="Country">
+        <Field label={t.countryL}>
           <select
             name="country"
             required
@@ -125,53 +193,53 @@ export function LeadForm() {
             onChange={(e) => onCountry(e.target.value)}
             className={selectCls}
           >
-            <option value="" disabled>Choose…</option>
+            <option value="" disabled>{t.choose}</option>
             <option value="Malta">{flag("MT")} Malta</option>
-            <option value="Spain">{flag("ES")} Spain</option>
-            <option value="Slovakia">{flag("SK")} Slovakia</option>
-            <option value="Other">🌐 Other</option>
+            <option value="Spain">{flag("ES")} {t.spain}</option>
+            <option value="Slovakia">{flag("SK")} {t.slovakia}</option>
+            <option value="Other">🌐 {t.other}</option>
           </select>
         </Field>
-        <Field label="Type of business">
+        <Field label={t.typeL}>
           <select name="business_type" required defaultValue="" className={selectCls}>
-            <option value="" disabled>Choose…</option>
-            <option>Vets</option>
-            <option>Retail</option>
-            <option value="Cafe / HoReCa">Café &amp; Restaurants</option>
-            <option>Services</option>
-            <option value="Mobile / Street">Mobile / Street</option>
-            <option>Other</option>
+            <option value="" disabled>{t.choose}</option>
+            <option value="Vets">{t.vets}</option>
+            <option value="Retail">{t.retail}</option>
+            <option value="Cafe / HoReCa">{t.cafes}</option>
+            <option value="Services">{t.services}</option>
+            <option value="Mobile / Street">{t.mobile}</option>
+            <option value="Other">{t.other}</option>
           </select>
         </Field>
-        <Field label="Who processes your cards today? (optional)">
+        <Field label={t.acquirerL}>
           <select name="current_acquirer" defaultValue="" className={selectCls}>
-            <option value="">Choose…</option>
-            <option>Bank</option>
+            <option value="">{t.choose}</option>
+            <option value="Bank">{t.bank}</option>
             <option>SumUp</option>
             <option>myPOS</option>
             <option>Zettle</option>
             <option>Revolut</option>
-            <option>None</option>
-            <option>Other</option>
+            <option value="None">{t.none}</option>
+            <option value="Other">{t.other}</option>
           </select>
         </Field>
-        <Field label="Monthly card sales (optional)">
+        <Field label={t.volumeL}>
           <select name="monthly_card_volume" defaultValue="" className={selectCls}>
-            <option value="">Choose…</option>
-            <option>Under €4,000</option>
+            <option value="">{t.choose}</option>
+            <option value="Under €4,000">{t.under}</option>
             <option>€4,000–€15,000</option>
-            <option>Over €15,000</option>
+            <option value="Over €15,000">{t.over}</option>
           </select>
         </Field>
       </div>
 
       <div className="mt-4">
-        <Field label="Anything you'd like to ask? (optional)">
+        <Field label={t.messageL}>
           <textarea name="message" rows={3} maxLength={2000} className={`${fieldCls} resize-y`} />
         </Field>
       </div>
       <div className="mt-4">
-        <Field label="How did you hear about us? (optional)">
+        <Field label={t.heardL}>
           <input name="how_heard" maxLength={300} className={fieldCls} />
         </Field>
       </div>
@@ -194,14 +262,12 @@ export function LeadForm() {
 
       <div className="mt-7 flex flex-wrap items-center gap-4">
         <button type="submit" disabled={status === "sending"} className="btn-primary disabled:opacity-70">
-          {status === "sending" ? "Sending…" : "Contact sales"}
+          {status === "sending" ? t.sending : t.submit}
         </button>
-        <p className="text-[13px] text-ink-3">We&apos;ll reply within one business day.</p>
+        <p className="text-[13px] text-ink-3">{t.reply}</p>
       </div>
       {status === "error" && (
-        <p className="mt-4 rounded-xl bg-[#fbeaea] px-4 py-3 text-[13.5px] text-[#b4231f]">
-          Something went wrong — please try again, or email us directly.
-        </p>
+        <p className="mt-4 rounded-xl bg-[#fbeaea] px-4 py-3 text-[13.5px] text-[#b4231f]">{t.error}</p>
       )}
     </form>
   );
