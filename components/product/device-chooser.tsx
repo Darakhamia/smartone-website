@@ -10,8 +10,6 @@ import type { Country, Lang } from "@/lib/countries";
 /* "Which device do I need?" helper – two quick questions producing a
    recommendation. The market is already known (chosen at /welcome). */
 
-type Option = { label: string; sub: string; icon: React.ReactNode };
-
 const optIcons = [
   [
     <path key="a" d="M3 9l1.2-5h15.6L21 9M4.5 9v10.5h15V9M9.5 19.5v-6h5v6" />,
@@ -120,7 +118,7 @@ export function DeviceChooser() {
           <h3 className="mt-7 font-display text-[clamp(21px,2.4vw,26px)] font-semibold tracking-tight">{c.questions[step].q}</h3>
 
           <div className="mt-5 grid gap-3 sm:grid-cols-2">
-            {c.questions[step].options.map((opt: Option, oi) => (
+            {c.questions[step].options.map((opt, oi) => (
               <button
                 key={opt.label}
                 onClick={() => pick(oi)}

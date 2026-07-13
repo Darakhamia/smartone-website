@@ -1,6 +1,8 @@
 import Link from "next/link";
+import { getActiveLang } from "@/lib/country-server";
+import { tr } from "@/lib/dictionaries";
 
-export function StubPage({
+export async function StubPage({
   eyebrow,
   title,
   description,
@@ -11,6 +13,12 @@ export function StubPage({
   description: string;
   children?: React.ReactNode;
 }) {
+  const lang = await getActiveLang();
+  const c = tr(
+    lang,
+    { home: "← Back to home", contact: "Contact us" },
+    { home: "← Volver al inicio", contact: "Contáctanos" },
+  );
   return (
     <section className="py-24 lg:py-32">
       <div className="mx-auto max-w-3xl px-6 text-center">
@@ -24,10 +32,10 @@ export function StubPage({
         {children}
         <div className="mt-10 flex flex-wrap justify-center gap-3.5">
           <Link href="/" className="btn-primary">
-            ← Back to home
+            {c.home}
           </Link>
           <Link href="/contact" className="btn-ghost">
-            Contact us
+            {c.contact}
           </Link>
         </div>
       </div>

@@ -1,4 +1,6 @@
 import Script from "next/script";
+import { getActiveLang } from "@/lib/country-server";
+import { tr } from "@/lib/dictionaries";
 
 export const TRUSTPILOT_PROFILE_URL =
   "https://ie.trustpilot.com/review/smartoneglobal.com";
@@ -18,7 +20,13 @@ function TrustpilotStar() {
   );
 }
 
-export function TrustpilotBadge() {
+export async function TrustpilotBadge() {
+  const lang = await getActiveLang();
+  const c = tr(
+    lang,
+    { reviews: "Read our reviews on" },
+    { reviews: "Lee nuestras reseñas en" },
+  );
   if (businessUnitId) {
     return (
       <>
@@ -51,7 +59,7 @@ export function TrustpilotBadge() {
     >
       <TrustpilotStar />
       <span>
-        Read our reviews on <b className="font-semibold text-ink">Trustpilot</b>
+        {c.reviews} <b className="font-semibold text-ink">Trustpilot</b>
       </span>
     </a>
   );
