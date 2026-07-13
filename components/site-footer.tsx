@@ -4,53 +4,59 @@ import { FooterRegion } from "@/components/country/footer-region";
 import { getActiveLang } from "@/lib/country-server";
 import { DICT } from "@/lib/dictionaries";
 
-const columns = [
-  {
-    titleKey: "product" as const,
-    links: [
-      { href: "/product", label: "Terminal & device" },
-      { href: "/product", label: "Merchant Portal" },
-      { href: "/pricing", label: "Pricing" },
-      { href: "/product", label: "Compliance" },
-    ],
-  },
-  {
-    titleKey: "industries" as const,
-    links: [
-      { href: "/industries", label: "Vets & services" },
-      { href: "/industries", label: "Retail" },
-      { href: "/industries", label: "Cafés & HoReCa" },
-      { href: "/industries", label: "Mobile vendors" },
-    ],
-  },
-  {
-    titleKey: "company" as const,
-    links: [
-      { href: "/about", label: "About" },
-      { href: "/case-studies", label: "Case studies" },
-      { href: "/contact", label: "Contact" },
-    ],
-  },
-];
-
 export async function SiteFooter() {
   const lang = await getActiveLang();
   const t = DICT[lang].footer;
 
+  // Mirrors the header's Product mega-menu: hardware, Merchant Portal, Click.
+  const columns = [
+    {
+      title: "Hardware",
+      links: [
+        { href: "/product#hardware", label: "SmartOne Bank Pro" },
+        { href: "/product#hardware", label: "SmartOne Pro S" },
+        { href: "/product#hardware", label: "SmartOne Bank" },
+      ],
+    },
+    {
+      title: "Merchant Portal",
+      links: [
+        { href: "/product#portal", label: "Track payments" },
+        { href: "/product#portal", label: "Payouts & money" },
+        { href: "/product#portal", label: "Reports" },
+      ],
+    },
+    {
+      title: "Click",
+      links: [
+        { href: "/product#click", label: "Restaurant ordering" },
+        { href: "/industries#cafes", label: "Cafés & HoReCa" },
+        { href: "/pricing", label: "Pricing" },
+      ],
+    },
+    {
+      title: t.company,
+      links: [
+        { href: "/about", label: "About" },
+        { href: "/case-studies", label: "Case studies" },
+        { href: "/industries", label: "Industries" },
+        { href: "/contact", label: "Contact" },
+      ],
+    },
+  ];
+
   return (
     <footer className="bg-night pt-14 pb-8 text-white/65">
       <div className="mx-auto max-w-6xl px-6">
-        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1fr]">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1fr]">
           <div>
             <Brand light />
             <p className="mt-4 max-w-70 text-[13.5px] leading-relaxed">{t.tagline}</p>
             <FooterRegion />
           </div>
           {columns.map((col) => (
-            <div key={col.titleKey}>
-              <h5 className="mb-3.5 font-display text-sm font-semibold text-white">
-                {t[col.titleKey]}
-              </h5>
+            <div key={col.title}>
+              <h5 className="mb-3.5 font-display text-sm font-semibold text-white">{col.title}</h5>
               {col.links.map((l) => (
                 <Link
                   key={l.label}

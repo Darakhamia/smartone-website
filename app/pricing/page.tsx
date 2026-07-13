@@ -15,7 +15,7 @@ const neverPay = [
   { label: "Rate mark-ups", desc: "The rate you agreed at signing is the rate you pay – never more." },
   { label: "Settlement fee", desc: "No cut taken when your money is paid out to you." },
   { label: "Minimum fee", desc: "Low-turnover month? We never add a minimum charge." },
-  { label: "“Service” surcharges", desc: "No vague extra line items you can’t explain." },
+  { label: "Inactivity fee", desc: "Quiet month with no sales? You pay nothing extra." },
 ];
 
 export default async function PricingPage() {

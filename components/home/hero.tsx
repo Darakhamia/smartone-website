@@ -57,8 +57,8 @@ export async function Hero() {
           </h1>
           <p className="anim-fade-up anim-d-1 mt-6 mb-9 max-w-130 text-[clamp(17px,1.4vw,20px)] leading-relaxed text-ink-2">
             {fiscal
-              ? "A certified cash register, card terminal and receipt printer in one box – with clear fees, not fine print."
-              : "A card terminal, receipt printer and business tools in one box – with clear fees, not fine print."}
+              ? "A certified cash register and payment terminal in one box – with clear fees, not fine print."
+              : "A payment terminal and business tools in one box – with clear fees, not fine print."}
           </p>
           <div className="anim-fade-up anim-d-2 flex flex-wrap items-center gap-3.5">
             <Link href="/contact" className="btn-primary">

@@ -138,7 +138,21 @@ export function PlanPicker() {
         })}
       </div>
 
-      <div className="mt-10 text-center">
+      {country.fiscal && (
+        <div className="mx-auto mt-8 flex max-w-3xl items-start gap-3.5 rounded-2xl bg-brand-tint px-5 py-4 text-left sm:items-center">
+          <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-brand text-white">
+            <svg viewBox="0 0 24 24" className="size-5.5" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <path d="M5 10h14l1 8H4l1-8Zm2 0V6h8l1 4M8.5 14h3" />
+            </svg>
+          </span>
+          <p className="text-[13.5px] leading-relaxed text-ink-2">
+            <b className="font-semibold text-ink">That {c}399 is a certified cash register</b> – on its
+            own, a fiscal till runs {c}1,000–1,500. You get the register and the payment terminal in one.
+          </p>
+        </div>
+      )}
+
+      <div className="mt-8 text-center">
         <Link href="/contact" className="btn-ghost">
           Speak to us about your rate
         </Link>

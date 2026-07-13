@@ -4,8 +4,8 @@ import { LogoMark } from "@/components/logo";
 const gaps = [
   {
     tag: "Durable gap",
-    title: "Fiscal core, built in",
-    text: "A certified fiscal device, not a card reader bolted onto your tablet. Per-market certification competitors don't have.",
+    title: "A cash register, built in",
+    text: "A certified fiscal cash register, not a card reader bolted onto your tablet – with per-market certification competitors don't have.",
     icon: (
       <path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3Zm-3 9 2 2 4-4.5" />
     ),

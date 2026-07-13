@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     template: "%s – SmartOne",
   },
   description:
-    "A certified cash register with card payments and a receipt printer in one device – plus a portal with clear fees. The rate you signed up for is the rate you pay.",
+    "A certified cash register and payment terminal in one device – plus a portal with clear fees. The rate you signed up for is the rate you pay.",
 };
 
 export default async function RootLayout({

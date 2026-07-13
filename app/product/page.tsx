@@ -20,7 +20,7 @@ const complianceCopy: Record<CountryCode, { title: string; text: string }> = {
 export const metadata: Metadata = {
   title: "Product",
   description:
-    "A certified cash register with card payments and a receipt printer in one device – plus the Merchant Portal behind it. The complete solution, not just a card machine.",
+    "A certified cash register and payment terminal in one device – plus the Merchant Portal behind it. The complete solution, not just a card machine.",
 };
 
 /* ---------- small shared bits ---------- */
@@ -81,8 +81,8 @@ export default async function ProductPage() {
             </h1>
             <p className="anim-fade-up anim-d-2 mt-5 mb-8 max-w-125 text-lg leading-relaxed text-ink-2">
               {fiscal
-                ? "A certified cash register with card payments and a receipt printer, all in one device – the Merchant Portal behind it. Not just a card machine."
-                : "A card terminal and receipt printer in one device – with the Merchant Portal behind it. Not just a card machine."}
+                ? "A certified cash register and payment terminal in one device – the Merchant Portal behind it. Not just a card machine."
+                : "A payment terminal and the Merchant Portal in one device. Not just a card machine."}
             </p>
             <div className="anim-fade-up anim-d-3 flex flex-wrap items-center gap-3.5">
               <Link href="/contact" className="btn-primary">
@@ -110,11 +110,11 @@ export default async function ProductPage() {
       </section>
 
       {/* 2 · the device */}
-      <section className="bg-bg-2 py-24">
+      <section id="hardware" className="scroll-mt-20 bg-bg-2 py-24">
         <div className="mx-auto max-w-6xl px-6">
           <SectionHead
             eyebrow="The device"
-            title="Two sizes. Everything built in."
+            title="Two models. Everything built in."
             sub="Merchant facts, not a spec sheet: it prints, it lasts, it connects – wherever your counter is."
           />
           <div className="mt-11 grid gap-4 md:grid-cols-2">
@@ -124,18 +124,20 @@ export default async function ProductPage() {
                 for: "For the busy counter",
                 text: "The big 6″ screen keeps a queue moving – ring up, tap, receipt out.",
                 compact: false,
+                dual: false,
               },
               {
-                name: "SmartOne Bank",
-                for: "For the move",
-                text: "Compact and light, with a 5″ screen – table service, market stalls, deliveries.",
-                compact: true,
+                name: "SmartOne Pro S",
+                for: "Dual-screen checkout",
+                text: "A screen for you and one facing the customer – a smooth, transparent checkout where local law needs it.",
+                compact: false,
+                dual: true,
               },
             ].map((d, i) => (
               <Reveal key={d.name} delay={i * 100} className="h-full">
                 <div className="flex h-full flex-col rounded-3xl bg-white p-7 shadow-sm shadow-black/3 transition-transform duration-300 hover:-translate-y-1">
                   <div className="grid h-64 place-items-center rounded-2xl bg-gradient-to-br from-brand-tint via-bg-2 to-bg-2 py-6">
-                    <Terminal compact={d.compact} />
+                    <Terminal compact={d.compact} dual={d.dual} />
                   </div>
                   <div className="mt-5 flex items-baseline justify-between">
                     <h3 className="font-display text-[22px] font-semibold tracking-tight">{d.name}</h3>
@@ -158,8 +160,8 @@ export default async function ProductPage() {
               ))}
             </div>
             <p className="mt-4 text-center text-[13px] text-ink-3">
-              SmartOne Pro S, the dual-screen model, is available where local
-              law requires a customer-facing display.
+              Also available: <b className="font-semibold text-ink-2">SmartOne Bank</b> – the
+              compact 5″ model for selling on the move.
             </p>
           </Reveal>
         </div>
@@ -239,7 +241,7 @@ export default async function ProductPage() {
       </section>
 
       {/* 6 · merchant portal */}
-      <section className="bg-bg-2 py-24">
+      <section id="portal" className="scroll-mt-20 bg-bg-2 py-24">
         <div className="mx-auto max-w-6xl px-6">
           <SectionHead
             eyebrow="Merchant Portal"
@@ -253,7 +255,7 @@ export default async function ProductPage() {
       </section>
 
       {/* 7 · cashbox story + 8 · click */}
-      <section className="py-24">
+      <section id="click" className="scroll-mt-20 py-24">
         <div className={`mx-auto grid gap-4 px-6 ${fiscal ? "max-w-6xl md:grid-cols-2" : "max-w-3xl"}`}>
           {fiscal && (
           <Reveal className="h-full">

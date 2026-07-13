@@ -151,7 +151,7 @@ const jobs = [
     screen: <SellScreen />,
   },
   {
-    title: "Know your money",
+    title: "Track your money",
     text: "What you sold and what's landing in your bank – every fee clear.",
     icon: <path d="M4 10h12M4 14h9m6-8a7.7 7.7 0 0 0-5.2-2A7.9 7.9 0 0 0 6 12c0 4.4 3.5 8 7.8 8 2 0 3.8-.8 5.2-2" />,
     screen: <MoneyScreen />,
