@@ -28,8 +28,12 @@ const faqs = [
     a: "Four business days or less from signing up to going live – including fiscal registration of the device for your market.",
   },
   {
-    q: "My turnover is above €10,000 a month – what rate do I get?",
-    a: "A personal one. Above €10,000 we price individually, and the rate only drops as you grow. Contact sales and you'll have an offer within one business day.",
+    q: "Buy or rent – which is cheaper?",
+    a: "Renting keeps your upfront cost low with a small monthly fee and a slightly lower transaction rate, on a one-year term. Buying is a one-off device cost with no minimum term. Either way, the same three volume bands apply.",
+  },
+  {
+    q: "How is my rate decided?",
+    a: "By your monthly card volume – the more you take, the lower the rate. Pick the band that fits on the table above; if you're near an edge or want a tailored quote, talk to us and we'll confirm your rate within one business day.",
   },
 ];
 
