@@ -27,9 +27,9 @@ const tiers: {
   rate: Record<Mode, string>;
   popular?: boolean;
 }[] = [
-  { name: "Getting Started", band: "under {c}4,000 / month", rate: { buy: "1.90", rent: "1.65" } },
-  { name: "Up & Running", band: "{c}4,000 – {c}15,000 / month", rate: { buy: "1.20", rent: "1.00" }, popular: true },
-  { name: "Flying", band: "over {c}15,000 / month", rate: { buy: "0.90", rent: "0.85" } },
+  { name: "Getting Started", band: "under {c}4,000 / month", rate: { buy: "1.65", rent: "1.90" } },
+  { name: "Up & Running", band: "{c}4,000 – {c}15,000 / month", rate: { buy: "1.00", rent: "1.20" }, popular: true },
+  { name: "Flying", band: "over {c}15,000 / month", rate: { buy: "0.85", rent: "0.90" } },
 ];
 
 export function PlanPicker() {

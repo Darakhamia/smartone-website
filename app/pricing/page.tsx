@@ -45,22 +45,10 @@ export default async function PricingPage() {
         </div>
       </section>
 
-      {/* 2 · country context + plan picker */}
+      {/* 2 · plan picker */}
       <section className="pb-8">
         <div className="mx-auto max-w-6xl px-6">
           <Reveal>
-            <div className="mx-auto mb-8 flex max-w-fit items-center gap-2.5 rounded-full border border-line bg-white px-4 py-2 text-[13.5px] text-ink-2 shadow-sm">
-              <span className="text-base">{country.flag}</span>
-              <span>
-                Rates shown for <b className="font-semibold text-ink">{country.name}</b>
-              </span>
-              <span className="text-ink-3">·</span>
-              <Link href="/welcome" className="font-semibold text-brand hover:text-brand-d">
-                Change country
-              </Link>
-            </div>
-          </Reveal>
-          <Reveal delay={100}>
             <PlanPicker />
           </Reveal>
           <Reveal>
