@@ -6,16 +6,9 @@ import { DeviceChooser } from "@/components/product/device-chooser";
 import { DayWalk } from "@/components/product/day-walk";
 import { PortalPreview } from "@/components/product/portal-preview";
 import { Terminal } from "@/components/product/device-visuals";
-import { getActiveCountry } from "@/lib/country-server";
-import type { CountryCode } from "@/lib/countries";
-
-const complianceCopy: Record<CountryCode, { title: string; text: string }> = {
-  mt: { title: "Malta – live today", text: "Certified fiscal device, merchants on the counter now." },
-  es: { title: "Spain – Verifactu-ready for 2027", text: "Built for the Verifactu programme, ahead of the deadline." },
-  cy: { title: "Cyprus – fiscal receipts supported", text: "Card payments and compliant receipts on one certified device." },
-  sk: { title: "Slovakia – fiscal-ready", text: "A payment terminal ready for local fiscal requirements." },
-  uk: { title: "United Kingdom – no fiscal register", text: "No fiscal register is required. Take card payments and run your business from the Merchant Portal." },
-};
+import { getActiveCountry, getActiveLang } from "@/lib/country-server";
+import { tr } from "@/lib/dictionaries";
+import type { CountryCode, Lang } from "@/lib/countries";
 
 export const metadata: Metadata = {
   title: "Product",
@@ -23,19 +16,7 @@ export const metadata: Metadata = {
     "A certified cash register and payment terminal in one device – plus the Merchant Portal behind it. The complete solution, not just a card machine.",
 };
 
-/* ---------- small shared bits ---------- */
-
-function SectionHead({
-  eyebrow,
-  title,
-  sub,
-  center = false,
-}: {
-  eyebrow: string;
-  title: string;
-  sub?: string;
-  center?: boolean;
-}) {
+function SectionHead({ eyebrow, title, sub, center = false }: { eyebrow: string; title: string; sub?: string; center?: boolean }) {
   return (
     <Reveal>
       <div className={center ? "mx-auto max-w-165 text-center" : "max-w-165"}>
@@ -47,24 +28,134 @@ function SectionHead({
   );
 }
 
-const deviceFacts = [
-  {
-    label: "Battery lasts the shift",
-    icon: <path d="M3 9h14v8H3zM17 11h3v4h-3M6 11.5v3m3-3v3m3-3v3" />,
-  },
-  {
-    label: "SIM + Wi-Fi",
-    icon: <path d="M2 9a14 14 0 0 1 20 0M5.5 12.5a9 9 0 0 1 13 0M9 16a4.5 4.5 0 0 1 6 0M12 19h.01" />,
-  },
-  {
-    label: "Receipt printer built in",
-    icon: <path d="M7 3h10v18l-2.5-1.5L12 21l-2.5-1.5L7 21V3Zm3 5h4m-4 4h4" />,
-  },
+const factIcons = [
+  <path key="0" d="M3 9h14v8H3zM17 11h3v4h-3M6 11.5v3m3-3v3m3-3v3" />,
+  <path key="1" d="M2 9a14 14 0 0 1 20 0M5.5 12.5a9 9 0 0 1 13 0M9 16a4.5 4.5 0 0 1 6 0M12 19h.01" />,
+  <path key="2" d="M7 3h10v18l-2.5-1.5L12 21l-2.5-1.5L7 21V3Zm3 5h4m-4 4h4" />,
 ];
+
+function copyFor(lang: Lang, fiscal: boolean) {
+  return tr(
+    lang,
+    {
+      eyebrow: "Product",
+      h1a: "One certified box.",
+      h1b: "The complete solution.",
+      sub: fiscal
+        ? "A certified cash register and payment terminal in one device – the Merchant Portal behind it. Not just a card machine."
+        : "A payment terminal and the Merchant Portal in one device. Not just a card machine.",
+      get: "Get a terminal →",
+      seePricing: "See pricing",
+      sales: "Contact sales",
+      alt: "SmartOne terminal taking a contactless payment at a flower shop",
+      devEyebrow: "The device",
+      devTitle: "Two models. Everything built in.",
+      devSub: "Merchant facts, not a spec sheet: it prints, it lasts, it connects – wherever your counter is.",
+      lineup: [
+        { name: "SmartOne Bank Pro", for: "For the busy counter", text: "The big 6″ screen keeps a queue moving – ring up, tap, receipt out." },
+        { name: "SmartOne Pro S", for: "Dual-screen checkout", text: "A screen for you and one facing the customer – a smooth, transparent checkout where local law needs it." },
+      ],
+      facts: ["Battery lasts the shift", "SIM + Wi-Fi", "Receipt printer built in"],
+      alsoAvail: ["Also available:", "SmartOne Bank", "– the compact 5″ model for selling on the move."],
+      insideEyebrow: "Inside the device",
+      insideTitle: fiscal ? "Two apps do the work." : "The payment app does the work.",
+      insideSub: "No phone, no laptop, no extra box – the device works standalone.",
+      payApp: "Payment app",
+      payText: "Cards, contactless and cash on one screen. The amount, the tap, the confirmation – done.",
+      regApp: "Cash register",
+      regText: "A certified fiscal cash register on the device: fiscal receipts, Z-reports and market-by-market certification.",
+      chooserEyebrow: "Which device do I need?",
+      chooserTitle: "Answer two questions.",
+      dayEyebrow: "A day with SmartOne",
+      dayTitle: "From the first tap to the accountant.",
+      portalTitle: "Four jobs, one login.",
+      portalSub: "Everything the device does at the counter, the portal explains in numbers.",
+      cashTitle: "Start with the register alone.",
+      cashText: "SmartOne Cashbox, the on-device fiscal register, is certified on its own – you can start Cashbox-only and add card payments later. Upgrading is a KYC/KYB check, not new hardware.",
+      cashReceipts: "41 receipts · closed 19:04",
+      clickTitle: "Orders land on the register.",
+      clickText: "SmartOne Click takes orders for cafés and restaurants and sends them straight to the register – one catalogue, one flow, no re-typing.",
+      clickOrder: "Order #47 · table 3",
+      clickReg: "→ register",
+      complianceEyebrow: "Compliance",
+      complianceTitle: "Certified market by market.",
+      complianceSub: "We name what's live and what's dated – nothing else.",
+      compliance: {
+        mt: { title: "Malta – live today", text: "Certified fiscal device, merchants on the counter now." },
+        es: { title: "Spain – Verifactu-ready for 2027", text: "Built for the Verifactu programme, ahead of the deadline." },
+        cy: { title: "Cyprus – fiscal receipts supported", text: "Card payments and compliant receipts on one certified device." },
+        sk: { title: "Slovakia – fiscal-ready", text: "A payment terminal ready for local fiscal requirements." },
+        uk: { title: "United Kingdom – no fiscal register", text: "No fiscal register is required. Take card payments and run your business from the Merchant Portal." },
+      } as Record<CountryCode, { title: string; text: string }>,
+      spainTitle: (isEs: boolean) => (isEs ? "Verifactu, explained" : "Selling in Spain? Verifactu 2027"),
+      spainText: (isEs: boolean) => (isEs ? "What changes in 2027 and how the device keeps you compliant." : "Getting ready ahead of the deadline? Start here."),
+      ctaTitle: "One box on the counter. Everything behind it.",
+      ctaText: "Live in four business days or less.",
+    },
+    {
+      eyebrow: "Producto",
+      h1a: "Una caja certificada.",
+      h1b: "La solución completa.",
+      sub: fiscal
+        ? "Una caja registradora certificada y terminal de pago en un solo dispositivo, con el Merchant Portal detrás. No solo un datáfono."
+        : "Un terminal de pago y el Merchant Portal en un solo dispositivo. No solo un datáfono.",
+      get: "Solicita tu terminal →",
+      seePricing: "Ver precios",
+      sales: "Contactar con ventas",
+      alt: "Terminal SmartOne aceptando un pago contactless en una floristería",
+      devEyebrow: "El dispositivo",
+      devTitle: "Dos modelos. Todo integrado.",
+      devSub: "Datos útiles, no una ficha técnica: imprime, dura y se conecta, donde esté tu mostrador.",
+      lineup: [
+        { name: "SmartOne Bank Pro", for: "Para el mostrador con cola", text: "La pantalla grande de 6″ mantiene la cola en movimiento: cobra, tap, ticket fuera." },
+        { name: "SmartOne Pro S", for: "Cobro con doble pantalla", text: "Una pantalla para ti y otra hacia el cliente: un cobro fluido y transparente donde lo exija la ley local." },
+      ],
+      facts: ["La batería aguanta el turno", "SIM + Wi-Fi", "Impresora de tickets integrada"],
+      alsoAvail: ["También disponible:", "SmartOne Bank", "– el modelo compacto de 5″ para vender en movimiento."],
+      insideEyebrow: "Dentro del dispositivo",
+      insideTitle: fiscal ? "Dos apps hacen el trabajo." : "La app de pago hace el trabajo.",
+      insideSub: "Sin móvil, sin portátil, sin caja extra: el dispositivo funciona por sí solo.",
+      payApp: "App de pago",
+      payText: "Tarjetas, contactless y efectivo en una pantalla. El importe, el tap, la confirmación, listo.",
+      regApp: "Caja registradora",
+      regText: "Una caja registradora fiscal certificada en el dispositivo: tickets fiscales, informes Z y certificación por mercado.",
+      chooserEyebrow: "¿Qué dispositivo necesito?",
+      chooserTitle: "Responde dos preguntas.",
+      dayEyebrow: "Un día con SmartOne",
+      dayTitle: "Del primer tap al contable.",
+      portalTitle: "Cuatro tareas, un solo acceso.",
+      portalSub: "Todo lo que el dispositivo hace en el mostrador, el portal lo explica en cifras.",
+      cashTitle: "Empieza solo con la caja.",
+      cashText: "SmartOne Cashbox, la caja registradora fiscal del dispositivo, está certificada por sí sola: puedes empezar solo con Cashbox y añadir pagos con tarjeta después. Ampliar es una verificación KYC/KYB, no hardware nuevo.",
+      cashReceipts: "41 tickets · cerrado 19:04",
+      clickTitle: "Los pedidos llegan a la caja.",
+      clickText: "SmartOne Click toma los pedidos de cafeterías y restaurantes y los envía directo a la caja: un catálogo, un flujo, sin volver a teclear.",
+      clickOrder: "Pedido #47 · mesa 3",
+      clickReg: "→ caja",
+      complianceEyebrow: "Cumplimiento",
+      complianceTitle: "Certificado mercado a mercado.",
+      complianceSub: "Decimos qué está activo y qué tiene fecha, nada más.",
+      compliance: {
+        mt: { title: "Malta – activo hoy", text: "Dispositivo fiscal certificado, con comercios operando ya." },
+        es: { title: "España – preparado para Verifactu 2027", text: "Diseñado para el programa Verifactu, antes del plazo." },
+        cy: { title: "Chipre – tickets fiscales soportados", text: "Pagos con tarjeta y tickets conformes en un dispositivo certificado." },
+        sk: { title: "Eslovaquia – preparado para la normativa fiscal", text: "Un terminal de pago listo para los requisitos fiscales locales." },
+        uk: { title: "Reino Unido – sin caja fiscal", text: "No se requiere caja fiscal. Cobra con tarjeta y gestiona tu negocio desde el Merchant Portal." },
+      } as Record<CountryCode, { title: string; text: string }>,
+      spainTitle: (isEs: boolean) => (isEs ? "Verifactu, explicado" : "¿Vendes en España? Verifactu 2027"),
+      spainText: (isEs: boolean) => (isEs ? "Qué cambia en 2027 y cómo el dispositivo te mantiene en regla." : "¿Te preparas antes del plazo? Empieza aquí."),
+      ctaTitle: "Una caja en el mostrador. Todo lo demás detrás.",
+      ctaText: "Operativo en cuatro días hábiles o menos.",
+    },
+  );
+}
 
 export default async function ProductPage() {
   const country = await getActiveCountry();
+  const lang = await getActiveLang();
   const { fiscal } = country;
+  const c = copyFor(lang, fiscal);
+  const isEs = country.code === "es";
 
   return (
     <>
@@ -72,38 +163,21 @@ export default async function ProductPage() {
       <section className="overflow-x-clip pt-16 pb-18 lg:pt-22">
         <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-6 lg:grid-cols-[0.95fr_1.05fr]">
           <div>
-            <span className="anim-fade-up eyebrow">Product</span>
+            <span className="anim-fade-up eyebrow">{c.eyebrow}</span>
             <h1 className="anim-fade-up anim-d-1 h-display mt-4 text-[clamp(36px,4.8vw,60px)] leading-[1.04]">
-              One certified box.{" "}
-              <span className="bg-gradient-to-r from-brand via-[#7b3ce8] to-[#a86cf5] bg-clip-text text-transparent">
-                The complete solution.
-              </span>
+              {c.h1a}{" "}
+              <span className="bg-gradient-to-r from-brand via-[#7b3ce8] to-[#a86cf5] bg-clip-text text-transparent">{c.h1b}</span>
             </h1>
-            <p className="anim-fade-up anim-d-2 mt-5 mb-8 max-w-125 text-lg leading-relaxed text-ink-2">
-              {fiscal
-                ? "A certified cash register and payment terminal in one device – the Merchant Portal behind it. Not just a card machine."
-                : "A payment terminal and the Merchant Portal in one device. Not just a card machine."}
-            </p>
+            <p className="anim-fade-up anim-d-2 mt-5 mb-8 max-w-125 text-lg leading-relaxed text-ink-2">{c.sub}</p>
             <div className="anim-fade-up anim-d-3 flex flex-wrap items-center gap-3.5">
-              <Link href="/contact" className="btn-primary">
-                Get a terminal →
-              </Link>
-              <Link href="/pricing" className="btn-ghost">
-                See pricing
-              </Link>
+              <Link href="/contact" className="btn-primary">{c.get}</Link>
+              <Link href="/pricing" className="btn-ghost">{c.seePricing}</Link>
             </div>
           </div>
           <div className="anim-fade-up anim-d-2 relative">
             <div className="pointer-events-none absolute -inset-8 rounded-[48px] bg-[radial-gradient(circle,rgba(90,25,181,0.12),transparent_70%)]" />
             <div className="relative aspect-[16/11] overflow-hidden rounded-[32px] shadow-[0_48px_90px_-48px_rgba(90,25,181,0.55)]">
-              <Image
-                src="/hero-florist.jpg"
-                alt="SmartOne terminal taking a contactless payment at a flower shop"
-                fill
-                priority
-                sizes="(max-width: 1024px) 100vw, 55vw"
-                className="object-cover"
-              />
+              <Image src="/hero-florist.jpg" alt={c.alt} fill priority sizes="(max-width: 1024px) 100vw, 55vw" className="object-cover" />
             </div>
           </div>
         </div>
@@ -112,32 +186,13 @@ export default async function ProductPage() {
       {/* 2 · the device */}
       <section id="hardware" className="scroll-mt-20 bg-bg-2 py-24">
         <div className="mx-auto max-w-6xl px-6">
-          <SectionHead
-            eyebrow="The device"
-            title="Two models. Everything built in."
-            sub="Merchant facts, not a spec sheet: it prints, it lasts, it connects – wherever your counter is."
-          />
+          <SectionHead eyebrow={c.devEyebrow} title={c.devTitle} sub={c.devSub} />
           <div className="mt-11 grid gap-4 md:grid-cols-2">
-            {[
-              {
-                name: "SmartOne Bank Pro",
-                for: "For the busy counter",
-                text: "The big 6″ screen keeps a queue moving – ring up, tap, receipt out.",
-                compact: false,
-                dual: false,
-              },
-              {
-                name: "SmartOne Pro S",
-                for: "Dual-screen checkout",
-                text: "A screen for you and one facing the customer – a smooth, transparent checkout where local law needs it.",
-                compact: false,
-                dual: true,
-              },
-            ].map((d, i) => (
+            {c.lineup.map((d, i) => (
               <Reveal key={d.name} delay={i * 100} className="h-full">
                 <div className="flex h-full flex-col rounded-3xl bg-white p-7 shadow-sm shadow-black/3 transition-transform duration-300 hover:-translate-y-1">
                   <div className="grid h-64 place-items-center rounded-2xl bg-gradient-to-br from-brand-tint via-bg-2 to-bg-2 py-6">
-                    <Terminal compact={d.compact} dual={d.dual} />
+                    <Terminal compact={false} dual={i === 1} />
                   </div>
                   <div className="mt-5 flex items-baseline justify-between">
                     <h3 className="font-display text-[22px] font-semibold tracking-tight">{d.name}</h3>
@@ -150,18 +205,17 @@ export default async function ProductPage() {
           </div>
           <Reveal>
             <div className="mt-6 flex flex-col gap-4 rounded-3xl bg-white px-7 py-5 shadow-sm shadow-black/3 sm:flex-row sm:items-center sm:justify-around">
-              {deviceFacts.map((f) => (
-                <span key={f.label} className="flex items-center gap-2.5 text-[14.5px] font-medium text-ink-2">
+              {c.facts.map((label, i) => (
+                <span key={label} className="flex items-center gap-2.5 text-[14.5px] font-medium text-ink-2">
                   <svg viewBox="0 0 24 24" className="size-5.5 stroke-brand" fill="none" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                    {f.icon}
+                    {factIcons[i]}
                   </svg>
-                  {f.label}
+                  {label}
                 </span>
               ))}
             </div>
             <p className="mt-4 text-center text-[13px] text-ink-3">
-              Also available: <b className="font-semibold text-ink-2">SmartOne Bank</b> – the
-              compact 5″ model for selling on the move.
+              {c.alsoAvail[0]} <b className="font-semibold text-ink-2">{c.alsoAvail[1]}</b> {c.alsoAvail[2]}
             </p>
           </Reveal>
         </div>
@@ -170,11 +224,7 @@ export default async function ProductPage() {
       {/* 3 · inside the device */}
       <section className="py-24">
         <div className="mx-auto max-w-6xl px-6">
-          <SectionHead
-            eyebrow="Inside the device"
-            title={fiscal ? "Two apps do the work." : "The payment app does the work."}
-            sub="No phone, no laptop, no extra box – the device works standalone."
-          />
+          <SectionHead eyebrow={c.insideEyebrow} title={c.insideTitle} sub={c.insideSub} />
           <div className={`mt-11 grid gap-4 ${fiscal ? "md:grid-cols-2" : "mx-auto max-w-xl"}`}>
             <Reveal className="h-full">
               <div className="h-full rounded-3xl border border-line bg-white p-7">
@@ -184,11 +234,8 @@ export default async function ProductPage() {
                     <path d="M2.5 10h19M6 15h4" />
                   </svg>
                 </span>
-                <h3 className="mt-5 font-display text-[20px] font-semibold tracking-tight">Payment app</h3>
-                <p className="mt-2 text-[14.5px] leading-relaxed text-ink-2">
-                  Cards, contactless and cash on one screen. The amount, the
-                  tap, the confirmation – done.
-                </p>
+                <h3 className="mt-5 font-display text-[20px] font-semibold tracking-tight">{c.payApp}</h3>
+                <p className="mt-2 text-[14.5px] leading-relaxed text-ink-2">{c.payText}</p>
               </div>
             </Reveal>
             {fiscal && (
@@ -199,11 +246,8 @@ export default async function ProductPage() {
                       <path d="M7 3h10v18l-2.5-1.5L12 21l-2.5-1.5L7 21V3Zm3 5h4m-4 4h4" />
                     </svg>
                   </span>
-                  <h3 className="mt-5 font-display text-[20px] font-semibold tracking-tight">Cash register</h3>
-                  <p className="mt-2 text-[14.5px] leading-relaxed text-ink-2">
-                    A certified fiscal cash register on the device: fiscal
-                    receipts, Z-reports and market-by-market certification.
-                  </p>
+                  <h3 className="mt-5 font-display text-[20px] font-semibold tracking-tight">{c.regApp}</h3>
+                  <p className="mt-2 text-[14.5px] leading-relaxed text-ink-2">{c.regText}</p>
                 </div>
               </Reveal>
             )}
@@ -214,11 +258,7 @@ export default async function ProductPage() {
       {/* 4 · which device do I need */}
       <section className="bg-bg-2 py-24">
         <div className="mx-auto max-w-6xl px-6">
-          <SectionHead
-            eyebrow="Which device do I need?"
-            title="Answer two questions."
-            center
-          />
+          <SectionHead eyebrow={c.chooserEyebrow} title={c.chooserTitle} center />
           <Reveal delay={100}>
             <div className="mt-10">
               <DeviceChooser />
@@ -230,10 +270,7 @@ export default async function ProductPage() {
       {/* 5 · a day with SmartOne */}
       <section className="py-24">
         <div className="mx-auto max-w-6xl px-6">
-          <SectionHead
-            eyebrow="A day with SmartOne"
-            title="From the first tap to the accountant."
-          />
+          <SectionHead eyebrow={c.dayEyebrow} title={c.dayTitle} />
           <Reveal>
             <DayWalk />
           </Reveal>
@@ -243,11 +280,7 @@ export default async function ProductPage() {
       {/* 6 · merchant portal */}
       <section id="portal" className="scroll-mt-20 bg-bg-2 py-24">
         <div className="mx-auto max-w-6xl px-6">
-          <SectionHead
-            eyebrow="Merchant Portal"
-            title="Four jobs, one login."
-            sub="Everything the device does at the counter, the portal explains in numbers."
-          />
+          <SectionHead eyebrow="Merchant Portal" title={c.portalTitle} sub={c.portalSub} />
           <Reveal>
             <PortalPreview />
           </Reveal>
@@ -258,46 +291,34 @@ export default async function ProductPage() {
       <section id="click" className="scroll-mt-20 py-24">
         <div className={`mx-auto grid gap-4 px-6 ${fiscal ? "max-w-6xl md:grid-cols-2" : "max-w-3xl"}`}>
           {fiscal && (
-          <Reveal className="h-full">
-            <div className="flex h-full flex-col rounded-3xl border border-line bg-white p-8">
-              <span className="eyebrow">Cashbox</span>
-              <h3 className="h-display mt-4 text-[26px] leading-tight">
-                Start with the register alone.
-              </h3>
-              <p className="mt-3 text-[15px] leading-relaxed text-ink-2">
-                SmartOne Cashbox, the on-device fiscal register, is certified
-                on its own – you can start Cashbox-only and add card payments
-                later. Upgrading is a KYC/KYB check, not new hardware.
-              </p>
-              <div className="mt-auto pt-6">
-                <div className="rounded-2xl bg-bg-2 p-4 font-mono text-[12.5px]">
-                  <div className="flex justify-between text-ink-2">
-                    <span>Z-report #218</span>
-                    <span className="font-semibold text-ink">€1,240.00</span>
+            <Reveal className="h-full">
+              <div className="flex h-full flex-col rounded-3xl border border-line bg-white p-8">
+                <span className="eyebrow">Cashbox</span>
+                <h3 className="h-display mt-4 text-[26px] leading-tight">{c.cashTitle}</h3>
+                <p className="mt-3 text-[15px] leading-relaxed text-ink-2">{c.cashText}</p>
+                <div className="mt-auto pt-6">
+                  <div className="rounded-2xl bg-bg-2 p-4 font-mono text-[12.5px]">
+                    <div className="flex justify-between text-ink-2">
+                      <span>Z-report #218</span>
+                      <span className="font-semibold text-ink">€1,240.00</span>
+                    </div>
+                    <div className="mt-1 text-[11px] text-ink-3">{c.cashReceipts}</div>
                   </div>
-                  <div className="mt-1 text-[11px] text-ink-3">41 receipts · closed 19:04</div>
                 </div>
               </div>
-            </div>
-          </Reveal>
+            </Reveal>
           )}
           <Reveal delay={100} className="h-full">
             <div className="relative flex h-full flex-col overflow-hidden rounded-3xl bg-gradient-to-br from-night-2 to-night p-8 text-white">
               <div className="pointer-events-none absolute -right-10 -bottom-10 size-44 rounded-full bg-[radial-gradient(circle,rgba(90,25,181,0.55),transparent_70%)]" />
               <span className="eyebrow eyebrow-dark">Click · HoReCa</span>
-              <h3 className="h-display mt-4 text-[26px] leading-tight">
-                Orders land on the register.
-              </h3>
-              <p className="mt-3 text-[15px] leading-relaxed text-white/70">
-                SmartOne Click takes orders for cafés and restaurants and sends
-                them straight to the register – one catalogue, one flow, no
-                re-typing.
-              </p>
+              <h3 className="h-display mt-4 text-[26px] leading-tight">{c.clickTitle}</h3>
+              <p className="mt-3 text-[15px] leading-relaxed text-white/70">{c.clickText}</p>
               <div className="mt-auto pt-6">
                 <div className="rounded-2xl bg-white/8 p-4 font-mono text-[12.5px] ring-1 ring-white/10">
                   <div className="flex justify-between">
-                    <span className="text-white/70">Order #47 · table 3</span>
-                    <span className="font-semibold text-brand-l">→ register</span>
+                    <span className="text-white/70">{c.clickOrder}</span>
+                    <span className="font-semibold text-brand-l">{c.clickReg}</span>
                   </div>
                   <div className="mt-1 text-[11px] text-white/50">2× latte · 1× croissant</div>
                 </div>
@@ -310,35 +331,23 @@ export default async function ProductPage() {
       {/* 9 · compliance */}
       <section className="bg-bg-2 py-24">
         <div className="mx-auto max-w-6xl px-6">
-          <SectionHead
-            eyebrow="Compliance"
-            title="Certified market by market."
-            sub="We name what's live and what's dated – nothing else."
-          />
+          <SectionHead eyebrow={c.complianceEyebrow} title={c.complianceTitle} sub={c.complianceSub} />
           <div className="mx-auto mt-10 grid max-w-185 gap-4 sm:grid-cols-2">
             <Reveal className="h-full">
               <div className="flex h-full flex-col rounded-3xl bg-white p-7 shadow-sm shadow-black/3">
                 <span className="text-3xl">{country.flag}</span>
-                <h3 className="mt-4 font-display text-[20px] font-semibold tracking-tight">
-                  {complianceCopy[country.code].title}
-                </h3>
-                <p className="mt-1.5 text-[14.5px] leading-relaxed text-ink-2">
-                  {complianceCopy[country.code].text}
-                </p>
+                <h3 className="mt-4 font-display text-[20px] font-semibold tracking-tight">{c.compliance[country.code].title}</h3>
+                <p className="mt-1.5 text-[14.5px] leading-relaxed text-ink-2">{c.compliance[country.code].text}</p>
               </div>
             </Reveal>
             <Reveal delay={100} className="h-full">
               <Link href="/es" className="group flex h-full flex-col rounded-3xl bg-white p-7 shadow-sm shadow-black/3 transition-transform duration-300 hover:-translate-y-1">
-                <span className="text-3xl">{country.code === "es" ? "📋" : "🇪🇸"}</span>
+                <span className="text-3xl">{isEs ? "📋" : "🇪🇸"}</span>
                 <h3 className="mt-4 flex items-center justify-between font-display text-[20px] font-semibold tracking-tight">
-                  {country.code === "es" ? "Verifactu, explained" : "Selling in Spain? Verifactu 2027"}
+                  {c.spainTitle(isEs)}
                   <span className="text-brand transition-transform duration-300 group-hover:translate-x-1">→</span>
                 </h3>
-                <p className="mt-1.5 text-[14.5px] leading-relaxed text-ink-2">
-                  {country.code === "es"
-                    ? "What changes in 2027 and how the device keeps you compliant."
-                    : "Getting ready ahead of the deadline? Start here."}
-                </p>
+                <p className="mt-1.5 text-[14.5px] leading-relaxed text-ink-2">{c.spainText(isEs)}</p>
               </Link>
             </Reveal>
           </div>
@@ -352,19 +361,11 @@ export default async function ProductPage() {
             <div className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-brand to-brand-d px-8 py-14 text-center text-white">
               <div className="pointer-events-none absolute top-1/2 left-1/2 size-120 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.15),transparent_65%)]" />
               <div className="relative">
-                <h2 className="h-display mx-auto max-w-140 text-[clamp(26px,3.2vw,38px)] leading-[1.08]">
-                  One box on the counter. Everything behind it.
-                </h2>
-                <p className="mx-auto mt-3 mb-8 max-w-120 text-[16.5px] leading-relaxed text-white/80">
-                  Live in four business days or less.
-                </p>
+                <h2 className="h-display mx-auto max-w-140 text-[clamp(26px,3.2vw,38px)] leading-[1.08]">{c.ctaTitle}</h2>
+                <p className="mx-auto mt-3 mb-8 max-w-120 text-[16.5px] leading-relaxed text-white/80">{c.ctaText}</p>
                 <div className="flex flex-wrap justify-center gap-3.5">
-                  <Link href="/contact" className="btn-light">
-                    Get a terminal →
-                  </Link>
-                  <Link href="/contact" className="btn-ghost-dark">
-                    Contact sales
-                  </Link>
+                  <Link href="/contact" className="btn-light">{c.get}</Link>
+                  <Link href="/contact" className="btn-ghost-dark">{c.sales}</Link>
                 </div>
               </div>
             </div>
