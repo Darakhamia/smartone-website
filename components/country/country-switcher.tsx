@@ -6,11 +6,21 @@ import { Flag } from "@/components/country/flag";
 import { COUNTRIES, LANG_NAMES, type Lang } from "@/lib/countries";
 import { DICT } from "@/lib/dictionaries";
 
-/* Compact region + language switcher for the nav. Region is always shown;
-   the language toggle appears only for countries that offer more than one
-   language (e.g. Spain → English / Español). */
+/* Compact region + language switcher. Region is always shown; the language
+   toggle appears only for countries that offer more than one language
+   (e.g. Spain → English / Español). `dark` styles the trigger for dark
+   backgrounds (the footer); `openUp` makes the menu open upward so it is
+   never clipped at the bottom of the page. */
 
-export function CountrySwitcher({ align = "right" }: { align?: "left" | "right" }) {
+export function CountrySwitcher({
+  align = "right",
+  openUp = false,
+  dark = false,
+}: {
+  align?: "left" | "right";
+  openUp?: boolean;
+  dark?: boolean;
+}) {
   const { country, lang, setCountry, setLang } = useCountry();
   const t = DICT[lang];
   const [open, setOpen] = useState(false);
@@ -31,21 +41,25 @@ export function CountrySwitcher({ align = "right" }: { align?: "left" | "right" 
   }, [open]);
 
   return (
-    <div ref={ref} className="relative">
+    <div ref={ref} className="relative inline-block">
       <button
         onClick={() => setOpen((v) => !v)}
         aria-haspopup="menu"
         aria-expanded={open}
-        className="flex items-center gap-1.5 rounded-full border border-line-2 px-3 py-2 text-[13.5px] font-medium text-ink-2 transition-colors hover:border-brand/40 hover:text-ink"
+        className={`flex items-center gap-1.5 rounded-full border px-3 py-2 text-[13.5px] font-medium transition-colors ${
+          dark
+            ? "border-white/20 text-white/75 hover:border-white/40 hover:text-white"
+            : "border-line-2 text-ink-2 hover:border-brand/40 hover:text-ink"
+        }`}
       >
         <Flag code={country.code} className="h-3.5 w-5" />
         <span className="uppercase">{country.code}</span>
         {country.languages.length > 1 && (
-          <span className="text-ink-3">· {lang.toUpperCase()}</span>
+          <span className={dark ? "text-white/45" : "text-ink-3"}>· {lang.toUpperCase()}</span>
         )}
         <svg
           viewBox="0 0 16 16"
-          className={`size-3.5 stroke-ink-3 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+          className={`size-3.5 transition-transform duration-200 ${dark ? "stroke-white/50" : "stroke-ink-3"} ${open ? "rotate-180" : ""}`}
           fill="none"
           strokeWidth="1.8"
           strokeLinecap="round"
@@ -59,9 +73,9 @@ export function CountrySwitcher({ align = "right" }: { align?: "left" | "right" 
       {open && (
         <div
           role="menu"
-          className={`anim-fade-up absolute top-[calc(100%+8px)] z-50 w-64 rounded-2xl border border-line bg-white p-2 shadow-[0_24px_48px_-24px_rgba(29,29,31,0.35)] ${
-            align === "right" ? "right-0" : "left-0"
-          }`}
+          className={`anim-fade-up absolute z-50 w-64 rounded-2xl border border-line bg-white p-2 text-left shadow-[0_24px_48px_-24px_rgba(29,29,31,0.35)] ${
+            openUp ? "bottom-[calc(100%+8px)]" : "top-[calc(100%+8px)]"
+          } ${align === "right" ? "right-0" : "left-0"}`}
         >
           <p className="px-3 pt-2 pb-1.5 text-[11px] font-semibold tracking-wide text-ink-3 uppercase">
             {t.nav.region}

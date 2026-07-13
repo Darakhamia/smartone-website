@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Logo } from "@/components/logo";
 import { useCountry } from "@/components/country/country-context";
-import { CountrySwitcher } from "@/components/country/country-switcher";
 import { DICT } from "@/lib/dictionaries";
 
 export function Brand({ light = false }: { light?: boolean }) {
@@ -54,8 +53,7 @@ export function SiteNav() {
             </Link>
           ))}
         </nav>
-        <div className="ml-auto hidden items-center gap-3 lg:flex">
-          <CountrySwitcher />
+        <div className="ml-auto hidden items-center gap-4 lg:flex">
           <Link
             href="/login"
             className="text-[14.5px] font-medium text-ink-2 transition-colors hover:text-ink"
@@ -91,9 +89,6 @@ export function SiteNav() {
               {l.label}
             </Link>
           ))}
-          <div className="mt-3 border-t border-line pt-4">
-            <CountrySwitcher align="left" />
-          </div>
           <div className="mt-3 flex items-center gap-4 border-t border-line pt-4">
             <Link href="/login" onClick={() => setOpen(false)} className="text-[15px] font-medium text-ink-2">
               {t.nav.login}
