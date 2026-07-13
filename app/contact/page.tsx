@@ -15,7 +15,7 @@ const points = [
     icon: <path d="M12 7v5l3.5 2M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />,
   },
   {
-    title: "Your exact rate, in euros",
+    title: "Your exact rate, up front",
     text: "We'll work out your band from your volume – no effective-rate surprises.",
     icon: <path d="M4 10h12M4 14h9m6-8a7.7 7.7 0 0 0-5.2-2A7.9 7.9 0 0 0 6 12c0 4.4 3.5 8 7.8 8 2 0 3.8-.8 5.2-2" />,
   },

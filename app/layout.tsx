@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     template: "%s – SmartOne",
   },
   description:
-    "Card terminal, fiscal register, and receipt printer in one certified device – plus a portal that shows every fee in plain euros. No hidden fees.",
+    "A certified cash register with card payments and a receipt printer in one device – plus a portal with clear fees. The rate you signed up for is the rate you pay.",
 };
 
 export default async function RootLayout({

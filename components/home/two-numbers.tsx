@@ -15,7 +15,7 @@ const parts = [
   {
     value: "€9.60",
     caption: "Our fee",
-    sub: "0.98% · in plain euros",
+    sub: "0.98% · one clear fee",
     accent: true,
   },
   {
@@ -40,7 +40,7 @@ export function TwoNumbers() {
             <p className="mt-4 text-lg leading-relaxed text-ink-2">
               What you sold by card – and what lands in your bank the next
               business day. The only thing between them is one small fee,
-              shown in euros.
+              clearly shown.
             </p>
           </div>
         </Reveal>

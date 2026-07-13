@@ -4,40 +4,39 @@ import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useCountry } from "@/components/country/country-context";
 
-/* Interactive pricing by monthly card turnover (adapted from the 21st.dev
-   "PricingSlider" pattern). Tiers:
-     ≤ €5,000/mo  → Starter
-     ≤ €10,000/mo → Growth
-     > €10,000/mo → custom quote, talk to sales.
-   TODO: rates below are placeholders – confirm the real per-tier pricing. */
+/* Interactive pricing by monthly card turnover. Bands match the pricing
+   page: ≤ €4,000/mo Getting Started, ≤ €15,000/mo Up & Running, above that
+   we tailor the rate (talk to us). The slider tops out at ">€15,000". */
 
 const STOPS: number[] = [
-  ...Array.from({ length: 39 }, (_, i) => 500 + i * 250), // €500 … €10,000
-  Infinity, // ">€10,000"
+  ...Array.from({ length: 59 }, (_, i) => 500 + i * 250), // €500 … €15,000
+  Infinity, // ">€15,000"
 ];
+
+const TOP = 15000;
 
 type Tier = {
   name: string;
-  rate: number | null; // % of turnover; null = custom
+  rate: number | null; // % of turnover; null = tailored
   blurb: string;
   cta: string;
 };
 
 function tierFor(turnover: number, fiscal: boolean): Tier {
-  if (turnover <= 5000) {
+  if (turnover <= 4000) {
     return {
-      name: "Starter",
-      rate: 1.1,
+      name: "Getting Started",
+      rate: 1.65,
       blurb: fiscal
-        ? "Everything included: certified device, fiscal register, receipt printer and the Merchant Portal. No monthly software fee."
-        : "Everything included: certified device, receipt printer and the Merchant Portal. No monthly software fee.",
+        ? "Everything included: certified cash register, card terminal, receipt printer and the Merchant Portal. No monthly software fee."
+        : "Everything included: card terminal, receipt printer and the Merchant Portal. No monthly software fee.",
       cta: "Get a terminal →",
     };
   }
-  if (turnover <= 10000) {
+  if (turnover <= TOP) {
     return {
-      name: "Growth",
-      rate: 0.9,
+      name: "Up & Running",
+      rate: 1.0,
       blurb:
         "Same full stack, lower rate – your commission drops as your turnover grows. Everything stays included.",
       cta: "Get a terminal →",
@@ -47,7 +46,7 @@ function tierFor(turnover: number, fiscal: boolean): Tier {
     name: "Custom",
     rate: null,
     blurb:
-      "At your volume we price individually – and the rate only goes down from here. Tell us about your business and we'll send a personal offer within one business day.",
+      "You're in our top band – tell us about your business and we'll confirm your exact rate within one business day.",
     cta: "Contact sales →",
   };
 }
@@ -115,8 +114,8 @@ export function TurnoverCalculator({ compare = false }: { compare?: boolean }) {
   const tier = tierFor(turnover, country.fiscal);
   const pct = (index / (STOPS.length - 1)) * 100;
 
-  // tween the big numbers; the ">€10,000" stop freezes at the last finite value
-  const finiteTurnover = turnover === Infinity ? 10000 : turnover;
+  // tween the big numbers; the ">€15,000" stop freezes at the last finite value
+  const finiteTurnover = turnover === Infinity ? TOP : turnover;
   const shownTurnover = useTween(finiteTurnover);
   const commissionTarget =
     tier.rate !== null ? (finiteTurnover * tier.rate) / 100 : 0;
@@ -126,7 +125,7 @@ export function TurnoverCalculator({ compare = false }: { compare?: boolean }) {
   const shownSavings = useTween(Math.max(0, providerCost - commissionTarget));
 
   const label =
-    turnover === Infinity ? `>${sym}10,000` : eur.format(Math.round(shownTurnover));
+    turnover === Infinity ? `>${sym}15,000` : eur.format(Math.round(shownTurnover));
 
   return (
     <div className="grid gap-4 lg:grid-cols-2">
@@ -156,8 +155,8 @@ export function TurnoverCalculator({ compare = false }: { compare?: boolean }) {
         />
         <div className="mt-3 flex justify-between text-[12px] text-ink-3">
           <span>{sym}500</span>
-          <span>{sym}5,000</span>
-          <span>&gt;{sym}10,000</span>
+          <span>{sym}7,500</span>
+          <span>&gt;{sym}15,000</span>
         </div>
         {compare && turnover !== Infinity && (
           <div className="mt-7 rounded-2xl bg-bg-2 p-4">
@@ -209,16 +208,19 @@ export function TurnoverCalculator({ compare = false }: { compare?: boolean }) {
                 </>
               )}
             </div>
-            {tier.rate !== null && turnover !== Infinity && (
-              <p className="mt-4 text-[14.5px] text-ink-2">
-                ≈{" "}
-                <b className="text-ink tabular-nums">
-                  {eurCents.format(shownCommission)}
-                </b>{" "}
-                commission per month – every fee shown up front, visible in
-                your portal.
-              </p>
-            )}
+            {/* fixed min-height so the card doesn't shrink on the "Let's talk"
+                (tailored) state and jump in height */}
+            <div className="mt-4 min-h-[3.25rem]">
+              {tier.rate !== null && turnover !== Infinity && (
+                <p className="text-[14.5px] leading-snug text-ink-2">
+                  ≈{" "}
+                  <b className="text-ink tabular-nums">
+                    {eurCents.format(shownCommission)}
+                  </b>{" "}
+                  commission per month – clear fees, visible in your portal.
+                </p>
+              )}
+            </div>
             {compare && tier.rate !== null && turnover !== Infinity && (
               <p className="mt-2.5 inline-flex items-baseline gap-1.5 self-start rounded-full bg-brand-tint px-3.5 py-1.5 text-[13.5px] font-semibold text-brand">
                 You&apos;d save ≈{" "}
@@ -233,8 +235,10 @@ export function TurnoverCalculator({ compare = false }: { compare?: boolean }) {
               {tier.cta}
             </Link>
             <p className="mt-5 text-[12.5px] leading-relaxed text-ink-3">
-              Renting the device? Your rate drops another 0.05 pp. Rates shown
-              for {country.flag} {country.name}.
+              Illustrative rate for {country.name}.{" "}
+              <Link href="/pricing" className="font-semibold text-ink hover:text-brand">
+                See full pricing →
+              </Link>
             </p>
           </div>
         </div>

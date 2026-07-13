@@ -12,8 +12,8 @@ const gaps = [
   },
   {
     tag: "Incentive gap",
-    title: "Every fee in plain euros",
-    text: "The commission stops hiding inside a monthly statement. Competitors could show it – their margin depends on not showing it.",
+    title: "Clear fees, not fine print",
+    text: "The rate you signed up for is the rate you pay. No commission hiding inside a monthly statement – competitors could show it, their margin depends on not showing it.",
     icon: (
       <path d="M4 10h12M4 14h9m6-8a7.7 7.7 0 0 0-5.2-2A7.9 7.9 0 0 0 6 12c0 4.4 3.5 8 7.8 8 2 0 3.8-.8 5.2-2" />
     ),

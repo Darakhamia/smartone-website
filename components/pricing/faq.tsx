@@ -17,11 +17,11 @@ const faqs = [
   },
   {
     q: "When do I get my money?",
-    a: "Next business day (T+1). The portal shows exactly what's confirmed to pay you – net of commission, in plain euros.",
+    a: "Next business day (T+1). The portal shows exactly what's confirmed to pay you – net of commission, clearly shown.",
   },
   {
     q: "Are there any hidden fees?",
-    a: "No. Your commission is shown in euros on every settlement in the portal. No setup fees, no monthly minimums, no surprise line items in a PDF statement.",
+    a: "No. Your commission is shown up front on every settlement in the portal. No setup fees, no monthly minimums, no surprise line items in a PDF statement.",
   },
   {
     q: "How fast can I start taking payments?",

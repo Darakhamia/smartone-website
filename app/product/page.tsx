@@ -20,7 +20,7 @@ const complianceCopy: Record<CountryCode, { title: string; text: string }> = {
 export const metadata: Metadata = {
   title: "Product",
   description:
-    "One certified device – card terminal, fiscal register and receipt printer – plus the merchant portal behind it. The complete solution, not a card machine.",
+    "A certified cash register with card payments and a receipt printer in one device – plus the Merchant Portal behind it. The complete solution, not just a card machine.",
 };
 
 /* ---------- small shared bits ---------- */
@@ -81,8 +81,8 @@ export default async function ProductPage() {
             </h1>
             <p className="anim-fade-up anim-d-2 mt-5 mb-8 max-w-125 text-lg leading-relaxed text-ink-2">
               {fiscal
-                ? "Card terminal, fiscal register and receipt printer in one device – with the Merchant Portal behind it. Not a card machine."
-                : "Card terminal and receipt printer in one device – with the Merchant Portal behind it. Not a card machine."}
+                ? "A certified cash register with card payments and a receipt printer, all in one device – the Merchant Portal behind it. Not just a card machine."
+                : "A card terminal and receipt printer in one device – with the Merchant Portal behind it. Not just a card machine."}
             </p>
             <div className="anim-fade-up anim-d-3 flex flex-wrap items-center gap-3.5">
               <Link href="/contact" className="btn-primary">
@@ -197,10 +197,10 @@ export default async function ProductPage() {
                       <path d="M7 3h10v18l-2.5-1.5L12 21l-2.5-1.5L7 21V3Zm3 5h4m-4 4h4" />
                     </svg>
                   </span>
-                  <h3 className="mt-5 font-display text-[20px] font-semibold tracking-tight">Fiscal app</h3>
+                  <h3 className="mt-5 font-display text-[20px] font-semibold tracking-tight">Cash register</h3>
                   <p className="mt-2 text-[14.5px] leading-relaxed text-ink-2">
-                    A certified fiscal register on the device: fiscal receipts,
-                    Z-reports, market-by-market certification.
+                    A certified fiscal cash register on the device: fiscal
+                    receipts, Z-reports and market-by-market certification.
                   </p>
                 </div>
               </Reveal>

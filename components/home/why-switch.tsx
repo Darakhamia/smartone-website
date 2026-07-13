@@ -69,8 +69,8 @@ function TplusOneVisual() {
 
 const triggers = [
   {
-    title: "Every fee in plain euros",
-    text: "Commission in euros, not in fine print.",
+    title: "Clear fees",
+    text: "The rate you signed up for is the rate you pay.",
     visual: <FeeVisual />,
   },
   {
