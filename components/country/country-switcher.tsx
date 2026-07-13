@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useCountry } from "@/components/country/country-context";
+import { Flag } from "@/components/country/flag";
 import { COUNTRIES, LANG_NAMES, type Lang } from "@/lib/countries";
 import { DICT } from "@/lib/dictionaries";
 
@@ -37,9 +38,7 @@ export function CountrySwitcher({ align = "right" }: { align?: "left" | "right" 
         aria-expanded={open}
         className="flex items-center gap-1.5 rounded-full border border-line-2 px-3 py-2 text-[13.5px] font-medium text-ink-2 transition-colors hover:border-brand/40 hover:text-ink"
       >
-        <span className="text-[15px] leading-none" aria-hidden>
-          {country.flag}
-        </span>
+        <Flag code={country.code} className="h-3.5 w-5" />
         <span className="uppercase">{country.code}</span>
         {country.languages.length > 1 && (
           <span className="text-ink-3">· {lang.toUpperCase()}</span>
@@ -82,9 +81,7 @@ export function CountrySwitcher({ align = "right" }: { align?: "left" | "right" 
                   active ? "bg-brand-tint" : "hover:bg-bg-2"
                 }`}
               >
-                <span className="text-[18px] leading-none" aria-hidden>
-                  {c.flag}
-                </span>
+                <Flag code={c.code} className="h-4 w-6" />
                 <span className={`flex-1 text-[14px] ${active ? "font-semibold text-brand" : "text-ink-2"}`}>
                   {c.name}
                 </span>
