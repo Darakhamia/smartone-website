@@ -10,7 +10,7 @@ const facts = [
     icon: <path d="M3 10l9-6 9 6M5 10v8m4.5-8v8m5-8v8M19 10v8M3 20h18" />,
   },
   {
-    label: "Live in ≤4 working days",
+    label: "Live in ≤4 business days",
     icon: <path d="M12 7v5l3.5 2M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />,
   },
 ];

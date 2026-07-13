@@ -41,7 +41,7 @@ const jobs = [
 
 const replaces = [
   {
-    label: "POS register",
+    label: "Cash register",
     icon: <path d="M5 10h14l1 8H4l1-8Zm2 0V6h8l1 4M8.5 14h3" />,
   },
   {

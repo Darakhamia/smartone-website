@@ -21,7 +21,7 @@ const parts = [
   {
     value: "€970.40",
     caption: "In your bank",
-    sub: "tomorrow · T+1",
+    sub: "next business day · T+1",
     accent: false,
     result: true,
   },
@@ -38,8 +38,9 @@ export function TwoNumbers() {
               Two numbers you can trust.
             </h2>
             <p className="mt-4 text-lg leading-relaxed text-ink-2">
-              What you sold by card – and what lands in your bank tomorrow.
-              The only thing between them is one small fee, shown in euros.
+              What you sold by card – and what lands in your bank the next
+              business day. The only thing between them is one small fee,
+              shown in euros.
             </p>
           </div>
         </Reveal>

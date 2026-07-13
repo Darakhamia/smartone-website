@@ -47,7 +47,7 @@ const industries: Industry[] = [
       { title: "Reprint on the spot", text: "A client needs the receipt again for insurance? Find it and reprint in seconds." },
       { title: "Close the day clean", text: "Z-report at closing, and your numbers are ready for the accountant." },
     ],
-    device: "SmartOne 6″ on the counter",
+    device: "SmartOne Bank Pro on the counter",
     scope: "Fiscal receipts and card payments on one certified device. Booking or clinical records stay in your existing tools.",
   },
   {
@@ -57,12 +57,12 @@ const industries: Industry[] = [
     eyebrow: "",
     title: "Retail",
     scenarios: [
-      { title: "Products priced once", text: "Set your catalog in the portal, ring up on the register – no re-typing prices." },
+      { title: "Products priced once", text: "Set your catalogue in the portal, ring up on the register – no re-typing prices." },
       { title: "Any way they pay", text: "Card, contactless or cash, all on the same screen." },
       { title: "See your best sellers", text: "Revenue, average basket and top categories in the portal." },
     ],
-    device: "SmartOne 6″ on the counter",
-    scope: "Payments, fiscal receipts and a product catalog. Stock counts and suppliers stay where you keep them today.",
+    device: "SmartOne Bank Pro on the counter",
+    scope: "Payments, fiscal receipts and a product catalogue. Stock counts and suppliers stay where you keep them today.",
   },
   {
     id: "cafes",
@@ -71,12 +71,12 @@ const industries: Industry[] = [
     eyebrow: "+ Click",
     title: "Cafés & HoReCa",
     scenarios: [
-      { title: "Orders reach the register", text: "Click takes the order and sends it straight to the SmartOne register – one catalog, no re-keying." },
+      { title: "Orders reach the register", text: "SmartOne Click takes the order and sends it straight to the register – one catalogue, no re-keying." },
       { title: "Fast at the peak", text: "The big screen keeps the morning rush moving." },
       { title: "One fiscal receipt", text: "Every order closes with a compliant receipt from the built-in printer." },
     ],
-    device: "SmartOne 6″ + Click",
-    scope: "Payments, fiscal receipts and Click order software. Table plans beyond Click are on your side.",
+    device: "SmartOne Bank Pro + Click",
+    scope: "Payments, fiscal receipts and the Click ordering solution. Table plans beyond Click are on your side.",
     click: true,
   },
   {
@@ -90,7 +90,7 @@ const industries: Industry[] = [
       { title: "Receipt every time", text: "A compliant fiscal receipt prints for every client, automatically." },
       { title: "Know your week", text: "What you took and what you'll receive, in euros, in the portal." },
     ],
-    device: "SmartOne 5″ at the chair",
+    device: "SmartOne Bank at the chair",
     scope: "Payments and fiscal receipts. Appointment booking stays in your current scheduler.",
   },
   {
@@ -104,7 +104,7 @@ const industries: Industry[] = [
       { title: "Lasts the day", text: "One charge covers the shift – no scrambling for a socket." },
       { title: "Standalone box", text: "No phone, no laptop, no extra terminal – it's all one device." },
     ],
-    device: "SmartOne 5″, on the move",
+    device: "SmartOne Bank, on the move",
     scope: "Payments and fiscal receipts anywhere with mobile signal. Delivery apps stay separate.",
   },
 ];
@@ -158,8 +158,9 @@ function IndustrySection({ ind, i }: { ind: Industry; i: number }) {
                     C
                   </span>
                   <p className="text-[13.5px] leading-relaxed text-ink-2">
-                    <b className="font-semibold text-brand">Click</b> is live order
-                    software – orders flow to the register in real time.
+                    <b className="font-semibold text-brand">SmartOne Click</b> is
+                    a connected ordering solution – orders flow to the register
+                    in real time.
                   </p>
                 </div>
               )}

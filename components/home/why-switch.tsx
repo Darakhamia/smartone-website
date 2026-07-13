@@ -75,12 +75,12 @@ const triggers = [
   },
   {
     title: "Keep your own bank",
-    text: "Money settles to the account you already have.",
+    text: "Payouts land in the account you already have.",
     visual: <BankVisual />,
   },
   {
-    title: "Your money, next working day",
-    text: "Settled T+1, not day three or four.",
+    title: "Your money, next business day",
+    text: "Paid out T+1, not day three or four.",
     visual: <TplusOneVisual />,
   },
 ];

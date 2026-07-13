@@ -88,7 +88,7 @@ function SellScreen() {
     ["Bouquet · medium", "€28.00"],
   ];
   return (
-    <Frame title="Portal · Catalog">
+    <Frame title="Portal · Catalogue">
       <div className="space-y-2">
         {items.map((it) => (
           <div key={it[0]} className="flex items-center justify-between rounded-lg border border-line px-3.5 py-2.5">
@@ -146,7 +146,7 @@ const jobs = [
   },
   {
     title: "Sell & manage",
-    text: "Products and prices in one catalog – orders via Click for HoReCa.",
+    text: "Products and prices in one catalogue – orders via Click for HoReCa.",
     icon: <path d="M5 8h14l-1 12H6L5 8Zm4 0V6a3 3 0 0 1 6 0v2" />,
     screen: <SellScreen />,
   },

@@ -6,7 +6,7 @@ const columns = [
     title: "Product",
     links: [
       { href: "/product", label: "Terminal & device" },
-      { href: "/product", label: "Merchant portal" },
+      { href: "/product", label: "Merchant Portal" },
       { href: "/pricing", label: "Pricing" },
       { href: "/product", label: "Compliance" },
     ],
@@ -59,9 +59,16 @@ export function SiteFooter() {
             </div>
           ))}
         </div>
-        <div className="mt-10 flex flex-wrap justify-between gap-3 border-t border-white/12 pt-5 text-[12.5px]">
-          <span>© {new Date().getFullYear()} SmartOne</span>
-          <span>Across Europe · Verifactu-ready for Spain 2027</span>
+        <div className="mt-10 border-t border-white/12 pt-5">
+          <p className="text-[12px] leading-relaxed text-white/40">
+            Product availability may vary by country. Payment services may be
+            provided by authorised financial partners. Settlement times are
+            subject to banking days and the agreed commercial terms.
+          </p>
+          <div className="mt-4 flex flex-wrap justify-between gap-3 text-[12.5px]">
+            <span>© {new Date().getFullYear()} SmartOne</span>
+            <span>Across Europe · Verifactu-ready for Spain 2027</span>
+          </div>
         </div>
       </div>
     </footer>

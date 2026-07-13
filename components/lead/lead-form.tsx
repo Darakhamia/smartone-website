@@ -89,7 +89,7 @@ export function LeadForm() {
         </span>
         <h2 className="h-display mt-5 text-[28px] leading-tight">Thanks — we got it!</h2>
         <p className="mt-2.5 text-[15px] leading-relaxed text-ink-2">
-          We&apos;ll get back to you within one working day.
+          We&apos;ll get back to you within one business day.
         </p>
       </div>
     );
@@ -196,7 +196,7 @@ export function LeadForm() {
         <button type="submit" disabled={status === "sending"} className="btn-primary disabled:opacity-70">
           {status === "sending" ? "Sending…" : "Contact sales"}
         </button>
-        <p className="text-[13px] text-ink-3">We&apos;ll reply within one working day.</p>
+        <p className="text-[13px] text-ink-3">We&apos;ll reply within one business day.</p>
       </div>
       {status === "error" && (
         <p className="mt-4 rounded-xl bg-[#fbeaea] px-4 py-3 text-[13.5px] text-[#b4231f]">

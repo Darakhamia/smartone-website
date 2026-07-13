@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 
 /* "Which device do I need?" helper – three quick questions producing a
-   recommendation. Config depends on fiscalization rules per market
+   recommendation. Config depends on fiscalisation rules per market
    (e.g. no dual-screen configs in Spain). */
 
 type Q = { q: string; options: string[] };
@@ -12,22 +12,22 @@ type Q = { q: string; options: string[] };
 const questions: Q[] = [
   { q: "Where do you sell?", options: ["At a counter", "On the move"] },
   { q: "How busy is your till?", options: ["Non-stop", "A few sales an hour"] },
-  { q: "Your market?", options: ["Malta", "Spain", "Другое / other"] },
+  { q: "Your market?", options: ["Malta", "Spain", "Other"] },
 ];
 
 function recommend(a: string[]): { device: string; note: string } {
   const mobile = a[0] === "On the move";
   const busy = a[1] === "Non-stop";
-  const device = mobile ? "SmartOne 5″" : busy ? "SmartOne 6″" : "SmartOne 5″";
+  const device = mobile ? "SmartOne Bank" : busy ? "SmartOne Bank Pro" : "SmartOne Bank";
   let note = mobile
     ? "Compact and light, with a SIM slot and a battery that lasts the day – no Wi-Fi dependency."
     : busy
-      ? "The big screen keeps a busy counter fast, with the receipt printer built in."
+      ? "The big 6″ screen keeps a busy counter fast, with the receipt printer built in."
       : "Compact on the counter, with everything built in – printer included.";
   if (a[2] === "Spain") {
     note +=
       " For Spain we configure the device to local fiscal rules (no dual-screen configs) – Verifactu-ready for 2027.";
-  } else if (a[2] === "Другое / other") {
+  } else if (a[2] === "Other") {
     note +=
       " Certification is per market – talk to sales and we'll confirm the right setup for your country.";
   }

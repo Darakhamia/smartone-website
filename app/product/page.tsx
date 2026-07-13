@@ -106,15 +106,15 @@ export default function ProductPage() {
           <div className="mt-11 grid gap-4 md:grid-cols-2">
             {[
               {
-                name: "SmartOne 6″",
+                name: "SmartOne Bank Pro",
                 for: "For the busy counter",
-                text: "The big screen keeps a queue moving – ring up, tap, receipt out.",
+                text: "The big 6″ screen keeps a queue moving – ring up, tap, receipt out.",
                 compact: false,
               },
               {
-                name: "SmartOne 5″",
+                name: "SmartOne Bank",
                 for: "For the move",
-                text: "Compact and light – table service, market stalls, deliveries.",
+                text: "Compact and light, with a 5″ screen – table service, market stalls, deliveries.",
                 compact: true,
               },
             ].map((d, i) => (
@@ -144,7 +144,8 @@ export default function ProductPage() {
               ))}
             </div>
             <p className="mt-4 text-center text-[13px] text-ink-3">
-              Dual-screen models available where local law requires them.
+              SmartOne Pro S, the dual-screen model, is available where local
+              law requires a customer-facing display.
             </p>
           </Reveal>
         </div>
@@ -225,7 +226,7 @@ export default function ProductPage() {
       <section className="bg-bg-2 py-24">
         <div className="mx-auto max-w-6xl px-6">
           <SectionHead
-            eyebrow="Merchant portal"
+            eyebrow="Merchant Portal"
             title="Four jobs, one login."
             sub="Everything the device does at the counter, the portal explains in numbers."
           />
@@ -245,9 +246,9 @@ export default function ProductPage() {
                 Start with the register alone.
               </h3>
               <p className="mt-3 text-[15px] leading-relaxed text-ink-2">
-                The on-device fiscal register is certified on its own – you can
-                start Cashbox-only and add card payments later. Upgrading is a
-                KYC/KYB check, not new hardware.
+                SmartOne Cashbox, the on-device fiscal register, is certified
+                on its own – you can start Cashbox-only and add card payments
+                later. Upgrading is a KYC/KYB check, not new hardware.
               </p>
               <div className="mt-auto pt-6">
                 <div className="rounded-2xl bg-bg-2 p-4 font-mono text-[12.5px]">
@@ -268,8 +269,8 @@ export default function ProductPage() {
                 Orders land on the register.
               </h3>
               <p className="mt-3 text-[15px] leading-relaxed text-white/70">
-                Click takes orders for cafés and restaurants and sends them
-                straight to the SmartOne register – one catalog, one flow, no
+                SmartOne Click takes orders for cafés and restaurants and sends
+                them straight to the register – one catalogue, one flow, no
                 re-typing.
               </p>
               <div className="mt-auto pt-6">
@@ -331,7 +332,7 @@ export default function ProductPage() {
                   One box on the counter. Everything behind it.
                 </h2>
                 <p className="mx-auto mt-3 mb-8 max-w-120 text-[16.5px] leading-relaxed text-white/80">
-                  Live in four working days or less.
+                  Live in four business days or less.
                 </p>
                 <div className="flex flex-wrap justify-center gap-3.5">
                   <Link href="/contact" className="btn-light">

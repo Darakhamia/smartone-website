@@ -45,7 +45,7 @@ function tierFor(turnover: number): Tier {
     name: "Custom",
     rate: null,
     blurb:
-      "At your volume we price individually – and the rate only goes down from here. Tell us about your business and we'll send a personal offer within one working day.",
+      "At your volume we price individually – and the rate only goes down from here. Tell us about your business and we'll send a personal offer within one business day.",
     cta: "Contact sales →",
   };
 }

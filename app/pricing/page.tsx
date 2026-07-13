@@ -148,8 +148,9 @@ export default function PricingPage() {
           <Reveal>
             <p className="mx-auto mt-6 max-w-195 text-center text-[12.5px] leading-relaxed text-ink-3">
               &ldquo;from&rdquo; = the best volume band. Fiscal register + printer +
-              portal included · money settles to your own bank, T+1. Device
-              prices are indicative, confirmed at checkout for your country.
+              portal included · paid out to your own bank next business day
+              (T+1). Device prices are indicative, confirmed at checkout for
+              your country.
             </p>
           </Reveal>
         </div>

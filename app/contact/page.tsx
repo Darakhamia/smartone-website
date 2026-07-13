@@ -5,12 +5,12 @@ import { LeadForm } from "@/components/lead/lead-form";
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Get a terminal or talk to sales. Tell us about your business and we'll get back to you within one working day.",
+    "Get a terminal or talk to sales. Tell us about your business and we'll get back to you within one business day.",
 };
 
 const points = [
   {
-    title: "Live in ≤4 working days",
+    title: "Live in ≤4 business days",
     text: "From this form to taking payments – including fiscal registration for your market.",
     icon: <path d="M12 7v5l3.5 2M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />,
   },
@@ -21,7 +21,7 @@ const points = [
   },
   {
     title: "Keep your own bank",
-    text: "Money settles to the account you already have, next working day.",
+    text: "Payouts go to the account you already have, next business day.",
     icon: <path d="M3 10l9-6 9 6M5 10v8m4.5-8v8m5-8v8M19 10v8M3 20h18" />,
   },
 ];
@@ -41,7 +41,7 @@ export default function ContactPage() {
           </h1>
           <p className="anim-fade-up anim-d-2 mt-5 max-w-115 text-lg leading-relaxed text-ink-2">
             Tell us about your business. Ready to order or just have questions –
-            either way, we&apos;ll reply within one working day.
+            either way, we&apos;ll reply within one business day.
           </p>
           <div className="anim-fade-up anim-d-3 mt-9 space-y-5">
             {points.map((p) => (
