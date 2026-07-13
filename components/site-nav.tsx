@@ -1,16 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Logo } from "@/components/logo";
-
-const links = [
-  { href: "/product", label: "Product" },
-  { href: "/pricing", label: "Pricing" },
-  { href: "/industries", label: "Industries" },
-  { href: "/about", label: "About" },
-  { href: "/case-studies", label: "Case studies" },
-];
+import { useCountry } from "@/components/country/country-context";
+import { CountrySwitcher } from "@/components/country/country-switcher";
+import { DICT } from "@/lib/dictionaries";
 
 export function Brand({ light = false }: { light?: boolean }) {
   return (
@@ -28,6 +24,20 @@ export function Brand({ light = false }: { light?: boolean }) {
 
 export function SiteNav() {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+  const { lang } = useCountry();
+  const t = DICT[lang];
+
+  // The country picker is a full-screen splash – no nav there.
+  if (pathname === "/welcome") return null;
+
+  const links = [
+    { href: "/product", label: t.nav.product },
+    { href: "/pricing", label: t.nav.pricing },
+    { href: "/industries", label: t.nav.industries },
+    { href: "/about", label: t.nav.about },
+    { href: "/case-studies", label: t.nav.cases },
+  ];
 
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-white/80 backdrop-blur-md">
@@ -44,15 +54,16 @@ export function SiteNav() {
             </Link>
           ))}
         </nav>
-        <div className="ml-auto hidden items-center gap-4 lg:flex">
+        <div className="ml-auto hidden items-center gap-3 lg:flex">
+          <CountrySwitcher />
           <Link
             href="/login"
             className="text-[14.5px] font-medium text-ink-2 transition-colors hover:text-ink"
           >
-            Log in
+            {t.nav.login}
           </Link>
           <Link href="/contact" className="btn-primary px-5 py-2.5">
-            Get started →
+            {t.nav.getStarted}
           </Link>
         </div>
         <button
@@ -80,12 +91,15 @@ export function SiteNav() {
               {l.label}
             </Link>
           ))}
+          <div className="mt-3 border-t border-line pt-4">
+            <CountrySwitcher align="left" />
+          </div>
           <div className="mt-3 flex items-center gap-4 border-t border-line pt-4">
             <Link href="/login" onClick={() => setOpen(false)} className="text-[15px] font-medium text-ink-2">
-              Log in
+              {t.nav.login}
             </Link>
             <Link href="/contact" onClick={() => setOpen(false)} className="btn-primary px-5 py-2.5">
-              Get started →
+              {t.nav.getStarted}
             </Link>
           </div>
         </nav>

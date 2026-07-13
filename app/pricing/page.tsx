@@ -3,33 +3,13 @@ import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 import { TurnoverCalculator } from "@/components/pricing/turnover-calculator";
 import { Faq } from "@/components/pricing/faq";
+import { getActiveCountry } from "@/lib/country-server";
 
 export const metadata: Metadata = {
   title: "Pricing",
   description:
-    "Transparent rates. No hidden fees. Every fee shown in euros before you sign. Slide to your monthly turnover and get your exact rate.",
+    "Transparent rates. No hidden fees. Every fee shown up front before you sign. Slide to your monthly turnover and get your exact rate.",
 };
-
-const devices = [
-  {
-    name: "Buy the device",
-    rate: "from 0.90%",
-    rateNote: "+ €0.02 / transaction",
-    price: "One-time device cost",
-    sub: "no monthly fee",
-    meta: ["Device is yours from day one", "Fiscal register, printer & portal included", "Rate drops as volume grows"],
-    popular: false,
-  },
-  {
-    name: "Rent the device",
-    rate: "from 0.85%",
-    rateNote: "+ €0.02 / transaction",
-    price: "€19 / month",
-    sub: "upgrade anytime",
-    meta: ["Lower transaction rate", "Free replacement & upgrades", "Fiscal register, printer & portal included"],
-    popular: true,
-  },
-];
 
 const neverPay = [
   { label: "Inactivity fee", desc: "Quiet month? You pay nothing extra." },
@@ -49,7 +29,33 @@ function CheckRow({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function PricingPage() {
+export default async function PricingPage() {
+  const country = await getActiveCountry();
+  const sym = country.currencySymbol;
+  const included = country.fiscal
+    ? "Fiscal register, printer & portal included"
+    : "Receipt printer & portal included";
+  const devices = [
+    {
+      name: "Buy the device",
+      rate: "from 0.90%",
+      rateNote: `+ ${sym}0.02 / transaction`,
+      price: "One-time device cost",
+      sub: "no monthly fee",
+      meta: ["Device is yours from day one", included, "Rate drops as volume grows"],
+      popular: false,
+    },
+    {
+      name: "Rent the device",
+      rate: "from 0.85%",
+      rateNote: `+ ${sym}0.02 / transaction`,
+      price: `${sym}19 / month`,
+      sub: "upgrade anytime",
+      meta: ["Lower transaction rate", "Free replacement & upgrades", included],
+      popular: true,
+    },
+  ];
+
   return (
     <>
       {/* 1 · hero */}
@@ -77,13 +83,13 @@ export default function PricingPage() {
         <div className="mx-auto max-w-6xl px-6">
           <Reveal>
             <div className="mx-auto mb-6 flex max-w-fit items-center gap-2.5 rounded-full border border-line bg-white px-4 py-2 text-[13.5px] text-ink-2 shadow-sm">
-              <span className="text-base">🇲🇹</span>
+              <span className="text-base">{country.flag}</span>
               <span>
-                Rates shown for <b className="font-semibold text-ink">Malta</b>
+                Rates shown for <b className="font-semibold text-ink">{country.name}</b>
               </span>
               <span className="text-ink-3">·</span>
-              <Link href="/contact" className="font-semibold text-brand hover:text-brand-d">
-                Another country?
+              <Link href="/welcome" className="font-semibold text-brand hover:text-brand-d">
+                Change country
               </Link>
             </div>
           </Reveal>
@@ -103,9 +109,9 @@ export default function PricingPage() {
                 Buy it once, or rent it – your call.
               </h2>
               <p className="mx-auto mt-4 max-w-135 text-lg leading-relaxed text-ink-2">
-                Both include the fiscal register, receipt printer and merchant
-                portal. Your rate is the best band you qualify for, and it drops
-                as you grow.
+                {country.fiscal
+                  ? "Both include the fiscal register, receipt printer and Merchant Portal. Your rate is the best band you qualify for, and it drops as you grow."
+                  : "Both include the receipt printer and Merchant Portal. Your rate is the best band you qualify for, and it drops as you grow."}
               </p>
             </Reveal>
           </div>
@@ -147,10 +153,9 @@ export default function PricingPage() {
           </div>
           <Reveal>
             <p className="mx-auto mt-6 max-w-195 text-center text-[12.5px] leading-relaxed text-ink-3">
-              &ldquo;from&rdquo; = the best volume band. Fiscal register + printer +
-              portal included · paid out to your own bank next business day
-              (T+1). Device prices are indicative, confirmed at checkout for
-              your country.
+              &ldquo;from&rdquo; = the best volume band. {included} · paid out to
+              your own bank next business day (T+1). Device prices are
+              indicative, confirmed at checkout for your country.
             </p>
           </Reveal>
         </div>

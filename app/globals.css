@@ -23,7 +23,11 @@
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
 }
 
-html {
+/* NB: no global `scroll-behavior: smooth` on <html>. It overrides the
+   browser's scroll restoration on back/forward navigation, which made the
+   page jump to the top when returning to a page you'd scrolled through.
+   In-page anchor jumps opt into smooth scrolling via `.scroll-smooth`. */
+.scroll-smooth {
   scroll-behavior: smooth;
 }
 

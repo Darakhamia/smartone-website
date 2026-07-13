@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useCountry } from "@/components/country/country-context";
 
 /* Interactive pricing by monthly card turnover (adapted from the 21st.dev
    "PricingSlider" pattern). Tiers:
@@ -22,13 +23,14 @@ type Tier = {
   cta: string;
 };
 
-function tierFor(turnover: number): Tier {
+function tierFor(turnover: number, fiscal: boolean): Tier {
   if (turnover <= 5000) {
     return {
       name: "Starter",
       rate: 1.1,
-      blurb:
-        "Everything included: certified device, fiscal register, receipt printer and the merchant portal. No monthly software fee.",
+      blurb: fiscal
+        ? "Everything included: certified device, fiscal register, receipt printer and the Merchant Portal. No monthly software fee."
+        : "Everything included: certified device, receipt printer and the Merchant Portal. No monthly software fee.",
       cta: "Get a terminal →",
     };
   }
@@ -50,17 +52,6 @@ function tierFor(turnover: number): Tier {
   };
 }
 
-const eur = new Intl.NumberFormat("en-IE", {
-  style: "currency",
-  currency: "EUR",
-  maximumFractionDigits: 0,
-});
-const eurCents = new Intl.NumberFormat("en-IE", {
-  style: "currency",
-  currency: "EUR",
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 2,
-});
 
 /* Smoothly tween a number towards its target (skipped for users who
    prefer reduced motion). */
@@ -95,10 +86,33 @@ function useTween(target: number, ms = 320) {
 const PROVIDER_EFFECTIVE_RATE = 1.6;
 
 export function TurnoverCalculator({ compare = false }: { compare?: boolean }) {
-  const [index, setIndex] = useState(17); // €4,750 by default – near the tier edge
+  const { country } = useCountry();
+  const sym = country.currencySymbol;
+  const locale = country.currency === "GBP" ? "en-GB" : "en-IE";
+  const eur = useMemo(
+    () =>
+      new Intl.NumberFormat(locale, {
+        style: "currency",
+        currency: country.currency,
+        maximumFractionDigits: 0,
+      }),
+    [locale, country.currency],
+  );
+  const eurCents = useMemo(
+    () =>
+      new Intl.NumberFormat(locale, {
+        style: "currency",
+        currency: country.currency,
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }),
+    [locale, country.currency],
+  );
+
+  const [index, setIndex] = useState(17); // ~mid-band by default – near the tier edge
 
   const turnover = STOPS[index];
-  const tier = tierFor(turnover);
+  const tier = tierFor(turnover, country.fiscal);
   const pct = (index / (STOPS.length - 1)) * 100;
 
   // tween the big numbers; the ">€10,000" stop freezes at the last finite value
@@ -112,7 +126,7 @@ export function TurnoverCalculator({ compare = false }: { compare?: boolean }) {
   const shownSavings = useTween(Math.max(0, providerCost - commissionTarget));
 
   const label =
-    turnover === Infinity ? ">€10,000" : eur.format(Math.round(shownTurnover));
+    turnover === Infinity ? `>${sym}10,000` : eur.format(Math.round(shownTurnover));
 
   return (
     <div className="grid gap-4 lg:grid-cols-2">
@@ -141,9 +155,9 @@ export function TurnoverCalculator({ compare = false }: { compare?: boolean }) {
           }}
         />
         <div className="mt-3 flex justify-between text-[12px] text-ink-3">
-          <span>€500</span>
-          <span>€5,000</span>
-          <span>&gt;€10,000</span>
+          <span>{sym}500</span>
+          <span>{sym}5,000</span>
+          <span>&gt;{sym}10,000</span>
         </div>
         {compare && turnover !== Infinity && (
           <div className="mt-7 rounded-2xl bg-bg-2 p-4">
@@ -190,7 +204,7 @@ export function TurnoverCalculator({ compare = false }: { compare?: boolean }) {
                 <>
                   {tier.rate.toFixed(2)}%
                   <span className="ml-2 align-middle text-[15px] font-normal tracking-normal text-ink-3">
-                    + €0.02 / transaction
+                    + {sym}0.02 / transaction
                   </span>
                 </>
               )}
@@ -201,7 +215,7 @@ export function TurnoverCalculator({ compare = false }: { compare?: boolean }) {
                 <b className="text-ink tabular-nums">
                   {eurCents.format(shownCommission)}
                 </b>{" "}
-                commission per month – every fee shown in euros, visible in
+                commission per month – every fee shown up front, visible in
                 your portal.
               </p>
             )}
@@ -220,7 +234,7 @@ export function TurnoverCalculator({ compare = false }: { compare?: boolean }) {
             </Link>
             <p className="mt-5 text-[12.5px] leading-relaxed text-ink-3">
               Renting the device? Your rate drops another 0.05 pp. Rates shown
-              for 🇲🇹 Malta.
+              for {country.flag} {country.name}.
             </p>
           </div>
         </div>

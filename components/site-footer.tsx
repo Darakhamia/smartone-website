@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { Brand } from "@/components/site-nav";
+import { getActiveLang } from "@/lib/country-server";
+import { DICT } from "@/lib/dictionaries";
 
 const columns = [
   {
-    title: "Product",
+    titleKey: "product" as const,
     links: [
       { href: "/product", label: "Terminal & device" },
       { href: "/product", label: "Merchant Portal" },
@@ -12,7 +14,7 @@ const columns = [
     ],
   },
   {
-    title: "Industries",
+    titleKey: "industries" as const,
     links: [
       { href: "/industries", label: "Vets & services" },
       { href: "/industries", label: "Retail" },
@@ -21,7 +23,7 @@ const columns = [
     ],
   },
   {
-    title: "Company",
+    titleKey: "company" as const,
     links: [
       { href: "/about", label: "About" },
       { href: "/case-studies", label: "Case studies" },
@@ -30,22 +32,22 @@ const columns = [
   },
 ];
 
-export function SiteFooter() {
+export async function SiteFooter() {
+  const lang = await getActiveLang();
+  const t = DICT[lang].footer;
+
   return (
     <footer className="bg-night pt-14 pb-8 text-white/65">
       <div className="mx-auto max-w-6xl px-6">
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1fr]">
           <div>
             <Brand light />
-            <p className="mt-4 max-w-70 text-[13.5px] leading-relaxed">
-              One device to run your business – payments, fiscal receipts, and
-              the money behind them.
-            </p>
+            <p className="mt-4 max-w-70 text-[13.5px] leading-relaxed">{t.tagline}</p>
           </div>
           {columns.map((col) => (
-            <div key={col.title}>
+            <div key={col.titleKey}>
               <h5 className="mb-3.5 font-display text-sm font-semibold text-white">
-                {col.title}
+                {t[col.titleKey]}
               </h5>
               {col.links.map((l) => (
                 <Link
@@ -60,11 +62,7 @@ export function SiteFooter() {
           ))}
         </div>
         <div className="mt-10 border-t border-white/12 pt-5">
-          <p className="text-[12px] leading-relaxed text-white/40">
-            Product availability may vary by country. Payment services may be
-            provided by authorised financial partners. Settlement times are
-            subject to banking days and the agreed commercial terms.
-          </p>
+          <p className="text-[12px] leading-relaxed text-white/40">{t.disclaimer}</p>
           <div className="mt-4 flex flex-wrap justify-between gap-3 text-[12.5px]">
             <span>© {new Date().getFullYear()} SmartOne</span>
             <span>Across Europe · Verifactu-ready for Spain 2027</span>

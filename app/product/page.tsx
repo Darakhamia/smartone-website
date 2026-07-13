@@ -6,6 +6,16 @@ import { DeviceChooser } from "@/components/product/device-chooser";
 import { DayWalk } from "@/components/product/day-walk";
 import { PortalPreview } from "@/components/product/portal-preview";
 import { Terminal } from "@/components/product/device-visuals";
+import { getActiveCountry } from "@/lib/country-server";
+import type { CountryCode } from "@/lib/countries";
+
+const complianceCopy: Record<CountryCode, { title: string; text: string }> = {
+  mt: { title: "Malta – live today", text: "Certified fiscal device, merchants on the counter now." },
+  es: { title: "Spain – Verifactu-ready for 2027", text: "Built for the Verifactu programme, ahead of the deadline." },
+  cy: { title: "Cyprus – fiscal receipts supported", text: "Card payments and compliant receipts on one certified device." },
+  sk: { title: "Slovakia – fiscal-ready", text: "A payment terminal ready for local fiscal requirements." },
+  uk: { title: "United Kingdom – no fiscal register", text: "No fiscal register is required. Take card payments and run your business from the Merchant Portal." },
+};
 
 export const metadata: Metadata = {
   title: "Product",
@@ -52,7 +62,10 @@ const deviceFacts = [
   },
 ];
 
-export default function ProductPage() {
+export default async function ProductPage() {
+  const country = await getActiveCountry();
+  const { fiscal } = country;
+
   return (
     <>
       {/* 1 · product hero */}
@@ -67,8 +80,9 @@ export default function ProductPage() {
               </span>
             </h1>
             <p className="anim-fade-up anim-d-2 mt-5 mb-8 max-w-125 text-lg leading-relaxed text-ink-2">
-              Card terminal, fiscal register and receipt printer in one device
-              – with the merchant portal behind it. Not a card machine.
+              {fiscal
+                ? "Card terminal, fiscal register and receipt printer in one device – with the Merchant Portal behind it. Not a card machine."
+                : "Card terminal and receipt printer in one device – with the Merchant Portal behind it. Not a card machine."}
             </p>
             <div className="anim-fade-up anim-d-3 flex flex-wrap items-center gap-3.5">
               <Link href="/contact" className="btn-primary">
@@ -156,10 +170,10 @@ export default function ProductPage() {
         <div className="mx-auto max-w-6xl px-6">
           <SectionHead
             eyebrow="Inside the device"
-            title="Two apps do the work."
+            title={fiscal ? "Two apps do the work." : "The payment app does the work."}
             sub="No phone, no laptop, no extra box – the device works standalone."
           />
-          <div className="mt-11 grid gap-4 md:grid-cols-2">
+          <div className={`mt-11 grid gap-4 ${fiscal ? "md:grid-cols-2" : "mx-auto max-w-xl"}`}>
             <Reveal className="h-full">
               <div className="h-full rounded-3xl border border-line bg-white p-7">
                 <span className="grid size-12 place-items-center rounded-xl bg-brand-tint">
@@ -175,20 +189,22 @@ export default function ProductPage() {
                 </p>
               </div>
             </Reveal>
-            <Reveal delay={100} className="h-full">
-              <div className="h-full rounded-3xl border border-line bg-white p-7">
-                <span className="grid size-12 place-items-center rounded-xl bg-brand-tint">
-                  <svg viewBox="0 0 24 24" className="size-6 stroke-brand" fill="none" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                    <path d="M7 3h10v18l-2.5-1.5L12 21l-2.5-1.5L7 21V3Zm3 5h4m-4 4h4" />
-                  </svg>
-                </span>
-                <h3 className="mt-5 font-display text-[20px] font-semibold tracking-tight">Fiscal app</h3>
-                <p className="mt-2 text-[14.5px] leading-relaxed text-ink-2">
-                  A certified fiscal register on the device: fiscal receipts,
-                  Z-reports, market-by-market certification.
-                </p>
-              </div>
-            </Reveal>
+            {fiscal && (
+              <Reveal delay={100} className="h-full">
+                <div className="h-full rounded-3xl border border-line bg-white p-7">
+                  <span className="grid size-12 place-items-center rounded-xl bg-brand-tint">
+                    <svg viewBox="0 0 24 24" className="size-6 stroke-brand" fill="none" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                      <path d="M7 3h10v18l-2.5-1.5L12 21l-2.5-1.5L7 21V3Zm3 5h4m-4 4h4" />
+                    </svg>
+                  </span>
+                  <h3 className="mt-5 font-display text-[20px] font-semibold tracking-tight">Fiscal app</h3>
+                  <p className="mt-2 text-[14.5px] leading-relaxed text-ink-2">
+                    A certified fiscal register on the device: fiscal receipts,
+                    Z-reports, market-by-market certification.
+                  </p>
+                </div>
+              </Reveal>
+            )}
           </div>
         </div>
       </section>
@@ -238,7 +254,8 @@ export default function ProductPage() {
 
       {/* 7 · cashbox story + 8 · click */}
       <section className="py-24">
-        <div className="mx-auto grid max-w-6xl gap-4 px-6 md:grid-cols-2">
+        <div className={`mx-auto grid gap-4 px-6 ${fiscal ? "max-w-6xl md:grid-cols-2" : "max-w-3xl"}`}>
+          {fiscal && (
           <Reveal className="h-full">
             <div className="flex h-full flex-col rounded-3xl border border-line bg-white p-8">
               <span className="eyebrow">Cashbox</span>
@@ -261,6 +278,7 @@ export default function ProductPage() {
               </div>
             </div>
           </Reveal>
+          )}
           <Reveal delay={100} className="h-full">
             <div className="relative flex h-full flex-col overflow-hidden rounded-3xl bg-gradient-to-br from-night-2 to-night p-8 text-white">
               <div className="pointer-events-none absolute -right-10 -bottom-10 size-44 rounded-full bg-[radial-gradient(circle,rgba(90,25,181,0.55),transparent_70%)]" />
@@ -298,22 +316,26 @@ export default function ProductPage() {
           <div className="mx-auto mt-10 grid max-w-185 gap-4 sm:grid-cols-2">
             <Reveal className="h-full">
               <div className="flex h-full flex-col rounded-3xl bg-white p-7 shadow-sm shadow-black/3">
-                <span className="text-3xl">🇲🇹</span>
-                <h3 className="mt-4 font-display text-[20px] font-semibold tracking-tight">Malta – live today</h3>
+                <span className="text-3xl">{country.flag}</span>
+                <h3 className="mt-4 font-display text-[20px] font-semibold tracking-tight">
+                  {complianceCopy[country.code].title}
+                </h3>
                 <p className="mt-1.5 text-[14.5px] leading-relaxed text-ink-2">
-                  Certified fiscal device, merchants on the counter now.
+                  {complianceCopy[country.code].text}
                 </p>
               </div>
             </Reveal>
             <Reveal delay={100} className="h-full">
               <Link href="/es" className="group flex h-full flex-col rounded-3xl bg-white p-7 shadow-sm shadow-black/3 transition-transform duration-300 hover:-translate-y-1">
-                <span className="text-3xl">🇪🇸</span>
+                <span className="text-3xl">{country.code === "es" ? "📋" : "🇪🇸"}</span>
                 <h3 className="mt-4 flex items-center justify-between font-display text-[20px] font-semibold tracking-tight">
-                  Spain – Verifactu-ready for 2027
+                  {country.code === "es" ? "Verifactu, explained" : "Selling in Spain? Verifactu 2027"}
                   <span className="text-brand transition-transform duration-300 group-hover:translate-x-1">→</span>
                 </h3>
                 <p className="mt-1.5 text-[14.5px] leading-relaxed text-ink-2">
-                  Getting ready ahead of the deadline? Start here.
+                  {country.code === "es"
+                    ? "What changes in 2027 and how the device keeps you compliant."
+                    : "Getting ready ahead of the deadline? Start here."}
                 </p>
               </Link>
             </Reveal>
