@@ -1,5 +1,11 @@
 import type { Lang } from "./countries";
 
+/* Pick the copy for the active language. Product names (SmartOne …, Merchant
+   Portal, Click, Verifactu, T+1) are never translated. */
+export function tr<T>(lang: Lang, en: T, es: T): T {
+  return lang === "es" ? es : en;
+}
+
 /* Lightweight UI dictionary for the persistent chrome (nav, footer) and the
    country picker. Marketing page bodies remain in English until localised
    copy is provided – this covers the surfaces that are always on screen and

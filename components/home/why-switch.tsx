@@ -2,28 +2,25 @@ import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 import { LogoMark } from "@/components/logo";
 import { TurnoverCalculator } from "@/components/pricing/turnover-calculator";
+import { getActiveLang } from "@/lib/country-server";
+import { tr } from "@/lib/dictionaries";
 
-/* Three switch triggers, visual-first: a mini receipt, a settle-to-your-bank
-   flow, and a T+1 timeline – one line of copy each. */
-
-function FeeVisual() {
+function FeeVisual({ sale, fee }: { sale: string; fee: string }) {
   return (
     <div className="rounded-2xl bg-bg-2 p-4 font-mono text-[13px]">
       <div className="flex items-baseline justify-between">
-        <span className="text-ink-3">Sale</span>
+        <span className="text-ink-3">{sale}</span>
         <span className="text-ink-2">€24.60</span>
       </div>
       <div className="mt-2 flex items-baseline justify-between border-t border-dashed border-line-2 pt-2">
-        <span className="text-ink-3">Fee</span>
-        <b className="fee-pulse -mx-1.5 inline-block rounded-md px-1.5 font-semibold text-brand">
-          −€0.24
-        </b>
+        <span className="text-ink-3">{fee}</span>
+        <b className="fee-pulse -mx-1.5 inline-block rounded-md px-1.5 font-semibold text-brand">−€0.24</b>
       </div>
     </div>
   );
 }
 
-function BankVisual() {
+function BankVisual({ bank }: { bank: string }) {
   return (
     <div className="flex items-center gap-3 rounded-2xl bg-bg-2 p-4">
       <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-brand">
@@ -31,25 +28,21 @@ function BankVisual() {
       </span>
       <span
         className="dash-line relative h-0.5 flex-1"
-        style={{
-          backgroundImage:
-            "repeating-linear-gradient(90deg, var(--color-line-2) 0 6px, transparent 6px 12px)",
-        }}
+        style={{ backgroundImage: "repeating-linear-gradient(90deg, var(--color-line-2) 0 6px, transparent 6px 12px)" }}
       >
-        {/* the payment travelling to the bank */}
         <span className="dot-travel absolute -top-[3px] left-0 hidden size-2 rounded-full bg-brand motion-safe:block" />
       </span>
       <span className="flex shrink-0 items-center gap-2 rounded-xl border border-line bg-white px-3 py-2.5">
         <svg viewBox="0 0 24 24" className="size-4.5 stroke-ink" fill="none" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
           <path d="M3 10l9-6 9 6M5 10v8m4.5-8v8m5-8v8M19 10v8M3 20h18" />
         </svg>
-        <span className="text-[12.5px] font-semibold">Your bank</span>
+        <span className="text-[12.5px] font-semibold">{bank}</span>
       </span>
     </div>
   );
 }
 
-function TplusOneVisual() {
+function TplusOneVisual({ sold, paid }: { sold: string; paid: string }) {
   return (
     <div className="rounded-2xl bg-bg-2 p-4">
       <div className="flex items-center gap-2">
@@ -60,69 +53,89 @@ function TplusOneVisual() {
         <span className="tline-dot size-2.5 shrink-0 rounded-full bg-brand ring-4 ring-brand/20" />
       </div>
       <div className="mt-2.5 flex items-baseline justify-between font-mono text-[12px]">
-        <span className="text-ink-3">Sold · Mon</span>
-        <b className="font-semibold text-brand">Paid · Tue</b>
+        <span className="text-ink-3">{sold}</span>
+        <b className="font-semibold text-brand">{paid}</b>
       </div>
     </div>
   );
 }
 
-const triggers = [
-  {
-    title: "Clear fees",
-    text: "The rate you signed up for is the rate you pay.",
-    visual: <FeeVisual />,
-  },
-  {
-    title: "Keep your own bank",
-    text: "Payouts land in the account you already have.",
-    visual: <BankVisual />,
-  },
-  {
-    title: "Your money, next business day",
-    text: "Paid out T+1, not day three or four.",
-    visual: <TplusOneVisual />,
-  },
-];
+export async function WhySwitch() {
+  const lang = await getActiveLang();
+  const c = tr(
+    lang,
+    {
+      eyebrow: "Why merchants switch",
+      title: "Cheaper, safer, faster – and you keep your own bank.",
+      sale: "Sale",
+      fee: "Fee",
+      bank: "Your bank",
+      sold: "Sold · Mon",
+      paid: "Paid · Tue",
+      calcEyebrow: "See what you'll pay",
+      calcTitle: "One clear rate – and it drops as you grow.",
+      calcLink: "Full pricing & FAQ →",
+      triggers: [
+        { title: "Clear fees", text: "The rate you signed up for is the rate you pay." },
+        { title: "Keep your own bank", text: "Payouts land in the account you already have." },
+        { title: "Your money, next business day", text: "Paid out T+1, not day three or four." },
+      ],
+    },
+    {
+      eyebrow: "Por qué los negocios se cambian",
+      title: "Más barato, más seguro, más rápido, y mantienes tu propio banco.",
+      sale: "Venta",
+      fee: "Comisión",
+      bank: "Tu banco",
+      sold: "Vendido · lun",
+      paid: "Pagado · mar",
+      calcEyebrow: "Mira lo que pagarás",
+      calcTitle: "Una tarifa clara, que baja a medida que creces.",
+      calcLink: "Precios completos y FAQ →",
+      triggers: [
+        { title: "Comisiones claras", text: "La tarifa que firmaste es la que pagas." },
+        { title: "Mantén tu propio banco", text: "Los pagos llegan a la cuenta que ya tienes." },
+        { title: "Tu dinero al día hábil siguiente", text: "Abonado en T+1, no al tercer o cuarto día." },
+      ],
+    },
+  );
 
-export function WhySwitch() {
+  const visuals = [
+    <FeeVisual key="fee" sale={c.sale} fee={c.fee} />,
+    <BankVisual key="bank" bank={c.bank} />,
+    <TplusOneVisual key="t1" sold={c.sold} paid={c.paid} />,
+  ];
+
   return (
     <section className="bg-bg-2 py-24">
       <div className="mx-auto max-w-6xl px-6">
         <Reveal>
           <div className="max-w-165">
-            <span className="eyebrow">Why merchants switch</span>
-            <h2 className="h-display mt-4 text-[clamp(30px,4vw,48px)] leading-[1.06]">
-              Cheaper, safer, faster – and you keep your own bank.
-            </h2>
+            <span className="eyebrow">{c.eyebrow}</span>
+            <h2 className="h-display mt-4 text-[clamp(30px,4vw,48px)] leading-[1.06]">{c.title}</h2>
           </div>
         </Reveal>
         <div className="mt-11 grid gap-4 md:grid-cols-3">
-          {triggers.map((t, i) => (
+          {c.triggers.map((t, i) => (
             <Reveal key={t.title} delay={i * 90} className="h-full">
               <div className="flex h-full flex-col rounded-3xl bg-white p-6 shadow-sm shadow-black/3 transition-transform duration-300 hover:-translate-y-1">
-                {t.visual}
-                <h3 className="mt-5 font-display text-lg font-semibold tracking-tight">
-                  {t.title}
-                </h3>
+                {visuals[i]}
+                <h3 className="mt-5 font-display text-lg font-semibold tracking-tight">{t.title}</h3>
                 <p className="mt-1.5 text-[14.5px] leading-relaxed text-ink-2">{t.text}</p>
               </div>
             </Reveal>
           ))}
         </div>
 
-        {/* live pricing calculator – makes "cheaper" concrete */}
         <div className="mt-18 border-t border-line-2 pt-16">
           <Reveal>
             <div className="mb-7 flex flex-wrap items-end justify-between gap-5">
               <div>
-                <span className="eyebrow">See what you&apos;ll pay</span>
-                <h3 className="h-display mt-3 text-2xl">
-                  One clear rate – and it drops as you grow.
-                </h3>
+                <span className="eyebrow">{c.calcEyebrow}</span>
+                <h3 className="h-display mt-3 text-2xl">{c.calcTitle}</h3>
               </div>
               <Link href="/pricing" className="btn-ghost px-6 py-2.5">
-                Full pricing &amp; FAQ →
+                {c.calcLink}
               </Link>
             </div>
           </Reveal>

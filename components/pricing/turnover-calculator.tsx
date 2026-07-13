@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useCountry } from "@/components/country/country-context";
+import { tr } from "@/lib/dictionaries";
+import type { Lang } from "@/lib/countries";
 
 /* Interactive pricing by monthly card turnover. Bands match the pricing
    page: ≤ €4,000/mo Getting Started, ≤ €15,000/mo Up & Running, above that
@@ -22,32 +24,44 @@ type Tier = {
   cta: string;
 };
 
-function tierFor(turnover: number, fiscal: boolean): Tier {
+function tierFor(turnover: number, fiscal: boolean, lang: Lang): Tier {
   if (turnover <= 4000) {
     return {
-      name: "Getting Started",
+      name: tr(lang, "Getting Started", "Para empezar"),
       rate: 1.65,
-      blurb: fiscal
-        ? "Everything included: certified cash register, card terminal, receipt printer and the Merchant Portal. No monthly software fee."
-        : "Everything included: card terminal, receipt printer and the Merchant Portal. No monthly software fee.",
-      cta: "Get a terminal →",
+      blurb: tr(
+        lang,
+        fiscal
+          ? "Everything included: certified cash register, payment terminal and the Merchant Portal. No monthly software fee."
+          : "Everything included: payment terminal and the Merchant Portal. No monthly software fee.",
+        fiscal
+          ? "Todo incluido: caja registradora certificada, terminal de pago y el Merchant Portal. Sin cuota mensual de software."
+          : "Todo incluido: terminal de pago y el Merchant Portal. Sin cuota mensual de software.",
+      ),
+      cta: tr(lang, "Get a terminal →", "Solicita tu terminal →"),
     };
   }
   if (turnover <= TOP) {
     return {
-      name: "Up & Running",
+      name: tr(lang, "Up & Running", "En marcha"),
       rate: 1.0,
-      blurb:
+      blurb: tr(
+        lang,
         "Same full stack, lower rate – your commission drops as your turnover grows. Everything stays included.",
-      cta: "Get a terminal →",
+        "El mismo conjunto completo, tarifa más baja: tu comisión baja a medida que creces. Todo sigue incluido.",
+      ),
+      cta: tr(lang, "Get a terminal →", "Solicita tu terminal →"),
     };
   }
   return {
-    name: "Custom",
+    name: tr(lang, "Custom", "Personalizado"),
     rate: null,
-    blurb:
+    blurb: tr(
+      lang,
       "You're in our top band – tell us about your business and we'll confirm your exact rate within one business day.",
-    cta: "Contact sales →",
+      "Estás en nuestro tramo más alto: cuéntanos sobre tu negocio y confirmamos tu tarifa exacta en un día hábil.",
+    ),
+    cta: tr(lang, "Contact sales →", "Contactar con ventas →"),
   };
 }
 
@@ -85,8 +99,35 @@ function useTween(target: number, ms = 320) {
 const PROVIDER_EFFECTIVE_RATE = 1.6;
 
 export function TurnoverCalculator({ compare = false }: { compare?: boolean }) {
-  const { country } = useCountry();
+  const { country, lang } = useCountry();
   const sym = country.currencySymbol;
+  const c = tr(
+    lang,
+    {
+      turnover: "Your card turnover per month",
+      month: "/ month",
+      unsure: "Not sure about your volume?",
+      talk: "Talk to us →",
+      plan: "Your plan",
+      lets: "Let's talk",
+      perTx: "/ transaction",
+      commA: "commission per month – clear fees, visible in your portal.",
+      illus: "Illustrative rate for",
+      full: "See full pricing →",
+    },
+    {
+      turnover: "Tu facturación con tarjeta al mes",
+      month: "/ mes",
+      unsure: "¿No sabes tu volumen?",
+      talk: "Habla con nosotros →",
+      plan: "Tu plan",
+      lets: "Hablemos",
+      perTx: "/ operación",
+      commA: "de comisión al mes: comisiones claras, visibles en tu portal.",
+      illus: "Tarifa ilustrativa para",
+      full: "Ver precios completos →",
+    },
+  );
   const locale = country.currency === "GBP" ? "en-GB" : "en-IE";
   const eur = useMemo(
     () =>
@@ -111,7 +152,7 @@ export function TurnoverCalculator({ compare = false }: { compare?: boolean }) {
   const [index, setIndex] = useState(17); // ~mid-band by default – near the tier edge
 
   const turnover = STOPS[index];
-  const tier = tierFor(turnover, country.fiscal);
+  const tier = tierFor(turnover, country.fiscal, lang);
   const pct = (index / (STOPS.length - 1)) * 100;
 
   // tween the big numbers; the ">€15,000" stop freezes at the last finite value
@@ -131,13 +172,11 @@ export function TurnoverCalculator({ compare = false }: { compare?: boolean }) {
     <div className="grid gap-4 lg:grid-cols-2">
       {/* left: the slider */}
       <div className="flex flex-col rounded-3xl border border-line bg-white p-8">
-        <h2 className="text-sm font-semibold text-ink-2">
-          Your card turnover per month
-        </h2>
+        <h2 className="text-sm font-semibold text-ink-2">{c.turnover}</h2>
         <div className="h-display mt-3 mb-9 text-[clamp(32px,3vw,42px)] leading-none tabular-nums">
           {label}
           <span className="ml-2 align-middle text-[15px] font-normal tracking-normal text-ink-3">
-            / month
+            {c.month}
           </span>
         </div>
         <input
@@ -176,9 +215,9 @@ export function TurnoverCalculator({ compare = false }: { compare?: boolean }) {
           </div>
         )}
         <div className="mt-auto flex flex-wrap items-center justify-between gap-2 border-t border-line pt-5 text-sm text-ink-3">
-          <span>Not sure about your volume?</span>
+          <span>{c.unsure}</span>
           <Link href="/contact" className="font-semibold text-ink hover:text-brand">
-            Talk to us →
+            {c.talk}
           </Link>
         </div>
       </div>
@@ -191,19 +230,19 @@ export function TurnoverCalculator({ compare = false }: { compare?: boolean }) {
         <div className="h-full rounded-3xl bg-white p-8 shadow-[0_0_0_2px_var(--color-brand),0_24px_48px_-32px_rgba(90,25,181,0.5)]">
           <div key={tier.name} className="anim-tier-in flex h-full flex-col">
             <h2 className="flex items-center justify-between text-sm font-semibold text-ink-2">
-              Your plan
+              {c.plan}
               <span className="anim-badge-pop rounded-full bg-brand px-3 py-1 text-[11px] font-semibold tracking-wide text-white uppercase">
                 {tier.name}
               </span>
             </h2>
             <div className="h-display mt-3 text-[clamp(32px,3vw,42px)] leading-none">
               {tier.rate === null ? (
-                "Let's talk"
+                c.lets
               ) : (
                 <>
                   {tier.rate.toFixed(2)}%
                   <span className="ml-2 align-middle text-[15px] font-normal tracking-normal text-ink-3">
-                    + {sym}0.02 / transaction
+                    + {sym}0.02 {c.perTx}
                   </span>
                 </>
               )}
@@ -217,7 +256,7 @@ export function TurnoverCalculator({ compare = false }: { compare?: boolean }) {
                   <b className="text-ink tabular-nums">
                     {eurCents.format(shownCommission)}
                   </b>{" "}
-                  commission per month – clear fees, visible in your portal.
+                  {c.commA}
                 </p>
               )}
             </div>
@@ -235,9 +274,9 @@ export function TurnoverCalculator({ compare = false }: { compare?: boolean }) {
               {tier.cta}
             </Link>
             <p className="mt-5 text-[12.5px] leading-relaxed text-ink-3">
-              Illustrative rate for {country.name}.{" "}
+              {c.illus} {country.name}.{" "}
               <Link href="/pricing" className="font-semibold text-ink hover:text-brand">
-                See full pricing →
+                {c.full}
               </Link>
             </p>
           </div>
