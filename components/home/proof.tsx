@@ -8,7 +8,9 @@ import { tr } from "@/lib/dictionaries";
    launch: the brand guardrail is real merchants only, no fabricated
    testimonials. Deliberately no names or faces until then. */
 
-export const SHOW_PROOF = true;
+/* Hidden for now (kept, not deleted) – re-enable once we have real customer
+   stories to show. The header/footer "Case studies" links are hidden too. */
+export const SHOW_PROOF = false;
 
 const imgs = [
   { img: "/proof/shop.jpg" },

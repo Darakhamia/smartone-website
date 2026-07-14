@@ -10,43 +10,35 @@ export async function SiteFooter() {
   const l = tr(
     lang,
     {
-      retail: "Retail",
+      paymentsFiscal: "Payments & Fiscal",
       horeca: "HoReCa",
       cardReader: "Card reader",
       cashRegister: "Cash register",
-      overview: "Overview",
-      moneyReports: "Money & reports",
+      whatIs: "What it is",
       login: "Log in",
-      clickOrdering: "Click ordering",
-      dualScreen: "Dual-screen Pro S",
-      cafes: "Cafés & restaurants",
+      pricing: "Pricing",
       about: "About",
-      cases: "Case studies",
       industries: "Industries",
       contact: "Contact",
     },
     {
-      retail: "Retail",
+      paymentsFiscal: "Pagos y fiscal",
       horeca: "HoReCa",
       cardReader: "Datáfono",
       cashRegister: "Caja registradora",
-      overview: "Resumen",
-      moneyReports: "Dinero e informes",
+      whatIs: "Qué es",
       login: "Iniciar sesión",
-      clickOrdering: "Pedidos Click",
-      dualScreen: "Doble pantalla Pro S",
-      cafes: "Cafeterías y restaurantes",
+      pricing: "Precios",
       about: "Nosotros",
-      cases: "Casos de éxito",
       industries: "Sectores",
       contact: "Contacto",
     },
   );
 
-  // Mirrors the header's Product mega-menu: Retail, Merchant Portal, HoReCa.
+  // Mirrors the header's Product mega-menu: Payments & Fiscal, Merchant Portal, HoReCa.
   const columns = [
     {
-      title: l.retail,
+      title: l.paymentsFiscal,
       links: [
         { href: "/product/terminals", label: l.cardReader },
         { href: "/product/cash-register", label: l.cashRegister },
@@ -56,25 +48,20 @@ export async function SiteFooter() {
     {
       title: "Merchant Portal",
       links: [
-        { href: "/merchant-portal", label: l.overview },
-        { href: "/merchant-portal", label: l.moneyReports },
+        { href: "/merchant-portal", label: l.whatIs },
         { href: "/login", label: l.login },
       ],
     },
     {
       title: l.horeca,
-      links: [
-        { href: "/click", label: l.clickOrdering },
-        { href: "/product/terminals", label: l.dualScreen },
-        { href: "/industries", label: l.cafes },
-      ],
+      links: [{ href: "/click", label: "Click" }],
     },
     {
       title: t.company,
       links: [
         { href: "/about", label: l.about },
-        { href: "/case-studies", label: l.cases },
         { href: "/industries", label: l.industries },
+        { href: "/pricing", label: l.pricing },
         { href: "/contact", label: l.contact },
       ],
     },

@@ -71,11 +71,14 @@ function copyFor(lang: Lang) {
 
 type Copy = ReturnType<typeof copyFor>;
 
-function recommend(a: number[], country: Country, c: Copy): { device: string; compact: boolean; note: string; market: string } {
+function recommend(a: number[], country: Country, c: Copy): { device: string; dual: boolean; note: string; market: string } {
   const mobile = a[0] === 1;
   const busy = a[1] === 0;
-  const compact = mobile || !busy;
-  const device = compact ? "SmartOne Bank" : "SmartOne Bank Pro";
+  // Two models: SmartOne Bank Pro (6″) and the dual-screen Pro S. A fixed
+  // counter benefits from the customer-facing screen; Spain uses no
+  // dual-screen configs, so it always gets the Bank Pro.
+  const dual = !mobile && country.code !== "es";
+  const device = dual ? "SmartOne Pro S" : "SmartOne Bank Pro";
   const note = mobile ? c.notes.mobile : busy ? c.notes.busy : c.notes.counter;
   const market =
     country.code === "es"
@@ -83,7 +86,7 @@ function recommend(a: number[], country: Country, c: Copy): { device: string; co
       : !country.fiscal
         ? c.market.noFiscal(country.name)
         : c.market.fiscal(country.name);
-  return { device, compact, note, market };
+  return { device, dual, note, market };
 }
 
 export function DeviceChooser() {
@@ -144,7 +147,7 @@ export function DeviceChooser() {
             return (
               <div className="grid items-center gap-7 sm:grid-cols-[0.85fr_1fr]">
                 <div className="grid h-52 place-items-center rounded-2xl bg-gradient-to-br from-brand-tint via-bg-2 to-bg-2">
-                  <Terminal compact={r.compact} />
+                  <Terminal compact={false} dual={r.dual} />
                 </div>
                 <div>
                   <span className="anim-badge-pop inline-block rounded-full bg-brand px-3.5 py-1 text-[11px] font-semibold tracking-wide text-white uppercase">

@@ -22,13 +22,12 @@ export function Brand({ light = false }: { light?: boolean }) {
   );
 }
 
-/* Product mega-menu, mirrored in the footer. Three columns by use case:
-   – Retail: the card reader (terminals), the certified cash register and
-     Tap to Phone (coming soon);
-   – Merchant Portal: manage payments, payouts and reports;
-   – HoReCa: Click ordering, the dual-screen checkout and the café setups. */
+/* Full-width Product mega-menu, mirrored in the footer. Three groups:
+   – Payments & Fiscal: the card reader (terminals), the certified cash
+     register and Tap to Phone (coming soon);
+   – Merchant Portal: what it is, plus a log-in;
+   – HoReCa: Click, the restaurant ordering system. */
 type MegaItem = { label: string; sub: string; href: string; icon: React.ReactNode };
-type MegaCol = { title: string; items: MegaItem[] };
 
 const cardReaderIcon = (
   <>
@@ -44,49 +43,42 @@ const tapToPhoneIcon = (
   </>
 );
 const portalIcon = <path d="M4 20V10M9 20V4M14 20v-7M19 20V8" />;
-const reportsIcon = (
-  <>
-    <path d="M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" />
-    <path d="M9 8h6M9 12h6M9 16h3" />
-  </>
-);
-const loginIcon = <path d="M15 3h3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-3M10 17l5-5-5-5M15 12H3" />;
 const clickIcon = <path d="M6 3v6a2 2 0 0 0 4 0V3M8 9v12M16 3c-1.5 0-2.5 2-2.5 5s1 4 2.5 4v9" />;
-const dualIcon = (
-  <>
-    <rect x="3" y="5" width="12" height="13" rx="2" />
-    <rect x="14" y="9" width="7" height="10" rx="1.5" />
-  </>
-);
-const cafeIcon = <path d="M5 8h11v5a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4V8Zm11 1h2.5a2.5 2.5 0 0 1 0 5H16M8 3v2m3-2v2" />;
 
-function productNav(lang: Lang): MegaCol[] {
-  return [
-    {
-      title: "Retail",
+function productMenu(lang: Lang) {
+  return {
+    fiscal: {
+      title: tr(lang, "Payments & Fiscal", "Pagos y fiscal"),
+      desc: tr(lang, "Take payment and stay compliant on one device.", "Cobra y cumple la normativa en un solo dispositivo."),
       items: [
-        { label: tr(lang, "Card reader", "Datáfono"), sub: tr(lang, "Bank & Bank Pro", "Bank y Bank Pro"), href: "/product/terminals", icon: cardReaderIcon },
+        { label: tr(lang, "Card reader", "Datáfono"), sub: tr(lang, "Bank Pro & Pro S terminals", "Terminales Bank Pro y Pro S"), href: "/product/terminals", icon: cardReaderIcon },
         { label: tr(lang, "Cash register", "Caja registradora"), sub: tr(lang, "Certified fiscal till", "Caja fiscal certificada"), href: "/product/cash-register", icon: cashRegisterIcon },
         { label: "Tap to Phone", sub: tr(lang, "Coming soon", "Muy pronto"), href: "/product/tap-to-phone", icon: tapToPhoneIcon },
-      ],
+      ] as MegaItem[],
     },
-    {
+    portal: {
       title: "Merchant Portal",
-      items: [
-        { label: tr(lang, "Overview", "Resumen"), sub: tr(lang, "Payments & payouts", "Pagos y liquidaciones"), href: "/merchant-portal", icon: portalIcon },
-        { label: tr(lang, "Money & reports", "Dinero e informes"), sub: tr(lang, "Know your numbers", "Conoce tus cifras"), href: "/merchant-portal", icon: reportsIcon },
-        { label: tr(lang, "Log in", "Iniciar sesión"), sub: tr(lang, "Open the portal", "Abrir el portal"), href: "/login", icon: loginIcon },
-      ],
+      desc: tr(lang, "Manage the money side of your business.", "Gestiona la parte financiera de tu negocio."),
+      whatIs: { label: tr(lang, "What is the Merchant Portal", "Qué es el Merchant Portal"), sub: tr(lang, "Payments, payouts & reports", "Pagos, liquidaciones e informes"), href: "/merchant-portal", icon: portalIcon } as MegaItem,
+      login: tr(lang, "Log in to the portal", "Entrar al portal"),
     },
-    {
+    horeca: {
       title: "HoReCa",
-      items: [
-        { label: tr(lang, "Click ordering", "Pedidos Click"), sub: tr(lang, "Orders to the register", "Pedidos a la caja"), href: "/click", icon: clickIcon },
-        { label: tr(lang, "Dual-screen checkout", "Doble pantalla"), sub: "SmartOne Pro S", href: "/product/terminals", icon: dualIcon },
-        { label: tr(lang, "Cafés & restaurants", "Cafeterías y restaurantes"), sub: tr(lang, "See HoReCa setups", "Ver montajes HoReCa"), href: "/industries", icon: cafeIcon },
-      ],
+      desc: tr(lang, "For cafés, bars and restaurants.", "Para cafeterías, bares y restaurantes."),
+      clickTitle: "Click",
+      clickSub: tr(lang, "Orders straight to the register – one catalogue, one flow.", "Pedidos directos a la caja: un catálogo, un flujo."),
+      explore: tr(lang, "Explore Click", "Descubrir Click"),
     },
-  ];
+  };
+}
+
+function ColHeader({ title, desc }: { title: string; desc: string }) {
+  return (
+    <div className="px-2.5">
+      <p className="text-[11px] font-semibold tracking-[0.08em] text-brand uppercase">{title}</p>
+      <p className="mt-1 text-[12.5px] leading-snug text-ink-3">{desc}</p>
+    </div>
+  );
 }
 
 function MenuIcon({ children }: { children: React.ReactNode }) {
@@ -121,7 +113,7 @@ export function SiteNav() {
   const pathname = usePathname();
   const { lang } = useCountry();
   const t = DICT[lang];
-  const pm = productNav(lang);
+  const pm = productMenu(lang);
 
   // The country picker is a full-screen splash – no nav there.
   if (pathname === "/welcome") return null;
@@ -130,28 +122,32 @@ export function SiteNav() {
     { href: "/pricing", label: t.nav.pricing },
     { href: "/industries", label: t.nav.industries },
     { href: "/about", label: t.nav.about },
-    { href: "/case-studies", label: t.nav.cases },
   ];
 
-  // flattened + de-duplicated by destination for the mobile menu
-  const allProduct = Array.from(
-    new Map(pm.flatMap((col) => col.items).map((it) => [it.href, it])).values(),
-  );
+  // flat list of product destinations for the mobile menu
+  const mobileProduct = [
+    ...pm.fiscal.items.map((i) => ({ href: i.href, label: i.label })),
+    { href: pm.portal.whatIs.href, label: pm.portal.whatIs.label },
+    { href: "/login", label: pm.portal.login },
+    { href: "/click", label: "Click" },
+  ];
+
+  const closeMenu = () => setMenu(false);
 
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-white/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-6xl items-center gap-7 px-6">
         <Brand />
         <nav className="hidden items-center gap-6 lg:flex">
-          {/* Product · mega-menu */}
+          {/* Product · full-width mega-menu */}
           <div
-            className="relative"
+            className="relative flex h-16 items-center"
             onMouseEnter={() => setMenu(true)}
             onMouseLeave={() => setMenu(false)}
           >
             <Link
               href="/product"
-              onClick={() => setMenu(false)}
+              onClick={closeMenu}
               className="flex items-center gap-1 text-[14.5px] font-medium text-ink-2 transition-colors hover:text-ink"
               aria-expanded={menu}
             >
@@ -161,21 +157,55 @@ export function SiteNav() {
               </svg>
             </Link>
             {menu && (
-              <div className="absolute left-0 top-full z-50 pt-4">
-                <div className="anim-fade-up w-[720px] overflow-hidden rounded-2xl border border-line bg-white shadow-[0_28px_56px_-24px_rgba(29,29,31,0.35)]">
-                  <div className="grid grid-cols-3">
-                    {pm.map((col, ci) => (
-                      <div key={col.title} className={`p-3 ${ci > 0 ? "border-l border-line" : ""}`}>
-                        <p className="px-2.5 pb-1.5 pt-1 text-[11px] font-semibold tracking-[0.08em] text-ink-3 uppercase">
-                          {col.title}
-                        </p>
-                        <div className="space-y-0.5">
-                          {col.items.map((it) => (
-                            <MegaLink key={it.label} it={it} onClick={() => setMenu(false)} />
-                          ))}
-                        </div>
-                      </div>
-                    ))}
+              <div className="fixed inset-x-0 top-16 z-50 border-b border-line bg-white shadow-[0_28px_56px_-24px_rgba(29,29,31,0.35)]">
+                <div className="anim-fade-up mx-auto grid max-w-6xl gap-6 px-6 py-8 md:grid-cols-3">
+                  {/* Payments & Fiscal */}
+                  <div>
+                    <ColHeader title={pm.fiscal.title} desc={pm.fiscal.desc} />
+                    <div className="mt-3 space-y-0.5">
+                      {pm.fiscal.items.map((it) => (
+                        <MegaLink key={it.href} it={it} onClick={closeMenu} />
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Merchant Portal */}
+                  <div className="md:border-l md:border-line md:pl-8">
+                    <ColHeader title={pm.portal.title} desc={pm.portal.desc} />
+                    <div className="mt-3 space-y-0.5">
+                      <MegaLink it={pm.portal.whatIs} onClick={closeMenu} />
+                    </div>
+                    <Link
+                      href="/login"
+                      onClick={closeMenu}
+                      className="mt-3 ml-2.5 inline-flex items-center gap-1.5 rounded-full bg-brand px-4 py-2 text-[13px] font-semibold text-white shadow-[0_10px_24px_-14px_rgba(90,25,181,0.7)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-brand-d"
+                    >
+                      {pm.portal.login}
+                      <span aria-hidden>→</span>
+                    </Link>
+                  </div>
+
+                  {/* HoReCa – Click feature card */}
+                  <div className="md:border-l md:border-line md:pl-8">
+                    <ColHeader title={pm.horeca.title} desc={pm.horeca.desc} />
+                    <Link
+                      href="/click"
+                      onClick={closeMenu}
+                      className="group relative mt-3 block overflow-hidden rounded-2xl bg-gradient-to-br from-night-2 to-night p-5 text-white"
+                    >
+                      <div className="pointer-events-none absolute -right-8 -bottom-8 size-28 rounded-full bg-[radial-gradient(circle,rgba(90,25,181,0.6),transparent_70%)]" />
+                      <span className="relative grid size-9 place-items-center rounded-lg bg-white/10 text-brand-l ring-1 ring-white/15">
+                        <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                          {clickIcon}
+                        </svg>
+                      </span>
+                      <h3 className="relative mt-4 font-display text-[17px] font-semibold tracking-tight">{pm.horeca.clickTitle}</h3>
+                      <p className="relative mt-1 text-[12.5px] leading-snug text-white/65">{pm.horeca.clickSub}</p>
+                      <span className="relative mt-3 inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-brand-l">
+                        {pm.horeca.explore}
+                        <span className="transition-transform duration-300 group-hover:translate-x-1" aria-hidden>→</span>
+                      </span>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -218,9 +248,9 @@ export function SiteNav() {
             {t.nav.product}
           </Link>
           <div className="mb-1 grid gap-0.5 pl-1">
-            {allProduct.map((it) => (
+            {mobileProduct.map((it) => (
               <Link
-                key={it.href}
+                key={it.href + it.label}
                 href={it.href}
                 onClick={() => setOpen(false)}
                 className="block py-1.5 text-[14px] font-medium text-ink-2"

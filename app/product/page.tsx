@@ -51,7 +51,7 @@ function copyFor(lang: Lang, fiscal: boolean) {
       toolsTitle: "The software around the counter.",
       explore: "Explore",
       cards: {
-        cardReader: { title: "Card reader", text: "The payment terminal: card, contactless and cash on one screen, printer built in. Bank & Bank Pro." },
+        cardReader: { title: "Card reader", text: "The payment terminal: card, contactless and cash on one screen, printer built in. Bank Pro & the dual-screen Pro S." },
         cashRegister: {
           title: "Cash register",
           text: fiscal
@@ -94,7 +94,7 @@ function copyFor(lang: Lang, fiscal: boolean) {
       toolsTitle: "El software alrededor del mostrador.",
       explore: "Descubrir",
       cards: {
-        cardReader: { title: "Datáfono", text: "El terminal de pago: tarjeta, contactless y efectivo en una pantalla, con impresora integrada. Bank y Bank Pro." },
+        cardReader: { title: "Datáfono", text: "El terminal de pago: tarjeta, contactless y efectivo en una pantalla, con impresora integrada. Bank Pro y el Pro S de doble pantalla." },
         cashRegister: {
           title: "Caja registradora",
           text: fiscal

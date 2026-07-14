@@ -11,7 +11,7 @@ import type { Lang } from "@/lib/countries";
 export const metadata: Metadata = {
   title: "Terminals",
   description:
-    "The SmartOne payment terminal: card, contactless and cash on one device, with the receipt printer built in. Bank Pro, Pro S and Bank.",
+    "The SmartOne payment terminal: card, contactless and cash on one device, with the receipt printer built in. Bank Pro and the dual-screen Pro S.",
 };
 
 const factIcons = [
@@ -39,36 +39,14 @@ function copyFor(lang: Lang) {
       sub: "The SmartOne payment terminal takes every kind of payment on one screen – with the receipt printer built in. Not just a card machine.",
       get: "Get a terminal →",
       seePricing: "See pricing",
-      chip: "Retail & HoReCa",
       lineEyebrow: "The lineup",
-      lineTitle: "Two counter models. One for the move.",
+      lineTitle: "Two models, one platform.",
       lineSub: "Merchant facts, not a spec sheet: it prints, it lasts, it connects – wherever your counter is.",
       lineup: [
         { name: "SmartOne Bank Pro", for: "For the busy counter", text: "The big 6″ screen keeps a queue moving – ring up, tap, receipt out.", dual: false },
         { name: "SmartOne Pro S", for: "Dual-screen checkout", text: "A screen for you and one facing the customer – a smooth, transparent checkout where local law needs it.", dual: true },
       ],
       facts: ["Battery lasts the shift", "SIM + Wi-Fi", "Receipt printer built in"],
-      alsoAvail: ["Also available:", "SmartOne Bank", "– the compact 5″ model for selling on the move."],
-      specEyebrow: "Full specifications",
-      specTitle: "The numbers, in full.",
-      specSub: "SmartOne Pro S shares the Bank Pro platform exactly – it just adds a customer-facing second screen.",
-      specModels: ["Bank Pro", "Pro S", "Bank"],
-      specRows: [
-        { label: "Display", pro: "6″ HD · 1440×720", proS: "6″ HD · 1440×720", bank: "5″ · 854×480" },
-        { label: "Customer display", pro: "—", proS: "Second screen ✓", bank: "—" },
-        { label: "Processor", pro: "Kun T11 · octa-core 2.0 GHz", proS: "Kun T11 · octa-core 2.0 GHz", bank: "Kun T11 · octa-core 2.0 GHz" },
-        { label: "Memory", pro: "2 GB RAM · 16 GB", proS: "2 GB RAM · 16 GB", bank: "1 GB RAM · 8 GB" },
-        { label: "Expandable", pro: "microSD up to 64 GB", proS: "microSD up to 64 GB", bank: "microSD up to 64 GB" },
-        { label: "Operating system", pro: "Android 9.0", proS: "Android 9.0", bank: "Android 9.0" },
-        { label: "Battery", pro: "3000 mAh (5000 opt.)", proS: "3000 mAh (5000 opt.)", bank: "2500 mAh (4000 opt.)" },
-        { label: "Mobile", pro: "4G LTE · 3G · 2G", proS: "4G LTE · 3G · 2G", bank: "4G LTE · 3G · 2G" },
-        { label: "Wireless", pro: "Wi-Fi · Bluetooth · GPS", proS: "Wi-Fi · Bluetooth · GPS", bank: "Wi-Fi · Bluetooth · GPS" },
-        { label: "Printer", pro: "2″ thermal · 58 mm", proS: "2″ thermal · 58 mm", bank: "2″ thermal · 58 mm" },
-        { label: "Camera & scanner", pro: "5 MP + 2 MP · 2D/3D", proS: "5 MP + 2 MP · 2D/3D", bank: "5 MP + 2 MP · 2D/3D" },
-        { label: "Card acceptance", pro: "Magstripe · EMV L1/2 · Contactless", proS: "Magstripe · EMV L1/2 · Contactless", bank: "Magstripe · EMV L1/2 · Contactless" },
-        { label: "Security", pro: "PCI PTS 6.x", proS: "PCI PTS 6.x", bank: "PCI PTS 6.x" },
-        { label: "Dimensions", pro: "225×82 mm", proS: "226×84 mm", bank: "225×82 mm" },
-      ],
       featEyebrow: "Inside the device",
       featTitle: "Everything built in.",
       featSub: "No phone, no laptop, no extra box – the terminal works standalone.",
@@ -82,6 +60,33 @@ function copyFor(lang: Lang) {
       ctaTitle: "Ready to take your first tap?",
       ctaText: "Live in four business days or less.",
       sales: "Contact sales",
+      specEyebrow: "Full specifications",
+      specTitle: "The numbers, in full.",
+      specSub: "Bank Pro and Pro S run one platform. The Pro S adds a customer-facing second screen – everything else is identical.",
+      proSTitle: "SmartOne Pro S",
+      proSText: "Same platform, plus a second customer-facing display for a transparent checkout.",
+      specGroups: [
+        {
+          group: "Display",
+          items: [["Screen", "6″ HD capacitive · 1440×720"], ["Touch", "Multi-touch, safety glass"]],
+        },
+        {
+          group: "Performance",
+          items: [["Processor", "Kun T11 · octa-core · 2.0 GHz"], ["Memory", "2 GB RAM · 16 GB storage"], ["Expandable", "microSD up to 64 GB"], ["Operating system", "Android 9.0"]],
+        },
+        {
+          group: "Power & connectivity",
+          items: [["Battery", "Li-Ion 3000 mAh (5000 optional)"], ["Mobile", "4G LTE · 3G · 2G"], ["Wireless", "Wi-Fi · Bluetooth · GPS"]],
+        },
+        {
+          group: "Payments & printing",
+          items: [["Card acceptance", "Magstripe · Chip & PIN · EMV L1/2 · Contactless"], ["Printer", "Built-in 2″ thermal · 58 mm"], ["Camera & scanner", "5 MP + 2 MP · 2D/3D scanner"]],
+        },
+        {
+          group: "Compliance & build",
+          items: [["Security", "PCI PTS 6.x"], ["Certifications", "RoHS · CE · FCC"], ["Dimensions", "225 × 82 mm"]],
+        },
+      ] as { group: string; items: [string, string][] }[],
     },
     {
       eyebrow: "Pagos y fiscal · Terminales",
@@ -90,36 +95,14 @@ function copyFor(lang: Lang) {
       sub: "El terminal de pago SmartOne acepta todo tipo de pago en una sola pantalla, con la impresora de tickets integrada. No solo un datáfono.",
       get: "Solicita tu terminal →",
       seePricing: "Ver precios",
-      chip: "Retail y HoReCa",
       lineEyebrow: "La gama",
-      lineTitle: "Dos modelos de mostrador. Uno para moverte.",
+      lineTitle: "Dos modelos, una plataforma.",
       lineSub: "Datos útiles, no una ficha técnica: imprime, dura y se conecta, donde esté tu mostrador.",
       lineup: [
         { name: "SmartOne Bank Pro", for: "Para el mostrador con cola", text: "La pantalla grande de 6″ mantiene la cola en movimiento: cobra, tap, ticket fuera.", dual: false },
         { name: "SmartOne Pro S", for: "Cobro con doble pantalla", text: "Una pantalla para ti y otra hacia el cliente: un cobro fluido y transparente donde lo exija la ley local.", dual: true },
       ],
       facts: ["La batería aguanta el turno", "SIM + Wi-Fi", "Impresora de tickets integrada"],
-      alsoAvail: ["También disponible:", "SmartOne Bank", "– el modelo compacto de 5″ para vender en movimiento."],
-      specEyebrow: "Ficha técnica",
-      specTitle: "Los números, al completo.",
-      specSub: "El SmartOne Pro S comparte exactamente la plataforma del Bank Pro: solo añade una segunda pantalla orientada al cliente.",
-      specModels: ["Bank Pro", "Pro S", "Bank"],
-      specRows: [
-        { label: "Pantalla", pro: "6″ HD · 1440×720", proS: "6″ HD · 1440×720", bank: "5″ · 854×480" },
-        { label: "Pantalla de cliente", pro: "—", proS: "Segunda pantalla ✓", bank: "—" },
-        { label: "Procesador", pro: "Kun T11 · octa-core 2.0 GHz", proS: "Kun T11 · octa-core 2.0 GHz", bank: "Kun T11 · octa-core 2.0 GHz" },
-        { label: "Memoria", pro: "2 GB RAM · 16 GB", proS: "2 GB RAM · 16 GB", bank: "1 GB RAM · 8 GB" },
-        { label: "Ampliable", pro: "microSD hasta 64 GB", proS: "microSD hasta 64 GB", bank: "microSD hasta 64 GB" },
-        { label: "Sistema operativo", pro: "Android 9.0", proS: "Android 9.0", bank: "Android 9.0" },
-        { label: "Batería", pro: "3000 mAh (5000 opc.)", proS: "3000 mAh (5000 opc.)", bank: "2500 mAh (4000 opc.)" },
-        { label: "Móvil", pro: "4G LTE · 3G · 2G", proS: "4G LTE · 3G · 2G", bank: "4G LTE · 3G · 2G" },
-        { label: "Inalámbrico", pro: "Wi-Fi · Bluetooth · GPS", proS: "Wi-Fi · Bluetooth · GPS", bank: "Wi-Fi · Bluetooth · GPS" },
-        { label: "Impresora", pro: "Térmica 2″ · 58 mm", proS: "Térmica 2″ · 58 mm", bank: "Térmica 2″ · 58 mm" },
-        { label: "Cámara y escáner", pro: "5 MP + 2 MP · 2D/3D", proS: "5 MP + 2 MP · 2D/3D", bank: "5 MP + 2 MP · 2D/3D" },
-        { label: "Aceptación de tarjetas", pro: "Banda · EMV N1/2 · Contactless", proS: "Banda · EMV N1/2 · Contactless", bank: "Banda · EMV N1/2 · Contactless" },
-        { label: "Seguridad", pro: "PCI PTS 6.x", proS: "PCI PTS 6.x", bank: "PCI PTS 6.x" },
-        { label: "Dimensiones", pro: "225×82 mm", proS: "226×84 mm", bank: "225×82 mm" },
-      ],
       featEyebrow: "Dentro del dispositivo",
       featTitle: "Todo integrado.",
       featSub: "Sin móvil, sin portátil, sin caja extra: el terminal funciona por sí solo.",
@@ -133,6 +116,33 @@ function copyFor(lang: Lang) {
       ctaTitle: "¿Listo para tu primer tap?",
       ctaText: "Operativo en cuatro días hábiles o menos.",
       sales: "Contactar con ventas",
+      specEyebrow: "Ficha técnica",
+      specTitle: "Los números, al completo.",
+      specSub: "Bank Pro y Pro S usan una plataforma. El Pro S añade una segunda pantalla hacia el cliente; todo lo demás es idéntico.",
+      proSTitle: "SmartOne Pro S",
+      proSText: "La misma plataforma, más una segunda pantalla hacia el cliente para un cobro transparente.",
+      specGroups: [
+        {
+          group: "Pantalla",
+          items: [["Pantalla", "6″ HD capacitiva · 1440×720"], ["Táctil", "Multitáctil, cristal de seguridad"]],
+        },
+        {
+          group: "Rendimiento",
+          items: [["Procesador", "Kun T11 · octa-core · 2.0 GHz"], ["Memoria", "2 GB RAM · 16 GB almacenamiento"], ["Ampliable", "microSD hasta 64 GB"], ["Sistema operativo", "Android 9.0"]],
+        },
+        {
+          group: "Energía y conexión",
+          items: [["Batería", "Li-Ion 3000 mAh (5000 opc.)"], ["Móvil", "4G LTE · 3G · 2G"], ["Inalámbrico", "Wi-Fi · Bluetooth · GPS"]],
+        },
+        {
+          group: "Pagos e impresión",
+          items: [["Tarjetas", "Banda · Chip y PIN · EMV N1/2 · Contactless"], ["Impresora", "Térmica 2″ integrada · 58 mm"], ["Cámara y escáner", "5 MP + 2 MP · escáner 2D/3D"]],
+        },
+        {
+          group: "Cumplimiento y construcción",
+          items: [["Seguridad", "PCI PTS 6.x"], ["Certificaciones", "RoHS · CE · FCC"], ["Dimensiones", "225 × 82 mm"]],
+        },
+      ] as { group: string; items: [string, string][] }[],
     },
   );
 }
@@ -200,15 +210,24 @@ export default async function TerminalsPage() {
                 </span>
               ))}
             </div>
-            <p className="mt-4 text-center text-[13px] text-ink-3">
-              {c.alsoAvail[0]} <b className="font-semibold text-ink-2">{c.alsoAvail[1]}</b> {c.alsoAvail[2]}
-            </p>
           </Reveal>
         </div>
       </section>
 
-      {/* 3 · inside the device */}
+      {/* 3 · which device chooser (moved up) */}
       <section className="py-24">
+        <div className="mx-auto max-w-6xl px-6">
+          <SectionHead eyebrow={c.chooserEyebrow} title={c.chooserTitle} center />
+          <Reveal delay={100}>
+            <div className="mt-10">
+              <DeviceChooser />
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* 4 · inside the device */}
+      <section className="bg-bg-2 py-24">
         <div className="mx-auto max-w-6xl px-6">
           <SectionHead eyebrow={c.featEyebrow} title={c.featTitle} sub={c.featSub} />
           <div className="mt-11 grid gap-4 md:grid-cols-3">
@@ -229,61 +248,6 @@ export default async function TerminalsPage() {
         </div>
       </section>
 
-      {/* 3.5 · full specifications */}
-      <section className="py-24">
-        <div className="mx-auto max-w-6xl px-6">
-          <SectionHead eyebrow={c.specEyebrow} title={c.specTitle} sub={c.specSub} />
-          <Reveal>
-            <div className="mt-11 overflow-x-auto rounded-3xl border border-line bg-white shadow-sm shadow-black/3">
-              <table className="w-full min-w-[640px] border-collapse text-left">
-                <thead>
-                  <tr className="border-b border-line">
-                    <th className="w-44 p-4" />
-                    {c.specModels.map((m, i) => (
-                      <th
-                        key={m}
-                        className={`p-4 font-display text-[15px] font-semibold tracking-tight ${i === 1 ? "bg-brand-tint/40 text-brand" : "text-ink"}`}
-                      >
-                        SmartOne {m}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {c.specRows.map((row) => (
-                    <tr key={row.label} className="border-b border-line last:border-0">
-                      <td className="p-4 text-[13px] font-medium text-ink-2">{row.label}</td>
-                      {[row.pro, row.proS, row.bank].map((v, i) => (
-                        <td
-                          key={i}
-                          className={`p-4 font-mono text-[12.5px] ${i === 1 ? "bg-brand-tint/40" : ""} ${
-                            v === "—" ? "text-ink-3" : v.includes("✓") ? "font-semibold text-brand" : "text-ink"
-                          }`}
-                        >
-                          {v}
-                        </td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* 4 · which device chooser */}
-      <section className="bg-bg-2 py-24">
-        <div className="mx-auto max-w-6xl px-6">
-          <SectionHead eyebrow={c.chooserEyebrow} title={c.chooserTitle} center />
-          <Reveal delay={100}>
-            <div className="mt-10">
-              <DeviceChooser />
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
       {/* 5 · CTA */}
       <section className="py-24">
         <div className="mx-auto max-w-6xl px-6">
@@ -297,6 +261,46 @@ export default async function TerminalsPage() {
                   <Link href="/contact" className="btn-light">{c.get}</Link>
                   <Link href="/contact" className="btn-ghost-dark">{c.sales}</Link>
                 </div>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* 6 · full specifications (last block before the footer) */}
+      <section className="bg-bg-2 py-24">
+        <div className="mx-auto max-w-6xl px-6">
+          <SectionHead eyebrow={c.specEyebrow} title={c.specTitle} sub={c.specSub} />
+          <Reveal>
+            <div className="mt-11 rounded-3xl border border-line bg-white p-7 shadow-sm shadow-black/3 sm:p-9">
+              {/* Pro S callout */}
+              <div className="mb-8 flex items-start gap-3.5 rounded-2xl bg-brand-tint p-4 sm:p-5">
+                <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-brand text-white">
+                  <svg viewBox="0 0 24 24" className="size-5.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                    <rect x="3" y="5" width="12" height="13" rx="2" />
+                    <rect x="14" y="9" width="7" height="10" rx="1.5" />
+                  </svg>
+                </span>
+                <div>
+                  <p className="font-display text-[15px] font-semibold tracking-tight text-ink">{c.proSTitle}</p>
+                  <p className="mt-0.5 text-[13.5px] leading-relaxed text-ink-2">{c.proSText}</p>
+                </div>
+              </div>
+
+              <div className="grid gap-x-12 gap-y-9 sm:grid-cols-2">
+                {c.specGroups.map((g) => (
+                  <div key={g.group}>
+                    <h4 className="text-[12px] font-semibold tracking-[0.08em] text-brand uppercase">{g.group}</h4>
+                    <dl className="mt-3 divide-y divide-line">
+                      {g.items.map(([k, v]) => (
+                        <div key={k} className="flex items-baseline justify-between gap-6 py-2.5">
+                          <dt className="text-[13.5px] text-ink-2">{k}</dt>
+                          <dd className="text-right font-mono text-[12.5px] text-ink">{v}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                ))}
               </div>
             </div>
           </Reveal>

@@ -19,9 +19,29 @@ const stepIcons = [
 ];
 
 const featIcons = [
-  <path key="0" d="M4 6h16v13H4zM4 10h16M8 15h4" />,
-  <path key="1" d="M12 2v4m0 12v4M2 12h4m12 0h4M5 5l2.5 2.5M16.5 16.5 19 19M19 5l-2.5 2.5M7.5 16.5 5 19" />,
-  <path key="2" d="M3 7l9 5 9-5-9-5-9 5Zm0 0v10l9 5 9-5V7M12 12v10" />,
+  // QR menu
+  <>
+    <rect x="4" y="4" width="6" height="6" rx="1" />
+    <rect x="14" y="4" width="6" height="6" rx="1" />
+    <rect x="4" y="14" width="6" height="6" rx="1" />
+    <path d="M14 14h2v2M18 14h2v2M14 18h2v2M18 18h2v2" />
+  </>,
+  // kitchen display (KDS)
+  <>
+    <rect x="3" y="4" width="18" height="12" rx="2" />
+    <path d="M8 20h8M12 16v4" />
+  </>,
+  // bookings (calendar)
+  <>
+    <rect x="3" y="5" width="18" height="16" rx="2" />
+    <path d="M3 9h18M8 3v4M16 3v4M8 14h3" />
+  </>,
+  // delivery (van)
+  <path key="d" d="M3 7h11v8H3zM14 10h3.5L21 13v2h-7M7.5 18.5a1.8 1.8 0 1 0 0-3.6 1.8 1.8 0 0 0 0 3.6Zm9 0a1.8 1.8 0 1 0 0-3.6 1.8 1.8 0 0 0 0 3.6Z" />,
+  // loyalty (star)
+  <path key="l" d="M12 3l2.7 5.9 6.3.6-4.8 4.2 1.5 6.3L12 17l-5.7 3 1.5-6.3L3 9.5l6.3-.6L12 3Z" />,
+  // fiscal receipt / register
+  <path key="r" d="M6 2h12v20l-3-2-3 2-3-2-3 2V2Zm3 5h6M9 11h6" />,
 ];
 
 function copyFor(lang: Lang) {
@@ -47,11 +67,15 @@ function copyFor(lang: Lang) {
       demoItems: "2× latte · 1× croissant",
       demoTotal: "€9.60",
       featEyebrow: "Built for hospitality",
-      featTitle: "One catalogue does the work.",
+      featTitle: "A restaurant, automated.",
+      featSub: "One system for the whole floor: ordering, kitchen, bookings, delivery and loyalty – all feeding the same register.",
       feats: [
-        { title: "One menu, everywhere", text: "Change a price once – Click, the register and the receipt all follow." },
-        { title: "Fast at the rush", text: "Orders flow to the till the moment they're placed – no paper tickets to chase." },
-        { title: "Fully accounted", text: "Every Click order is a fiscal sale on the register – reconciled with the rest of your day." },
+        { title: "QR menu ordering", text: "Guests scan, browse and order from the table – or your staff key it in. Prices come from your catalogue." },
+        { title: "Kitchen display (KDS)", text: "Orders route to the kitchen and bar – a display screen or a printer for each station." },
+        { title: "Table bookings", text: "Take reservations from your website or by phone, and see the floor at a glance." },
+        { title: "Delivery & takeaway", text: "Delivery and pickup orders land in the same flow, paid on the terminal." },
+        { title: "Loyalty & feedback", text: "Run bonus schemes and promotions, and collect guest feedback after the visit." },
+        { title: "One catalogue, on the register", text: "Every Click order is a fiscal sale on the register – reconciled with the rest of your day." },
       ],
       ctaTitle: "Serve faster. Reconcile automatically.",
       ctaText: "Live in four business days or less.",
@@ -77,11 +101,15 @@ function copyFor(lang: Lang) {
       demoItems: "2× latte · 1× croissant",
       demoTotal: "€9,60",
       featEyebrow: "Hecho para hostelería",
-      featTitle: "Un catálogo hace el trabajo.",
+      featTitle: "Un restaurante, automatizado.",
+      featSub: "Un sistema para toda la sala: pedidos, cocina, reservas, delivery y fidelización, todo alimentando la misma caja.",
       feats: [
-        { title: "Un menú, en todas partes", text: "Cambia un precio una vez: Click, la caja y el ticket lo siguen." },
-        { title: "Rápido en hora punta", text: "Los pedidos llegan a la caja en cuanto se hacen, sin comandas de papel que perseguir." },
-        { title: "Todo contabilizado", text: "Cada pedido de Click es una venta fiscal en la caja, cuadrada con el resto del día." },
+        { title: "Pedidos con menú QR", text: "Los clientes escanean, ven la carta y piden desde la mesa, o lo teclea tu personal. Los precios salen de tu catálogo." },
+        { title: "Pantalla de cocina (KDS)", text: "Los pedidos se enrutan a cocina y barra: una pantalla o una impresora por estación." },
+        { title: "Reservas de mesa", text: "Acepta reservas desde tu web o por teléfono y ve la sala de un vistazo." },
+        { title: "Delivery y para llevar", text: "Los pedidos de reparto y recogida entran en el mismo flujo, cobrados en el terminal." },
+        { title: "Fidelización y opiniones", text: "Lanza programas de puntos y promociones, y recoge la opinión del cliente tras la visita." },
+        { title: "Un catálogo, en la caja", text: "Cada pedido de Click es una venta fiscal en la caja, cuadrada con el resto del día." },
       ],
       ctaTitle: "Sirve más rápido. Cuadra automáticamente.",
       ctaText: "Operativo en cuatro días hábiles o menos.",
@@ -171,10 +199,10 @@ export default async function ClickPage() {
       {/* 3 · features */}
       <section className="bg-bg-2 py-24">
         <div className="mx-auto max-w-6xl px-6">
-          <SectionHead eyebrow={c.featEyebrow} title={c.featTitle} />
+          <SectionHead eyebrow={c.featEyebrow} title={c.featTitle} sub={c.featSub} />
           <div className="mt-11 grid gap-4 md:grid-cols-3">
             {c.feats.map((f, i) => (
-              <Reveal key={f.title} delay={i * 100} className="h-full">
+              <Reveal key={f.title} delay={(i % 3) * 100} className="h-full">
                 <div className="h-full rounded-3xl bg-white p-7 shadow-sm shadow-black/3">
                   <span className="grid size-12 place-items-center rounded-xl bg-brand-tint">
                     <svg viewBox="0 0 24 24" className="size-6 stroke-brand" fill="none" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
