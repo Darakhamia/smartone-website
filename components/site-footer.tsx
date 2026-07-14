@@ -2,45 +2,78 @@ import Link from "next/link";
 import { Brand } from "@/components/site-nav";
 import { FooterRegion } from "@/components/country/footer-region";
 import { getActiveLang } from "@/lib/country-server";
-import { DICT } from "@/lib/dictionaries";
+import { DICT, tr } from "@/lib/dictionaries";
 
 export async function SiteFooter() {
   const lang = await getActiveLang();
   const t = DICT[lang].footer;
+  const l = tr(
+    lang,
+    {
+      paymentsFiscal: "Payments & Fiscal",
+      cardReader: "Card reader",
+      cashRegister: "Cash register",
+      overview: "Overview",
+      payouts: "Payouts & money",
+      login: "Log in",
+      horeca: "HoReCa ordering",
+      cafes: "Cafés & restaurants",
+      pricing: "Pricing",
+      about: "About",
+      cases: "Case studies",
+      industries: "Industries",
+      contact: "Contact",
+    },
+    {
+      paymentsFiscal: "Pagos y fiscal",
+      cardReader: "Datáfono",
+      cashRegister: "Caja registradora",
+      overview: "Resumen",
+      payouts: "Dinero y pagos",
+      login: "Iniciar sesión",
+      horeca: "Pedidos HoReCa",
+      cafes: "Cafeterías y restaurantes",
+      pricing: "Precios",
+      about: "Nosotros",
+      cases: "Casos de éxito",
+      industries: "Sectores",
+      contact: "Contacto",
+    },
+  );
 
-  // Mirrors the header's Product mega-menu: hardware, Merchant Portal, Click.
+  // Mirrors the header's Product mega-menu: Payments & Fiscal, Merchant Portal, Click.
   const columns = [
     {
-      title: "Hardware",
+      title: l.paymentsFiscal,
       links: [
-        { href: "/product#hardware", label: "SmartOne Bank Pro" },
-        { href: "/product#hardware", label: "SmartOne Pro S" },
-        { href: "/product#hardware", label: "SmartOne Bank" },
+        { href: "/product/terminals", label: l.cardReader },
+        { href: "/product/cash-register", label: l.cashRegister },
+        { href: "/product/tap-to-phone", label: "Tap to Phone" },
       ],
     },
     {
       title: "Merchant Portal",
       links: [
-        { href: "/product#portal", label: "Track payments" },
-        { href: "/product#portal", label: "Payouts & money" },
-        { href: "/product#portal", label: "Reports" },
+        { href: "/merchant-portal", label: l.overview },
+        { href: "/merchant-portal", label: l.payouts },
+        { href: "/login", label: l.login },
       ],
     },
     {
       title: "Click",
       links: [
-        { href: "/product#click", label: "Restaurant ordering" },
-        { href: "/industries#cafes", label: "Cafés & HoReCa" },
-        { href: "/pricing", label: "Pricing" },
+        { href: "/click", label: l.horeca },
+        { href: "/industries", label: l.cafes },
+        { href: "/pricing", label: l.pricing },
       ],
     },
     {
       title: t.company,
       links: [
-        { href: "/about", label: "About" },
-        { href: "/case-studies", label: "Case studies" },
-        { href: "/industries", label: "Industries" },
-        { href: "/contact", label: "Contact" },
+        { href: "/about", label: l.about },
+        { href: "/case-studies", label: l.cases },
+        { href: "/industries", label: l.industries },
+        { href: "/contact", label: l.contact },
       ],
     },
   ];
@@ -57,13 +90,13 @@ export async function SiteFooter() {
           {columns.map((col) => (
             <div key={col.title}>
               <h5 className="mb-3.5 font-display text-sm font-semibold text-white">{col.title}</h5>
-              {col.links.map((l) => (
+              {col.links.map((link) => (
                 <Link
-                  key={l.label}
-                  href={l.href}
+                  key={link.label}
+                  href={link.href}
                   className="block py-1 text-[13.5px] text-white/60 transition-colors hover:text-white"
                 >
-                  {l.label}
+                  {link.label}
                 </Link>
               ))}
             </div>

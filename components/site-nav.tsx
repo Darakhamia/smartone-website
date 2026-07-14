@@ -5,7 +5,8 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Logo } from "@/components/logo";
 import { useCountry } from "@/components/country/country-context";
-import { DICT } from "@/lib/dictionaries";
+import { DICT, tr } from "@/lib/dictionaries";
+import type { Lang } from "@/lib/countries";
 
 export function Brand({ light = false }: { light?: boolean }) {
   return (
@@ -21,55 +22,92 @@ export function Brand({ light = false }: { light?: boolean }) {
   );
 }
 
-/* Product mega-menu, mirrored in the footer: hardware, the Merchant Portal
-   (manage your finances) and Click for restaurants. */
-type MenuItem = { label: string; sub: string; href: string };
-type MenuCol = { title: string; href: string; icon: React.ReactNode; items: MenuItem[] };
+/* Product mega-menu, mirrored in the footer. Two groups:
+   – "Payments & Fiscal": the card reader (terminals), the certified cash
+     register and Tap to Phone (coming soon);
+   – the tools around them: the Merchant Portal and Click for HoReCa. */
+type MegaItem = { label: string; sub: string; href: string; icon: React.ReactNode };
 
-const productMenu: MenuCol[] = [
-  {
-    title: "Hardware",
-    href: "/product#hardware",
-    icon: (
-      <>
-        <rect x="7" y="2.5" width="10" height="19" rx="2.5" />
-        <path d="M9.5 6h5M9 14h.01M12 14h.01M15 14h.01M9 17.5h.01M12 17.5h.01M15 17.5h.01" />
-      </>
-    ),
-    items: [
-      { label: "SmartOne Bank Pro", sub: "Busy counters", href: "/product#hardware" },
-      { label: "SmartOne Pro S", sub: "Dual-screen checkout", href: "/product#hardware" },
-      { label: "SmartOne Bank", sub: "On the move", href: "/product#hardware" },
-    ],
-  },
-  {
-    title: "Merchant Portal",
-    href: "/product#portal",
-    icon: <path d="M4 20V10M9 20V4M14 20v-7M19 20V8" />,
-    items: [
-      { label: "Track payments", sub: "Every transaction", href: "/product#portal" },
-      { label: "Payouts & money", sub: "What lands in your bank", href: "/product#portal" },
-      { label: "Reports", sub: "Know your numbers", href: "/product#portal" },
-    ],
-  },
-  {
-    title: "Click",
-    href: "/product#click",
-    icon: <path d="M6 3v6a2 2 0 0 0 4 0V3M8 9v12M16 3c-1.5 0-2.5 2-2.5 5s1 4 2.5 4v9" />,
-    items: [
-      { label: "Restaurant ordering", sub: "Orders to the register", href: "/product#click" },
-      { label: "Cafés & HoReCa", sub: "Table service", href: "/industries#cafes" },
-    ],
-  },
-];
+const cardReaderIcon = (
+  <>
+    <rect x="4" y="3" width="16" height="18" rx="2.5" />
+    <path d="M8 7h8M8 11h8M8 15h4" />
+  </>
+);
+const cashRegisterIcon = <path d="M6 2h12v20l-3-2-3 2-3-2-3 2V2Zm3 5h6M9 11h6m-6 4h4" />;
+const tapToPhoneIcon = (
+  <>
+    <rect x="6" y="2.5" width="9" height="19" rx="2.5" />
+    <path d="M17 8a5 5 0 0 1 0 8M20 5a9 9 0 0 1 0 14" />
+  </>
+);
+const portalIcon = <path d="M4 20V10M9 20V4M14 20v-7M19 20V8" />;
+const clickIcon = <path d="M6 3v6a2 2 0 0 0 4 0V3M8 9v12M16 3c-1.5 0-2.5 2-2.5 5s1 4 2.5 4v9" />;
+
+function productNav(lang: Lang) {
+  return {
+    heading: tr(lang, "Payments & Fiscal", "Pagos y fiscal"),
+    tools: tr(lang, "Tools", "Herramientas"),
+    hardware: [
+      {
+        label: tr(lang, "Card reader", "Datáfono"),
+        sub: tr(lang, "Bank & Bank Pro terminals", "Terminales Bank y Bank Pro"),
+        href: "/product/terminals",
+        icon: cardReaderIcon,
+      },
+      {
+        label: tr(lang, "Cash register", "Caja registradora"),
+        sub: tr(lang, "Certified fiscal till", "Caja fiscal certificada"),
+        href: "/product/cash-register",
+        icon: cashRegisterIcon,
+      },
+      {
+        label: "Tap to Phone",
+        sub: tr(lang, "Coming soon", "Muy pronto"),
+        href: "/product/tap-to-phone",
+        icon: tapToPhoneIcon,
+      },
+    ] as MegaItem[],
+    tool: [
+      {
+        label: "Merchant Portal",
+        sub: tr(lang, "Track money & payouts", "Controla dinero y pagos"),
+        href: "/merchant-portal",
+        icon: portalIcon,
+      },
+      {
+        label: "Click",
+        sub: tr(lang, "Orders to the register", "Pedidos a la caja"),
+        href: "/click",
+        icon: clickIcon,
+      },
+    ] as MegaItem[],
+  };
+}
 
 function MenuIcon({ children }: { children: React.ReactNode }) {
   return (
-    <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-brand-tint text-brand">
-      <svg viewBox="0 0 24 24" className="size-4.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-brand-tint text-brand transition-colors duration-200 group-hover:bg-brand group-hover:text-white">
+      <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
         {children}
       </svg>
     </span>
+  );
+}
+
+function MegaLink({ it, onClick }: { it: MegaItem; onClick: () => void }) {
+  return (
+    <Link
+      href={it.href}
+      onClick={onClick}
+      className="group flex items-center gap-3 rounded-xl p-2.5 transition-colors hover:bg-bg-2"
+    >
+      <MenuIcon>{it.icon}</MenuIcon>
+      <span className="min-w-0">
+        <span className="block text-[13.5px] font-semibold tracking-tight text-ink">{it.label}</span>
+        <span className="block text-[11.5px] leading-tight text-ink-3">{it.sub}</span>
+      </span>
+    </Link>
   );
 }
 
@@ -79,6 +117,7 @@ export function SiteNav() {
   const pathname = usePathname();
   const { lang } = useCountry();
   const t = DICT[lang];
+  const pm = productNav(lang);
 
   // The country picker is a full-screen splash – no nav there.
   if (pathname === "/welcome") return null;
@@ -89,6 +128,8 @@ export function SiteNav() {
     { href: "/about", label: t.nav.about },
     { href: "/case-studies", label: t.nav.cases },
   ];
+
+  const allProduct = [...pm.hardware, ...pm.tool];
 
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-white/80 backdrop-blur-md">
@@ -114,36 +155,30 @@ export function SiteNav() {
             </Link>
             {menu && (
               <div className="absolute left-0 top-full z-50 pt-4">
-                <div className="anim-fade-up w-[600px] rounded-2xl border border-line bg-white p-3 shadow-[0_28px_56px_-24px_rgba(29,29,31,0.35)]">
-                  <div className="grid grid-cols-3 gap-1">
-                    {productMenu.map((col) => (
-                      <div key={col.title}>
-                        <Link
-                          href={col.href}
-                          onClick={() => setMenu(false)}
-                          className="flex items-center gap-2.5 rounded-xl px-3 py-2 transition-colors hover:bg-bg-2"
-                        >
-                          <MenuIcon>{col.icon}</MenuIcon>
-                          <span className="font-display text-[14px] font-semibold tracking-tight text-ink">
-                            {col.title}
-                          </span>
-                        </Link>
-                        <ul className="mt-0.5">
-                          {col.items.map((it) => (
-                            <li key={it.label}>
-                              <Link
-                                href={it.href}
-                                onClick={() => setMenu(false)}
-                                className="block rounded-lg px-3 py-1.5 transition-colors hover:bg-bg-2"
-                              >
-                                <span className="block text-[13px] font-medium text-ink-2">{it.label}</span>
-                                <span className="block text-[11.5px] leading-tight text-ink-3">{it.sub}</span>
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
+                <div className="anim-fade-up w-[600px] overflow-hidden rounded-2xl border border-line bg-white shadow-[0_28px_56px_-24px_rgba(29,29,31,0.35)]">
+                  <div className="grid grid-cols-[1.15fr_1fr]">
+                    {/* Payments & Fiscal */}
+                    <div className="p-3">
+                      <p className="px-2.5 pb-1.5 pt-1 text-[11px] font-semibold tracking-[0.08em] text-ink-3 uppercase">
+                        {pm.heading}
+                      </p>
+                      <div className="space-y-0.5">
+                        {pm.hardware.map((it) => (
+                          <MegaLink key={it.href} it={it} onClick={() => setMenu(false)} />
+                        ))}
                       </div>
-                    ))}
+                    </div>
+                    {/* Tools */}
+                    <div className="border-l border-line bg-bg-2/50 p-3">
+                      <p className="px-2.5 pb-1.5 pt-1 text-[11px] font-semibold tracking-[0.08em] text-ink-3 uppercase">
+                        {pm.tools}
+                      </p>
+                      <div className="space-y-0.5">
+                        {pm.tool.map((it) => (
+                          <MegaLink key={it.href} it={it} onClick={() => setMenu(false)} />
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -186,14 +221,14 @@ export function SiteNav() {
             {t.nav.product}
           </Link>
           <div className="mb-1 grid gap-0.5 pl-1">
-            {productMenu.map((col) => (
+            {allProduct.map((it) => (
               <Link
-                key={col.title}
-                href={col.href}
+                key={it.href}
+                href={it.href}
                 onClick={() => setOpen(false)}
                 className="block py-1.5 text-[14px] font-medium text-ink-2"
               >
-                {col.title}
+                {it.label}
               </Link>
             ))}
           </div>

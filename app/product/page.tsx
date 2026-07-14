@@ -2,10 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "@/components/reveal";
-import { DeviceChooser } from "@/components/product/device-chooser";
-import { DayWalk } from "@/components/product/day-walk";
-import { PortalPreview } from "@/components/product/portal-preview";
-import { Terminal } from "@/components/product/device-visuals";
+import { SectionHead } from "@/components/section-head";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 import type { CountryCode, Lang } from "@/lib/countries";
@@ -16,23 +13,23 @@ export const metadata: Metadata = {
     "A certified cash register and payment terminal in one device – plus the Merchant Portal behind it. The complete solution, not just a card machine.",
 };
 
-function SectionHead({ eyebrow, title, sub, center = false }: { eyebrow: string; title: string; sub?: string; center?: boolean }) {
-  return (
-    <Reveal>
-      <div className={center ? "mx-auto max-w-165 text-center" : "max-w-165"}>
-        <span className="eyebrow">{eyebrow}</span>
-        <h2 className="h-display mt-4 text-[clamp(28px,3.6vw,44px)] leading-[1.06]">{title}</h2>
-        {sub && <p className={`mt-4 text-lg leading-relaxed text-ink-2 ${center ? "mx-auto max-w-135" : ""}`}>{sub}</p>}
-      </div>
-    </Reveal>
-  );
-}
-
-const factIcons = [
-  <path key="0" d="M3 9h14v8H3zM17 11h3v4h-3M6 11.5v3m3-3v3m3-3v3" />,
-  <path key="1" d="M2 9a14 14 0 0 1 20 0M5.5 12.5a9 9 0 0 1 13 0M9 16a4.5 4.5 0 0 1 6 0M12 19h.01" />,
-  <path key="2" d="M7 3h10v18l-2.5-1.5L12 21l-2.5-1.5L7 21V3Zm3 5h4m-4 4h4" />,
-];
+const icons = {
+  cardReader: (
+    <>
+      <rect x="4" y="3" width="16" height="18" rx="2.5" />
+      <path d="M8 7h8M8 11h8M8 15h4" />
+    </>
+  ),
+  cashRegister: <path key="cr" d="M6 2h12v20l-3-2-3 2-3-2-3 2V2Zm3 5h6M9 11h6m-6 4h4" />,
+  tapToPhone: (
+    <>
+      <rect x="6" y="2.5" width="9" height="19" rx="2.5" />
+      <path d="M17 8a5 5 0 0 1 0 8M20 5a9 9 0 0 1 0 14" />
+    </>
+  ),
+  portal: <path key="p" d="M4 20V10M9 20V4M14 20v-7M19 20V8" />,
+  click: <path key="c" d="M6 3v6a2 2 0 0 0 4 0V3M8 9v12M16 3c-1.5 0-2.5 2-2.5 5s1 4 2.5 4v9" />,
+};
 
 function copyFor(lang: Lang, fiscal: boolean) {
   return tr(
@@ -48,35 +45,23 @@ function copyFor(lang: Lang, fiscal: boolean) {
       seePricing: "See pricing",
       sales: "Contact sales",
       alt: "SmartOne terminal taking a contactless payment at a flower shop",
-      devEyebrow: "The device",
-      devTitle: "Two models. Everything built in.",
-      devSub: "Merchant facts, not a spec sheet: it prints, it lasts, it connects – wherever your counter is.",
-      lineup: [
-        { name: "SmartOne Bank Pro", for: "For the busy counter", text: "The big 6″ screen keeps a queue moving – ring up, tap, receipt out." },
-        { name: "SmartOne Pro S", for: "Dual-screen checkout", text: "A screen for you and one facing the customer – a smooth, transparent checkout where local law needs it." },
-      ],
-      facts: ["Battery lasts the shift", "SIM + Wi-Fi", "Receipt printer built in"],
-      alsoAvail: ["Also available:", "SmartOne Bank", "– the compact 5″ model for selling on the move."],
-      insideEyebrow: "Inside the device",
-      insideTitle: fiscal ? "Two apps do the work." : "The payment app does the work.",
-      insideSub: "No phone, no laptop, no extra box – the device works standalone.",
-      payApp: "Payment app",
-      payText: "Cards, contactless and cash on one screen. The amount, the tap, the confirmation – done.",
-      regApp: "Cash register",
-      regText: "A certified fiscal cash register on the device: fiscal receipts, Z-reports and market-by-market certification.",
-      chooserEyebrow: "Which device do I need?",
-      chooserTitle: "Answer two questions.",
-      dayEyebrow: "A day with SmartOne",
-      dayTitle: "From the first tap to the accountant.",
-      portalTitle: "Four jobs, one login.",
-      portalSub: "Everything the device does at the counter, the portal explains in numbers.",
-      cashTitle: "Start with the register alone.",
-      cashText: "SmartOne Cashbox, the on-device fiscal register, is certified on its own – you can start Cashbox-only and add card payments later. Upgrading is a KYC/KYB check, not new hardware.",
-      cashReceipts: "41 receipts · closed 19:04",
-      clickTitle: "Orders land on the register.",
-      clickText: "SmartOne Click takes orders for cafés and restaurants and sends them straight to the register – one catalogue, one flow, no re-typing.",
-      clickOrder: "Order #47 · table 3",
-      clickReg: "→ register",
+      pfEyebrow: "Payments & Fiscal",
+      pfTitle: "One device takes the money and keeps you compliant.",
+      toolsEyebrow: "Tools",
+      toolsTitle: "The software around the counter.",
+      explore: "Explore",
+      cards: {
+        cardReader: { title: "Card reader", text: "The payment terminal: card, contactless and cash on one screen, printer built in. Bank & Bank Pro." },
+        cashRegister: {
+          title: "Cash register",
+          text: fiscal
+            ? "A certified fiscal till built into the device – worth €1,000–1,500 elsewhere, yours for €399."
+            : "No fiscal register is required in your market – see how compliance works where you trade.",
+        },
+        tapToPhone: { title: "Tap to Phone", text: "Take contactless payments on a phone, no extra hardware. In certification – coming soon." },
+        portal: { title: "Merchant Portal", text: "Track payments, follow payouts, reprint receipts and know your numbers – one login." },
+        click: { title: "Click", text: "Orders for cafés and restaurants, sent straight to the register – one catalogue, one flow." },
+      },
       complianceEyebrow: "Compliance",
       complianceTitle: "Certified market by market.",
       complianceSub: "We name what's live and what's dated – nothing else.",
@@ -103,35 +88,23 @@ function copyFor(lang: Lang, fiscal: boolean) {
       seePricing: "Ver precios",
       sales: "Contactar con ventas",
       alt: "Terminal SmartOne aceptando un pago contactless en una floristería",
-      devEyebrow: "El dispositivo",
-      devTitle: "Dos modelos. Todo integrado.",
-      devSub: "Datos útiles, no una ficha técnica: imprime, dura y se conecta, donde esté tu mostrador.",
-      lineup: [
-        { name: "SmartOne Bank Pro", for: "Para el mostrador con cola", text: "La pantalla grande de 6″ mantiene la cola en movimiento: cobra, tap, ticket fuera." },
-        { name: "SmartOne Pro S", for: "Cobro con doble pantalla", text: "Una pantalla para ti y otra hacia el cliente: un cobro fluido y transparente donde lo exija la ley local." },
-      ],
-      facts: ["La batería aguanta el turno", "SIM + Wi-Fi", "Impresora de tickets integrada"],
-      alsoAvail: ["También disponible:", "SmartOne Bank", "– el modelo compacto de 5″ para vender en movimiento."],
-      insideEyebrow: "Dentro del dispositivo",
-      insideTitle: fiscal ? "Dos apps hacen el trabajo." : "La app de pago hace el trabajo.",
-      insideSub: "Sin móvil, sin portátil, sin caja extra: el dispositivo funciona por sí solo.",
-      payApp: "App de pago",
-      payText: "Tarjetas, contactless y efectivo en una pantalla. El importe, el tap, la confirmación, listo.",
-      regApp: "Caja registradora",
-      regText: "Una caja registradora fiscal certificada en el dispositivo: tickets fiscales, informes Z y certificación por mercado.",
-      chooserEyebrow: "¿Qué dispositivo necesito?",
-      chooserTitle: "Responde dos preguntas.",
-      dayEyebrow: "Un día con SmartOne",
-      dayTitle: "Del primer tap al contable.",
-      portalTitle: "Cuatro tareas, un solo acceso.",
-      portalSub: "Todo lo que el dispositivo hace en el mostrador, el portal lo explica en cifras.",
-      cashTitle: "Empieza solo con la caja.",
-      cashText: "SmartOne Cashbox, la caja registradora fiscal del dispositivo, está certificada por sí sola: puedes empezar solo con Cashbox y añadir pagos con tarjeta después. Ampliar es una verificación KYC/KYB, no hardware nuevo.",
-      cashReceipts: "41 tickets · cerrado 19:04",
-      clickTitle: "Los pedidos llegan a la caja.",
-      clickText: "SmartOne Click toma los pedidos de cafeterías y restaurantes y los envía directo a la caja: un catálogo, un flujo, sin volver a teclear.",
-      clickOrder: "Pedido #47 · mesa 3",
-      clickReg: "→ caja",
+      pfEyebrow: "Pagos y fiscal",
+      pfTitle: "Un dispositivo cobra y te mantiene en regla.",
+      toolsEyebrow: "Herramientas",
+      toolsTitle: "El software alrededor del mostrador.",
+      explore: "Descubrir",
+      cards: {
+        cardReader: { title: "Datáfono", text: "El terminal de pago: tarjeta, contactless y efectivo en una pantalla, con impresora integrada. Bank y Bank Pro." },
+        cashRegister: {
+          title: "Caja registradora",
+          text: fiscal
+            ? "Una caja fiscal certificada integrada en el dispositivo: vale 1.000-1.500 € en otros sitios, la tuya por 399 €."
+            : "En tu mercado no se requiere caja fiscal: mira cómo funciona el cumplimiento donde operas.",
+        },
+        tapToPhone: { title: "Tap to Phone", text: "Acepta pagos contactless en un móvil, sin hardware adicional. En certificación, muy pronto." },
+        portal: { title: "Merchant Portal", text: "Controla pagos, sigue liquidaciones, reimprime tickets y conoce tus cifras: un solo acceso." },
+        click: { title: "Click", text: "Pedidos para cafeterías y restaurantes, directos a la caja: un catálogo, un flujo." },
+      },
       complianceEyebrow: "Cumplimiento",
       complianceTitle: "Certificado mercado a mercado.",
       complianceSub: "Decimos qué está activo y qué tiene fecha, nada más.",
@@ -150,6 +123,24 @@ function copyFor(lang: Lang, fiscal: boolean) {
   );
 }
 
+function ProductCard({ href, icon, title, text, explore }: { href: string; icon: React.ReactNode; title: string; text: string; explore: string }) {
+  return (
+    <Link href={href} className="group flex h-full flex-col rounded-3xl border border-line bg-white p-7 shadow-sm shadow-black/3 transition-transform duration-300 hover:-translate-y-1 hover:border-brand/30">
+      <span className="grid size-12 place-items-center rounded-xl bg-brand-tint transition-colors duration-300 group-hover:bg-brand">
+        <svg viewBox="0 0 24 24" className="size-6 stroke-brand transition-colors duration-300 group-hover:stroke-white" fill="none" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+          {icon}
+        </svg>
+      </span>
+      <h3 className="mt-5 font-display text-[20px] font-semibold tracking-tight">{title}</h3>
+      <p className="mt-2 flex-1 text-[14.5px] leading-relaxed text-ink-2">{text}</p>
+      <span className="mt-4 inline-flex items-center gap-1.5 text-[13.5px] font-semibold text-brand">
+        {explore}
+        <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+      </span>
+    </Link>
+  );
+}
+
 export default async function ProductPage() {
   const country = await getActiveCountry();
   const lang = await getActiveLang();
@@ -159,7 +150,7 @@ export default async function ProductPage() {
 
   return (
     <>
-      {/* 1 · product hero */}
+      {/* 1 · hero */}
       <section className="overflow-x-clip pt-16 pb-18 lg:pt-22">
         <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-6 lg:grid-cols-[0.95fr_1.05fr]">
           <div>
@@ -183,152 +174,40 @@ export default async function ProductPage() {
         </div>
       </section>
 
-      {/* 2 · the device */}
-      <section id="hardware" className="scroll-mt-20 bg-bg-2 py-24">
-        <div className="mx-auto max-w-6xl px-6">
-          <SectionHead eyebrow={c.devEyebrow} title={c.devTitle} sub={c.devSub} />
-          <div className="mt-11 grid gap-4 md:grid-cols-2">
-            {c.lineup.map((d, i) => (
-              <Reveal key={d.name} delay={i * 100} className="h-full">
-                <div className="flex h-full flex-col rounded-3xl bg-white p-7 shadow-sm shadow-black/3 transition-transform duration-300 hover:-translate-y-1">
-                  <div className="grid h-64 place-items-center rounded-2xl bg-gradient-to-br from-brand-tint via-bg-2 to-bg-2 py-6">
-                    <Terminal compact={false} dual={i === 1} />
-                  </div>
-                  <div className="mt-5 flex items-baseline justify-between">
-                    <h3 className="font-display text-[22px] font-semibold tracking-tight">{d.name}</h3>
-                    <span className="text-[12.5px] font-semibold text-brand">{d.for}</span>
-                  </div>
-                  <p className="mt-1.5 text-[14.5px] leading-relaxed text-ink-2">{d.text}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-          <Reveal>
-            <div className="mt-6 flex flex-col gap-4 rounded-3xl bg-white px-7 py-5 shadow-sm shadow-black/3 sm:flex-row sm:items-center sm:justify-around">
-              {c.facts.map((label, i) => (
-                <span key={label} className="flex items-center gap-2.5 text-[14.5px] font-medium text-ink-2">
-                  <svg viewBox="0 0 24 24" className="size-5.5 stroke-brand" fill="none" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                    {factIcons[i]}
-                  </svg>
-                  {label}
-                </span>
-              ))}
-            </div>
-            <p className="mt-4 text-center text-[13px] text-ink-3">
-              {c.alsoAvail[0]} <b className="font-semibold text-ink-2">{c.alsoAvail[1]}</b> {c.alsoAvail[2]}
-            </p>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* 3 · inside the device */}
-      <section className="py-24">
-        <div className="mx-auto max-w-6xl px-6">
-          <SectionHead eyebrow={c.insideEyebrow} title={c.insideTitle} sub={c.insideSub} />
-          <div className={`mt-11 grid gap-4 ${fiscal ? "md:grid-cols-2" : "mx-auto max-w-xl"}`}>
-            <Reveal className="h-full">
-              <div className="h-full rounded-3xl border border-line bg-white p-7">
-                <span className="grid size-12 place-items-center rounded-xl bg-brand-tint">
-                  <svg viewBox="0 0 24 24" className="size-6 stroke-brand" fill="none" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                    <rect x="2.5" y="5.5" width="19" height="13" rx="2.5" />
-                    <path d="M2.5 10h19M6 15h4" />
-                  </svg>
-                </span>
-                <h3 className="mt-5 font-display text-[20px] font-semibold tracking-tight">{c.payApp}</h3>
-                <p className="mt-2 text-[14.5px] leading-relaxed text-ink-2">{c.payText}</p>
-              </div>
-            </Reveal>
-            {fiscal && (
-              <Reveal delay={100} className="h-full">
-                <div className="h-full rounded-3xl border border-line bg-white p-7">
-                  <span className="grid size-12 place-items-center rounded-xl bg-brand-tint">
-                    <svg viewBox="0 0 24 24" className="size-6 stroke-brand" fill="none" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                      <path d="M7 3h10v18l-2.5-1.5L12 21l-2.5-1.5L7 21V3Zm3 5h4m-4 4h4" />
-                    </svg>
-                  </span>
-                  <h3 className="mt-5 font-display text-[20px] font-semibold tracking-tight">{c.regApp}</h3>
-                  <p className="mt-2 text-[14.5px] leading-relaxed text-ink-2">{c.regText}</p>
-                </div>
-              </Reveal>
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* 4 · which device do I need */}
+      {/* 2 · Payments & Fiscal */}
       <section className="bg-bg-2 py-24">
         <div className="mx-auto max-w-6xl px-6">
-          <SectionHead eyebrow={c.chooserEyebrow} title={c.chooserTitle} center />
-          <Reveal delay={100}>
-            <div className="mt-10">
-              <DeviceChooser />
-            </div>
-          </Reveal>
+          <SectionHead eyebrow={c.pfEyebrow} title={c.pfTitle} />
+          <div className="mt-11 grid gap-4 md:grid-cols-3">
+            <Reveal className="h-full">
+              <ProductCard href="/product/terminals" icon={icons.cardReader} title={c.cards.cardReader.title} text={c.cards.cardReader.text} explore={c.explore} />
+            </Reveal>
+            <Reveal delay={100} className="h-full">
+              <ProductCard href="/product/cash-register" icon={icons.cashRegister} title={c.cards.cashRegister.title} text={c.cards.cashRegister.text} explore={c.explore} />
+            </Reveal>
+            <Reveal delay={200} className="h-full">
+              <ProductCard href="/product/tap-to-phone" icon={icons.tapToPhone} title={c.cards.tapToPhone.title} text={c.cards.tapToPhone.text} explore={c.explore} />
+            </Reveal>
+          </div>
         </div>
       </section>
 
-      {/* 5 · a day with SmartOne */}
+      {/* 3 · Tools */}
       <section className="py-24">
         <div className="mx-auto max-w-6xl px-6">
-          <SectionHead eyebrow={c.dayEyebrow} title={c.dayTitle} />
-          <Reveal>
-            <DayWalk />
-          </Reveal>
-        </div>
-      </section>
-
-      {/* 6 · merchant portal */}
-      <section id="portal" className="scroll-mt-20 bg-bg-2 py-24">
-        <div className="mx-auto max-w-6xl px-6">
-          <SectionHead eyebrow="Merchant Portal" title={c.portalTitle} sub={c.portalSub} />
-          <Reveal>
-            <PortalPreview />
-          </Reveal>
-        </div>
-      </section>
-
-      {/* 7 · cashbox story + 8 · click */}
-      <section id="click" className="scroll-mt-20 py-24">
-        <div className={`mx-auto grid gap-4 px-6 ${fiscal ? "max-w-6xl md:grid-cols-2" : "max-w-3xl"}`}>
-          {fiscal && (
+          <SectionHead eyebrow={c.toolsEyebrow} title={c.toolsTitle} />
+          <div className="mt-11 grid gap-4 md:grid-cols-2">
             <Reveal className="h-full">
-              <div className="flex h-full flex-col rounded-3xl border border-line bg-white p-8">
-                <span className="eyebrow">Cashbox</span>
-                <h3 className="h-display mt-4 text-[26px] leading-tight">{c.cashTitle}</h3>
-                <p className="mt-3 text-[15px] leading-relaxed text-ink-2">{c.cashText}</p>
-                <div className="mt-auto pt-6">
-                  <div className="rounded-2xl bg-bg-2 p-4 font-mono text-[12.5px]">
-                    <div className="flex justify-between text-ink-2">
-                      <span>Z-report #218</span>
-                      <span className="font-semibold text-ink">€1,240.00</span>
-                    </div>
-                    <div className="mt-1 text-[11px] text-ink-3">{c.cashReceipts}</div>
-                  </div>
-                </div>
-              </div>
+              <ProductCard href="/merchant-portal" icon={icons.portal} title={c.cards.portal.title} text={c.cards.portal.text} explore={c.explore} />
             </Reveal>
-          )}
-          <Reveal delay={100} className="h-full">
-            <div className="relative flex h-full flex-col overflow-hidden rounded-3xl bg-gradient-to-br from-night-2 to-night p-8 text-white">
-              <div className="pointer-events-none absolute -right-10 -bottom-10 size-44 rounded-full bg-[radial-gradient(circle,rgba(90,25,181,0.55),transparent_70%)]" />
-              <span className="eyebrow eyebrow-dark">Click · HoReCa</span>
-              <h3 className="h-display mt-4 text-[26px] leading-tight">{c.clickTitle}</h3>
-              <p className="mt-3 text-[15px] leading-relaxed text-white/70">{c.clickText}</p>
-              <div className="mt-auto pt-6">
-                <div className="rounded-2xl bg-white/8 p-4 font-mono text-[12.5px] ring-1 ring-white/10">
-                  <div className="flex justify-between">
-                    <span className="text-white/70">{c.clickOrder}</span>
-                    <span className="font-semibold text-brand-l">{c.clickReg}</span>
-                  </div>
-                  <div className="mt-1 text-[11px] text-white/50">2× latte · 1× croissant</div>
-                </div>
-              </div>
-            </div>
-          </Reveal>
+            <Reveal delay={100} className="h-full">
+              <ProductCard href="/click" icon={icons.click} title={c.cards.click.title} text={c.cards.click.text} explore={c.explore} />
+            </Reveal>
+          </div>
         </div>
       </section>
 
-      {/* 9 · compliance */}
+      {/* 4 · compliance */}
       <section className="bg-bg-2 py-24">
         <div className="mx-auto max-w-6xl px-6">
           <SectionHead eyebrow={c.complianceEyebrow} title={c.complianceTitle} sub={c.complianceSub} />
@@ -354,7 +233,7 @@ export default async function ProductPage() {
         </div>
       </section>
 
-      {/* 10 · final CTA */}
+      {/* 5 · final CTA */}
       <section className="py-24">
         <div className="mx-auto max-w-6xl px-6">
           <Reveal>
