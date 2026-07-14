@@ -6,6 +6,7 @@ import { PortalPreview } from "@/components/product/portal-preview";
 import { TwoNumbers } from "@/components/home/two-numbers";
 import { getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
+import { MERCHANT_PORTAL_URL } from "@/lib/links";
 import type { Lang } from "@/lib/countries";
 
 export const metadata: Metadata = {
@@ -90,7 +91,7 @@ export default async function MerchantPortalPage() {
             </h1>
             <p className="anim-fade-up anim-d-2 mt-5 mb-8 max-w-125 text-lg leading-relaxed text-ink-2">{c.sub}</p>
             <div className="anim-fade-up anim-d-3 flex flex-wrap items-center gap-3.5">
-              <Link href="/login" className="btn-primary">{c.login}</Link>
+              <a href={MERCHANT_PORTAL_URL} target="_blank" rel="noopener noreferrer" className="btn-primary">{c.login}</a>
               <Link href="/pricing" className="btn-ghost">{c.pricing}</Link>
             </div>
           </div>

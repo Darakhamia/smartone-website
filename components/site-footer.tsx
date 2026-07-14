@@ -3,6 +3,7 @@ import { Brand } from "@/components/site-nav";
 import { FooterRegion } from "@/components/country/footer-region";
 import { getActiveLang } from "@/lib/country-server";
 import { DICT, tr } from "@/lib/dictionaries";
+import { MERCHANT_PORTAL_URL } from "@/lib/links";
 
 export async function SiteFooter() {
   const lang = await getActiveLang();
@@ -49,7 +50,7 @@ export async function SiteFooter() {
       title: "Merchant Portal",
       links: [
         { href: "/merchant-portal", label: l.whatIs },
-        { href: "/login", label: l.login },
+        { href: MERCHANT_PORTAL_URL, label: l.login },
       ],
     },
     {
@@ -79,15 +80,27 @@ export async function SiteFooter() {
           {columns.map((col) => (
             <div key={col.title}>
               <h5 className="mb-3.5 font-display text-sm font-semibold text-white">{col.title}</h5>
-              {col.links.map((link) => (
-                <Link
-                  key={link.label}
-                  href={link.href}
-                  className="block py-1 text-[13.5px] text-white/60 transition-colors hover:text-white"
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {col.links.map((link) =>
+                link.href.startsWith("http") ? (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block py-1 text-[13.5px] text-white/60 transition-colors hover:text-white"
+                  >
+                    {link.label}
+                  </a>
+                ) : (
+                  <Link
+                    key={link.label}
+                    href={link.href}
+                    className="block py-1 text-[13.5px] text-white/60 transition-colors hover:text-white"
+                  >
+                    {link.label}
+                  </Link>
+                ),
+              )}
             </div>
           ))}
         </div>
