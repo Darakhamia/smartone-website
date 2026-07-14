@@ -10,30 +10,32 @@ export async function SiteFooter() {
   const l = tr(
     lang,
     {
-      paymentsFiscal: "Payments & Fiscal",
+      retail: "Retail",
+      horeca: "HoReCa",
       cardReader: "Card reader",
       cashRegister: "Cash register",
       overview: "Overview",
-      payouts: "Payouts & money",
+      moneyReports: "Money & reports",
       login: "Log in",
-      horeca: "HoReCa ordering",
+      clickOrdering: "Click ordering",
+      dualScreen: "Dual-screen Pro S",
       cafes: "Cafés & restaurants",
-      pricing: "Pricing",
       about: "About",
       cases: "Case studies",
       industries: "Industries",
       contact: "Contact",
     },
     {
-      paymentsFiscal: "Pagos y fiscal",
+      retail: "Retail",
+      horeca: "HoReCa",
       cardReader: "Datáfono",
       cashRegister: "Caja registradora",
       overview: "Resumen",
-      payouts: "Dinero y pagos",
+      moneyReports: "Dinero e informes",
       login: "Iniciar sesión",
-      horeca: "Pedidos HoReCa",
+      clickOrdering: "Pedidos Click",
+      dualScreen: "Doble pantalla Pro S",
       cafes: "Cafeterías y restaurantes",
-      pricing: "Precios",
       about: "Nosotros",
       cases: "Casos de éxito",
       industries: "Sectores",
@@ -41,10 +43,10 @@ export async function SiteFooter() {
     },
   );
 
-  // Mirrors the header's Product mega-menu: Payments & Fiscal, Merchant Portal, Click.
+  // Mirrors the header's Product mega-menu: Retail, Merchant Portal, HoReCa.
   const columns = [
     {
-      title: l.paymentsFiscal,
+      title: l.retail,
       links: [
         { href: "/product/terminals", label: l.cardReader },
         { href: "/product/cash-register", label: l.cashRegister },
@@ -55,16 +57,16 @@ export async function SiteFooter() {
       title: "Merchant Portal",
       links: [
         { href: "/merchant-portal", label: l.overview },
-        { href: "/merchant-portal", label: l.payouts },
+        { href: "/merchant-portal", label: l.moneyReports },
         { href: "/login", label: l.login },
       ],
     },
     {
-      title: "Click",
+      title: l.horeca,
       links: [
-        { href: "/click", label: l.horeca },
+        { href: "/click", label: l.clickOrdering },
+        { href: "/product/terminals", label: l.dualScreen },
         { href: "/industries", label: l.cafes },
-        { href: "/pricing", label: l.pricing },
       ],
     },
     {

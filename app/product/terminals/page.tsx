@@ -49,6 +49,26 @@ function copyFor(lang: Lang) {
       ],
       facts: ["Battery lasts the shift", "SIM + Wi-Fi", "Receipt printer built in"],
       alsoAvail: ["Also available:", "SmartOne Bank", "– the compact 5″ model for selling on the move."],
+      specEyebrow: "Full specifications",
+      specTitle: "The numbers, in full.",
+      specSub: "SmartOne Pro S shares the Bank Pro platform exactly – it just adds a customer-facing second screen.",
+      specModels: ["Bank Pro", "Pro S", "Bank"],
+      specRows: [
+        { label: "Display", pro: "6″ HD · 1440×720", proS: "6″ HD · 1440×720", bank: "5″ · 854×480" },
+        { label: "Customer display", pro: "—", proS: "Second screen ✓", bank: "—" },
+        { label: "Processor", pro: "Kun T11 · octa-core 2.0 GHz", proS: "Kun T11 · octa-core 2.0 GHz", bank: "Kun T11 · octa-core 2.0 GHz" },
+        { label: "Memory", pro: "2 GB RAM · 16 GB", proS: "2 GB RAM · 16 GB", bank: "1 GB RAM · 8 GB" },
+        { label: "Expandable", pro: "microSD up to 64 GB", proS: "microSD up to 64 GB", bank: "microSD up to 64 GB" },
+        { label: "Operating system", pro: "Android 9.0", proS: "Android 9.0", bank: "Android 9.0" },
+        { label: "Battery", pro: "3000 mAh (5000 opt.)", proS: "3000 mAh (5000 opt.)", bank: "2500 mAh (4000 opt.)" },
+        { label: "Mobile", pro: "4G LTE · 3G · 2G", proS: "4G LTE · 3G · 2G", bank: "4G LTE · 3G · 2G" },
+        { label: "Wireless", pro: "Wi-Fi · Bluetooth · GPS", proS: "Wi-Fi · Bluetooth · GPS", bank: "Wi-Fi · Bluetooth · GPS" },
+        { label: "Printer", pro: "2″ thermal · 58 mm", proS: "2″ thermal · 58 mm", bank: "2″ thermal · 58 mm" },
+        { label: "Camera & scanner", pro: "5 MP + 2 MP · 2D/3D", proS: "5 MP + 2 MP · 2D/3D", bank: "5 MP + 2 MP · 2D/3D" },
+        { label: "Card acceptance", pro: "Magstripe · EMV L1/2 · Contactless", proS: "Magstripe · EMV L1/2 · Contactless", bank: "Magstripe · EMV L1/2 · Contactless" },
+        { label: "Security", pro: "PCI PTS 6.x", proS: "PCI PTS 6.x", bank: "PCI PTS 6.x" },
+        { label: "Dimensions", pro: "225×82 mm", proS: "226×84 mm", bank: "225×82 mm" },
+      ],
       featEyebrow: "Inside the device",
       featTitle: "Everything built in.",
       featSub: "No phone, no laptop, no extra box – the terminal works standalone.",
@@ -80,6 +100,26 @@ function copyFor(lang: Lang) {
       ],
       facts: ["La batería aguanta el turno", "SIM + Wi-Fi", "Impresora de tickets integrada"],
       alsoAvail: ["También disponible:", "SmartOne Bank", "– el modelo compacto de 5″ para vender en movimiento."],
+      specEyebrow: "Ficha técnica",
+      specTitle: "Los números, al completo.",
+      specSub: "El SmartOne Pro S comparte exactamente la plataforma del Bank Pro: solo añade una segunda pantalla orientada al cliente.",
+      specModels: ["Bank Pro", "Pro S", "Bank"],
+      specRows: [
+        { label: "Pantalla", pro: "6″ HD · 1440×720", proS: "6″ HD · 1440×720", bank: "5″ · 854×480" },
+        { label: "Pantalla de cliente", pro: "—", proS: "Segunda pantalla ✓", bank: "—" },
+        { label: "Procesador", pro: "Kun T11 · octa-core 2.0 GHz", proS: "Kun T11 · octa-core 2.0 GHz", bank: "Kun T11 · octa-core 2.0 GHz" },
+        { label: "Memoria", pro: "2 GB RAM · 16 GB", proS: "2 GB RAM · 16 GB", bank: "1 GB RAM · 8 GB" },
+        { label: "Ampliable", pro: "microSD hasta 64 GB", proS: "microSD hasta 64 GB", bank: "microSD hasta 64 GB" },
+        { label: "Sistema operativo", pro: "Android 9.0", proS: "Android 9.0", bank: "Android 9.0" },
+        { label: "Batería", pro: "3000 mAh (5000 opc.)", proS: "3000 mAh (5000 opc.)", bank: "2500 mAh (4000 opc.)" },
+        { label: "Móvil", pro: "4G LTE · 3G · 2G", proS: "4G LTE · 3G · 2G", bank: "4G LTE · 3G · 2G" },
+        { label: "Inalámbrico", pro: "Wi-Fi · Bluetooth · GPS", proS: "Wi-Fi · Bluetooth · GPS", bank: "Wi-Fi · Bluetooth · GPS" },
+        { label: "Impresora", pro: "Térmica 2″ · 58 mm", proS: "Térmica 2″ · 58 mm", bank: "Térmica 2″ · 58 mm" },
+        { label: "Cámara y escáner", pro: "5 MP + 2 MP · 2D/3D", proS: "5 MP + 2 MP · 2D/3D", bank: "5 MP + 2 MP · 2D/3D" },
+        { label: "Aceptación de tarjetas", pro: "Banda · EMV N1/2 · Contactless", proS: "Banda · EMV N1/2 · Contactless", bank: "Banda · EMV N1/2 · Contactless" },
+        { label: "Seguridad", pro: "PCI PTS 6.x", proS: "PCI PTS 6.x", bank: "PCI PTS 6.x" },
+        { label: "Dimensiones", pro: "225×82 mm", proS: "226×84 mm", bank: "225×82 mm" },
+      ],
       featEyebrow: "Dentro del dispositivo",
       featTitle: "Todo integrado.",
       featSub: "Sin móvil, sin portátil, sin caja extra: el terminal funciona por sí solo.",
@@ -186,6 +226,49 @@ export default async function TerminalsPage() {
               </Reveal>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* 3.5 · full specifications */}
+      <section className="py-24">
+        <div className="mx-auto max-w-6xl px-6">
+          <SectionHead eyebrow={c.specEyebrow} title={c.specTitle} sub={c.specSub} />
+          <Reveal>
+            <div className="mt-11 overflow-x-auto rounded-3xl border border-line bg-white shadow-sm shadow-black/3">
+              <table className="w-full min-w-[640px] border-collapse text-left">
+                <thead>
+                  <tr className="border-b border-line">
+                    <th className="w-44 p-4" />
+                    {c.specModels.map((m, i) => (
+                      <th
+                        key={m}
+                        className={`p-4 font-display text-[15px] font-semibold tracking-tight ${i === 1 ? "bg-brand-tint/40 text-brand" : "text-ink"}`}
+                      >
+                        SmartOne {m}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {c.specRows.map((row) => (
+                    <tr key={row.label} className="border-b border-line last:border-0">
+                      <td className="p-4 text-[13px] font-medium text-ink-2">{row.label}</td>
+                      {[row.pro, row.proS, row.bank].map((v, i) => (
+                        <td
+                          key={i}
+                          className={`p-4 font-mono text-[12.5px] ${i === 1 ? "bg-brand-tint/40" : ""} ${
+                            v === "—" ? "text-ink-3" : v.includes("✓") ? "font-semibold text-brand" : "text-ink"
+                          }`}
+                        >
+                          {v}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </Reveal>
         </div>
       </section>
 

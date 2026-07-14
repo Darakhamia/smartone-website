@@ -22,11 +22,13 @@ export function Brand({ light = false }: { light?: boolean }) {
   );
 }
 
-/* Product mega-menu, mirrored in the footer. Two groups:
-   – "Payments & Fiscal": the card reader (terminals), the certified cash
-     register and Tap to Phone (coming soon);
-   – the tools around them: the Merchant Portal and Click for HoReCa. */
+/* Product mega-menu, mirrored in the footer. Three columns by use case:
+   – Retail: the card reader (terminals), the certified cash register and
+     Tap to Phone (coming soon);
+   – Merchant Portal: manage payments, payouts and reports;
+   – HoReCa: Click ordering, the dual-screen checkout and the café setups. */
 type MegaItem = { label: string; sub: string; href: string; icon: React.ReactNode };
+type MegaCol = { title: string; items: MegaItem[] };
 
 const cardReaderIcon = (
   <>
@@ -42,47 +44,49 @@ const tapToPhoneIcon = (
   </>
 );
 const portalIcon = <path d="M4 20V10M9 20V4M14 20v-7M19 20V8" />;
+const reportsIcon = (
+  <>
+    <path d="M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" />
+    <path d="M9 8h6M9 12h6M9 16h3" />
+  </>
+);
+const loginIcon = <path d="M15 3h3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-3M10 17l5-5-5-5M15 12H3" />;
 const clickIcon = <path d="M6 3v6a2 2 0 0 0 4 0V3M8 9v12M16 3c-1.5 0-2.5 2-2.5 5s1 4 2.5 4v9" />;
+const dualIcon = (
+  <>
+    <rect x="3" y="5" width="12" height="13" rx="2" />
+    <rect x="14" y="9" width="7" height="10" rx="1.5" />
+  </>
+);
+const cafeIcon = <path d="M5 8h11v5a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4V8Zm11 1h2.5a2.5 2.5 0 0 1 0 5H16M8 3v2m3-2v2" />;
 
-function productNav(lang: Lang) {
-  return {
-    heading: tr(lang, "Payments & Fiscal", "Pagos y fiscal"),
-    tools: tr(lang, "Tools", "Herramientas"),
-    hardware: [
-      {
-        label: tr(lang, "Card reader", "Datáfono"),
-        sub: tr(lang, "Bank & Bank Pro terminals", "Terminales Bank y Bank Pro"),
-        href: "/product/terminals",
-        icon: cardReaderIcon,
-      },
-      {
-        label: tr(lang, "Cash register", "Caja registradora"),
-        sub: tr(lang, "Certified fiscal till", "Caja fiscal certificada"),
-        href: "/product/cash-register",
-        icon: cashRegisterIcon,
-      },
-      {
-        label: "Tap to Phone",
-        sub: tr(lang, "Coming soon", "Muy pronto"),
-        href: "/product/tap-to-phone",
-        icon: tapToPhoneIcon,
-      },
-    ] as MegaItem[],
-    tool: [
-      {
-        label: "Merchant Portal",
-        sub: tr(lang, "Track money & payouts", "Controla dinero y pagos"),
-        href: "/merchant-portal",
-        icon: portalIcon,
-      },
-      {
-        label: "Click",
-        sub: tr(lang, "Orders to the register", "Pedidos a la caja"),
-        href: "/click",
-        icon: clickIcon,
-      },
-    ] as MegaItem[],
-  };
+function productNav(lang: Lang): MegaCol[] {
+  return [
+    {
+      title: "Retail",
+      items: [
+        { label: tr(lang, "Card reader", "Datáfono"), sub: tr(lang, "Bank & Bank Pro", "Bank y Bank Pro"), href: "/product/terminals", icon: cardReaderIcon },
+        { label: tr(lang, "Cash register", "Caja registradora"), sub: tr(lang, "Certified fiscal till", "Caja fiscal certificada"), href: "/product/cash-register", icon: cashRegisterIcon },
+        { label: "Tap to Phone", sub: tr(lang, "Coming soon", "Muy pronto"), href: "/product/tap-to-phone", icon: tapToPhoneIcon },
+      ],
+    },
+    {
+      title: "Merchant Portal",
+      items: [
+        { label: tr(lang, "Overview", "Resumen"), sub: tr(lang, "Payments & payouts", "Pagos y liquidaciones"), href: "/merchant-portal", icon: portalIcon },
+        { label: tr(lang, "Money & reports", "Dinero e informes"), sub: tr(lang, "Know your numbers", "Conoce tus cifras"), href: "/merchant-portal", icon: reportsIcon },
+        { label: tr(lang, "Log in", "Iniciar sesión"), sub: tr(lang, "Open the portal", "Abrir el portal"), href: "/login", icon: loginIcon },
+      ],
+    },
+    {
+      title: "HoReCa",
+      items: [
+        { label: tr(lang, "Click ordering", "Pedidos Click"), sub: tr(lang, "Orders to the register", "Pedidos a la caja"), href: "/click", icon: clickIcon },
+        { label: tr(lang, "Dual-screen checkout", "Doble pantalla"), sub: "SmartOne Pro S", href: "/product/terminals", icon: dualIcon },
+        { label: tr(lang, "Cafés & restaurants", "Cafeterías y restaurantes"), sub: tr(lang, "See HoReCa setups", "Ver montajes HoReCa"), href: "/industries", icon: cafeIcon },
+      ],
+    },
+  ];
 }
 
 function MenuIcon({ children }: { children: React.ReactNode }) {
@@ -129,7 +133,10 @@ export function SiteNav() {
     { href: "/case-studies", label: t.nav.cases },
   ];
 
-  const allProduct = [...pm.hardware, ...pm.tool];
+  // flattened + de-duplicated by destination for the mobile menu
+  const allProduct = Array.from(
+    new Map(pm.flatMap((col) => col.items).map((it) => [it.href, it])).values(),
+  );
 
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-white/80 backdrop-blur-md">
@@ -155,30 +162,20 @@ export function SiteNav() {
             </Link>
             {menu && (
               <div className="absolute left-0 top-full z-50 pt-4">
-                <div className="anim-fade-up w-[600px] overflow-hidden rounded-2xl border border-line bg-white shadow-[0_28px_56px_-24px_rgba(29,29,31,0.35)]">
-                  <div className="grid grid-cols-[1.15fr_1fr]">
-                    {/* Payments & Fiscal */}
-                    <div className="p-3">
-                      <p className="px-2.5 pb-1.5 pt-1 text-[11px] font-semibold tracking-[0.08em] text-ink-3 uppercase">
-                        {pm.heading}
-                      </p>
-                      <div className="space-y-0.5">
-                        {pm.hardware.map((it) => (
-                          <MegaLink key={it.href} it={it} onClick={() => setMenu(false)} />
-                        ))}
+                <div className="anim-fade-up w-[720px] overflow-hidden rounded-2xl border border-line bg-white shadow-[0_28px_56px_-24px_rgba(29,29,31,0.35)]">
+                  <div className="grid grid-cols-3">
+                    {pm.map((col, ci) => (
+                      <div key={col.title} className={`p-3 ${ci > 0 ? "border-l border-line" : ""}`}>
+                        <p className="px-2.5 pb-1.5 pt-1 text-[11px] font-semibold tracking-[0.08em] text-ink-3 uppercase">
+                          {col.title}
+                        </p>
+                        <div className="space-y-0.5">
+                          {col.items.map((it) => (
+                            <MegaLink key={it.label} it={it} onClick={() => setMenu(false)} />
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                    {/* Tools */}
-                    <div className="border-l border-line bg-bg-2/50 p-3">
-                      <p className="px-2.5 pb-1.5 pt-1 text-[11px] font-semibold tracking-[0.08em] text-ink-3 uppercase">
-                        {pm.tools}
-                      </p>
-                      <div className="space-y-0.5">
-                        {pm.tool.map((it) => (
-                          <MegaLink key={it.href} it={it} onClick={() => setMenu(false)} />
-                        ))}
-                      </div>
-                    </div>
+                    ))}
                   </div>
                 </div>
               </div>
