@@ -29,6 +29,26 @@ const featIcons = [
   <path key="s" d="M9 3H5a2 2 0 0 0-2 2v3m6-5h10a2 2 0 0 1 2 2v3M3 16v3a2 2 0 0 0 2 2h4m6 0h4a2 2 0 0 0 2-2v-3M12 8v8m-3-5h6" />,
 ];
 
+// icons for the spec highlight tiles (display, processor, battery, network, printer, security)
+const highlightIcons = [
+  <>
+    <rect x="6" y="2.5" width="12" height="19" rx="2.5" />
+    <path d="M10.5 5.5h3M11 18.5h2" />
+  </>,
+  <>
+    <rect x="6" y="6" width="12" height="12" rx="2" />
+    <rect x="9.5" y="9.5" width="5" height="5" rx="1" />
+    <path d="M9 2v2m3-2v2m3-2v2M9 20v2m3-2v2m3-2v2M2 9h2m-2 3h2m-2 3h2M20 9h2m-2 3h2m-2 3h2" />
+  </>,
+  <>
+    <rect x="2" y="7" width="18" height="10" rx="2" />
+    <path d="M22 10.5v3M5.5 10v4m3-4v4m3-4v4" />
+  </>,
+  <path key="n" d="M2 9a14 14 0 0 1 20 0M5.5 12.5a9 9 0 0 1 13 0M9 16a4.5 4.5 0 0 1 6 0M12 19h.01" />,
+  <path key="pr" d="M6 9V3h12v6M6 14h12v7H6v-7ZM6 18H4a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-2M9 17h6" />,
+  <path key="se" d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3Zm-3 9 2 2 4-4.5" />,
+];
+
 function copyFor(lang: Lang) {
   return tr(
     lang,
@@ -63,6 +83,14 @@ function copyFor(lang: Lang) {
       specEyebrow: "Full specifications",
       specTitle: "The numbers, in full.",
       specSub: "Bank Pro and Pro S run one platform. The Pro S adds a customer-facing second screen – everything else is identical.",
+      highlights: [
+        { value: "6″ HD", label: "Touchscreen display" },
+        { value: "Octa-core", label: "Kun T11 · 2.0 GHz" },
+        { value: "3000 mAh", label: "All-day battery" },
+        { value: "4G · Wi-Fi", label: "Always connected" },
+        { value: "Built-in printer", label: "2″ · 58 mm thermal" },
+        { value: "PCI PTS 6.x", label: "Certified secure" },
+      ],
       proSTitle: "SmartOne Pro S",
       proSText: "Same platform, plus a second customer-facing display for a transparent checkout.",
       specGroups: [
@@ -119,6 +147,14 @@ function copyFor(lang: Lang) {
       specEyebrow: "Ficha técnica",
       specTitle: "Los números, al completo.",
       specSub: "Bank Pro y Pro S usan una plataforma. El Pro S añade una segunda pantalla hacia el cliente; todo lo demás es idéntico.",
+      highlights: [
+        { value: "6″ HD", label: "Pantalla táctil" },
+        { value: "Octa-core", label: "Kun T11 · 2.0 GHz" },
+        { value: "3000 mAh", label: "Batería para todo el día" },
+        { value: "4G · Wi-Fi", label: "Siempre conectado" },
+        { value: "Impresora integrada", label: "Térmica 2″ · 58 mm" },
+        { value: "PCI PTS 6.x", label: "Seguridad certificada" },
+      ],
       proSTitle: "SmartOne Pro S",
       proSText: "La misma plataforma, más una segunda pantalla hacia el cliente para un cobro transparente.",
       specGroups: [
@@ -248,8 +284,69 @@ export default async function TerminalsPage() {
         </div>
       </section>
 
-      {/* 5 · CTA */}
+      {/* 5 · full specifications */}
       <section className="py-24">
+        <div className="mx-auto max-w-6xl px-6">
+          <SectionHead eyebrow={c.specEyebrow} title={c.specTitle} sub={c.specSub} />
+
+          {/* spec highlights – the at-a-glance scan */}
+          <div className="mt-11 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {c.highlights.map((h, i) => (
+              <Reveal key={h.value} delay={(i % 3) * 80} className="h-full">
+                <div className="flex h-full items-center gap-4 rounded-2xl bg-bg-2 p-5">
+                  <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-white text-brand shadow-sm shadow-black/4">
+                    <svg viewBox="0 0 24 24" className="size-6" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                      {highlightIcons[i]}
+                    </svg>
+                  </span>
+                  <div className="min-w-0">
+                    <div className="font-display text-[18px] font-semibold tracking-tight text-ink">{h.value}</div>
+                    <div className="text-[12.5px] leading-tight text-ink-3">{h.label}</div>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+
+          {/* Pro S difference */}
+          <Reveal>
+            <div className="mt-4 flex items-start gap-3.5 rounded-2xl bg-brand-tint p-5">
+              <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-brand text-white">
+                <svg viewBox="0 0 24 24" className="size-5.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <rect x="3" y="5" width="12" height="13" rx="2" />
+                  <rect x="14" y="9" width="7" height="10" rx="1.5" />
+                </svg>
+              </span>
+              <div>
+                <p className="font-display text-[15px] font-semibold tracking-tight text-ink">{c.proSTitle}</p>
+                <p className="mt-0.5 text-[13.5px] leading-relaxed text-ink-2">{c.proSText}</p>
+              </div>
+            </div>
+          </Reveal>
+
+          {/* detailed spec sheet – grouped, tech-spec style */}
+          <Reveal>
+            <div className="mt-12 border-t border-line">
+              {c.specGroups.map((g) => (
+                <div key={g.group} className="grid gap-3 border-b border-line py-7 sm:grid-cols-[200px_1fr] sm:gap-10">
+                  <h4 className="font-display text-[16px] font-semibold tracking-tight text-ink">{g.group}</h4>
+                  <dl>
+                    {g.items.map(([k, v]) => (
+                      <div key={k} className="flex items-baseline justify-between gap-6 border-b border-line/70 py-2.5 last:border-0 last:pb-0">
+                        <dt className="text-[13.5px] text-ink-2">{k}</dt>
+                        <dd className="text-right font-mono text-[13px] text-ink">{v}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* 6 · CTA (closer) */}
+      <section className="bg-bg-2 py-24">
         <div className="mx-auto max-w-6xl px-6">
           <Reveal>
             <div className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-brand to-brand-d px-8 py-14 text-center text-white">
@@ -261,46 +358,6 @@ export default async function TerminalsPage() {
                   <Link href="/contact" className="btn-light">{c.get}</Link>
                   <Link href="/contact" className="btn-ghost-dark">{c.sales}</Link>
                 </div>
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* 6 · full specifications (last block before the footer) */}
-      <section className="bg-bg-2 py-24">
-        <div className="mx-auto max-w-6xl px-6">
-          <SectionHead eyebrow={c.specEyebrow} title={c.specTitle} sub={c.specSub} />
-          <Reveal>
-            <div className="mt-11 rounded-3xl border border-line bg-white p-7 shadow-sm shadow-black/3 sm:p-9">
-              {/* Pro S callout */}
-              <div className="mb-8 flex items-start gap-3.5 rounded-2xl bg-brand-tint p-4 sm:p-5">
-                <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-brand text-white">
-                  <svg viewBox="0 0 24 24" className="size-5.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                    <rect x="3" y="5" width="12" height="13" rx="2" />
-                    <rect x="14" y="9" width="7" height="10" rx="1.5" />
-                  </svg>
-                </span>
-                <div>
-                  <p className="font-display text-[15px] font-semibold tracking-tight text-ink">{c.proSTitle}</p>
-                  <p className="mt-0.5 text-[13.5px] leading-relaxed text-ink-2">{c.proSText}</p>
-                </div>
-              </div>
-
-              <div className="grid gap-x-12 gap-y-9 sm:grid-cols-2">
-                {c.specGroups.map((g) => (
-                  <div key={g.group}>
-                    <h4 className="text-[12px] font-semibold tracking-[0.08em] text-brand uppercase">{g.group}</h4>
-                    <dl className="mt-3 divide-y divide-line">
-                      {g.items.map(([k, v]) => (
-                        <div key={k} className="flex items-baseline justify-between gap-6 py-2.5">
-                          <dt className="text-[13.5px] text-ink-2">{k}</dt>
-                          <dd className="text-right font-mono text-[12.5px] text-ink">{v}</dd>
-                        </div>
-                      ))}
-                    </dl>
-                  </div>
-                ))}
               </div>
             </div>
           </Reveal>
