@@ -67,7 +67,7 @@ function productMenu(lang: Lang): MegaCol[] {
       ],
     },
     {
-      title: "Merchant Portal",
+      title: "Retail",
       desc: tr(lang, "Manage the money side of your business.", "Gestiona la parte financiera de tu negocio."),
       items: [
         { label: tr(lang, "Track payments", "Sigue tus pagos"), sub: tr(lang, "Every transaction", "Cada operación"), href: "/merchant-portal", icon: paymentsIcon },
@@ -140,7 +140,7 @@ export function SiteNav() {
   // flat list of product destinations for the mobile menu
   const mobileProduct = [
     ...pm[0].items.map((i) => ({ href: i.href, label: i.label })),
-    { href: "/merchant-portal", label: "Merchant Portal" },
+    { href: "/merchant-portal", label: "Retail" },
     ...pm[2].items.map((i) => ({ href: i.href, label: i.label })),
   ];
 

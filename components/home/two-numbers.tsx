@@ -6,6 +6,10 @@ import { tr } from "@/lib/dictionaries";
    your bank – with the fee kept deliberately small between them so it never
    dominates. Figures are illustrative. */
 
+/* Hidden for now (kept, not deleted) – flip to re-enable on the homepage and
+   the Merchant Portal page. */
+export const SHOW_TWO_NUMBERS = false;
+
 export async function TwoNumbers() {
   const lang = await getActiveLang();
   const c = tr(

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 import { SectionHead } from "@/components/section-head";
 import { PortalPreview } from "@/components/product/portal-preview";
-import { TwoNumbers } from "@/components/home/two-numbers";
+import { TwoNumbers, SHOW_TWO_NUMBERS } from "@/components/home/two-numbers";
 import { getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 import { MERCHANT_PORTAL_URL } from "@/lib/links";
@@ -109,10 +109,10 @@ export default async function MerchantPortalPage() {
       </section>
 
       {/* 3 · the money (two numbers) */}
-      <TwoNumbers />
+      {SHOW_TWO_NUMBERS && <TwoNumbers />}
 
       {/* 4 · feature grid */}
-      <section className="bg-bg-2 py-24">
+      <section className={`${SHOW_TWO_NUMBERS ? "bg-bg-2" : ""} py-24`}>
         <div className="mx-auto max-w-6xl px-6">
           <SectionHead eyebrow={c.featEyebrow} title={c.featTitle} />
           <div className="mt-11 grid gap-4 sm:grid-cols-2">

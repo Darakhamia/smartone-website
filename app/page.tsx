@@ -2,7 +2,7 @@ import { Hero } from "@/components/home/hero";
 import { TrustLine } from "@/components/home/trust-line";
 import { Breadth } from "@/components/home/breadth";
 import { WhySwitch } from "@/components/home/why-switch";
-import { TwoNumbers } from "@/components/home/two-numbers";
+import { TwoNumbers, SHOW_TWO_NUMBERS } from "@/components/home/two-numbers";
 import { Gap } from "@/components/home/gap";
 import { HowItWorks } from "@/components/home/how-it-works";
 import { Industries } from "@/components/home/industries";
@@ -16,7 +16,7 @@ export default function Home() {
       <TrustLine />
       <Breadth />
       <WhySwitch />
-      <TwoNumbers />
+      {SHOW_TWO_NUMBERS && <TwoNumbers />}
       <Gap />
       <HowItWorks />
       <Industries />

@@ -47,7 +47,7 @@ export async function SiteFooter() {
       ],
     },
     {
-      title: "Merchant Portal",
+      title: "Retail",
       links: [
         { href: "/merchant-portal", label: l.whatIs },
         { href: MERCHANT_PORTAL_URL, label: l.login },
