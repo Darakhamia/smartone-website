@@ -55,7 +55,7 @@ function copyFor(lang: Lang, fiscal: boolean) {
         cashRegister: {
           title: "Cash register",
           text: fiscal
-            ? "A certified fiscal till built into the device – worth €1,000–1,500 elsewhere, yours for €399."
+            ? "Register, terminal and printer in one certified device – worth €800–1,200 as three boxes, yours for €400."
             : "No fiscal register is required in your market – see how compliance works where you trade.",
         },
         tapToPhone: { title: "Tap to Phone", text: "Take contactless payments on a phone, no extra hardware. In certification – coming soon." },
@@ -98,7 +98,7 @@ function copyFor(lang: Lang, fiscal: boolean) {
         cashRegister: {
           title: "Caja registradora",
           text: fiscal
-            ? "Una caja fiscal certificada integrada en el dispositivo: vale 1.000-1.500 € en otros sitios, la tuya por 399 €."
+            ? "Caja, terminal e impresora en un dispositivo certificado: vale 800-1.200 € en tres cajas, la tuya por 400 €."
             : "En tu mercado no se requiere caja fiscal: mira cómo funciona el cumplimiento donde operas.",
         },
         tapToPhone: { title: "Tap to Phone", text: "Acepta pagos contactless en un móvil, sin hardware adicional. En certificación, muy pronto." },

@@ -10,7 +10,7 @@ import type { CountryCode, Lang } from "@/lib/countries";
 export const metadata: Metadata = {
   title: "Cash register",
   description:
-    "A certified fiscal cash register built into the device you already use to take payments. Fiscal receipts, Z-reports and certification market by market – from €399.",
+    "A certified fiscal cash register built into the device you already use to take payments. Fiscal receipts, Z-reports and certification market by market – from €400.",
 };
 
 const whatIcons = [
@@ -41,15 +41,15 @@ function copyFor(lang: Lang, fiscal: boolean, c$: string) {
         { title: "Certified market by market", text: "Registered and approved for the country you trade in – we name what's live and what's dated." },
       ],
       // price anchor
-      priceEyebrow: "What a till costs",
-      priceTitle: "A cash register worth €1,000–1,500. Yours for €399.",
-      priceSub: "A standalone certified fiscal till is a serious purchase. We built ours into the terminal you already need – so you pay once, for one box.",
-      standaloneLabel: "A standalone fiscal till",
-      standaloneRange: `${c$}1,000–1,500`,
-      standaloneNote: "Separate hardware, its own contract, sat next to your card machine.",
-      oursLabel: "SmartOne, built in",
-      oursPrice: `${c$}399`,
-      oursNote: "The certified register is part of the device that takes payments. One box, one price.",
+      priceEyebrow: "What a full setup costs",
+      priceTitle: "A full setup worth €800–1,200. Yours for €400.",
+      priceSub: "A cash register, a payment terminal and a printer add up fast as three separate boxes. We build all three into one certified device – so you pay once.",
+      standaloneLabel: "Register + terminal + printer",
+      standaloneRange: `${c$}800–1,200`,
+      standaloneNote: "Three separate boxes, each with its own contract, crowding your counter.",
+      oursLabel: "SmartOne, all in one",
+      oursPrice: `${c$}400`,
+      oursNote: "The certified register, the payment terminal and the printer in a single device. One box, one price.",
       // cashbox story
       cashEyebrow: "Cashbox",
       cashTitle: "Start with the register alone.",
@@ -97,15 +97,15 @@ function copyFor(lang: Lang, fiscal: boolean, c$: string) {
         { title: "Informes Z", text: "Cierra el día en un tap. La caja queda cuadrada y el informe presentado, sin cuadrar a mano." },
         { title: "Certificado por mercado", text: "Registrado y aprobado para el país en el que operas: decimos qué está activo y qué tiene fecha." },
       ],
-      priceEyebrow: "Lo que cuesta una caja",
-      priceTitle: "Una caja registradora que vale 1.000-1.500 €. La tuya por 399 €.",
-      priceSub: "Una caja fiscal certificada por separado es una compra seria. La nuestra va integrada en el terminal que ya necesitas, así que pagas una vez, por una sola caja.",
-      standaloneLabel: "Una caja fiscal por separado",
-      standaloneRange: `${c$}1.000-1.500`,
-      standaloneNote: "Hardware aparte, con su propio contrato, junto a tu datáfono.",
-      oursLabel: "SmartOne, integrada",
-      oursPrice: `${c$}399`,
-      oursNote: "La caja certificada forma parte del dispositivo que cobra. Una caja, un precio.",
+      priceEyebrow: "Lo que cuesta un montaje completo",
+      priceTitle: "Un montaje completo que vale 800-1.200 €. El tuyo por 400 €.",
+      priceSub: "Una caja registradora, un terminal de pago y una impresora suman rápido como tres cajas separadas. Nosotros integramos los tres en un dispositivo certificado, así que pagas una vez.",
+      standaloneLabel: "Caja + terminal + impresora",
+      standaloneRange: `${c$}800-1.200`,
+      standaloneNote: "Tres cajas separadas, cada una con su contrato, ocupando tu mostrador.",
+      oursLabel: "SmartOne, todo en uno",
+      oursPrice: `${c$}400`,
+      oursNote: "La caja certificada, el terminal de pago y la impresora en un solo dispositivo. Una caja, un precio.",
       cashEyebrow: "Cashbox",
       cashTitle: "Empieza solo con la caja.",
       cashText:

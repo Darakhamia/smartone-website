@@ -18,7 +18,7 @@ function copyFor(lang: Lang) {
     {
       modes: { buy: "Buy terminal", rent: "Rent terminal" },
       device: {
-        buy: { label: "Buy terminal", price: "399", suffix: "+ VAT", term: "No minimum term" },
+        buy: { label: "Buy terminal", price: "400", suffix: "+ VAT", term: "No minimum term" },
         rent: { label: "Rent terminal", price: "30", suffix: "+ VAT / month", term: "1-year minimum term" },
       },
       tiers: [
@@ -31,14 +31,14 @@ function copyFor(lang: Lang) {
       perTx: "per card transaction",
       fixed: "fixed fee per transaction",
       cta: "Get a terminal →",
-      anchor1: "That {c}399 is a certified cash register",
-      anchor2: "– on its own, a fiscal till runs {c}1,000–1,500. You get the register and the payment terminal in one.",
+      anchor1: "That {c}400 is a certified cash register, a payment terminal and a printer",
+      anchor2: "– bought separately, the three boxes run {c}800–1,200. You get all of it in one device.",
       speak: "Speak to us about your rate",
     },
     {
       modes: { buy: "Compra el terminal", rent: "Alquila el terminal" },
       device: {
-        buy: { label: "Compra", price: "399", suffix: "+ IVA", term: "Sin permanencia" },
+        buy: { label: "Compra", price: "400", suffix: "+ IVA", term: "Sin permanencia" },
         rent: { label: "Alquiler", price: "30", suffix: "+ IVA / mes", term: "Permanencia de 1 año" },
       },
       tiers: [
@@ -51,8 +51,8 @@ function copyFor(lang: Lang) {
       perTx: "por operación con tarjeta",
       fixed: "de comisión fija por operación",
       cta: "Solicita tu terminal →",
-      anchor1: "Esos {c}399 son una caja registradora certificada",
-      anchor2: "– por separado, una caja fiscal cuesta {c}1,000–1,500. Te llevas la caja y el terminal de pago en uno.",
+      anchor1: "Esos {c}400 son una caja registradora certificada, un terminal de pago y una impresora",
+      anchor2: "– por separado, las tres cajas cuestan {c}800-1.200. Te llevas todo en un dispositivo.",
       speak: "Consulta tu tarifa",
     },
   );
