@@ -8,6 +8,7 @@ import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
 import { LeadAttribution } from "@/components/lead/attribution";
 import { CountryProvider } from "@/components/country/country-context";
+import { CookieNotice } from "@/components/legal/cookie-notice";
 import { HideOnWelcome } from "@/components/country/hide-on-welcome";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 
@@ -38,6 +39,7 @@ export default async function RootLayout({
             <SiteFooter />
           </HideOnWelcome>
           <LeadAttribution />
+          <CookieNotice />
         </CountryProvider>
       </body>
     </html>

@@ -21,6 +21,8 @@ export async function SiteFooter() {
       about: "About",
       industries: "Industries",
       contact: "Contact",
+      privacy: "Privacy Policy",
+      cookies: "Cookie Policy",
     },
     {
       paymentsFiscal: "Pagos y fiscal",
@@ -33,6 +35,8 @@ export async function SiteFooter() {
       about: "Nosotros",
       industries: "Sectores",
       contact: "Contacto",
+      privacy: "Política de privacidad",
+      cookies: "Política de cookies",
     },
   );
 
@@ -106,9 +110,13 @@ export async function SiteFooter() {
         </div>
         <div className="mt-10 border-t border-white/12 pt-5">
           <p className="text-[12px] leading-relaxed text-white/40">{t.disclaimer}</p>
-          <div className="mt-4 flex flex-wrap justify-between gap-3 text-[12.5px]">
+          <div className="mt-4 flex flex-wrap items-center justify-between gap-x-5 gap-y-3 text-[12.5px]">
             <span>© {new Date().getFullYear()} SmartOne</span>
-            <span>Across Europe · Verifactu-ready for Spain 2027</span>
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+              <Link href="/privacy" className="text-white/60 transition-colors hover:text-white">{l.privacy}</Link>
+              <Link href="/cookies" className="text-white/60 transition-colors hover:text-white">{l.cookies}</Link>
+              <span className="text-white/40">Across Europe · Verifactu-ready for Spain 2027</span>
+            </div>
           </div>
         </div>
       </div>

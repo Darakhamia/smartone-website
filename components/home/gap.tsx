@@ -1,12 +1,8 @@
 import { Reveal } from "@/components/reveal";
 import { LogoMark } from "@/components/logo";
+import { GapCards, type GapModal } from "@/components/home/gap-interactive";
 import { getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
-
-const gapIcons = [
-  <path key="0" d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3Zm-3 9 2 2 4-4.5" />,
-  <path key="1" d="M4 10h12M4 14h9m6-8a7.7 7.7 0 0 0-5.2-2A7.9 7.9 0 0 0 6 12c0 4.4 3.5 8 7.8 8 2 0 3.8-.8 5.2-2" />,
-];
 
 export async function Gap() {
   const lang = await getActiveLang();
@@ -27,6 +23,25 @@ export async function Gap() {
           text: "The rate you signed up for is the rate you pay. No commission hiding inside a monthly statement – competitors could show it, their margin depends on not showing it.",
         },
       ],
+      modal: {
+        tap: "See it in the app",
+        close: "Close",
+        cashbox: {
+          badge: "Simple mode",
+          dept: ["Drinks", "Food", "Bakery", "Other"],
+          items: [["2× Coffee", "€5.00"], ["1× Croissant", "€2.40"]],
+          total: "Total",
+          charge: "Charge",
+          caption: "The built-in Cashbox: departments, items and a fiscal receipt – right on the terminal.",
+        },
+        portal: {
+          frame: "Portal · Money",
+          cardSales: "Card sales today",
+          receive: "You'll receive",
+          commission: "Commission",
+          caption: "The rate you signed up for is the rate you pay – every fee visible in the Merchant Portal.",
+        },
+      } as GapModal,
     },
     {
       eyebrow: "Por qué nadie más hace esto",
@@ -43,6 +58,25 @@ export async function Gap() {
           text: "La tarifa que firmaste es la que pagas. Sin comisiones escondidas en un extracto mensual: la competencia podría mostrarlas, pero su margen depende de no hacerlo.",
         },
       ],
+      modal: {
+        tap: "Verlo en la app",
+        close: "Cerrar",
+        cashbox: {
+          badge: "Modo simple",
+          dept: ["Bebidas", "Comida", "Panadería", "Otros"],
+          items: [["2× Café", "€5.00"], ["1× Croissant", "€2.40"]],
+          total: "Total",
+          charge: "Cobrar",
+          caption: "El Cashbox integrado: departamentos, artículos y ticket fiscal, en el propio terminal.",
+        },
+        portal: {
+          frame: "Portal · Dinero",
+          cardSales: "Ventas con tarjeta hoy",
+          receive: "Recibirás",
+          commission: "Comisión",
+          caption: "La tarifa que firmaste es la que pagas: cada comisión visible en el Merchant Portal.",
+        },
+      } as GapModal,
     },
   );
 
@@ -58,26 +92,7 @@ export async function Gap() {
             <h2 className="h-display mt-4 text-[clamp(30px,4vw,48px)] leading-[1.06]">{c.title}</h2>
           </div>
         </Reveal>
-        <div className="mt-11 grid gap-4 md:grid-cols-2">
-          {c.gaps.map((g, i) => (
-            <Reveal key={g.tag} delay={i * 120} className="h-full">
-              <div className="group h-full rounded-3xl border border-line bg-white p-8 shadow-sm shadow-black/3 transition-colors duration-300 hover:bg-brand-tint/50">
-                <div className="flex items-center justify-between">
-                  <span className="grid size-12 place-items-center rounded-xl bg-brand-tint transition-colors duration-300 group-hover:bg-brand/15">
-                    <svg viewBox="0 0 24 24" className="size-6 stroke-brand" fill="none" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                      {gapIcons[i]}
-                    </svg>
-                  </span>
-                  <span className="rounded-full bg-brand-tint px-3.5 py-1 text-[11px] font-semibold tracking-wide text-brand uppercase">
-                    {g.tag}
-                  </span>
-                </div>
-                <h3 className="mt-6 font-display text-[22px] font-semibold tracking-tight">{g.title}</h3>
-                <p className="mt-2.5 leading-relaxed text-ink-2">{g.text}</p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
+        <GapCards cards={c.gaps} modal={c.modal} />
       </div>
     </section>
   );
