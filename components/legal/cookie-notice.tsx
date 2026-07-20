@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useSyncExternalStore } from "react";
+import { useEffect, useState } from "react";
 import { useCountry } from "@/components/country/country-context";
 import { tr } from "@/lib/dictionaries";
 
@@ -10,17 +10,18 @@ import { tr } from "@/lib/dictionaries";
    rather than gates. If analytics or marketing cookies are added later, this
    should become a full consent banner with opt-in categories. */
 const KEY = "so_cookie_notice";
-const subscribe = () => () => {};
-const hasAck = () => document.cookie.split("; ").some((row) => row.startsWith(`${KEY}=`));
 
 export function CookieNotice() {
   const { lang } = useCountry();
-  // On the server we report "acknowledged" so nothing renders and there's no
-  // hydration mismatch; on the client we read the real cookie value.
-  const acknowledged = useSyncExternalStore(subscribe, hasAck, () => true);
-  const [dismissed, setDismissed] = useState(false);
+  const [visible, setVisible] = useState(false);
 
-  if (acknowledged || dismissed) return null;
+  useEffect(() => {
+    const ack = document.cookie.split("; ").some((row) => row.startsWith(`${KEY}=`));
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- client-only: reveal after mount if not yet acknowledged
+    if (!ack) setVisible(true);
+  }, []);
+
+  if (!visible) return null;
 
   const c = tr(
     lang,
@@ -38,7 +39,7 @@ export function CookieNotice() {
 
   const accept = () => {
     document.cookie = `${KEY}=1; path=/; max-age=${60 * 60 * 24 * 365}; samesite=lax`;
-    setDismissed(true);
+    setVisible(false);
   };
 
   return (
