@@ -281,34 +281,36 @@ export default async function CashRegisterPage() {
         </section>
       )}
 
-      {/* 6 · compliance (all markets) */}
-      <section className={`${fiscal ? "bg-bg-2" : ""} py-24`}>
-        <div className="mx-auto max-w-6xl px-6">
-          <SectionHead eyebrow={c.complianceEyebrow} title={c.complianceTitle} sub={c.complianceSub} />
-          <div className="mx-auto mt-10 grid max-w-185 gap-4 sm:grid-cols-2">
-            <Reveal className="h-full">
-              <div className="flex h-full flex-col rounded-3xl bg-white p-7 shadow-sm shadow-black/3">
-                <span className="text-3xl">{country.flag}</span>
-                <h3 className="mt-4 font-display text-[20px] font-semibold tracking-tight">{c.compliance[country.code].title}</h3>
-                <p className="mt-1.5 text-[14.5px] leading-relaxed text-ink-2">{c.compliance[country.code].text}</p>
-              </div>
-            </Reveal>
-            <Reveal delay={100} className="h-full">
-              <Link href="/es" className="group flex h-full flex-col rounded-3xl bg-white p-7 shadow-sm shadow-black/3 transition-transform duration-300 hover:-translate-y-1">
-                <span className="text-3xl">{isEs ? "📋" : "🇪🇸"}</span>
-                <h3 className="mt-4 flex items-center justify-between font-display text-[20px] font-semibold tracking-tight">
-                  {c.spainTitle(isEs)}
-                  <span className="text-brand transition-transform duration-300 group-hover:translate-x-1">→</span>
-                </h3>
-                <p className="mt-1.5 text-[14.5px] leading-relaxed text-ink-2">{c.spainText(isEs)}</p>
-              </Link>
-            </Reveal>
+      {/* 6 · compliance – hidden for Malta (live today; no market-by-market reassurance needed) */}
+      {country.code !== "mt" && (
+        <section className={`${fiscal ? "bg-bg-2" : ""} py-24`}>
+          <div className="mx-auto max-w-6xl px-6">
+            <SectionHead eyebrow={c.complianceEyebrow} title={c.complianceTitle} sub={c.complianceSub} />
+            <div className="mx-auto mt-10 grid max-w-185 gap-4 sm:grid-cols-2">
+              <Reveal className="h-full">
+                <div className="flex h-full flex-col rounded-3xl bg-white p-7 shadow-sm shadow-black/3">
+                  <span className="text-3xl">{country.flag}</span>
+                  <h3 className="mt-4 font-display text-[20px] font-semibold tracking-tight">{c.compliance[country.code].title}</h3>
+                  <p className="mt-1.5 text-[14.5px] leading-relaxed text-ink-2">{c.compliance[country.code].text}</p>
+                </div>
+              </Reveal>
+              <Reveal delay={100} className="h-full">
+                <Link href="/es" className="group flex h-full flex-col rounded-3xl bg-white p-7 shadow-sm shadow-black/3 transition-transform duration-300 hover:-translate-y-1">
+                  <span className="text-3xl">{isEs ? "📋" : "🇪🇸"}</span>
+                  <h3 className="mt-4 flex items-center justify-between font-display text-[20px] font-semibold tracking-tight">
+                    {c.spainTitle(isEs)}
+                    <span className="text-brand transition-transform duration-300 group-hover:translate-x-1">→</span>
+                  </h3>
+                  <p className="mt-1.5 text-[14.5px] leading-relaxed text-ink-2">{c.spainText(isEs)}</p>
+                </Link>
+              </Reveal>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* 7 · CTA */}
-      <section className={`${fiscal ? "" : "bg-bg-2"} py-24`}>
+      <section className={`${!fiscal || country.code === "mt" ? "bg-bg-2" : ""} py-24`}>
         <div className="mx-auto max-w-6xl px-6">
           <Reveal>
             <div className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-brand to-brand-d px-8 py-14 text-center text-white">

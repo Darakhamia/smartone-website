@@ -2,9 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 import { SectionHead } from "@/components/section-head";
-import { DeviceChooser } from "@/components/product/device-chooser";
 import { Terminal } from "@/components/product/device-visuals";
-import { getActiveLang } from "@/lib/country-server";
+import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 import type { Lang } from "@/lib/countries";
 
@@ -75,8 +74,6 @@ function copyFor(lang: Lang) {
         { title: "Receipt printer", text: "The printer is in the device – hand over a receipt without a second box on the counter." },
         { title: "Always connected", text: "SIM and Wi-Fi, with a battery that lasts the shift. It works where your counter is." },
       ],
-      chooserEyebrow: "Which device do I need?",
-      chooserTitle: "Answer two questions.",
       ctaTitle: "Ready to take your first tap?",
       ctaText: "Live in four business days or less.",
       sales: "Contact sales",
@@ -139,8 +136,6 @@ function copyFor(lang: Lang) {
         { title: "Impresora de tickets", text: "La impresora está en el dispositivo: entrega el ticket sin una segunda caja en el mostrador." },
         { title: "Siempre conectado", text: "SIM y Wi-Fi, con una batería que aguanta el turno. Funciona donde esté tu mostrador." },
       ],
-      chooserEyebrow: "¿Qué dispositivo necesito?",
-      chooserTitle: "Responde dos preguntas.",
       ctaTitle: "¿Listo para tu primer tap?",
       ctaText: "Operativo en cuatro días hábiles o menos.",
       sales: "Contactar con ventas",
@@ -184,8 +179,14 @@ function copyFor(lang: Lang) {
 }
 
 export default async function TerminalsPage() {
+  const country = await getActiveCountry();
   const lang = await getActiveLang();
   const c = copyFor(lang);
+  // Malta is offered a single terminal – the dual-screen Pro S.
+  const isMalta = country.code === "mt";
+  const lineup = isMalta ? c.lineup.filter((d) => d.dual) : c.lineup;
+  const lineTitle = isMalta ? tr(lang, "One device. Everything built in.", "Un dispositivo. Todo integrado.") : c.lineTitle;
+  const specSub = isMalta ? tr(lang, "The SmartOne Pro S platform, in full.", "La plataforma SmartOne Pro S, al completo.") : c.specSub;
 
   return (
     <>
@@ -218,9 +219,9 @@ export default async function TerminalsPage() {
       {/* 2 · lineup */}
       <section className="bg-bg-2 py-24">
         <div className="mx-auto max-w-6xl px-6">
-          <SectionHead eyebrow={c.lineEyebrow} title={c.lineTitle} sub={c.lineSub} />
-          <div className="mt-11 grid gap-4 md:grid-cols-2">
-            {c.lineup.map((d, i) => (
+          <SectionHead eyebrow={c.lineEyebrow} title={lineTitle} sub={c.lineSub} />
+          <div className={`mt-11 grid gap-4 ${lineup.length > 1 ? "md:grid-cols-2" : "mx-auto max-w-md"}`}>
+            {lineup.map((d, i) => (
               <Reveal key={d.name} delay={i * 100} className="h-full">
                 <div className="flex h-full flex-col rounded-3xl bg-white p-7 shadow-sm shadow-black/3 transition-transform duration-300 hover:-translate-y-1">
                   <div className="grid h-64 place-items-center rounded-2xl bg-gradient-to-br from-brand-tint via-bg-2 to-bg-2 py-6">
@@ -250,20 +251,8 @@ export default async function TerminalsPage() {
         </div>
       </section>
 
-      {/* 3 · which device chooser (moved up) */}
+      {/* 3 · inside the device */}
       <section className="py-24">
-        <div className="mx-auto max-w-6xl px-6">
-          <SectionHead eyebrow={c.chooserEyebrow} title={c.chooserTitle} center />
-          <Reveal delay={100}>
-            <div className="mt-10">
-              <DeviceChooser />
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* 4 · inside the device */}
-      <section className="bg-bg-2 py-24">
         <div className="mx-auto max-w-6xl px-6">
           <SectionHead eyebrow={c.featEyebrow} title={c.featTitle} sub={c.featSub} />
           <div className="mt-11 grid gap-4 md:grid-cols-3">
@@ -287,7 +276,7 @@ export default async function TerminalsPage() {
       {/* 5 · full specifications */}
       <section className="py-24">
         <div className="mx-auto max-w-6xl px-6">
-          <SectionHead eyebrow={c.specEyebrow} title={c.specTitle} sub={c.specSub} />
+          <SectionHead eyebrow={c.specEyebrow} title={c.specTitle} sub={specSub} />
 
           {/* spec highlights – the at-a-glance scan */}
           <div className="mt-11 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -308,21 +297,23 @@ export default async function TerminalsPage() {
             ))}
           </div>
 
-          {/* Pro S difference */}
-          <Reveal>
-            <div className="mt-4 flex items-start gap-3.5 rounded-2xl bg-brand-tint p-5">
-              <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-brand text-white">
-                <svg viewBox="0 0 24 24" className="size-5.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                  <rect x="3" y="5" width="12" height="13" rx="2" />
-                  <rect x="14" y="9" width="7" height="10" rx="1.5" />
-                </svg>
-              </span>
-              <div>
-                <p className="font-display text-[15px] font-semibold tracking-tight text-ink">{c.proSTitle}</p>
-                <p className="mt-0.5 text-[13.5px] leading-relaxed text-ink-2">{c.proSText}</p>
+          {/* Pro S difference – only where both models are offered */}
+          {!isMalta && (
+            <Reveal>
+              <div className="mt-4 flex items-start gap-3.5 rounded-2xl bg-brand-tint p-5">
+                <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-brand text-white">
+                  <svg viewBox="0 0 24 24" className="size-5.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                    <rect x="3" y="5" width="12" height="13" rx="2" />
+                    <rect x="14" y="9" width="7" height="10" rx="1.5" />
+                  </svg>
+                </span>
+                <div>
+                  <p className="font-display text-[15px] font-semibold tracking-tight text-ink">{c.proSTitle}</p>
+                  <p className="mt-0.5 text-[13.5px] leading-relaxed text-ink-2">{c.proSText}</p>
+                </div>
               </div>
-            </div>
-          </Reveal>
+            </Reveal>
+          )}
 
           {/* detailed spec sheet – grouped, tech-spec style */}
           <Reveal>

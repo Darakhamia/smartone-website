@@ -1,7 +1,5 @@
-import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 import { LogoMark } from "@/components/logo";
-import { TurnoverCalculator } from "@/components/pricing/turnover-calculator";
 import { getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 
@@ -72,9 +70,6 @@ export async function WhySwitch() {
       bank: "Your bank",
       sold: "Sold · Mon",
       paid: "Paid · Tue",
-      calcEyebrow: "See what you'll pay",
-      calcTitle: "One clear rate – and it drops as you grow.",
-      calcLink: "Full pricing & FAQ →",
       triggers: [
         { title: "Clear fees", text: "The rate you signed up for is the rate you pay." },
         { title: "Keep your own bank", text: "Payouts land in the account you already have." },
@@ -89,9 +84,6 @@ export async function WhySwitch() {
       bank: "Tu banco",
       sold: "Vendido · lun",
       paid: "Pagado · mar",
-      calcEyebrow: "Mira lo que pagarás",
-      calcTitle: "Una tarifa clara, que baja a medida que creces.",
-      calcLink: "Precios completos y FAQ →",
       triggers: [
         { title: "Comisiones claras", text: "La tarifa que firmaste es la que pagas." },
         { title: "Mantén tu propio banco", text: "Los pagos llegan a la cuenta que ya tienes." },
@@ -125,23 +117,6 @@ export async function WhySwitch() {
               </div>
             </Reveal>
           ))}
-        </div>
-
-        <div className="mt-18 border-t border-line-2 pt-16">
-          <Reveal>
-            <div className="mb-7 flex flex-wrap items-end justify-between gap-5">
-              <div>
-                <span className="eyebrow">{c.calcEyebrow}</span>
-                <h3 className="h-display mt-3 text-2xl">{c.calcTitle}</h3>
-              </div>
-              <Link href="/pricing" className="btn-ghost px-6 py-2.5">
-                {c.calcLink}
-              </Link>
-            </div>
-          </Reveal>
-          <Reveal delay={100}>
-            <TurnoverCalculator />
-          </Reveal>
         </div>
       </div>
     </section>

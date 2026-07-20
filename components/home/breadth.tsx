@@ -50,10 +50,10 @@ export async function BreadthComponent() {
       footer:
         "Use the full stack – or just the terminal, or just the register. Each works on its own, and grows with you when you're ready.",
       jobs: [
-        { title: "Take payments", text: "Card, contactless and cash." },
-        { title: "Stay compliant", text: "Fiscal receipts and reports." },
-        { title: "Sell & manage", text: "Products, prices and orders." },
-        { title: "Track your money", text: "See what you earned and what's landing in your bank." },
+        { title: "Take payments", text: "Card, contactless and cash.", href: "/product/terminals" },
+        { title: "Stay compliant", text: "Fiscal receipts and reports.", href: "/product/cash-register" },
+        { title: "Sell & manage", text: "Products, prices and orders.", href: "/click" },
+        { title: "Track your money", text: "See what you earned and what's landing in your bank.", href: "/merchant-portal" },
       ],
       replaceLabels: ["Cash register", "Payment terminal", "Accountant tool", "Spreadsheet"],
     },
@@ -66,10 +66,10 @@ export async function BreadthComponent() {
       footer:
         "Usa todo el conjunto, o solo el terminal, o solo la caja. Cada parte funciona por sí sola y crece contigo cuando estés listo.",
       jobs: [
-        { title: "Cobra", text: "Tarjeta, contactless y efectivo." },
-        { title: "Cumple la normativa", text: "Tickets fiscales e informes." },
-        { title: "Vende y gestiona", text: "Productos, precios y pedidos." },
-        { title: "Controla tu dinero", text: "Mira lo que ganaste y lo que llega a tu banco." },
+        { title: "Cobra", text: "Tarjeta, contactless y efectivo.", href: "/product/terminals" },
+        { title: "Cumple la normativa", text: "Tickets fiscales e informes.", href: "/product/cash-register" },
+        { title: "Vende y gestiona", text: "Productos, precios y pedidos.", href: "/click" },
+        { title: "Controla tu dinero", text: "Mira lo que ganaste y lo que llega a tu banco.", href: "/merchant-portal" },
       ],
       replaceLabels: ["Caja registradora", "Terminal de pago", "Software del contable", "Hoja de cálculo"],
     },
@@ -91,7 +91,7 @@ export async function BreadthComponent() {
           {c.jobs.map((job, i) => (
             <Reveal key={job.title} delay={i * 90} className="h-full">
               <Link
-                href="/product"
+                href={job.href}
                 className="group relative flex h-full flex-col rounded-3xl border border-line bg-white p-6 pb-16 shadow-sm shadow-black/3 transition-all duration-300 hover:-translate-y-1.5 hover:border-brand/30 hover:shadow-[0_20px_40px_-28px_rgba(90,25,181,0.4)]"
               >
                 <span className="grid size-13 place-items-center rounded-2xl bg-brand-tint transition-colors duration-300 group-hover:bg-brand/15">

@@ -42,8 +42,14 @@ function copyFor(lang: Lang) {
         { n: "02", title: "Reconcile the till", text: "Z-report & receipts in one place; reprint or email any one." },
         { n: "03", title: "Find a transaction", text: "Search by RRN / receipt #, settle a dispute on the spot." },
         { n: "04", title: "See the period", text: "Revenue, average check, card vs cash, top categories." },
+        { n: "05", title: "Hand it to your accountant", text: "Email or export the day's report straight from the portal – nothing to collect by hand." },
       ],
-      f: { money: "Portal · Money", receipts: "Portal · Receipts", tx: "Portal · Transactions", analytics: "Portal · Analytics" },
+      f: { money: "Portal · Money", receipts: "Portal · Receipts", tx: "Portal · Transactions", analytics: "Portal · Analytics", reports: "Portal · Reports" },
+      reportTitle: "Day report · 12 Jun",
+      vat: "VAT",
+      emailAccountant: "Email to accountant",
+      exportBtn: "Export CSV · PDF",
+      sent: "Sent to accountant ✓",
       sold: "Sold",
       receive: "You'll receive",
       cardSales: "Card sales",
@@ -70,8 +76,14 @@ function copyFor(lang: Lang) {
         { n: "02", title: "Cuadra la caja", text: "Informe Z y tickets en un solo sitio; reimprime o envía cualquiera por email." },
         { n: "03", title: "Encuentra una operación", text: "Busca por RRN o nº de ticket y resuelve una incidencia al momento." },
         { n: "04", title: "Mira el periodo", text: "Ingresos, ticket medio, tarjeta vs efectivo, categorías top." },
+        { n: "05", title: "Pásaselo a tu contable", text: "Envía o exporta el informe del día directo desde el portal, sin recopilar nada a mano." },
       ],
-      f: { money: "Portal · Dinero", receipts: "Portal · Tickets", tx: "Portal · Operaciones", analytics: "Portal · Analítica" },
+      f: { money: "Portal · Dinero", receipts: "Portal · Tickets", tx: "Portal · Operaciones", analytics: "Portal · Analítica", reports: "Portal · Informes" },
+      reportTitle: "Informe del día · 12 jun",
+      vat: "IVA",
+      emailAccountant: "Enviar al contable",
+      exportBtn: "Exportar CSV · PDF",
+      sent: "Enviado al contable ✓",
       sold: "Vendido",
       receive: "Recibirás",
       cardSales: "Ventas con tarjeta",
@@ -100,8 +112,8 @@ function MoneyVisual({ c }: { c: Copy }) {
     <Frame title={c.f.money}>
       <div className="grid grid-cols-2 gap-3">
         <div className="rounded-xl bg-bg-2 p-4">
-          <div className="text-[10.5px] font-semibold tracking-wide text-ink-3 uppercase">{c.sold}</div>
-          <div className="h-display mt-1.5 text-[22px]">€1,240.00</div>
+          <div className="text-[10.5px] font-semibold tracking-wide text-ink-3 uppercase">{c.cardSales}</div>
+          <div className="h-display mt-1.5 text-[22px]">€980.00</div>
         </div>
         <div className="rounded-xl bg-brand-tint p-4">
           <div className="text-[10.5px] font-semibold tracking-wide text-brand uppercase">{c.receive}</div>
@@ -109,8 +121,7 @@ function MoneyVisual({ c }: { c: Copy }) {
         </div>
       </div>
       <div className="mt-4 border-t border-dashed border-line-2 pt-3">
-        <Row label={c.cardSales} value="€980.00" />
-        <Row label={c.commission} value="−€9.60" accent />
+        <Row label={c.commission} value="−€9.60 · 0.98%" accent />
         <Row label={c.status} value={c.processed} />
       </div>
     </Frame>
@@ -195,13 +206,47 @@ function PeriodVisual({ c }: { c: Copy }) {
   );
 }
 
+function ShareVisual({ c }: { c: Copy }) {
+  return (
+    <Frame title={c.f.reports}>
+      <div className="rounded-xl bg-bg-2 p-4">
+        <div className="flex items-baseline justify-between">
+          <span className="font-mono text-[12.5px] text-ink-2">{c.reportTitle}</span>
+          <span className="h-display text-[18px]">€980.00</span>
+        </div>
+        <div className="mt-2.5 border-t border-dashed border-line-2 pt-2.5">
+          <Row label={c.revenue} value="€980.00" />
+          <Row label={c.vat} value="€149.50" />
+          <Row label={c.commission} value="−€9.60" accent />
+        </div>
+      </div>
+      <div className="mt-3 flex gap-2">
+        <span className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-brand px-3 py-2.5 text-[12.5px] font-semibold text-white">
+          <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <rect x="3" y="5" width="18" height="14" rx="2" />
+            <path d="m3 7 9 6 9-6" />
+          </svg>
+          {c.emailAccountant}
+        </span>
+        <span className="rounded-lg border border-line bg-white px-3 py-2.5 text-[12.5px] font-semibold text-brand">{c.exportBtn}</span>
+      </div>
+      <div className="mt-2.5 flex items-center gap-1.5 font-mono text-[11px] text-[#0e8a5f]">
+        <svg viewBox="0 0 24 24" className="size-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+          <path d="M5 13l4 4L19 7" />
+        </svg>
+        {c.sent}
+      </div>
+    </Frame>
+  );
+}
+
 export function HowItWorks() {
   const { lang } = useCountry();
   const c = copyFor(lang);
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
 
-  const visuals = [<MoneyVisual key="0" c={c} />, <TillVisual key="1" c={c} />, <SearchVisual key="2" c={c} />, <PeriodVisual key="3" c={c} />];
+  const visuals = [<MoneyVisual key="0" c={c} />, <TillVisual key="1" c={c} />, <SearchVisual key="2" c={c} />, <PeriodVisual key="3" c={c} />, <ShareVisual key="4" c={c} />];
   const advance = () => setActive((a) => (a + 1) % c.steps.length);
   const pick = (i: number) => setActive(i);
 
