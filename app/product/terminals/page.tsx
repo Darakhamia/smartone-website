@@ -220,34 +220,63 @@ export default async function TerminalsPage() {
       <section className="bg-bg-2 py-24">
         <div className="mx-auto max-w-6xl px-6">
           <SectionHead eyebrow={c.lineEyebrow} title={lineTitle} sub={c.lineSub} />
-          <div className={`mt-11 grid gap-4 ${lineup.length > 1 ? "md:grid-cols-2" : "mx-auto max-w-md"}`}>
-            {lineup.map((d, i) => (
-              <Reveal key={d.name} delay={i * 100} className="h-full">
-                <div className="flex h-full flex-col rounded-3xl bg-white p-7 shadow-sm shadow-black/3 transition-transform duration-300 hover:-translate-y-1">
-                  <div className="grid h-64 place-items-center rounded-2xl bg-gradient-to-br from-brand-tint via-bg-2 to-bg-2 py-6">
-                    <Terminal compact={false} dual={d.dual} />
-                  </div>
-                  <div className="mt-5 flex items-baseline justify-between">
-                    <h3 className="font-display text-[22px] font-semibold tracking-tight">{d.name}</h3>
-                    <span className="text-[12.5px] font-semibold text-brand">{d.for}</span>
-                  </div>
-                  <p className="mt-1.5 text-[14.5px] leading-relaxed text-ink-2">{d.text}</p>
+
+          {lineup.length > 1 ? (
+            <>
+              <div className="mt-11 grid gap-4 md:grid-cols-2">
+                {lineup.map((d, i) => (
+                  <Reveal key={d.name} delay={i * 100} className="h-full">
+                    <div className="flex h-full flex-col rounded-3xl bg-white p-7 shadow-sm shadow-black/3 transition-transform duration-300 hover:-translate-y-1">
+                      <div className="grid h-64 place-items-center rounded-2xl bg-gradient-to-br from-brand-tint via-bg-2 to-bg-2 py-6">
+                        <Terminal compact={false} dual={d.dual} />
+                      </div>
+                      <div className="mt-5 flex items-baseline justify-between">
+                        <h3 className="font-display text-[22px] font-semibold tracking-tight">{d.name}</h3>
+                        <span className="text-[12.5px] font-semibold text-brand">{d.for}</span>
+                      </div>
+                      <p className="mt-1.5 text-[14.5px] leading-relaxed text-ink-2">{d.text}</p>
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+              <Reveal>
+                <div className="mt-6 flex flex-col gap-4 rounded-3xl bg-white px-7 py-5 shadow-sm shadow-black/3 sm:flex-row sm:items-center sm:justify-around">
+                  {c.facts.map((label, i) => (
+                    <span key={label} className="flex items-center gap-2.5 text-[14.5px] font-medium text-ink-2">
+                      <svg viewBox="0 0 24 24" className="size-5.5 stroke-brand" fill="none" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                        {factIcons[i]}
+                      </svg>
+                      {label}
+                    </span>
+                  ))}
                 </div>
               </Reveal>
-            ))}
-          </div>
-          <Reveal>
-            <div className="mt-6 flex flex-col gap-4 rounded-3xl bg-white px-7 py-5 shadow-sm shadow-black/3 sm:flex-row sm:items-center sm:justify-around">
-              {c.facts.map((label, i) => (
-                <span key={label} className="flex items-center gap-2.5 text-[14.5px] font-medium text-ink-2">
-                  <svg viewBox="0 0 24 24" className="size-5.5 stroke-brand" fill="none" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                    {factIcons[i]}
-                  </svg>
-                  {label}
-                </span>
-              ))}
-            </div>
-          </Reveal>
+            </>
+          ) : (
+            /* single device (e.g. Malta) – a proper feature block, not a lone card */
+            <Reveal>
+              <div className="mt-11 grid items-center gap-8 rounded-3xl bg-white p-6 shadow-sm shadow-black/3 md:grid-cols-2 md:gap-12 md:p-10">
+                <div className="grid h-72 place-items-center rounded-2xl bg-gradient-to-br from-brand-tint via-bg-2 to-bg-2 sm:h-80">
+                  <Terminal compact={false} dual={lineup[0].dual} />
+                </div>
+                <div>
+                  <span className="text-[12.5px] font-semibold tracking-wide text-brand uppercase">{lineup[0].for}</span>
+                  <h3 className="h-display mt-2 text-[clamp(26px,3vw,34px)] leading-tight">{lineup[0].name}</h3>
+                  <p className="mt-3 text-[15.5px] leading-relaxed text-ink-2">{lineup[0].text}</p>
+                  <div className="mt-6 flex flex-col gap-3 border-t border-line pt-6">
+                    {c.facts.map((label, i) => (
+                      <span key={label} className="flex items-center gap-3 text-[14.5px] font-medium text-ink-2">
+                        <svg viewBox="0 0 24 24" className="size-5.5 shrink-0 stroke-brand" fill="none" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                          {factIcons[i]}
+                        </svg>
+                        {label}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+          )}
         </div>
       </section>
 

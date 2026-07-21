@@ -1,17 +1,23 @@
 import Link from "next/link";
 import { Brand } from "@/components/site-nav";
 import { FooterRegion } from "@/components/country/footer-region";
-import { getActiveLang } from "@/lib/country-server";
+import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { DICT, tr } from "@/lib/dictionaries";
 import { MERCHANT_PORTAL_URL } from "@/lib/links";
 
 export async function SiteFooter() {
+  const country = await getActiveCountry();
   const lang = await getActiveLang();
   const t = DICT[lang].footer;
+  const region =
+    country.code === "es"
+      ? tr(lang, "Verifactu-ready for 2027", "Preparado para Verifactu 2027")
+      : tr(lang, "Connected payments across Europe", "Pagos conectados en toda Europa");
   const l = tr(
     lang,
     {
       paymentsFiscal: "Payments & Fiscal",
+      payments: "Payments",
       horeca: "HoReCa",
       cardReader: "Card reader",
       cashRegister: "Cash register",
@@ -26,6 +32,7 @@ export async function SiteFooter() {
     },
     {
       paymentsFiscal: "Pagos y fiscal",
+      payments: "Pagos",
       horeca: "HoReCa",
       cardReader: "Datáfono",
       cashRegister: "Caja registradora",
@@ -43,10 +50,10 @@ export async function SiteFooter() {
   // Mirrors the header's Product mega-menu: Payments & Fiscal, Merchant Portal, HoReCa.
   const columns = [
     {
-      title: l.paymentsFiscal,
+      title: country.fiscal ? l.paymentsFiscal : l.payments,
       links: [
         { href: "/product/terminals", label: l.cardReader },
-        { href: "/product/cash-register", label: l.cashRegister },
+        ...(country.fiscal ? [{ href: "/product/cash-register", label: l.cashRegister }] : []),
         { href: "/product/tap-to-phone", label: "Tap to Phone" },
       ],
     },
@@ -115,7 +122,7 @@ export async function SiteFooter() {
             <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
               <Link href="/privacy" className="text-white/60 transition-colors hover:text-white">{l.privacy}</Link>
               <Link href="/cookies" className="text-white/60 transition-colors hover:text-white">{l.cookies}</Link>
-              <span className="text-white/40">Across Europe · Verifactu-ready for Spain 2027</span>
+              <span className="text-white/40">{region}</span>
             </div>
           </div>
         </div>

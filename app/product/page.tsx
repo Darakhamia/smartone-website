@@ -45,8 +45,8 @@ function copyFor(lang: Lang, fiscal: boolean) {
       seePricing: "See pricing",
       sales: "Contact sales",
       alt: "SmartOne terminal taking a contactless payment at a flower shop",
-      pfEyebrow: "Payments & Fiscal",
-      pfTitle: "One device takes the money and keeps you compliant.",
+      pfEyebrow: fiscal ? "Payments & Fiscal" : "Payments",
+      pfTitle: fiscal ? "One device takes the money and keeps you compliant." : "One device takes every kind of payment.",
       toolsEyebrow: "Tools",
       toolsTitle: "The software around the counter.",
       explore: "Explore",
@@ -88,8 +88,8 @@ function copyFor(lang: Lang, fiscal: boolean) {
       seePricing: "Ver precios",
       sales: "Contactar con ventas",
       alt: "Terminal SmartOne aceptando un pago contactless en una floristería",
-      pfEyebrow: "Pagos y fiscal",
-      pfTitle: "Un dispositivo cobra y te mantiene en regla.",
+      pfEyebrow: fiscal ? "Pagos y fiscal" : "Pagos",
+      pfTitle: fiscal ? "Un dispositivo cobra y te mantiene en regla." : "Un dispositivo acepta todo tipo de pago.",
       toolsEyebrow: "Herramientas",
       toolsTitle: "El software alrededor del mostrador.",
       explore: "Descubrir",
@@ -147,6 +147,9 @@ export default async function ProductPage() {
   const { fiscal } = country;
   const c = copyFor(lang, fiscal);
   const isEs = country.code === "es";
+  // Fiscal-compliance block: only fiscal markets that aren't already live (so
+  // not Malta, and not the non-fiscal UK). The Verifactu card is Spain-only.
+  const showCompliance = fiscal && country.code !== "mt";
 
   return (
     <>
@@ -178,13 +181,15 @@ export default async function ProductPage() {
       <section className="bg-bg-2 py-24">
         <div className="mx-auto max-w-6xl px-6">
           <SectionHead eyebrow={c.pfEyebrow} title={c.pfTitle} />
-          <div className="mt-11 grid gap-4 md:grid-cols-3">
+          <div className={`mt-11 grid gap-4 ${fiscal ? "md:grid-cols-3" : "md:mx-auto md:max-w-3xl md:grid-cols-2"}`}>
             <Reveal className="h-full">
               <ProductCard href="/product/terminals" icon={icons.cardReader} title={c.cards.cardReader.title} text={c.cards.cardReader.text} explore={c.explore} />
             </Reveal>
-            <Reveal delay={100} className="h-full">
-              <ProductCard href="/product/cash-register" icon={icons.cashRegister} title={c.cards.cashRegister.title} text={c.cards.cashRegister.text} explore={c.explore} />
-            </Reveal>
+            {fiscal && (
+              <Reveal delay={100} className="h-full">
+                <ProductCard href="/product/cash-register" icon={icons.cashRegister} title={c.cards.cashRegister.title} text={c.cards.cashRegister.text} explore={c.explore} />
+              </Reveal>
+            )}
             <Reveal delay={200} className="h-full">
               <ProductCard href="/product/tap-to-phone" icon={icons.tapToPhone} title={c.cards.tapToPhone.title} text={c.cards.tapToPhone.text} explore={c.explore} />
             </Reveal>
@@ -207,12 +212,12 @@ export default async function ProductPage() {
         </div>
       </section>
 
-      {/* 4 · compliance – hidden for Malta (live today; no market-by-market reassurance needed) */}
-      {country.code !== "mt" && (
+      {/* 4 · compliance – only for fiscal markets that aren't live yet (not Malta / UK) */}
+      {showCompliance && (
         <section className="bg-bg-2 py-24">
           <div className="mx-auto max-w-6xl px-6">
             <SectionHead eyebrow={c.complianceEyebrow} title={c.complianceTitle} sub={c.complianceSub} />
-            <div className="mx-auto mt-10 grid max-w-185 gap-4 sm:grid-cols-2">
+            <div className={`mx-auto mt-10 grid gap-4 ${isEs ? "max-w-185 sm:grid-cols-2" : "max-w-md"}`}>
               <Reveal className="h-full">
                 <div className="flex h-full flex-col rounded-3xl bg-white p-7 shadow-sm shadow-black/3">
                   <span className="text-3xl">{country.flag}</span>
@@ -220,23 +225,25 @@ export default async function ProductPage() {
                   <p className="mt-1.5 text-[14.5px] leading-relaxed text-ink-2">{c.compliance[country.code].text}</p>
                 </div>
               </Reveal>
-              <Reveal delay={100} className="h-full">
-                <Link href="/es" className="group flex h-full flex-col rounded-3xl bg-white p-7 shadow-sm shadow-black/3 transition-transform duration-300 hover:-translate-y-1">
-                  <span className="text-3xl">{isEs ? "📋" : "🇪🇸"}</span>
-                  <h3 className="mt-4 flex items-center justify-between font-display text-[20px] font-semibold tracking-tight">
-                    {c.spainTitle(isEs)}
-                    <span className="text-brand transition-transform duration-300 group-hover:translate-x-1">→</span>
-                  </h3>
-                  <p className="mt-1.5 text-[14.5px] leading-relaxed text-ink-2">{c.spainText(isEs)}</p>
-                </Link>
-              </Reveal>
+              {isEs && (
+                <Reveal delay={100} className="h-full">
+                  <Link href="/es" className="group flex h-full flex-col rounded-3xl bg-white p-7 shadow-sm shadow-black/3 transition-transform duration-300 hover:-translate-y-1">
+                    <span className="text-3xl">📋</span>
+                    <h3 className="mt-4 flex items-center justify-between font-display text-[20px] font-semibold tracking-tight">
+                      {c.spainTitle(true)}
+                      <span className="text-brand transition-transform duration-300 group-hover:translate-x-1">→</span>
+                    </h3>
+                    <p className="mt-1.5 text-[14.5px] leading-relaxed text-ink-2">{c.spainText(true)}</p>
+                  </Link>
+                </Reveal>
+              )}
             </div>
           </div>
         </section>
       )}
 
       {/* 5 · final CTA */}
-      <section className={`${country.code === "mt" ? "bg-bg-2" : ""} py-24`}>
+      <section className={`${showCompliance ? "" : "bg-bg-2"} py-24`}>
         <div className="mx-auto max-w-6xl px-6">
           <Reveal>
             <div className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-brand to-brand-d px-8 py-14 text-center text-white">

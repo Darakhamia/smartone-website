@@ -55,14 +55,18 @@ const clickIcon = <path d="M6 3v6a2 2 0 0 0 4 0V3M8 9v12M16 3c-1.5 0-2.5 2-2.5 5
 
 type MegaCol = { title: string; desc: string; items: MegaItem[] };
 
-function productMenu(lang: Lang): MegaCol[] {
+function productMenu(lang: Lang, fiscal: boolean): MegaCol[] {
   return [
     {
-      title: tr(lang, "Payments & Fiscal", "Pagos y fiscal"),
-      desc: tr(lang, "Take payment and stay compliant on one device.", "Cobra y cumple la normativa en un solo dispositivo."),
+      title: tr(lang, fiscal ? "Payments & Fiscal" : "Payments", fiscal ? "Pagos y fiscal" : "Pagos"),
+      desc: fiscal
+        ? tr(lang, "Take payment and stay compliant on one device.", "Cobra y cumple la normativa en un solo dispositivo.")
+        : tr(lang, "Take every kind of payment on one device.", "Acepta todo tipo de pago en un solo dispositivo."),
       items: [
         { label: tr(lang, "Card reader", "Datáfono"), sub: tr(lang, "Bank Pro & Pro S terminals", "Terminales Bank Pro y Pro S"), href: "/product/terminals", icon: cardReaderIcon },
-        { label: tr(lang, "Cash register", "Caja registradora"), sub: tr(lang, "Certified fiscal till", "Caja fiscal certificada"), href: "/product/cash-register", icon: cashRegisterIcon },
+        ...(fiscal
+          ? [{ label: tr(lang, "Cash register", "Caja registradora"), sub: tr(lang, "Certified fiscal till", "Caja fiscal certificada"), href: "/product/cash-register", icon: cashRegisterIcon }]
+          : []),
         { label: "Tap to Phone", sub: tr(lang, "Coming soon", "Muy pronto"), href: "/product/tap-to-phone", icon: tapToPhoneIcon },
       ],
     },
@@ -124,9 +128,9 @@ export function SiteNav() {
   const [open, setOpen] = useState(false);
   const [menu, setMenu] = useState(false);
   const pathname = usePathname();
-  const { lang } = useCountry();
+  const { country, lang } = useCountry();
   const t = DICT[lang];
-  const pm = productMenu(lang);
+  const pm = productMenu(lang, country.fiscal);
 
   // The country picker is a full-screen splash – no nav there.
   if (pathname === "/welcome") return null;

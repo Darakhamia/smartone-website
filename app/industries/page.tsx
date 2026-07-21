@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "@/components/reveal";
-import { getActiveLang } from "@/lib/country-server";
+import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 import type { Lang } from "@/lib/countries";
 
@@ -246,6 +246,7 @@ function IndustrySection({ ind, i, get, sales, clickCallout }: { ind: Industry; 
 }
 
 export default async function IndustriesPage() {
+  const country = await getActiveCountry();
   const lang = await getActiveLang();
   const c = copyFor(lang);
   return (
@@ -288,23 +289,25 @@ export default async function IndustriesPage() {
         <IndustrySection key={ind.id} ind={ind} i={i} get={c.get} sales={c.sales} clickCallout={c.clickCallout} />
       ))}
 
-      {/* 5 · Spain / Verifactu routing */}
-      <section className="py-20">
-        <div className="mx-auto max-w-6xl px-6">
-          <Reveal>
-            <Link href="/es" className="group flex flex-col items-start gap-5 rounded-3xl border border-line bg-white p-8 transition-transform duration-300 hover:-translate-y-1 sm:flex-row sm:items-center sm:justify-between">
-              <div className="flex items-center gap-5">
-                <span className="text-4xl">🇪🇸</span>
-                <div>
-                  <h3 className="font-display text-[20px] font-semibold tracking-tight">{c.spainTitle}</h3>
-                  <p className="mt-1 text-[14.5px] leading-relaxed text-ink-2">{c.spainText}</p>
+      {/* 5 · Spain / Verifactu routing – only shown in Spain */}
+      {country.code === "es" && (
+        <section className="py-20">
+          <div className="mx-auto max-w-6xl px-6">
+            <Reveal>
+              <Link href="/es" className="group flex flex-col items-start gap-5 rounded-3xl border border-line bg-white p-8 transition-transform duration-300 hover:-translate-y-1 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex items-center gap-5">
+                  <span className="text-4xl">🇪🇸</span>
+                  <div>
+                    <h3 className="font-display text-[20px] font-semibold tracking-tight">{c.spainTitle}</h3>
+                    <p className="mt-1 text-[14.5px] leading-relaxed text-ink-2">{c.spainText}</p>
+                  </div>
                 </div>
-              </div>
-              <span className="btn-ghost shrink-0 group-hover:text-brand">{c.spainCta}</span>
-            </Link>
-          </Reveal>
-        </div>
-      </section>
+                <span className="btn-ghost shrink-0 group-hover:text-brand">{c.spainCta}</span>
+              </Link>
+            </Reveal>
+          </div>
+        </section>
+      )}
 
       {/* final CTA */}
       <section className="pb-24">

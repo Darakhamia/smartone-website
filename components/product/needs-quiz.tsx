@@ -172,10 +172,17 @@ function ProductRow({ icon, name, text, href, learn, muted = false }: { icon: Re
       href={href}
       className="group flex items-center gap-4 rounded-2xl border border-line-2 p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-brand hover:bg-brand-tint/40"
     >
-      <span className={`grid size-11 shrink-0 place-items-center rounded-xl ${muted ? "bg-bg-2 text-ink-3" : "bg-brand-tint text-brand"}`}>
+      <span className={`relative grid size-11 shrink-0 place-items-center rounded-xl ${muted ? "bg-bg-2 text-ink-3" : "bg-brand-tint text-brand"}`}>
         <svg viewBox="0 0 24 24" className="size-6" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
           {icon}
         </svg>
+        {!muted && (
+          <span className="absolute -top-1.5 -right-1.5 grid size-5 place-items-center rounded-full bg-[#0e8a5f] text-white ring-2 ring-white">
+            <svg viewBox="0 0 24 24" className="size-3" fill="none" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <path d="M5 13l4 4L19 7" />
+            </svg>
+          </span>
+        )}
       </span>
       <span className="min-w-0 flex-1">
         <span className="block text-[15px] font-semibold tracking-tight text-ink">{name}</span>
@@ -200,7 +207,8 @@ export function NeedsQuiz() {
   const reset = () => setAnswers([]);
 
   return (
-    <div className="mx-auto max-w-2xl rounded-3xl border border-line bg-white p-7 shadow-[0_24px_48px_-36px_rgba(29,29,31,0.4)] sm:p-9">
+    <div className="relative mx-auto max-w-2xl overflow-hidden rounded-3xl border border-line bg-white p-7 shadow-[0_28px_60px_-30px_rgba(90,25,181,0.35)] sm:p-9">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand via-[#7b3ce8] to-brand-l" />
       {!done ? (
         <div key={step} className="anim-tier-in">
           <div className="flex items-center justify-between">

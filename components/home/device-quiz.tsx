@@ -14,7 +14,8 @@ export async function DeviceQuiz() {
     { eyebrow: "Arma tu configuración", title: "¿Qué productos necesitas?", sub: "Responde unas preguntas y te decimos exactamente qué activar." },
   );
   return (
-    <section className="py-24">
+    <section className="relative overflow-hidden py-24">
+      <div className="pointer-events-none absolute top-1/2 left-1/2 -z-10 size-160 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(90,25,181,0.08),transparent_65%)]" />
       <div className="mx-auto max-w-6xl px-6">
         <SectionHead eyebrow={c.eyebrow} title={c.title} sub={c.sub} center />
         <Reveal delay={100}>
