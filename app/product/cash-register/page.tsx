@@ -178,16 +178,17 @@ export default async function CashRegisterPage() {
             </div>
           </div>
           <div className="anim-fade-up anim-d-2 relative">
-            <div className="pointer-events-none absolute -inset-6 rounded-[48px] bg-[radial-gradient(circle,rgba(90,25,181,0.14),transparent_70%)]" />
-            <div className="relative grid aspect-square place-items-center overflow-hidden rounded-[32px] bg-gradient-to-br from-brand-tint via-bg-2 to-bg-2 shadow-[0_48px_90px_-48px_rgba(90,25,181,0.55)] sm:aspect-[5/4]">
-              <div className="chip-float relative h-[86%] w-[72%]">
+            <div className="pointer-events-none absolute -inset-6 rounded-[48px] bg-[radial-gradient(circle,rgba(90,25,181,0.12),transparent_70%)]" />
+            <div className="relative grid aspect-square place-items-center overflow-hidden rounded-[32px] bg-gradient-to-b from-white to-brand-tint/50 ring-1 ring-line/60 sm:aspect-[5/4]">
+              <div className="pointer-events-none absolute bottom-[14%] left-1/2 h-8 w-1/2 -translate-x-1/2 rounded-[50%] bg-[radial-gradient(ellipse,rgba(29,29,31,0.16),transparent_70%)] blur-md" />
+              <div className="chip-float relative h-[88%] w-[64%]">
                 <Image
                   src={register ? "/pos/bank-pro-s/hero.webp" : "/pos/bank-pro/hero.webp"}
                   alt={c.heroAlt}
                   fill
                   priority
                   sizes="(max-width: 1024px) 90vw, 480px"
-                  className="object-contain drop-shadow-[0_34px_50px_rgba(29,29,31,0.25)]"
+                  className="object-contain"
                 />
               </div>
             </div>

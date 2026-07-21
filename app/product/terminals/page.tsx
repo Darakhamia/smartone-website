@@ -4,14 +4,14 @@ import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 import { SectionHead } from "@/components/section-head";
 import { TerminalGallery, type Shot } from "@/components/product/terminal-gallery";
-import { getActiveLang } from "@/lib/country-server";
+import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
-import type { Lang } from "@/lib/countries";
+import { terminalModel, TERMINAL_MODELS, type Lang, type TerminalModel } from "@/lib/countries";
 
 export const metadata: Metadata = {
   title: "Terminals",
   description:
-    "The SmartOne Bank Pro payment terminal: card, contactless and cash on one device, with the receipt printer built in. Not just a card machine.",
+    "The SmartOne payment terminal: card, contactless and cash on one device, with the receipt printer built in. Not just a card machine.",
 };
 
 const factIcons = [
@@ -49,30 +49,47 @@ const highlightIcons = [
   <path key="se" d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3Zm-3 9 2 2 4-4.5" />,
 ];
 
-function copyFor(lang: Lang) {
-  const shots: Shot[] = [
-    { src: "/pos/bank-pro/front.webp", alt: "SmartOne Bank Pro terminal, front view showing the till screen", label: tr(lang, "Front", "Frente") },
-    { src: "/pos/bank-pro/angle-r.webp", alt: "SmartOne Bank Pro terminal, three-quarter view", label: tr(lang, "Angle", "Ángulo") },
-    { src: "/pos/bank-pro/angle-l.webp", alt: "SmartOne Bank Pro terminal, opposite three-quarter view", label: tr(lang, "Side", "Lateral") },
-    { src: "/pos/bank-pro/back.webp", alt: "SmartOne Bank Pro terminal, rear view with the built-in printer", label: tr(lang, "Back", "Detrás") },
-  ];
+function copyFor(lang: Lang, model: TerminalModel) {
+  const info = TERMINAL_MODELS[model];
+  const { dual, dir, name } = info;
+  // Angle set: the dual-screen model swaps the "other side" for the shot that
+  // shows the customer-facing display.
+  const shots: Shot[] = dual
+    ? [
+        { src: `${dir}/front.webp`, alt: `${name} terminal, front view`, label: tr(lang, "Front", "Frente") },
+        { src: `${dir}/angle-r.webp`, alt: `${name} terminal, three-quarter view`, label: tr(lang, "Angle", "Ángulo") },
+        { src: `${dir}/dual.webp`, alt: `${name} customer-facing second screen`, label: tr(lang, "Second screen", "Segunda pantalla") },
+        { src: `${dir}/back.webp`, alt: `${name} terminal, rear view`, label: tr(lang, "Back", "Detrás") },
+      ]
+    : [
+        { src: `${dir}/front.webp`, alt: `${name} terminal, front view showing the till screen`, label: tr(lang, "Front", "Frente") },
+        { src: `${dir}/angle-r.webp`, alt: `${name} terminal, three-quarter view`, label: tr(lang, "Angle", "Ángulo") },
+        { src: `${dir}/angle-l.webp`, alt: `${name} terminal, opposite three-quarter view`, label: tr(lang, "Side", "Lateral") },
+        { src: `${dir}/back.webp`, alt: `${name} terminal, rear view with the built-in printer`, label: tr(lang, "Back", "Detrás") },
+      ];
+
   return tr(
     lang,
     {
       shots,
+      heroSrc: `${dir}/hero.webp`,
+      deviceName: name,
       eyebrow: "Payments · The terminal",
       h1a: "One tap.",
       h1b: "Card, contactless, cash.",
-      sub: "The SmartOne Bank Pro takes every kind of payment on one screen – with the receipt printer built in. Not just a card machine.",
-      heroAlt: "The SmartOne Bank Pro payment terminal",
+      sub: dual
+        ? `The ${name} takes every kind of payment – a screen for you and one facing the customer, with the receipt printer built in. Not just a card machine.`
+        : `The ${name} takes every kind of payment on one screen – with the receipt printer built in. Not just a card machine.`,
+      heroAlt: `The ${name} payment terminal`,
       get: "Get a terminal →",
       seePricing: "See pricing",
       lineEyebrow: "Every angle",
       lineTitle: "One device. Every side.",
       lineSub: "Spin around it: it prints, it lasts, it connects – wherever your counter is.",
-      deviceName: "SmartOne Bank Pro",
-      deviceFor: "The all-in-one terminal",
-      deviceText: "The big 6″ screen keeps a queue moving – ring up, tap, receipt out. Card, contactless and cash, no second box on the counter.",
+      deviceFor: dual ? "The dual-screen terminal" : "The all-in-one terminal",
+      deviceText: dual
+        ? "Two screens – one for you, one facing the customer – for a clear, transparent checkout. Card, contactless and cash, with the receipt printer built in."
+        : "The big 6″ screen keeps a queue moving – ring up, tap, receipt out. Card, contactless and cash, no second box on the counter.",
       facts: ["Battery lasts the shift", "SIM + Wi-Fi", "Receipt printer built in"],
       featEyebrow: "Inside the device",
       featTitle: "Everything built in.",
@@ -87,7 +104,10 @@ function copyFor(lang: Lang) {
       sales: "Contact sales",
       specEyebrow: "Full specifications",
       specTitle: "The numbers, in full.",
-      specSub: "Everything inside the SmartOne Bank Pro – the display, the processor, the battery, the printer and the security.",
+      specSub: `Everything inside the ${name} – the display, the processor, the battery, the printer and the security.`,
+      dualNote: dual
+        ? { title: "Two screens", text: "A second, customer-facing display shows the amount and confirmation – a transparent checkout, where local law needs it." }
+        : null,
       highlights: [
         { value: "6″ HD", label: "Touchscreen display" },
         { value: "Octa-core", label: "Kun T11 · 2.0 GHz" },
@@ -99,7 +119,9 @@ function copyFor(lang: Lang) {
       specGroups: [
         {
           group: "Display",
-          items: [["Screen", "6″ HD capacitive · 1440×720"], ["Touch", "Multi-touch, safety glass"]],
+          items: (dual
+            ? [["Screen", "6″ HD capacitive · 1440×720"], ["Second screen", "Customer-facing display"], ["Touch", "Multi-touch, safety glass"]]
+            : [["Screen", "6″ HD capacitive · 1440×720"], ["Touch", "Multi-touch, safety glass"]]) as [string, string][],
         },
         {
           group: "Performance",
@@ -121,19 +143,24 @@ function copyFor(lang: Lang) {
     },
     {
       shots,
+      heroSrc: `${dir}/hero.webp`,
+      deviceName: name,
       eyebrow: "Pagos · El terminal",
       h1a: "Un tap.",
       h1b: "Tarjeta, contactless, efectivo.",
-      sub: "El SmartOne Bank Pro acepta todo tipo de pago en una sola pantalla, con la impresora de tickets integrada. No solo un datáfono.",
-      heroAlt: "El terminal de pago SmartOne Bank Pro",
+      sub: dual
+        ? `El ${name} acepta todo tipo de pago: una pantalla para ti y otra hacia el cliente, con la impresora de tickets integrada. No solo un datáfono.`
+        : `El ${name} acepta todo tipo de pago en una sola pantalla, con la impresora de tickets integrada. No solo un datáfono.`,
+      heroAlt: `El terminal de pago ${name}`,
       get: "Solicita tu terminal →",
       seePricing: "Ver precios",
       lineEyebrow: "Cada ángulo",
       lineTitle: "Un dispositivo. Todos los lados.",
       lineSub: "Gíralo: imprime, dura y se conecta, donde esté tu mostrador.",
-      deviceName: "SmartOne Bank Pro",
-      deviceFor: "El terminal todo en uno",
-      deviceText: "La pantalla grande de 6″ mantiene la cola en movimiento: cobra, tap, ticket fuera. Tarjeta, contactless y efectivo, sin una segunda caja en el mostrador.",
+      deviceFor: dual ? "El terminal de doble pantalla" : "El terminal todo en uno",
+      deviceText: dual
+        ? "Dos pantallas: una para ti y otra hacia el cliente, para un cobro claro y transparente. Tarjeta, contactless y efectivo, con la impresora de tickets integrada."
+        : "La pantalla grande de 6″ mantiene la cola en movimiento: cobra, tap, ticket fuera. Tarjeta, contactless y efectivo, sin una segunda caja en el mostrador.",
       facts: ["La batería aguanta el turno", "SIM + Wi-Fi", "Impresora de tickets integrada"],
       featEyebrow: "Dentro del dispositivo",
       featTitle: "Todo integrado.",
@@ -148,7 +175,10 @@ function copyFor(lang: Lang) {
       sales: "Contactar con ventas",
       specEyebrow: "Ficha técnica",
       specTitle: "Los números, al completo.",
-      specSub: "Todo lo que hay dentro del SmartOne Bank Pro: la pantalla, el procesador, la batería, la impresora y la seguridad.",
+      specSub: `Todo lo que hay dentro del ${name}: la pantalla, el procesador, la batería, la impresora y la seguridad.`,
+      dualNote: dual
+        ? { title: "Dos pantallas", text: "Una segunda pantalla hacia el cliente muestra el importe y la confirmación: un cobro transparente, donde lo exija la ley local." }
+        : null,
       highlights: [
         { value: "6″ HD", label: "Pantalla táctil" },
         { value: "Octa-core", label: "Kun T11 · 2.0 GHz" },
@@ -160,7 +190,9 @@ function copyFor(lang: Lang) {
       specGroups: [
         {
           group: "Pantalla",
-          items: [["Pantalla", "6″ HD capacitiva · 1440×720"], ["Táctil", "Multitáctil, cristal de seguridad"]],
+          items: (dual
+            ? [["Pantalla", "6″ HD capacitiva · 1440×720"], ["Segunda pantalla", "Hacia el cliente"], ["Táctil", "Multitáctil, cristal de seguridad"]]
+            : [["Pantalla", "6″ HD capacitiva · 1440×720"], ["Táctil", "Multitáctil, cristal de seguridad"]]) as [string, string][],
         },
         {
           group: "Rendimiento",
@@ -184,8 +216,10 @@ function copyFor(lang: Lang) {
 }
 
 export default async function TerminalsPage() {
+  const country = await getActiveCountry();
   const lang = await getActiveLang();
-  const c = copyFor(lang);
+  // One device per country, always: Malta = Bank Pro S, everyone else = Bank Pro.
+  const c = copyFor(lang, terminalModel(country));
 
   return (
     <>
@@ -205,16 +239,18 @@ export default async function TerminalsPage() {
             </div>
           </div>
           <div className="anim-fade-up anim-d-2 relative">
-            <div className="pointer-events-none absolute -inset-6 rounded-[48px] bg-[radial-gradient(circle,rgba(90,25,181,0.14),transparent_70%)]" />
-            <div className="relative grid aspect-square place-items-center overflow-hidden rounded-[32px] bg-gradient-to-br from-brand-tint via-bg-2 to-bg-2 shadow-[0_48px_90px_-48px_rgba(90,25,181,0.55)] sm:aspect-[5/4]">
-              <div className="chip-float relative h-[86%] w-[70%]">
+            <div className="pointer-events-none absolute -inset-6 rounded-[48px] bg-[radial-gradient(circle,rgba(90,25,181,0.12),transparent_70%)]" />
+            <div className="relative grid aspect-square place-items-center overflow-hidden rounded-[32px] bg-gradient-to-b from-white to-brand-tint/50 ring-1 ring-line/60 sm:aspect-[5/4]">
+              {/* soft ground shadow so the device sits, not floats */}
+              <div className="pointer-events-none absolute bottom-[14%] left-1/2 h-8 w-1/2 -translate-x-1/2 rounded-[50%] bg-[radial-gradient(ellipse,rgba(29,29,31,0.16),transparent_70%)] blur-md" />
+              <div className="chip-float relative h-[88%] w-[62%]">
                 <Image
-                  src="/pos/bank-pro/hero.webp"
+                  src={c.heroSrc}
                   alt={c.heroAlt}
                   fill
                   priority
                   sizes="(max-width: 1024px) 90vw, 480px"
-                  className="object-contain drop-shadow-[0_34px_50px_rgba(29,29,31,0.25)]"
+                  className="object-contain"
                 />
               </div>
             </div>
@@ -296,6 +332,24 @@ export default async function TerminalsPage() {
               </Reveal>
             ))}
           </div>
+
+          {/* dual-screen callout – Malta / Bank Pro S only */}
+          {c.dualNote && (
+            <Reveal>
+              <div className="mt-4 flex items-start gap-3.5 rounded-2xl bg-brand-tint p-5">
+                <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-brand text-white">
+                  <svg viewBox="0 0 24 24" className="size-5.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                    <rect x="3" y="5" width="12" height="13" rx="2" />
+                    <rect x="14" y="9" width="7" height="10" rx="1.5" />
+                  </svg>
+                </span>
+                <div>
+                  <p className="font-display text-[15px] font-semibold tracking-tight text-ink">{c.dualNote.title}</p>
+                  <p className="mt-0.5 text-[13.5px] leading-relaxed text-ink-2">{c.dualNote.text}</p>
+                </div>
+              </div>
+            </Reveal>
+          )}
 
           {/* detailed spec sheet – grouped, tech-spec style */}
           <Reveal>

@@ -35,11 +35,11 @@ export function TerminalGallery({ shots, className = "" }: { shots: Shot[]; clas
     <div className={className}>
       {/* stage */}
       <div
-        className="group relative overflow-hidden rounded-[32px] bg-gradient-to-br from-brand-tint via-bg-2 to-bg-2 shadow-[0_48px_90px_-48px_rgba(90,25,181,0.55)]"
+        className="group relative overflow-hidden rounded-[32px] bg-gradient-to-b from-white to-brand-tint/50 ring-1 ring-line/60"
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
       >
-        <div className="pointer-events-none absolute top-1/2 left-1/2 size-[115%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(90,25,181,0.14),transparent_62%)]" />
+        <div className="pointer-events-none absolute top-[38%] left-1/2 size-[85%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(90,25,181,0.08),transparent_65%)]" />
 
         {/* angle label */}
         <span className="absolute top-5 left-5 z-10 rounded-full border border-line bg-white/85 px-3.5 py-1.5 text-[12px] font-semibold tracking-tight text-ink-2 shadow-sm backdrop-blur-sm">
@@ -48,10 +48,12 @@ export function TerminalGallery({ shots, className = "" }: { shots: Shot[]; clas
 
         {/* cross-fading images */}
         <div className="relative aspect-square sm:aspect-[5/4]">
+          {/* soft ground shadow so the device sits, not floats */}
+          <div className="pointer-events-none absolute bottom-[13%] left-1/2 h-8 w-1/2 -translate-x-1/2 rounded-[50%] bg-[radial-gradient(ellipse,rgba(29,29,31,0.16),transparent_70%)] blur-md" />
           {shots.map((s, i) => (
             <div
               key={s.src}
-              className={`absolute inset-0 grid place-items-center p-6 transition-all duration-500 ease-out sm:p-10 ${
+              className={`absolute inset-0 grid place-items-center p-7 transition-all duration-500 ease-out sm:p-11 ${
                 i === active ? "scale-100 opacity-100" : "pointer-events-none scale-95 opacity-0"
               }`}
               aria-hidden={i === active ? undefined : true}
@@ -62,7 +64,7 @@ export function TerminalGallery({ shots, className = "" }: { shots: Shot[]; clas
                   alt={s.alt}
                   fill
                   sizes="(max-width: 640px) 90vw, 520px"
-                  className="object-contain drop-shadow-[0_30px_45px_rgba(29,29,31,0.22)]"
+                  className="object-contain"
                   priority={i === 0}
                 />
               </div>
@@ -92,7 +94,7 @@ export function TerminalGallery({ shots, className = "" }: { shots: Shot[]; clas
                 i === active ? "border-brand ring-2 ring-brand/25" : "border-line hover:border-line-2"
               }`}
             >
-              <span className="absolute inset-0 bg-gradient-to-br from-brand-tint/60 to-bg-2" />
+              <span className="absolute inset-0 bg-gradient-to-b from-white to-brand-tint/40" />
               <Image src={s.src} alt="" fill sizes="72px" className="relative object-contain p-1.5" />
             </button>
           ))}
