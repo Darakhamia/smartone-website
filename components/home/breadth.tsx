@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { Reveal } from "@/components/reveal";
-import { getActiveLang } from "@/lib/country-server";
+import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
+import { promotesRegister } from "@/lib/countries";
 
 const jobIcons = [
   (
@@ -39,16 +40,21 @@ const replaceIcons = [
 
 export async function BreadthComponent() {
   const lang = await getActiveLang();
+  const country = await getActiveCountry();
+  const register = promotesRegister(country);
   const c = tr(
     lang,
     {
       eyebrow: "All-in-one device",
       titleA: "Everything your business needs –",
       titleB: "one device.",
-      lead: "Take payments, stay compliant, sell, and track your money – without a four-vendor stack.",
+      lead: register
+        ? "Take payments, stay compliant, sell, and track your money – without a four-vendor stack."
+        : "Take payments, sell, and track your money – without a multi-vendor stack.",
       replaces: "Replaces:",
-      footer:
-        "Use the full stack – or just the terminal, or just the register. Each works on its own, and grows with you when you're ready.",
+      footer: register
+        ? "Use the full stack – or just the terminal, or just the register. Each works on its own, and grows with you when you're ready."
+        : "Use the full stack – or just the terminal. Each works on its own, and grows with you when you're ready.",
       jobs: [
         { title: "Take payments", text: "Card, contactless and cash.", href: "/product/terminals" },
         { title: "Stay compliant", text: "Fiscal receipts and reports.", href: "/product/cash-register" },
@@ -61,10 +67,13 @@ export async function BreadthComponent() {
       eyebrow: "Equipo todo en uno",
       titleA: "Todo lo que tu negocio necesita,",
       titleB: "en un solo equipo.",
-      lead: "Cobra, cumple con la normativa, vende y controla tu dinero, sin depender de cuatro proveedores.",
+      lead: register
+        ? "Cobra, cumple con la normativa, vende y controla tu dinero, sin depender de cuatro proveedores."
+        : "Cobra, vende y controla tu dinero, sin depender de varios proveedores.",
       replaces: "Sustituye a:",
-      footer:
-        "Usa todo el conjunto, o solo el terminal, o solo la caja. Cada parte funciona por sí sola y crece contigo cuando estés listo.",
+      footer: register
+        ? "Usa todo el conjunto, o solo el terminal, o solo la caja. Cada parte funciona por sí sola y crece contigo cuando estés listo."
+        : "Usa todo el conjunto, o solo el terminal. Cada parte funciona por sí sola y crece contigo cuando estés listo.",
       jobs: [
         { title: "Cobra", text: "Tarjeta, contactless y efectivo.", href: "/product/terminals" },
         { title: "Cumple la normativa", text: "Tickets fiscales e informes.", href: "/product/cash-register" },
@@ -74,6 +83,11 @@ export async function BreadthComponent() {
       replaceLabels: ["Caja registradora", "Terminal de pago", "Software del contable", "Hoja de cálculo"],
     },
   );
+
+  // The fiscal "Stay compliant" job and the "Cash register" replaced-tool are
+  // shown only where the register is offered (Malta today).
+  const jobs = c.jobs.map((j, i) => ({ ...j, icon: jobIcons[i] })).filter((_, i) => register || i !== 1);
+  const replaceLabels = c.replaceLabels.map((label, i) => ({ label, icon: replaceIcons[i] })).filter((_, i) => register || i !== 0);
 
   return (
     <section className="py-24">
@@ -87,8 +101,8 @@ export async function BreadthComponent() {
             <p className="mt-4 text-lg leading-relaxed text-ink-2">{c.lead}</p>
           </div>
         </Reveal>
-        <div className="mt-11 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {c.jobs.map((job, i) => (
+        <div className={`mt-11 grid gap-4 sm:grid-cols-2 ${register ? "lg:grid-cols-4" : "lg:grid-cols-3"}`}>
+          {jobs.map((job, i) => (
             <Reveal key={job.title} delay={i * 90} className="h-full">
               <Link
                 href={job.href}
@@ -96,7 +110,7 @@ export async function BreadthComponent() {
               >
                 <span className="grid size-13 place-items-center rounded-2xl bg-brand-tint transition-colors duration-300 group-hover:bg-brand/15">
                   <svg viewBox="0 0 24 24" className="size-6.5 stroke-brand" fill="none" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                    {jobIcons[i]}
+                    {job.icon}
                   </svg>
                 </span>
                 <h3 className="mt-6 font-display text-[20px] font-semibold tracking-tight">{job.title}</h3>
@@ -114,14 +128,14 @@ export async function BreadthComponent() {
           <div className="mt-6 flex flex-col gap-4 rounded-3xl bg-bg-2 px-7 py-5 sm:flex-row sm:items-center">
             <span className="text-[13px] font-semibold tracking-[0.08em] text-brand uppercase">{c.replaces}</span>
             <div className="flex flex-1 flex-col gap-3 sm:flex-row sm:items-center sm:justify-around">
-              {c.replaceLabels.map((label, i) => (
-                <div key={label} className="flex items-center gap-4">
+              {replaceLabels.map((r, i) => (
+                <div key={r.label} className="flex items-center gap-4">
                   {i > 0 && <span className="hidden h-8 w-px bg-line-2 sm:block" />}
                   <span className="flex items-center gap-2.5 text-[14.5px] font-medium text-ink-2">
                     <svg viewBox="0 0 24 24" className="size-6 stroke-ink" fill="none" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                      {replaceIcons[i]}
+                      {r.icon}
                     </svg>
-                    {label}
+                    {r.label}
                   </span>
                 </div>
               ))}

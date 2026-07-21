@@ -3,6 +3,7 @@ import { Brand } from "@/components/site-nav";
 import { FooterRegion } from "@/components/country/footer-region";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { DICT, tr } from "@/lib/dictionaries";
+import { promotesRegister } from "@/lib/countries";
 import { MERCHANT_PORTAL_URL } from "@/lib/links";
 
 export async function SiteFooter() {
@@ -48,12 +49,13 @@ export async function SiteFooter() {
   );
 
   // Mirrors the header's Product mega-menu: Payments & Fiscal, Merchant Portal, HoReCa.
+  const register = promotesRegister(country);
   const columns = [
     {
-      title: country.fiscal ? l.paymentsFiscal : l.payments,
+      title: register ? l.paymentsFiscal : l.payments,
       links: [
         { href: "/product/terminals", label: l.cardReader },
-        ...(country.fiscal ? [{ href: "/product/cash-register", label: l.cashRegister }] : []),
+        ...(register ? [{ href: "/product/cash-register", label: l.cashRegister }] : []),
         { href: "/product/tap-to-phone", label: "Tap to Phone" },
       ],
     },

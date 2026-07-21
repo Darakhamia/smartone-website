@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
    NOTE: the Cashbox screen is a DRAFT mockup – re-confirm against the real
    demo terminal (Chris) before treating it as final. */
 
-type GapCard = { tag: string; title: string; text: string };
+type GapCard = { tag: string; title: string; text: string; kind: "cashbox" | "portal" };
 export type GapModal = {
   tap: string;
   close: string;
@@ -15,10 +15,10 @@ export type GapModal = {
   portal: { frame: string; cardSales: string; receive: string; commission: string; caption: string };
 };
 
-const gapIcons = [
-  <path key="0" d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3Zm-3 9 2 2 4-4.5" />,
-  <path key="1" d="M4 10h12M4 14h9m6-8a7.7 7.7 0 0 0-5.2-2A7.9 7.9 0 0 0 6 12c0 4.4 3.5 8 7.8 8 2 0 3.8-.8 5.2-2" />,
-];
+const gapIcons: Record<GapCard["kind"], React.ReactNode> = {
+  cashbox: <path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3Zm-3 9 2 2 4-4.5" />,
+  portal: <path d="M4 10h12M4 14h9m6-8a7.7 7.7 0 0 0-5.2-2A7.9 7.9 0 0 0 6 12c0 4.4 3.5 8 7.8 8 2 0 3.8-.8 5.2-2" />,
+};
 
 function CashboxScreen({ m }: { m: GapModal }) {
   return (
@@ -100,7 +100,7 @@ export function GapCards({ cards, modal }: { cards: GapCard[]; modal: GapModal }
 
   return (
     <>
-      <div className="mt-11 grid gap-4 md:grid-cols-2">
+      <div className={`mt-11 grid gap-4 ${cards.length > 1 ? "md:grid-cols-2" : "mx-auto max-w-xl"}`}>
         {cards.map((g, i) => (
           <button
             key={g.tag}
@@ -110,7 +110,7 @@ export function GapCards({ cards, modal }: { cards: GapCard[]; modal: GapModal }
             <div className="flex items-center justify-between">
               <span className="grid size-12 place-items-center rounded-xl bg-brand-tint transition-colors duration-300 group-hover:bg-brand/15">
                 <svg viewBox="0 0 24 24" className="size-6 stroke-brand" fill="none" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                  {gapIcons[i]}
+                  {gapIcons[g.kind]}
                 </svg>
               </span>
               <span className="rounded-full bg-brand-tint px-3.5 py-1 text-[11px] font-semibold tracking-wide text-brand uppercase">{g.tag}</span>
@@ -142,9 +142,9 @@ export function GapCards({ cards, modal }: { cards: GapCard[]; modal: GapModal }
                 <path d="M6 6l12 12M18 6L6 18" />
               </svg>
             </button>
-            {open === 0 ? <CashboxScreen m={modal} /> : <PortalScreen m={modal} />}
+            {cards[open].kind === "cashbox" ? <CashboxScreen m={modal} /> : <PortalScreen m={modal} />}
             <p className="mx-auto mt-4 max-w-xs text-center text-[13px] leading-relaxed text-white/85">
-              {open === 0 ? modal.cashbox.caption : modal.portal.caption}
+              {cards[open].kind === "cashbox" ? modal.cashbox.caption : modal.portal.caption}
             </p>
           </div>
         </div>

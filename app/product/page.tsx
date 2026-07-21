@@ -5,7 +5,7 @@ import { Reveal } from "@/components/reveal";
 import { SectionHead } from "@/components/section-head";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
-import type { CountryCode, Lang } from "@/lib/countries";
+import { promotesRegister, type CountryCode, type Lang } from "@/lib/countries";
 
 export const metadata: Metadata = {
   title: "Product",
@@ -31,32 +31,30 @@ const icons = {
   click: <path key="c" d="M6 3v6a2 2 0 0 0 4 0V3M8 9v12M16 3c-1.5 0-2.5 2-2.5 5s1 4 2.5 4v9" />,
 };
 
-function copyFor(lang: Lang, fiscal: boolean) {
+function copyFor(lang: Lang, register: boolean) {
   return tr(
     lang,
     {
       eyebrow: "Product",
-      h1a: "One certified box.",
+      h1a: register ? "One certified box." : "One device.",
       h1b: "The complete solution.",
-      sub: fiscal
+      sub: register
         ? "A certified cash register and payment terminal in one device – the Merchant Portal behind it. Not just a card machine."
         : "A payment terminal and the Merchant Portal in one device. Not just a card machine.",
       get: "Get a terminal →",
       seePricing: "See pricing",
       sales: "Contact sales",
       alt: "SmartOne terminal taking a contactless payment at a flower shop",
-      pfEyebrow: fiscal ? "Payments & Fiscal" : "Payments",
-      pfTitle: fiscal ? "One device takes the money and keeps you compliant." : "One device takes every kind of payment.",
+      pfEyebrow: register ? "Payments & Fiscal" : "Payments",
+      pfTitle: register ? "One device takes the money and keeps you compliant." : "One device takes every kind of payment.",
       toolsEyebrow: "Tools",
       toolsTitle: "The software around the counter.",
       explore: "Explore",
       cards: {
-        cardReader: { title: "Card reader", text: "The payment terminal: card, contactless and cash on one screen, printer built in. Bank Pro & the dual-screen Pro S." },
+        cardReader: { title: "Card reader", text: "The payment terminal: card, contactless and cash on one screen, with the receipt printer built in. The SmartOne Bank Pro." },
         cashRegister: {
           title: "Cash register",
-          text: fiscal
-            ? "Register, terminal and printer in one certified device – worth €800–1,200 as three boxes, yours for €400."
-            : "No fiscal register is required in your market – see how compliance works where you trade.",
+          text: "Register, terminal and printer in one certified device – worth €800–1,200 as three boxes, yours for €400.",
         },
         tapToPhone: { title: "Tap to Phone", text: "Take contactless payments on a phone, no extra hardware. In certification – coming soon." },
         portal: { title: "Merchant Portal", text: "Track payments, follow payouts, reprint receipts and know your numbers – one login." },
@@ -79,27 +77,25 @@ function copyFor(lang: Lang, fiscal: boolean) {
     },
     {
       eyebrow: "Producto",
-      h1a: "Una caja certificada.",
+      h1a: register ? "Una caja certificada." : "Un dispositivo.",
       h1b: "La solución completa.",
-      sub: fiscal
+      sub: register
         ? "Una caja registradora certificada y terminal de pago en un solo dispositivo, con el Merchant Portal detrás. No solo un datáfono."
         : "Un terminal de pago y el Merchant Portal en un solo dispositivo. No solo un datáfono.",
       get: "Solicita tu terminal →",
       seePricing: "Ver precios",
       sales: "Contactar con ventas",
       alt: "Terminal SmartOne aceptando un pago contactless en una floristería",
-      pfEyebrow: fiscal ? "Pagos y fiscal" : "Pagos",
-      pfTitle: fiscal ? "Un dispositivo cobra y te mantiene en regla." : "Un dispositivo acepta todo tipo de pago.",
+      pfEyebrow: register ? "Pagos y fiscal" : "Pagos",
+      pfTitle: register ? "Un dispositivo cobra y te mantiene en regla." : "Un dispositivo acepta todo tipo de pago.",
       toolsEyebrow: "Herramientas",
       toolsTitle: "El software alrededor del mostrador.",
       explore: "Descubrir",
       cards: {
-        cardReader: { title: "Datáfono", text: "El terminal de pago: tarjeta, contactless y efectivo en una pantalla, con impresora integrada. Bank Pro y el Pro S de doble pantalla." },
+        cardReader: { title: "Datáfono", text: "El terminal de pago: tarjeta, contactless y efectivo en una pantalla, con impresora integrada. El SmartOne Bank Pro." },
         cashRegister: {
           title: "Caja registradora",
-          text: fiscal
-            ? "Caja, terminal e impresora en un dispositivo certificado: vale 800-1.200 € en tres cajas, la tuya por 400 €."
-            : "En tu mercado no se requiere caja fiscal: mira cómo funciona el cumplimiento donde operas.",
+          text: "Caja, terminal e impresora en un dispositivo certificado: vale 800-1.200 € en tres cajas, la tuya por 400 €.",
         },
         tapToPhone: { title: "Tap to Phone", text: "Acepta pagos contactless en un móvil, sin hardware adicional. En certificación, muy pronto." },
         portal: { title: "Merchant Portal", text: "Controla pagos, sigue liquidaciones, reimprime tickets y conoce tus cifras: un solo acceso." },
@@ -145,7 +141,8 @@ export default async function ProductPage() {
   const country = await getActiveCountry();
   const lang = await getActiveLang();
   const { fiscal } = country;
-  const c = copyFor(lang, fiscal);
+  const register = promotesRegister(country);
+  const c = copyFor(lang, register);
   const isEs = country.code === "es";
   // Fiscal-compliance block: only fiscal markets that aren't already live (so
   // not Malta, and not the non-fiscal UK). The Verifactu card is Spain-only.
@@ -181,11 +178,11 @@ export default async function ProductPage() {
       <section className="bg-bg-2 py-24">
         <div className="mx-auto max-w-6xl px-6">
           <SectionHead eyebrow={c.pfEyebrow} title={c.pfTitle} />
-          <div className={`mt-11 grid gap-4 ${fiscal ? "md:grid-cols-3" : "md:mx-auto md:max-w-3xl md:grid-cols-2"}`}>
+          <div className={`mt-11 grid gap-4 ${register ? "md:grid-cols-3" : "md:mx-auto md:max-w-3xl md:grid-cols-2"}`}>
             <Reveal className="h-full">
               <ProductCard href="/product/terminals" icon={icons.cardReader} title={c.cards.cardReader.title} text={c.cards.cardReader.text} explore={c.explore} />
             </Reveal>
-            {fiscal && (
+            {register && (
               <Reveal delay={100} className="h-full">
                 <ProductCard href="/product/cash-register" icon={icons.cashRegister} title={c.cards.cashRegister.title} text={c.cards.cashRegister.text} explore={c.explore} />
               </Reveal>

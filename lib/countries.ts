@@ -113,5 +113,13 @@ export function getCountry(code: string | undefined | null): Country {
   return isCountryCode(code) ? COUNTRY_MAP[code] : COUNTRY_MAP[DEFAULT_COUNTRY_CODE];
 }
 
+/** Whether the fiscal cash register is offered/promoted for this country.
+    Today that's Malta only – the certified device is live there. Other fiscal
+    markets (e.g. Spain's Verifactu) keep their compliance messaging, but the
+    cash register itself is not sold there yet, so it's kept out of the UI. */
+export function promotesRegister(country: Country): boolean {
+  return country.code === "mt";
+}
+
 export const COUNTRY_COOKIE = "so_country";
 export const LANG_COOKIE = "so_lang";

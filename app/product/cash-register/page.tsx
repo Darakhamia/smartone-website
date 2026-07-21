@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 import { SectionHead } from "@/components/section-head";
 import { DayWalk } from "@/components/product/day-walk";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
-import type { CountryCode, Lang } from "@/lib/countries";
+import { promotesRegister, type CountryCode, type Lang } from "@/lib/countries";
 
 export const metadata: Metadata = {
   title: "Cash register",
@@ -19,16 +20,19 @@ const whatIcons = [
   <path key="2" d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3Zm-3 9 2 2 4-4.5" />,
 ];
 
-function copyFor(lang: Lang, fiscal: boolean, c$: string) {
+function copyFor(lang: Lang, register: boolean, fiscal: boolean, c$: string) {
   return tr(
     lang,
     {
-      eyebrow: "Payments & Fiscal · Cash register",
-      h1a: fiscal ? "A certified cash register," : "No fiscal register needed here.",
-      h1b: fiscal ? "built in." : "",
-      sub: fiscal
+      eyebrow: register ? "Payments & Fiscal · Cash register" : "Payments · Fiscal readiness",
+      h1a: register ? "A certified cash register," : fiscal ? "Fiscal-ready when your market is." : "No fiscal register needed here.",
+      h1b: register ? "built in." : "",
+      sub: register
         ? "The fiscal till lives inside the same device you use to take payments. Certified receipts, Z-reports, and one box on the counter instead of two."
-        : "Your market doesn't require a fiscal register – so we don't sell you one. You get card payments and the Merchant Portal, ready to go.",
+        : fiscal
+          ? "Your market doesn't require a certified register from you today. When the rules change, your SmartOne device is ready – no new hardware, no second box on the counter."
+          : "Your market doesn't require a fiscal register – so we don't sell you one. You get card payments and the Merchant Portal, ready to go.",
+      heroAlt: register ? "The SmartOne Pro S dual-screen register" : "The SmartOne Bank Pro payment terminal",
       get: "Get a terminal →",
       seePricing: "See pricing",
       // what it is
@@ -73,7 +77,7 @@ function copyFor(lang: Lang, fiscal: boolean, c$: string) {
       spainTitle: (isEs: boolean) => (isEs ? "Verifactu, explained" : "Selling in Spain? Verifactu 2027"),
       spainText: (isEs: boolean) => (isEs ? "What changes in 2027 and how the device keeps you compliant." : "Getting ready ahead of the deadline? Start here."),
       // cta
-      ctaTitle: fiscal ? "One box on the counter. Fully certified." : "Card payments, ready in days.",
+      ctaTitle: register ? "One box on the counter. Fully certified." : fiscal ? "Payments now, fiscal-ready for later." : "Card payments, ready in days.",
       ctaText: "Live in four business days or less.",
       sales: "Contact sales",
       // no-fiscal helpers
@@ -81,12 +85,15 @@ function copyFor(lang: Lang, fiscal: boolean, c$: string) {
       seePortal: "Explore the Merchant Portal",
     },
     {
-      eyebrow: "Pagos y fiscal · Caja registradora",
-      h1a: fiscal ? "Una caja registradora certificada," : "Aquí no hace falta caja fiscal.",
-      h1b: fiscal ? "integrada." : "",
-      sub: fiscal
+      eyebrow: register ? "Pagos y fiscal · Caja registradora" : "Pagos · Preparación fiscal",
+      h1a: register ? "Una caja registradora certificada," : fiscal ? "Listo para lo fiscal cuando toque." : "Aquí no hace falta caja fiscal.",
+      h1b: register ? "integrada." : "",
+      sub: register
         ? "La caja fiscal vive dentro del mismo dispositivo con el que cobras. Tickets certificados, informes Z y una sola caja en el mostrador en lugar de dos."
-        : "Tu mercado no exige una caja fiscal, así que no te la vendemos. Tienes pagos con tarjeta y el Merchant Portal, listos para usar.",
+        : fiscal
+          ? "Tu mercado no te exige hoy una caja fiscal certificada. Cuando cambien las normas, tu dispositivo SmartOne está listo, sin comprar hardware nuevo ni una segunda caja en el mostrador."
+          : "Tu mercado no exige una caja fiscal, así que no te la vendemos. Tienes pagos con tarjeta y el Merchant Portal, listos para usar.",
+      heroAlt: register ? "El registro de doble pantalla SmartOne Pro S" : "El terminal de pago SmartOne Bank Pro",
       get: "Solicita tu terminal →",
       seePricing: "Ver precios",
       whatEyebrow: "Qué es",
@@ -125,7 +132,7 @@ function copyFor(lang: Lang, fiscal: boolean, c$: string) {
       } as Record<CountryCode, { title: string; text: string }>,
       spainTitle: (isEs: boolean) => (isEs ? "Verifactu, explicado" : "¿Vendes en España? Verifactu 2027"),
       spainText: (isEs: boolean) => (isEs ? "Qué cambia en 2027 y cómo el dispositivo te mantiene en regla." : "¿Te preparas antes del plazo? Empieza aquí."),
-      ctaTitle: fiscal ? "Una caja en el mostrador. Totalmente certificada." : "Pagos con tarjeta, listos en días.",
+      ctaTitle: register ? "Una caja en el mostrador. Totalmente certificada." : fiscal ? "Cobra ahora, listo para lo fiscal cuando toque." : "Pagos con tarjeta, listos en días.",
       ctaText: "Operativo en cuatro días hábiles o menos.",
       sales: "Contactar con ventas",
       seeTerminals: "Ver los terminales",
@@ -138,7 +145,10 @@ export default async function CashRegisterPage() {
   const country = await getActiveCountry();
   const lang = await getActiveLang();
   const { fiscal } = country;
-  const c = copyFor(lang, fiscal, country.currencySymbol);
+  // The cash register is promoted only where it's live (Malta today). Other
+  // fiscal markets get a compliance-readiness page; non-fiscal a short explainer.
+  const register = promotesRegister(country);
+  const c = copyFor(lang, register, fiscal, country.currencySymbol);
   const isEs = country.code === "es";
   // Fiscal-compliance block: only fiscal markets not yet live (not Malta / UK).
   // The Verifactu card is Spain-only.
@@ -160,7 +170,7 @@ export default async function CashRegisterPage() {
             <p className="anim-fade-up anim-d-2 mt-5 mb-8 max-w-125 text-lg leading-relaxed text-ink-2">{c.sub}</p>
             <div className="anim-fade-up anim-d-3 flex flex-wrap items-center gap-3.5">
               <Link href="/contact" className="btn-primary">{c.get}</Link>
-              {fiscal ? (
+              {register ? (
                 <Link href="/pricing" className="btn-ghost">{c.seePricing}</Link>
               ) : (
                 <Link href="/product/terminals" className="btn-ghost">{c.seeTerminals}</Link>
@@ -169,23 +179,23 @@ export default async function CashRegisterPage() {
           </div>
           <div className="anim-fade-up anim-d-2 relative">
             <div className="pointer-events-none absolute -inset-6 rounded-[48px] bg-[radial-gradient(circle,rgba(90,25,181,0.14),transparent_70%)]" />
-            {/* stylised fiscal receipt */}
-            <div className="relative grid h-80 place-items-center overflow-hidden rounded-[32px] bg-gradient-to-br from-brand-tint via-bg-2 to-bg-2 shadow-[0_48px_90px_-48px_rgba(90,25,181,0.55)]">
-              <div className="receipt-bottom chip-float w-52 rounded-t-2xl border border-line bg-white p-5 font-mono text-[12px] shadow-lg shadow-black/5">
-                <div className="text-[14px] font-semibold text-ink">SmartOne</div>
-                <div className="text-ink-3">FISCAL RECEIPT #0421</div>
-                <div className="my-2.5 border-t border-dashed border-line-2" />
-                <div className="flex justify-between text-ink-2"><span>{tr(lang, "Sale", "Venta")}</span><span>{country.currencySymbol}24.60</span></div>
-                <div className="flex justify-between text-ink-2"><span>VAT</span><span>{country.currencySymbol}3.75</span></div>
-                <div className="my-2.5 border-t border-dashed border-line-2" />
-                <div className="text-[10.5px] text-ink-3">VAT · Z-REPORT · CERTIFIED</div>
+            <div className="relative grid aspect-square place-items-center overflow-hidden rounded-[32px] bg-gradient-to-br from-brand-tint via-bg-2 to-bg-2 shadow-[0_48px_90px_-48px_rgba(90,25,181,0.55)] sm:aspect-[5/4]">
+              <div className="chip-float relative h-[86%] w-[72%]">
+                <Image
+                  src={register ? "/pos/bank-pro-s/hero.webp" : "/pos/bank-pro/hero.webp"}
+                  alt={c.heroAlt}
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 90vw, 480px"
+                  className="object-contain drop-shadow-[0_34px_50px_rgba(29,29,31,0.25)]"
+                />
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {fiscal ? (
+      {register ? (
         <>
           {/* 2 · what it is */}
           <section className="bg-bg-2 py-24">
@@ -267,7 +277,7 @@ export default async function CashRegisterPage() {
             </div>
           </section>
         </>
-      ) : (
+      ) : !fiscal ? (
         /* non-fiscal (UK): a single explainer + routes onward */
         <section className="bg-bg-2 py-24">
           <div className="mx-auto max-w-3xl px-6 text-center">
@@ -282,7 +292,7 @@ export default async function CashRegisterPage() {
             </Reveal>
           </div>
         </section>
-      )}
+      ) : null}
 
       {/* 6 · compliance – only for fiscal markets not yet live (not Malta / UK); Verifactu card Spain-only */}
       {showCompliance && (

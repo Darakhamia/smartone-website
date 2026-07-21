@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useCountry } from "@/components/country/country-context";
 import { tr } from "@/lib/dictionaries";
-import type { Lang } from "@/lib/countries";
+import { promotesRegister, type Lang } from "@/lib/countries";
 
 /* Buy / Rent plan picker – a segmented toggle over three volume-based tiers.
    NOTE: rates and device prices below follow the agreed reference figures –
@@ -155,7 +155,7 @@ export function PlanPicker() {
         })}
       </div>
 
-      {country.fiscal && (
+      {promotesRegister(country) && (
         <div className="mx-auto mt-8 flex max-w-3xl items-start gap-3.5 rounded-2xl bg-brand-tint px-5 py-4 text-left sm:items-center">
           <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-brand text-white">
             <svg viewBox="0 0 24 24" className="size-5.5" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden>

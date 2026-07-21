@@ -2,17 +2,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
-import type { Lang } from "@/lib/countries";
+import { promotesRegister, type Lang } from "@/lib/countries";
 
 /* Hero photo: the branded render of a florist taking a card payment on a
    SmartOne terminal (public/hero-florist.jpg). On desktop the photo bleeds
    past the grid to the right edge of the viewport. */
-function DeviceVisual({ fiscal, lang }: { fiscal: boolean; lang: Lang }) {
+function DeviceVisual({ register, lang }: { register: boolean; lang: Lang }) {
   const c = tr(
     lang,
     {
       alt: "Merchant taking a contactless card payment on a SmartOne terminal",
-      receipt: fiscal ? "Fiscal receipt · " : "Receipt printer · ",
+      receipt: register ? "Fiscal receipt · " : "Receipt printer · ",
       built: "built in",
       fee: "Fee €0.24 · ",
       noSurprises: "no surprises",
@@ -20,7 +20,7 @@ function DeviceVisual({ fiscal, lang }: { fiscal: boolean; lang: Lang }) {
     },
     {
       alt: "Comerciante aceptando un pago contactless en un terminal SmartOne",
-      receipt: fiscal ? "Ticket fiscal · " : "Impresora de tickets · ",
+      receipt: register ? "Ticket fiscal · " : "Impresora de tickets · ",
       built: "integrado",
       fee: "Comisión €0.24 · ",
       noSurprises: "sin sorpresas",
@@ -65,14 +65,15 @@ function DeviceVisual({ fiscal, lang }: { fiscal: boolean; lang: Lang }) {
 }
 
 export async function Hero() {
-  const { fiscal } = await getActiveCountry();
+  const country = await getActiveCountry();
+  const register = promotesRegister(country);
   const lang = await getActiveLang();
   const c = tr(
     lang,
     {
       titleA: "One device to",
       titleB: "run your business.",
-      sub: fiscal
+      sub: register
         ? "A certified cash register and payment terminal in one box – with clear fees, not fine print."
         : "A payment terminal and business tools in one box – with clear fees, not fine print.",
       cta1: "Get a terminal →",
@@ -81,7 +82,7 @@ export async function Hero() {
     {
       titleA: "Un dispositivo para",
       titleB: "gestionar tu negocio.",
-      sub: fiscal
+      sub: register
         ? "Una caja registradora certificada y terminal de pago en un solo equipo, con comisiones claras y sin letra pequeña."
         : "Un terminal de pago y herramientas de negocio en un solo equipo, con comisiones claras y sin letra pequeña.",
       cta1: "Solicita tu terminal →",
@@ -111,7 +112,7 @@ export async function Hero() {
             </Link>
           </div>
         </div>
-        <DeviceVisual fiscal={fiscal} lang={lang} />
+        <DeviceVisual register={register} lang={lang} />
       </div>
     </section>
   );

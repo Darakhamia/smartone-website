@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 import { SectionHead } from "@/components/section-head";
-import { Terminal } from "@/components/product/device-visuals";
-import { getActiveCountry, getActiveLang } from "@/lib/country-server";
+import { TerminalGallery, type Shot } from "@/components/product/terminal-gallery";
+import { getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 import type { Lang } from "@/lib/countries";
 
 export const metadata: Metadata = {
   title: "Terminals",
   description:
-    "The SmartOne payment terminal: card, contactless and cash on one device, with the receipt printer built in. Bank Pro and the dual-screen Pro S.",
+    "The SmartOne Bank Pro payment terminal: card, contactless and cash on one device, with the receipt printer built in. Not just a card machine.",
 };
 
 const factIcons = [
@@ -49,22 +50,29 @@ const highlightIcons = [
 ];
 
 function copyFor(lang: Lang) {
+  const shots: Shot[] = [
+    { src: "/pos/bank-pro/front.webp", alt: "SmartOne Bank Pro terminal, front view showing the till screen", label: tr(lang, "Front", "Frente") },
+    { src: "/pos/bank-pro/angle-r.webp", alt: "SmartOne Bank Pro terminal, three-quarter view", label: tr(lang, "Angle", "Ángulo") },
+    { src: "/pos/bank-pro/angle-l.webp", alt: "SmartOne Bank Pro terminal, opposite three-quarter view", label: tr(lang, "Side", "Lateral") },
+    { src: "/pos/bank-pro/back.webp", alt: "SmartOne Bank Pro terminal, rear view with the built-in printer", label: tr(lang, "Back", "Detrás") },
+  ];
   return tr(
     lang,
     {
-      eyebrow: "Payments & Fiscal · Terminals",
+      shots,
+      eyebrow: "Payments · The terminal",
       h1a: "One tap.",
       h1b: "Card, contactless, cash.",
-      sub: "The SmartOne payment terminal takes every kind of payment on one screen – with the receipt printer built in. Not just a card machine.",
+      sub: "The SmartOne Bank Pro takes every kind of payment on one screen – with the receipt printer built in. Not just a card machine.",
+      heroAlt: "The SmartOne Bank Pro payment terminal",
       get: "Get a terminal →",
       seePricing: "See pricing",
-      lineEyebrow: "The lineup",
-      lineTitle: "Two models, one platform.",
-      lineSub: "Merchant facts, not a spec sheet: it prints, it lasts, it connects – wherever your counter is.",
-      lineup: [
-        { name: "SmartOne Bank Pro", for: "For the busy counter", text: "The big 6″ screen keeps a queue moving – ring up, tap, receipt out.", dual: false },
-        { name: "SmartOne Pro S", for: "Dual-screen checkout", text: "A screen for you and one facing the customer – a smooth, transparent checkout where local law needs it.", dual: true },
-      ],
+      lineEyebrow: "Every angle",
+      lineTitle: "One device. Every side.",
+      lineSub: "Spin around it: it prints, it lasts, it connects – wherever your counter is.",
+      deviceName: "SmartOne Bank Pro",
+      deviceFor: "The all-in-one terminal",
+      deviceText: "The big 6″ screen keeps a queue moving – ring up, tap, receipt out. Card, contactless and cash, no second box on the counter.",
       facts: ["Battery lasts the shift", "SIM + Wi-Fi", "Receipt printer built in"],
       featEyebrow: "Inside the device",
       featTitle: "Everything built in.",
@@ -79,7 +87,7 @@ function copyFor(lang: Lang) {
       sales: "Contact sales",
       specEyebrow: "Full specifications",
       specTitle: "The numbers, in full.",
-      specSub: "Bank Pro and Pro S run one platform. The Pro S adds a customer-facing second screen – everything else is identical.",
+      specSub: "Everything inside the SmartOne Bank Pro – the display, the processor, the battery, the printer and the security.",
       highlights: [
         { value: "6″ HD", label: "Touchscreen display" },
         { value: "Octa-core", label: "Kun T11 · 2.0 GHz" },
@@ -88,8 +96,6 @@ function copyFor(lang: Lang) {
         { value: "Built-in printer", label: "2″ · 58 mm thermal" },
         { value: "PCI PTS 6.x", label: "Certified secure" },
       ],
-      proSTitle: "SmartOne Pro S",
-      proSText: "Same platform, plus a second customer-facing display for a transparent checkout.",
       specGroups: [
         {
           group: "Display",
@@ -114,19 +120,20 @@ function copyFor(lang: Lang) {
       ] as { group: string; items: [string, string][] }[],
     },
     {
-      eyebrow: "Pagos y fiscal · Terminales",
+      shots,
+      eyebrow: "Pagos · El terminal",
       h1a: "Un tap.",
       h1b: "Tarjeta, contactless, efectivo.",
-      sub: "El terminal de pago SmartOne acepta todo tipo de pago en una sola pantalla, con la impresora de tickets integrada. No solo un datáfono.",
+      sub: "El SmartOne Bank Pro acepta todo tipo de pago en una sola pantalla, con la impresora de tickets integrada. No solo un datáfono.",
+      heroAlt: "El terminal de pago SmartOne Bank Pro",
       get: "Solicita tu terminal →",
       seePricing: "Ver precios",
-      lineEyebrow: "La gama",
-      lineTitle: "Dos modelos, una plataforma.",
-      lineSub: "Datos útiles, no una ficha técnica: imprime, dura y se conecta, donde esté tu mostrador.",
-      lineup: [
-        { name: "SmartOne Bank Pro", for: "Para el mostrador con cola", text: "La pantalla grande de 6″ mantiene la cola en movimiento: cobra, tap, ticket fuera.", dual: false },
-        { name: "SmartOne Pro S", for: "Cobro con doble pantalla", text: "Una pantalla para ti y otra hacia el cliente: un cobro fluido y transparente donde lo exija la ley local.", dual: true },
-      ],
+      lineEyebrow: "Cada ángulo",
+      lineTitle: "Un dispositivo. Todos los lados.",
+      lineSub: "Gíralo: imprime, dura y se conecta, donde esté tu mostrador.",
+      deviceName: "SmartOne Bank Pro",
+      deviceFor: "El terminal todo en uno",
+      deviceText: "La pantalla grande de 6″ mantiene la cola en movimiento: cobra, tap, ticket fuera. Tarjeta, contactless y efectivo, sin una segunda caja en el mostrador.",
       facts: ["La batería aguanta el turno", "SIM + Wi-Fi", "Impresora de tickets integrada"],
       featEyebrow: "Dentro del dispositivo",
       featTitle: "Todo integrado.",
@@ -141,7 +148,7 @@ function copyFor(lang: Lang) {
       sales: "Contactar con ventas",
       specEyebrow: "Ficha técnica",
       specTitle: "Los números, al completo.",
-      specSub: "Bank Pro y Pro S usan una plataforma. El Pro S añade una segunda pantalla hacia el cliente; todo lo demás es idéntico.",
+      specSub: "Todo lo que hay dentro del SmartOne Bank Pro: la pantalla, el procesador, la batería, la impresora y la seguridad.",
       highlights: [
         { value: "6″ HD", label: "Pantalla táctil" },
         { value: "Octa-core", label: "Kun T11 · 2.0 GHz" },
@@ -150,8 +157,6 @@ function copyFor(lang: Lang) {
         { value: "Impresora integrada", label: "Térmica 2″ · 58 mm" },
         { value: "PCI PTS 6.x", label: "Seguridad certificada" },
       ],
-      proSTitle: "SmartOne Pro S",
-      proSText: "La misma plataforma, más una segunda pantalla hacia el cliente para un cobro transparente.",
       specGroups: [
         {
           group: "Pantalla",
@@ -179,14 +184,8 @@ function copyFor(lang: Lang) {
 }
 
 export default async function TerminalsPage() {
-  const country = await getActiveCountry();
   const lang = await getActiveLang();
   const c = copyFor(lang);
-  // Malta is offered a single terminal – the dual-screen Pro S.
-  const isMalta = country.code === "mt";
-  const lineup = isMalta ? c.lineup.filter((d) => d.dual) : c.lineup;
-  const lineTitle = isMalta ? tr(lang, "One device. Everything built in.", "Un dispositivo. Todo integrado.") : c.lineTitle;
-  const specSub = isMalta ? tr(lang, "The SmartOne Pro S platform, in full.", "La plataforma SmartOne Pro S, al completo.") : c.specSub;
 
   return (
     <>
@@ -207,76 +206,48 @@ export default async function TerminalsPage() {
           </div>
           <div className="anim-fade-up anim-d-2 relative">
             <div className="pointer-events-none absolute -inset-6 rounded-[48px] bg-[radial-gradient(circle,rgba(90,25,181,0.14),transparent_70%)]" />
-            <div className="relative grid h-80 place-items-center overflow-hidden rounded-[32px] bg-gradient-to-br from-brand-tint via-bg-2 to-bg-2 shadow-[0_48px_90px_-48px_rgba(90,25,181,0.55)]">
-              <div className="chip-float grid h-64 w-full place-items-center py-4">
-                <Terminal compact={false} />
+            <div className="relative grid aspect-square place-items-center overflow-hidden rounded-[32px] bg-gradient-to-br from-brand-tint via-bg-2 to-bg-2 shadow-[0_48px_90px_-48px_rgba(90,25,181,0.55)] sm:aspect-[5/4]">
+              <div className="chip-float relative h-[86%] w-[70%]">
+                <Image
+                  src="/pos/bank-pro/hero.webp"
+                  alt={c.heroAlt}
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 90vw, 480px"
+                  className="object-contain drop-shadow-[0_34px_50px_rgba(29,29,31,0.25)]"
+                />
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 2 · lineup */}
+      {/* 2 · every angle – the gallery */}
       <section className="bg-bg-2 py-24">
         <div className="mx-auto max-w-6xl px-6">
-          <SectionHead eyebrow={c.lineEyebrow} title={lineTitle} sub={c.lineSub} />
-
-          {lineup.length > 1 ? (
-            <>
-              <div className="mt-11 grid gap-4 md:grid-cols-2">
-                {lineup.map((d, i) => (
-                  <Reveal key={d.name} delay={i * 100} className="h-full">
-                    <div className="flex h-full flex-col rounded-3xl bg-white p-7 shadow-sm shadow-black/3 transition-transform duration-300 hover:-translate-y-1">
-                      <div className="grid h-64 place-items-center rounded-2xl bg-gradient-to-br from-brand-tint via-bg-2 to-bg-2 py-6">
-                        <Terminal compact={false} dual={d.dual} />
-                      </div>
-                      <div className="mt-5 flex items-baseline justify-between">
-                        <h3 className="font-display text-[22px] font-semibold tracking-tight">{d.name}</h3>
-                        <span className="text-[12.5px] font-semibold text-brand">{d.for}</span>
-                      </div>
-                      <p className="mt-1.5 text-[14.5px] leading-relaxed text-ink-2">{d.text}</p>
-                    </div>
-                  </Reveal>
-                ))}
-              </div>
-              <Reveal>
-                <div className="mt-6 flex flex-col gap-4 rounded-3xl bg-white px-7 py-5 shadow-sm shadow-black/3 sm:flex-row sm:items-center sm:justify-around">
+          <SectionHead eyebrow={c.lineEyebrow} title={c.lineTitle} sub={c.lineSub} />
+          <div className="mt-11 grid items-center gap-10 md:grid-cols-2 md:gap-14">
+            <Reveal>
+              <TerminalGallery shots={c.shots} />
+            </Reveal>
+            <Reveal delay={100}>
+              <div>
+                <span className="text-[12.5px] font-semibold tracking-wide text-brand uppercase">{c.deviceFor}</span>
+                <h3 className="h-display mt-2 text-[clamp(26px,3vw,34px)] leading-tight">{c.deviceName}</h3>
+                <p className="mt-3 text-[15.5px] leading-relaxed text-ink-2">{c.deviceText}</p>
+                <div className="mt-6 flex flex-col gap-3 border-t border-line pt-6">
                   {c.facts.map((label, i) => (
-                    <span key={label} className="flex items-center gap-2.5 text-[14.5px] font-medium text-ink-2">
-                      <svg viewBox="0 0 24 24" className="size-5.5 stroke-brand" fill="none" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                    <span key={label} className="flex items-center gap-3 text-[14.5px] font-medium text-ink-2">
+                      <svg viewBox="0 0 24 24" className="size-5.5 shrink-0 stroke-brand" fill="none" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                         {factIcons[i]}
                       </svg>
                       {label}
                     </span>
                   ))}
                 </div>
-              </Reveal>
-            </>
-          ) : (
-            /* single device (e.g. Malta) – a proper feature block, not a lone card */
-            <Reveal>
-              <div className="mt-11 grid items-center gap-8 rounded-3xl bg-white p-6 shadow-sm shadow-black/3 md:grid-cols-2 md:gap-12 md:p-10">
-                <div className="grid h-72 place-items-center rounded-2xl bg-gradient-to-br from-brand-tint via-bg-2 to-bg-2 sm:h-80">
-                  <Terminal compact={false} dual={lineup[0].dual} />
-                </div>
-                <div>
-                  <span className="text-[12.5px] font-semibold tracking-wide text-brand uppercase">{lineup[0].for}</span>
-                  <h3 className="h-display mt-2 text-[clamp(26px,3vw,34px)] leading-tight">{lineup[0].name}</h3>
-                  <p className="mt-3 text-[15.5px] leading-relaxed text-ink-2">{lineup[0].text}</p>
-                  <div className="mt-6 flex flex-col gap-3 border-t border-line pt-6">
-                    {c.facts.map((label, i) => (
-                      <span key={label} className="flex items-center gap-3 text-[14.5px] font-medium text-ink-2">
-                        <svg viewBox="0 0 24 24" className="size-5.5 shrink-0 stroke-brand" fill="none" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                          {factIcons[i]}
-                        </svg>
-                        {label}
-                      </span>
-                    ))}
-                  </div>
-                </div>
               </div>
             </Reveal>
-          )}
+          </div>
         </div>
       </section>
 
@@ -302,10 +273,10 @@ export default async function TerminalsPage() {
         </div>
       </section>
 
-      {/* 5 · full specifications */}
+      {/* 4 · full specifications */}
       <section className="py-24">
         <div className="mx-auto max-w-6xl px-6">
-          <SectionHead eyebrow={c.specEyebrow} title={c.specTitle} sub={specSub} />
+          <SectionHead eyebrow={c.specEyebrow} title={c.specTitle} sub={c.specSub} />
 
           {/* spec highlights – the at-a-glance scan */}
           <div className="mt-11 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -325,24 +296,6 @@ export default async function TerminalsPage() {
               </Reveal>
             ))}
           </div>
-
-          {/* Pro S difference – only where both models are offered */}
-          {!isMalta && (
-            <Reveal>
-              <div className="mt-4 flex items-start gap-3.5 rounded-2xl bg-brand-tint p-5">
-                <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-brand text-white">
-                  <svg viewBox="0 0 24 24" className="size-5.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                    <rect x="3" y="5" width="12" height="13" rx="2" />
-                    <rect x="14" y="9" width="7" height="10" rx="1.5" />
-                  </svg>
-                </span>
-                <div>
-                  <p className="font-display text-[15px] font-semibold tracking-tight text-ink">{c.proSTitle}</p>
-                  <p className="mt-0.5 text-[13.5px] leading-relaxed text-ink-2">{c.proSText}</p>
-                </div>
-              </div>
-            </Reveal>
-          )}
 
           {/* detailed spec sheet – grouped, tech-spec style */}
           <Reveal>
@@ -365,7 +318,7 @@ export default async function TerminalsPage() {
         </div>
       </section>
 
-      {/* 6 · CTA (closer) */}
+      {/* 5 · CTA (closer) */}
       <section className="bg-bg-2 py-24">
         <div className="mx-auto max-w-6xl px-6">
           <Reveal>

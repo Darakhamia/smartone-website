@@ -5,6 +5,7 @@ import { PlanPicker } from "@/components/pricing/plan-picker";
 import { Faq } from "@/components/pricing/faq";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
+import { promotesRegister } from "@/lib/countries";
 
 export const metadata: Metadata = {
   title: "Pricing",
@@ -15,6 +16,7 @@ export const metadata: Metadata = {
 export default async function PricingPage() {
   const country = await getActiveCountry();
   const lang = await getActiveLang();
+  const register = promotesRegister(country);
   const c = tr(
     lang,
     {
@@ -22,7 +24,7 @@ export default async function PricingPage() {
       titleA: "Transparent rates.",
       titleB: "No hidden fees.",
       lead: "One rate per band, every fee shown up front. Buy the terminal or rent it – your call.",
-      included: country.fiscal ? "Cash register, printer and portal included" : "Receipt printer and portal included",
+      included: register ? "Cash register, printer and portal included" : "Receipt printer and portal included",
       footnote:
         "The rate shown is for domestic cards – corporate and international cards have their own clear rate, confirmed for your business.",
       footnote2: "paid out to your own bank next business day (T+1). Device prices are indicative and confirmed for your country.",
@@ -45,7 +47,7 @@ export default async function PricingPage() {
       titleA: "Tarifas transparentes.",
       titleB: "Sin comisiones ocultas.",
       lead: "Una tarifa por tramo, cada comisión visible desde el principio. Compra el terminal o alquílalo, tú decides.",
-      included: country.fiscal ? "Caja registradora, impresora y portal incluidos" : "Impresora de tickets y portal incluidos",
+      included: register ? "Caja registradora, impresora y portal incluidos" : "Impresora de tickets y portal incluidos",
       footnote:
         "La tarifa mostrada es para tarjetas nacionales; las tarjetas corporativas e internacionales tienen su propia tarifa clara, confirmada para tu negocio.",
       footnote2: "abonado a tu propio banco el día hábil siguiente (T+1). Los precios del dispositivo son orientativos y se confirman para tu país.",

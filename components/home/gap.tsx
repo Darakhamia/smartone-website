@@ -1,26 +1,32 @@
 import { Reveal } from "@/components/reveal";
 import { LogoMark } from "@/components/logo";
 import { GapCards, type GapModal } from "@/components/home/gap-interactive";
-import { getActiveLang } from "@/lib/country-server";
+import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
+import { promotesRegister } from "@/lib/countries";
 
 export async function Gap() {
   const lang = await getActiveLang();
+  const country = await getActiveCountry();
+  const register = promotesRegister(country);
   const c = tr(
     lang,
     {
       eyebrow: "Why no one else does this",
       title: "Two gaps your current provider won't close.",
+      titleOne: "The gap your current provider won't close.",
       gaps: [
         {
           tag: "Durable gap",
           title: "A cash register, built in",
           text: "A certified fiscal cash register, not a card reader bolted onto your tablet – with per-market certification competitors don't have.",
+          kind: "cashbox" as const,
         },
         {
           tag: "Incentive gap",
           title: "Clear fees, not fine print",
           text: "The rate you signed up for is the rate you pay. No commission hiding inside a monthly statement – competitors could show it, their margin depends on not showing it.",
+          kind: "portal" as const,
         },
       ],
       modal: {
@@ -46,16 +52,19 @@ export async function Gap() {
     {
       eyebrow: "Por qué nadie más hace esto",
       title: "Dos carencias que tu proveedor actual no va a cerrar.",
+      titleOne: "La carencia que tu proveedor actual no va a cerrar.",
       gaps: [
         {
           tag: "Carencia de producto",
           title: "Una caja registradora integrada",
           text: "Una caja registradora fiscal certificada, no un lector de tarjetas pegado a tu tablet, con certificación por país que la competencia no tiene.",
+          kind: "cashbox" as const,
         },
         {
           tag: "Carencia de incentivos",
           title: "Comisiones claras, sin letra pequeña",
           text: "La tarifa que firmaste es la que pagas. Sin comisiones escondidas en un extracto mensual: la competencia podría mostrarlas, pero su margen depende de no hacerlo.",
+          kind: "portal" as const,
         },
       ],
       modal: {
@@ -89,10 +98,10 @@ export async function Gap() {
         <Reveal>
           <div className="max-w-165">
             <span className="eyebrow">{c.eyebrow}</span>
-            <h2 className="h-display mt-4 text-[clamp(30px,4vw,48px)] leading-[1.06]">{c.title}</h2>
+            <h2 className="h-display mt-4 text-[clamp(30px,4vw,48px)] leading-[1.06]">{register ? c.title : c.titleOne}</h2>
           </div>
         </Reveal>
-        <GapCards cards={c.gaps} modal={c.modal} />
+        <GapCards cards={register ? c.gaps : c.gaps.filter((g) => g.kind === "portal")} modal={c.modal} />
       </div>
     </section>
   );

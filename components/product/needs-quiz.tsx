@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useCountry } from "@/components/country/country-context";
 import { tr } from "@/lib/dictionaries";
-import type { Country, Lang } from "@/lib/countries";
+import { promotesRegister, type Country, type Lang } from "@/lib/countries";
 
 /* "What do you need?" quiz. Instead of picking a device model (Malta and most
    markets get one device), it asks a few questions and recommends which
@@ -159,7 +159,7 @@ type ProductKey = keyof Copy["products"];
 
 function recommend(a: number[], country: Country): { keys: ProductKey[]; soon: ProductKey[] } {
   const keys: ProductKey[] = ["terminal"];
-  if (a[1] === 0 && country.fiscal) keys.push("cashRegister");
+  if (a[1] === 0 && promotesRegister(country)) keys.push("cashRegister");
   if (a[0] === 1) keys.push("click");
   keys.push("portal");
   const soon: ProductKey[] = a[2] === 1 && a[1] === 1 ? ["tapToPhone"] : [];

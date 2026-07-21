@@ -4,12 +4,13 @@ import Link from "next/link";
 import { useState } from "react";
 import { useCountry } from "@/components/country/country-context";
 import { tr } from "@/lib/dictionaries";
+import { promotesRegister } from "@/lib/countries";
 
 /* FAQ accordion, CSS grid-rows transitions, no animation libraries. */
 
 export function Faq() {
   const { country, lang } = useCountry();
-  const fiscal = country.fiscal;
+  const register = promotesRegister(country);
   const c = tr(
     lang,
     {
@@ -17,11 +18,11 @@ export function Faq() {
       leadA: "Have a question we haven't answered?",
       talk: "Talk to us",
       faqs: [
-        { q: "What's included in the price?", a: fiscal ? "Everything: the certified cash register and payment terminal, plus the Merchant Portal. No separate software subscription, no per-feature charges." : "Everything: the payment terminal and the Merchant Portal. No separate software subscription, no per-feature charges." },
+        { q: "What's included in the price?", a: register ? "Everything: the certified cash register and payment terminal, plus the Merchant Portal. No separate software subscription, no per-feature charges." : "Everything: the payment terminal and the Merchant Portal. No separate software subscription, no per-feature charges." },
         { q: "Do I need to open a new bank account?", a: "No. Your payouts go to the bank account you already have – we work with a licensed European banking partner, so there's no new interface to learn and no switching cost." },
         { q: "When do I get my money?", a: "Next business day (T+1). The portal shows exactly what's confirmed to pay you – net of commission, clearly shown." },
         { q: "Are there any hidden fees?", a: "No. Your commission is shown up front on every settlement in the portal. No setup fees, no monthly minimums, no surprise line items in a PDF statement." },
-        { q: "How fast can I start taking payments?", a: fiscal ? "Four business days or less from signing up to going live – including fiscal registration of the device for your market." : "Four business days or less from signing up to going live." },
+        { q: "How fast can I start taking payments?", a: register ? "Four business days or less from signing up to going live – including fiscal registration of the device for your market." : "Four business days or less from signing up to going live." },
         { q: "Buy or rent – which is cheaper?", a: "Renting keeps your upfront cost low with a small monthly fee and a slightly lower transaction rate, on a one-year term. Buying is a one-off device cost with no minimum term. Either way, the same three volume bands apply." },
         { q: "How is my rate decided?", a: "By your monthly card volume – the more you take, the lower the rate. Pick the band that fits on the table above; if you're near an edge or want a tailored quote, talk to us and we'll confirm your rate within one business day." },
       ],
@@ -31,11 +32,11 @@ export function Faq() {
       leadA: "¿Tienes una pregunta que no hemos respondido?",
       talk: "Habla con nosotros",
       faqs: [
-        { q: "¿Qué incluye el precio?", a: fiscal ? "Todo: la caja registradora certificada y el terminal de pago, más el Merchant Portal. Sin suscripción de software aparte ni cargos por función." : "Todo: el terminal de pago y el Merchant Portal. Sin suscripción de software aparte ni cargos por función." },
+        { q: "¿Qué incluye el precio?", a: register ? "Todo: la caja registradora certificada y el terminal de pago, más el Merchant Portal. Sin suscripción de software aparte ni cargos por función." : "Todo: el terminal de pago y el Merchant Portal. Sin suscripción de software aparte ni cargos por función." },
         { q: "¿Necesito abrir una cuenta bancaria nueva?", a: "No. Tus pagos llegan a la cuenta bancaria que ya tienes: trabajamos con un socio bancario europeo autorizado, así que no hay una interfaz nueva que aprender ni coste de cambio." },
         { q: "¿Cuándo recibo mi dinero?", a: "Al día hábil siguiente (T+1). El portal muestra exactamente lo que está confirmado para pagarte, neto de comisión y con total claridad." },
         { q: "¿Hay comisiones ocultas?", a: "No. Tu comisión se muestra por adelantado en cada liquidación en el portal. Sin cuotas de alta, sin mínimos mensuales, sin líneas sorpresa en un PDF." },
-        { q: "¿En cuánto tiempo puedo empezar a cobrar?", a: fiscal ? "En cuatro días hábiles o menos, desde el alta hasta estar operativo, incluida la registración fiscal del dispositivo para tu mercado." : "En cuatro días hábiles o menos, desde el alta hasta estar operativo." },
+        { q: "¿En cuánto tiempo puedo empezar a cobrar?", a: register ? "En cuatro días hábiles o menos, desde el alta hasta estar operativo, incluida la registración fiscal del dispositivo para tu mercado." : "En cuatro días hábiles o menos, desde el alta hasta estar operativo." },
         { q: "¿Comprar o alquilar? ¿Qué sale más barato?", a: "Alquilar mantiene bajo el coste inicial con una pequeña cuota mensual y una tarifa por operación algo más baja, con permanencia de un año. Comprar es un coste único del dispositivo, sin permanencia. En ambos casos aplican los mismos tres tramos por volumen." },
         { q: "¿Cómo se decide mi tarifa?", a: "Según tu volumen mensual con tarjeta: cuanto más cobras, más baja la tarifa. Elige el tramo que encaja en la tabla de arriba; si estás cerca de un límite o quieres una oferta a medida, habla con nosotros y confirmamos tu tarifa en un día hábil." },
       ],
