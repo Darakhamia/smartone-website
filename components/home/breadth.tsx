@@ -52,9 +52,6 @@ export async function BreadthComponent() {
         ? "Take payments, stay compliant, sell, and track your money – without a four-vendor stack."
         : "Take payments, sell, and track your money – without a multi-vendor stack.",
       replaces: "Replaces:",
-      footer: register
-        ? "Use the full stack – or just the terminal, or just the register. Each works on its own, and grows with you when you're ready."
-        : "Use the full stack – or just the terminal. Each works on its own, and grows with you when you're ready.",
       jobs: [
         { title: "Take payments", text: "Card, contactless and cash.", href: "/product/terminals" },
         { title: "Stay compliant", text: "Fiscal receipts and reports.", href: "/product/cash-register" },
@@ -71,9 +68,6 @@ export async function BreadthComponent() {
         ? "Cobra, cumple con la normativa, vende y controla tu dinero, sin depender de cuatro proveedores."
         : "Cobra, vende y controla tu dinero, sin depender de varios proveedores.",
       replaces: "Sustituye a:",
-      footer: register
-        ? "Usa todo el conjunto, o solo el terminal, o solo la caja. Cada parte funciona por sí sola y crece contigo cuando estés listo."
-        : "Usa todo el conjunto, o solo el terminal. Cada parte funciona por sí sola y crece contigo cuando estés listo.",
       jobs: [
         { title: "Cobra", text: "Tarjeta, contactless y efectivo.", href: "/product/terminals" },
         { title: "Cumple la normativa", text: "Tickets fiscales e informes.", href: "/product/cash-register" },
@@ -141,7 +135,6 @@ export async function BreadthComponent() {
               ))}
             </div>
           </div>
-          <p className="mt-5 max-w-150 text-[14.5px] leading-relaxed text-ink-2">{c.footer}</p>
         </Reveal>
       </div>
     </section>
