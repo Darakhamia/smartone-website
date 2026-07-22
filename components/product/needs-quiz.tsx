@@ -228,7 +228,7 @@ export function NeedsQuiz() {
 
           <h3 className="mt-7 font-display text-[clamp(21px,2.4vw,26px)] font-semibold tracking-tight">{c.questions[step].q}</h3>
 
-          <div className="mt-5 grid gap-3 sm:grid-cols-2">
+          <div className={`mt-5 grid gap-3 ${c.questions[step].options.length === 3 ? "sm:grid-cols-3" : "sm:grid-cols-2"}`}>
             {c.questions[step].options.map((opt, oi) => (
               <button
                 key={opt.label}
