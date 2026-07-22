@@ -228,22 +228,25 @@ export function NeedsQuiz() {
 
           <h3 className="mt-7 font-display text-[clamp(21px,2.4vw,26px)] font-semibold tracking-tight">{c.questions[step].q}</h3>
 
-          <div className={`mt-5 grid gap-3 ${c.questions[step].options.length === 3 ? "sm:grid-cols-3" : "sm:grid-cols-2"}`}>
+          <div className="mt-6 space-y-3">
             {c.questions[step].options.map((opt, oi) => (
               <button
                 key={opt.label}
                 onClick={() => pick(oi)}
-                className="group flex items-center gap-3.5 rounded-2xl border border-line-2 p-4 text-left transition-all duration-200 hover:-translate-y-0.5 hover:border-brand hover:bg-brand-tint hover:shadow-[0_16px_32px_-26px_rgba(90,25,181,0.55)]"
+                className="group flex w-full items-center gap-4 rounded-2xl border border-line-2 p-4 pr-5 text-left transition-all duration-200 hover:-translate-y-0.5 hover:border-brand hover:bg-brand-tint hover:shadow-[0_16px_32px_-26px_rgba(90,25,181,0.55)]"
               >
-                <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-brand-tint text-brand transition-colors duration-200 group-hover:bg-brand group-hover:text-white">
+                <span className="grid size-12 shrink-0 place-items-center rounded-xl bg-brand-tint text-brand transition-colors duration-200 group-hover:bg-brand group-hover:text-white">
                   <svg viewBox="0 0 24 24" className="size-6" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                     {optIcons[step][oi]}
                   </svg>
                 </span>
-                <span className="min-w-0">
-                  <span className="block text-[15px] font-semibold tracking-tight text-ink">{opt.label}</span>
-                  <span className="block text-[12.5px] leading-snug text-ink-3">{opt.sub}</span>
+                <span className="min-w-0 flex-1">
+                  <span className="block text-[15.5px] font-semibold tracking-tight text-ink">{opt.label}</span>
+                  <span className="block text-[13px] leading-snug text-ink-3">{opt.sub}</span>
                 </span>
+                <svg viewBox="0 0 16 16" className="size-4 shrink-0 text-ink-3 transition-all duration-200 group-hover:translate-x-1 group-hover:text-brand" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <path d="m6 4 4 4-4 4" />
+                </svg>
               </button>
             ))}
           </div>
