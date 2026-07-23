@@ -40,20 +40,18 @@ function CashboxScreen({ m }: { m: GapModal }) {
 
   return (
     <div className="mx-auto w-full max-w-[236px]">
-      {/* real screenshots from the cash-register app, in a phone frame */}
-      <div className="rounded-[34px] bg-[#111113] p-2.5 shadow-[0_40px_80px_-30px_rgba(0,0,0,0.6)]">
-        <div className="relative aspect-[1/2] overflow-hidden rounded-[26px] bg-[#0e0e10]" role="group" aria-label={m.cashbox.alt}>
-          {cashboxShots.map((src, idx) => (
-            <Image
-              key={src}
-              src={src}
-              alt=""
-              fill
-              sizes="236px"
-              className={`object-cover transition-opacity duration-500 ease-in-out ${idx === i ? "opacity-100" : "opacity-0"}`}
-            />
-          ))}
-        </div>
+      {/* real screenshots from the cash-register app */}
+      <div className="relative aspect-[1/2] overflow-hidden rounded-[26px] bg-[#0e0e10] shadow-[0_40px_80px_-30px_rgba(0,0,0,0.6)]" role="group" aria-label={m.cashbox.alt}>
+        {cashboxShots.map((src, idx) => (
+          <Image
+            key={src}
+            src={src}
+            alt=""
+            fill
+            sizes="236px"
+            className={`object-cover transition-opacity duration-500 ease-in-out ${idx === i ? "opacity-100" : "opacity-0"}`}
+          />
+        ))}
       </div>
       <div className="mt-3.5 flex justify-center gap-1.5">
         {cashboxShots.map((_, idx) => (
