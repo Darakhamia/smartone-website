@@ -1,0 +1,18 @@
+# SmartOne
+
+> SmartOne makes fiscally-certified Android payment devices for European small businesses: a card payment terminal, a certified fiscal cash register and a receipt printer in one box, with a Merchant Portal included. Live in Malta; Spain (Verifactu-ready) and Slovakia in scope.
+
+Key facts:
+- One certified device replaces a separate cash register, receipt printer and card terminal — and the contracts that come with them.
+- Transparent pricing: one rate per monthly-volume band, every fee shown up front. No setup fees, no inactivity fees, no settlement fees, no monthly minimums.
+- Payouts go to the merchant's own existing bank account (licensed European banking partner), next business day (T+1).
+- The Merchant Portal shows net amounts and the commission actually paid, in euros, for every settlement.
+- Activation in four business days or less, including fiscal registration of the device.
+
+## Pages
+- [Home](https://smartone.global/): what the device does and why merchants switch
+- [Pricing](https://smartone.global/pricing): rates by monthly card volume, buy vs rent, FAQ
+- [Product](https://smartone.global/product): terminal, cash register, Tap to Phone
+- [Industries](https://smartone.global/industries): retail, services, hospitality
+- [About](https://smartone.global/about): company
+- [Contact](https://smartone.global/contact): get a terminal or ask for your exact rate

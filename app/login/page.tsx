@@ -3,7 +3,7 @@ import { StubPage } from "@/components/stub-page";
 import { getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 
-export const metadata: Metadata = { title: "Log in" };
+export const metadata: Metadata = { title: "Log in", robots: { index: false, follow: false } };
 
 /* TODO: point this at the real merchant portal URL when it's live. */
 export default async function LoginPage() {

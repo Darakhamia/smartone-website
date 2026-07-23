@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 import { PlanPicker } from "@/components/pricing/plan-picker";
 import { Faq } from "@/components/pricing/faq";
+import { PricingFaqJsonLd } from "@/components/seo/jsonld";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 import { promotesRegister } from "@/lib/countries";
@@ -134,6 +135,7 @@ export default async function PricingPage() {
       {/* 4 · honest FAQ */}
       <section className="py-24">
         <div className="mx-auto max-w-6xl px-6">
+          <PricingFaqJsonLd />
           <Faq />
         </div>
       </section>
