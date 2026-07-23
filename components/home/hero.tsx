@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import { HeroCarousel } from "@/components/home/hero-carousel";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 import { promotesRegister, type Lang } from "@/lib/countries";
@@ -31,13 +31,9 @@ function DeviceVisual({ register, lang }: { register: boolean; lang: Lang }) {
     <div className="anim-fade-up anim-d-2 relative lg:mr-[calc((1104px-100vw)/2)]">
       <div className="pointer-events-none absolute -inset-8 rounded-[48px] bg-[radial-gradient(circle,rgba(90,25,181,0.12),transparent_70%)]" />
       <div className="relative aspect-[16/11] overflow-hidden rounded-[32px] shadow-[0_48px_90px_-48px_rgba(90,25,181,0.55)] lg:aspect-[16/10.5] lg:rounded-r-none">
-        <Image
-          src="/hero-florist.jpg"
+        <HeroCarousel
+          images={["/hero/market.webp", "/hero/foodtruck.webp", "/hero/florist.webp"]}
           alt={c.alt}
-          fill
-          priority
-          sizes="(max-width: 1024px) 100vw, 55vw"
-          className="object-cover"
         />
         {/* soft vignette so the chips stay readable on any photo */}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-night/15 via-transparent to-transparent" />
