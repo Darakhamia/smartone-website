@@ -256,7 +256,7 @@ export function NeedsQuiz() {
   const reset = () => setAnswers([]);
 
   return (
-    <div className="relative mx-auto max-w-2xl overflow-hidden rounded-3xl border border-line bg-white p-7 shadow-[0_28px_60px_-30px_rgba(90,25,181,0.35)] sm:p-9">
+    <div className="relative mx-auto max-w-4xl overflow-hidden rounded-3xl border border-line bg-white p-7 shadow-[0_28px_60px_-30px_rgba(90,25,181,0.35)] sm:p-9">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand via-[#7b3ce8] to-brand-l" />
       {!done ? (
         <div key={step} className="anim-tier-in">
