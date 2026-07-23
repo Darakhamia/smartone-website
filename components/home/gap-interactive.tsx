@@ -1,17 +1,21 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 
 /* Interactive "gaps" cards: click a card to preview the product it describes –
    the built-in Cashbox on the terminal, and the Merchant Portal money screen.
-   NOTE: the Cashbox screen is a DRAFT mockup – re-confirm against the real
-   demo terminal (Chris) before treating it as final. */
+   The Cashbox preview is a phone-framed carousel of real screenshots from the
+   cash-register app (public/cashbox/1–5.webp): open shift, catalogue, cart,
+   payment and a fiscal receipt. */
+
+const cashboxShots = ["/cashbox/1.webp", "/cashbox/2.webp", "/cashbox/3.webp", "/cashbox/4.webp", "/cashbox/5.webp"];
 
 type GapCard = { tag: string; title: string; text: string; kind: "cashbox" | "portal" };
 export type GapModal = {
   tap: string;
   close: string;
-  cashbox: { badge: string; dept: string[]; items: [string, string][]; total: string; charge: string; caption: string };
+  cashbox: { caption: string; alt: string };
   portal: { frame: string; cardSales: string; receive: string; commission: string; caption: string };
 };
 
@@ -21,38 +25,45 @@ const gapIcons: Record<GapCard["kind"], React.ReactNode> = {
 };
 
 function CashboxScreen({ m }: { m: GapModal }) {
+  const [i, setI] = useState(0);
+  const reduced = useRef(false);
+
+  useEffect(() => {
+    reduced.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }, []);
+
+  useEffect(() => {
+    if (reduced.current) return;
+    const id = window.setInterval(() => setI((v) => (v + 1) % cashboxShots.length), 2600);
+    return () => window.clearInterval(id);
+  }, []);
+
   return (
-    <div className="mx-auto w-full max-w-[300px] rounded-[30px] bg-[#1d1d1f] p-3 shadow-[0_40px_80px_-30px_rgba(0,0,0,0.6)]">
-      <div className="rounded-[22px] bg-[#0e0e10] p-4">
-        <div className="flex items-center justify-between">
-          <span className="font-mono text-[11px] font-semibold tracking-wide text-white">SmartOne · Cashbox</span>
-          <span className="rounded-full bg-brand/25 px-2 py-0.5 font-mono text-[9px] font-semibold text-brand-l uppercase">{m.cashbox.badge}</span>
-        </div>
-        <div className="mt-3 grid grid-cols-2 gap-2">
-          {m.cashbox.dept.map((d, i) => (
-            <div key={d} className={`rounded-xl px-3 py-2.5 text-center text-[12px] font-semibold ${i === 0 ? "bg-brand text-white" : "bg-white/8 text-white/80"}`}>
-              {d}
-            </div>
+    <div className="mx-auto w-full max-w-[236px]">
+      {/* real screenshots from the cash-register app, in a phone frame */}
+      <div className="rounded-[34px] bg-[#111113] p-2.5 shadow-[0_40px_80px_-30px_rgba(0,0,0,0.6)]">
+        <div className="relative aspect-[1/2] overflow-hidden rounded-[26px] bg-[#0e0e10]" role="group" aria-label={m.cashbox.alt}>
+          {cashboxShots.map((src, idx) => (
+            <Image
+              key={src}
+              src={src}
+              alt=""
+              fill
+              sizes="236px"
+              className={`object-cover transition-opacity duration-500 ease-in-out ${idx === i ? "opacity-100" : "opacity-0"}`}
+            />
           ))}
         </div>
-        <div className="mt-3 rounded-xl bg-white/[0.06] p-3">
-          {m.cashbox.items.map(([name, price]) => (
-            <div key={name} className="flex items-center justify-between py-1 font-mono text-[12px]">
-              <span className="text-white/75">{name}</span>
-              <span className="text-white">{price}</span>
-            </div>
-          ))}
-          <div className="mt-1.5 flex items-center justify-between border-t border-white/10 pt-1.5 font-mono text-[13px]">
-            <span className="text-white/55">{m.cashbox.total}</span>
-            <span className="font-semibold text-white">€7.40</span>
-          </div>
-        </div>
-        <div className="mt-3 rounded-xl bg-brand py-2.5 text-center text-[13px] font-semibold text-white">{m.cashbox.charge} €7.40</div>
-        <div className="mt-3 grid grid-cols-3 gap-1.5">
-          {["1", "2", "3", "4", "5", "6", "7", "8", "9", "·", "0", "⌫"].map((k) => (
-            <div key={k} className="rounded-lg bg-white/[0.06] py-1.5 text-center font-mono text-[12px] text-white/55">{k}</div>
-          ))}
-        </div>
+      </div>
+      <div className="mt-3.5 flex justify-center gap-1.5">
+        {cashboxShots.map((_, idx) => (
+          <button
+            key={idx}
+            onClick={() => setI(idx)}
+            aria-label={`${idx + 1} / ${cashboxShots.length}`}
+            className={`h-1.5 rounded-full transition-all duration-300 ${idx === i ? "w-5 bg-white" : "w-1.5 bg-white/35 hover:bg-white/55"}`}
+          />
+        ))}
       </div>
     </div>
   );

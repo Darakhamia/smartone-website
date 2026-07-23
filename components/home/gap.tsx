@@ -33,12 +33,8 @@ export async function Gap() {
         tap: "See it in the app",
         close: "Close",
         cashbox: {
-          badge: "Simple mode",
-          dept: ["Drinks", "Food", "Bakery", "Other"],
-          items: [["2× Coffee", "€5.00"], ["1× Croissant", "€2.40"]],
-          total: "Total",
-          charge: "Charge",
-          caption: "The built-in Cashbox: departments, items and a fiscal receipt – right on the terminal.",
+          caption: "The built-in cash register: open a shift, ring up items, take the payment and print a fiscal receipt – all on the terminal.",
+          alt: "Screens from the SmartOne cash-register app",
         },
         portal: {
           frame: "Portal · Money",
@@ -71,12 +67,8 @@ export async function Gap() {
         tap: "Verlo en la app",
         close: "Cerrar",
         cashbox: {
-          badge: "Modo simple",
-          dept: ["Bebidas", "Comida", "Panadería", "Otros"],
-          items: [["2× Café", "€5.00"], ["1× Croissant", "€2.40"]],
-          total: "Total",
-          charge: "Cobrar",
-          caption: "El Cashbox integrado: departamentos, artículos y ticket fiscal, en el propio terminal.",
+          caption: "La caja registradora integrada: abre turno, cobra artículos, acepta el pago e imprime un ticket fiscal, todo en el terminal.",
+          alt: "Pantallas de la app de caja registradora de SmartOne",
         },
         portal: {
           frame: "Portal · Dinero",
