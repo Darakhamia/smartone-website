@@ -62,7 +62,7 @@ function copyFor(lang: Lang) {
           scope: "Fiscal receipts and card payments on one certified device. Booking or clinical records stay in your existing tools.",
         },
         {
-          id: "retail", img: "/industries/retail.jpg", alt: "Shop owner taking a card payment at the counter", eyebrow: "", title: "Retail",
+          id: "retail", img: "/industries/retail.jpg", alt: "Interior of a modern clothing boutique", eyebrow: "", title: "Retail",
           scenarios: [
             { title: "Products priced once", text: "Set your catalogue in the portal, ring up on the register – no re-typing prices." },
             { title: "Any way they pay", text: "Card, contactless or cash, all on the same screen." },
@@ -139,7 +139,7 @@ function copyFor(lang: Lang) {
           scope: "Tickets fiscales y pagos con tarjeta en un solo dispositivo certificado. Las reservas o el historial clínico se quedan en tus herramientas actuales.",
         },
         {
-          id: "retail", img: "/industries/retail.jpg", alt: "Comerciante aceptando un pago con tarjeta en el mostrador", eyebrow: "", title: "Retail",
+          id: "retail", img: "/industries/retail.jpg", alt: "Interior de una tienda de ropa moderna", eyebrow: "", title: "Retail",
           scenarios: [
             { title: "Precios una sola vez", text: "Configura tu catálogo en el portal y cobra en la caja, sin volver a teclear precios." },
             { title: "Como quieran pagar", text: "Tarjeta, contactless o efectivo, todo en la misma pantalla." },
