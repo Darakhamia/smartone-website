@@ -6,7 +6,7 @@ import { SectionHead } from "@/components/section-head";
 import { DayWalk } from "@/components/product/day-walk";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
-import { promotesRegister, type CountryCode, type Lang } from "@/lib/countries";
+import { promotesRegister, terminalModel, TERMINAL_MODELS, type CountryCode, type Lang } from "@/lib/countries";
 
 export const metadata: Metadata = {
   title: "Cash register",
@@ -183,7 +183,7 @@ export default async function CashRegisterPage() {
               <div className="pointer-events-none absolute bottom-[14%] left-1/2 h-8 w-1/2 -translate-x-1/2 rounded-[50%] bg-[radial-gradient(ellipse,rgba(29,29,31,0.16),transparent_70%)] blur-md" />
               <div className="chip-float relative h-[88%] w-[64%]">
                 <Image
-                  src={register ? "/pos/bank-pro-s/hero.webp" : "/pos/bank-pro/hero.webp"}
+                  src={`${TERMINAL_MODELS[terminalModel(country)].dir}/hero.webp`}
                   alt={c.heroAlt}
                   fill
                   priority

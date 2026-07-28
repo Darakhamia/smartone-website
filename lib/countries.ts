@@ -133,9 +133,14 @@ export function terminalModel(country: Country): TerminalModel {
   return country.code === "mt" ? "bank-pro-s" : "bank-pro";
 }
 
+/* `dir` is versioned: replacing a photo in place keeps its URL, so browsers and
+   the Next image cache (4h, must-revalidate) keep serving the old file. When a
+   model's shots are re-shot, drop them in a new /vN folder and bump the path
+   here — that changes the URL and every cache misses. Query-string busting is
+   not an option: next/image rejects a src with a query. */
 export const TERMINAL_MODELS: Record<TerminalModel, { name: string; dir: string; dual: boolean }> = {
   "bank-pro": { name: "SmartOne Bank Pro", dir: "/pos/bank-pro", dual: false },
-  "bank-pro-s": { name: "SmartOne Bank Pro S", dir: "/pos/bank-pro-s", dual: true },
+  "bank-pro-s": { name: "SmartOne Bank Pro S", dir: "/pos/bank-pro-s/v2", dual: true },
 };
 
 export const COUNTRY_COOKIE = "so_country";

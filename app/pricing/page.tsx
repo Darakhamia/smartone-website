@@ -28,6 +28,8 @@ export default async function PricingPage() {
       included: register ? "Cash register, printer and portal included" : "Receipt printer and portal included",
       footnote: "Rates shown are for domestic cards.",
       footnote2: "Paid to your own bank, T+1.",
+      smallprint:
+        "Corporate and international cards have their own clear rate, confirmed for your business. Device prices are indicative and confirmed for your country.",
       honestEyebrow: "The honest bit",
       honestTitle: "What you'll never pay.",
       honestSub: "What you agreed at signing is exactly what you pay – nothing added, nothing hidden.",
@@ -50,6 +52,8 @@ export default async function PricingPage() {
       included: register ? "Caja registradora, impresora y portal incluidos" : "Impresora de tickets y portal incluidos",
       footnote: "Tarifas para tarjetas nacionales.",
       footnote2: "Abonado a tu propio banco, T+1.",
+      smallprint:
+        "Las tarjetas corporativas e internacionales tienen su propia tarifa clara, confirmada para tu negocio. Los precios del dispositivo son orientativos y se confirman para tu país.",
       honestEyebrow: "La parte honesta",
       honestTitle: "Lo que nunca pagarás.",
       honestSub: "Lo que acordaste al firmar es exactamente lo que pagas: nada añadido, nada oculto.",
@@ -95,6 +99,11 @@ export default async function PricingPage() {
           <Reveal>
             <p className="mx-auto mt-8 max-w-2xl text-center text-[12.5px] leading-relaxed text-ink-3">
               {c.footnote} {c.included} · {c.footnote2}
+            </p>
+            {/* Legal qualifiers, kept but set smaller so they don't compete
+                with the headline terms above. */}
+            <p className="mx-auto mt-2 max-w-2xl text-center text-[11px] leading-relaxed text-ink-3/75">
+              {c.smallprint}
             </p>
           </Reveal>
         </div>
