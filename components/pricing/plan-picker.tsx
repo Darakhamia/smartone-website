@@ -31,8 +31,8 @@ function copyFor(lang: Lang) {
       perTx: "per card transaction",
       fixed: "fixed fee per transaction",
       cta: "Get a terminal →",
-      anchor1: "That {c}400 is a certified cash register, a payment terminal and a printer",
-      anchor2: "– bought separately, the three boxes run {c}800–1,200. You get all of it in one device.",
+      anchor1: "A certified cash register, terminal and printer in one device.",
+      anchor2: "Bought separately: {c}800–1,200.",
       speak: "Speak to us about your rate",
     },
     {
@@ -51,8 +51,8 @@ function copyFor(lang: Lang) {
       perTx: "por operación con tarjeta",
       fixed: "de comisión fija por operación",
       cta: "Solicita tu terminal →",
-      anchor1: "Esos {c}400 son una caja registradora certificada, un terminal de pago y una impresora",
-      anchor2: "– por separado, las tres cajas cuestan {c}800-1.200. Te llevas todo en un dispositivo.",
+      anchor1: "Caja registradora certificada, terminal e impresora en un solo equipo.",
+      anchor2: "Por separado: {c}800-1.200.",
       speak: "Consulta tu tarifa",
     },
   );
@@ -111,8 +111,10 @@ export function PlanPicker() {
                   : "bg-white shadow-sm shadow-black/4 ring-1 " + (first ? "ring-brand/60" : "ring-line")
               }`}
             >
+              {/* Badge sits inside the card, top right, in lilac – purple on
+                  purple reads as washed out. */}
               {popular && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-white px-3.5 py-1 text-[11px] font-semibold tracking-wide text-brand uppercase shadow-sm">
+                <span className="absolute top-5 right-5 rounded-full bg-brand-l px-3 py-1 text-[10.5px] font-bold tracking-wide text-brand-d uppercase">
                   {t.popular}
                 </span>
               )}
@@ -133,21 +135,22 @@ export function PlanPicker() {
                 </span>
               </div>
 
-              {/* rate */}
-              <div className="mt-6 flex items-end gap-2">
-                <span className={`h-display text-[46px] leading-none tracking-tight ${popular ? "text-white" : first ? "text-brand" : "text-brand-l"}`}>
+              {/* rate – the qualifier sits on its own line so it reads as a
+                  label for the number rather than getting lost beside it */}
+              <div className="mt-6">
+                <span className={`h-display block text-[46px] leading-none tracking-tight ${popular ? "text-white" : first ? "text-brand" : "text-brand-l"}`}>
                   {rate}%
                 </span>
-                <span className={`mb-1.5 max-w-24 text-[13px] leading-tight ${popular ? "text-white/75" : "text-ink-3"}`}>
+                <span className={`mt-2 block text-[14px] font-medium ${popular ? "text-white/90" : "text-ink-2"}`}>
                   {t.perTx}
                 </span>
               </div>
-              <p className={`mt-2.5 text-[13px] ${popular ? "text-white/70" : "text-ink-3"}`}>
+              <p className={`mt-1.5 text-[13px] ${popular ? "text-white/70" : "text-ink-3"}`}>
                 + {c}0.02 {t.fixed}
               </p>
 
               {/* term */}
-              <span className={`mt-4 inline-flex w-fit rounded-full px-3.5 py-1.5 text-[12.5px] font-semibold ${popular ? "bg-white/15 text-white" : "bg-bg-2 text-ink-2"}`}>
+              <span className={`mt-4 inline-flex w-fit rounded-full px-3.5 py-1.5 text-[12.5px] font-semibold ${popular ? "bg-brand-l text-brand-d" : "bg-bg-2 text-ink-2"}`}>
                 {d.term}
               </span>
 

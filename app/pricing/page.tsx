@@ -26,9 +26,8 @@ export default async function PricingPage() {
       titleB: "No hidden fees.",
       lead: "One rate per band, every fee shown up front. Buy the terminal or rent it – your call.",
       included: register ? "Cash register, printer and portal included" : "Receipt printer and portal included",
-      footnote:
-        "The rate shown is for domestic cards – corporate and international cards have their own clear rate, confirmed for your business.",
-      footnote2: "paid out to your own bank next business day (T+1). Device prices are indicative and confirmed for your country.",
+      footnote: "Rates shown are for domestic cards.",
+      footnote2: "Paid to your own bank, T+1.",
       honestEyebrow: "The honest bit",
       honestTitle: "What you'll never pay.",
       honestSub: "What you agreed at signing is exactly what you pay – nothing added, nothing hidden.",
@@ -49,9 +48,8 @@ export default async function PricingPage() {
       titleB: "Sin comisiones ocultas.",
       lead: "Una tarifa por tramo, cada comisión visible desde el principio. Compra el terminal o alquílalo, tú decides.",
       included: register ? "Caja registradora, impresora y portal incluidos" : "Impresora de tickets y portal incluidos",
-      footnote:
-        "La tarifa mostrada es para tarjetas nacionales; las tarjetas corporativas e internacionales tienen su propia tarifa clara, confirmada para tu negocio.",
-      footnote2: "abonado a tu propio banco el día hábil siguiente (T+1). Los precios del dispositivo son orientativos y se confirman para tu país.",
+      footnote: "Tarifas para tarjetas nacionales.",
+      footnote2: "Abonado a tu propio banco, T+1.",
       honestEyebrow: "La parte honesta",
       honestTitle: "Lo que nunca pagarás.",
       honestSub: "Lo que acordaste al firmar es exactamente lo que pagas: nada añadido, nada oculto.",
@@ -112,18 +110,16 @@ export default async function PricingPage() {
               <p className="mx-auto mt-4 max-w-135 text-lg leading-relaxed text-ink-2">{c.honestSub}</p>
             </Reveal>
           </div>
+          {/* Each fee is priced at zero rather than crossed out: the amount says
+              "you never pay this" more plainly than a strikethrough or an X. */}
           <div className="mt-11 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {c.neverPay.map((n, i) => (
               <Reveal key={n.label} delay={i * 80} className="h-full">
                 <div className="h-full rounded-3xl border border-line bg-white p-6">
-                  <span className="grid size-11 place-items-center rounded-xl bg-brand-tint">
-                    <svg viewBox="0 0 24 24" className="size-6 stroke-brand" fill="none" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                      <path d="M5 5l14 14M19 5 5 19" />
-                    </svg>
+                  <span className="inline-flex items-baseline rounded-xl bg-brand-tint px-3 py-1.5 font-display text-[22px] font-semibold tracking-tight text-brand">
+                    {country.currencySymbol}0
                   </span>
-                  <h3 className="mt-4 font-display text-[16px] font-semibold tracking-tight line-through decoration-line-2 decoration-2">
-                    {n.label}
-                  </h3>
+                  <h3 className="mt-4 font-display text-[16px] font-semibold tracking-tight text-ink">{n.label}</h3>
                   <p className="mt-1.5 text-[13.5px] leading-relaxed text-ink-2">{n.desc}</p>
                 </div>
               </Reveal>
