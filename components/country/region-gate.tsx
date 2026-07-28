@@ -17,11 +17,15 @@ export function RegionGate() {
   const [show, setShow] = useState(false);
   const closeLabel = lang === "es" ? "Cerrar" : "Close";
 
+  /* Re-read the cookie on every route change, not just on mount. Picking a
+     country on /welcome writes the cookie and then navigates; the layout never
+     remounts, so a mount-only check would leave `show` true and pop the modal
+     over the page the visitor just landed on. */
   useEffect(() => {
     const hasCountry = document.cookie.split("; ").some((c) => c.startsWith(`${COUNTRY_COOKIE}=`));
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- client-only: reveal after mount if no country chosen yet
-    if (!hasCountry) setShow(true);
-  }, []);
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- client-only: cookies aren't readable during render
+    setShow(!hasCountry);
+  }, [pathname]);
 
   // Dismiss = accept the default region and stop asking.
   const dismiss = useCallback(() => {

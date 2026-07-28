@@ -20,7 +20,7 @@ const whatIcons = [
   <path key="2" d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3Zm-3 9 2 2 4-4.5" />,
 ];
 
-function copyFor(lang: Lang, register: boolean, fiscal: boolean, c$: string) {
+function copyFor(lang: Lang, register: boolean, fiscal: boolean, c$: string, countryName: string) {
   return tr(
     lang,
     {
@@ -42,7 +42,7 @@ function copyFor(lang: Lang, register: boolean, fiscal: boolean, c$: string) {
       what: [
         { title: "Fiscal receipts", text: "Certified, numbered receipts your customers and the tax office accept – printed on the spot." },
         { title: "Z-reports", text: "Close the day in one tap. The till is reconciled and the report is filed – nothing to tally by hand." },
-        { title: "Certified market by market", text: "Registered and approved for the country you trade in – we name what's live and what's dated." },
+        { title: `Certified for ${countryName}`, text: "Registered and approved for the market you trade in – fiscal registration of the device is part of your setup." },
       ],
       // price anchor
       priceEyebrow: "What a full setup costs",
@@ -102,7 +102,7 @@ function copyFor(lang: Lang, register: boolean, fiscal: boolean, c$: string) {
       what: [
         { title: "Tickets fiscales", text: "Tickets certificados y numerados que aceptan tus clientes y Hacienda, impresos al momento." },
         { title: "Informes Z", text: "Cierra el día en un tap. La caja queda cuadrada y el informe presentado, sin cuadrar a mano." },
-        { title: "Certificado por mercado", text: "Registrado y aprobado para el país en el que operas: decimos qué está activo y qué tiene fecha." },
+        { title: `Certificado para ${countryName}`, text: "Registrado y aprobado para el mercado en el que operas: la registración fiscal del dispositivo forma parte del alta." },
       ],
       priceEyebrow: "Lo que cuesta un montaje completo",
       priceTitle: "Un montaje completo que vale 800-1.200 €. El tuyo por 400 €.",
@@ -148,7 +148,9 @@ export default async function CashRegisterPage() {
   // The cash register is promoted only where it's live (Malta today). Other
   // fiscal markets get a compliance-readiness page; non-fiscal a short explainer.
   const register = promotesRegister(country);
-  const c = copyFor(lang, register, fiscal, country.currencySymbol);
+  // Spanish is only offered in Spain, so its native name is the right label there.
+  const countryName = lang === "es" ? (country.nativeName ?? country.name) : country.name;
+  const c = copyFor(lang, register, fiscal, country.currencySymbol, countryName);
   const isEs = country.code === "es";
   // Fiscal-compliance block: only fiscal markets not yet live (not Malta / UK).
   // The Verifactu card is Spain-only.

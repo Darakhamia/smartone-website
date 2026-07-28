@@ -34,7 +34,7 @@ export async function Gap() {
         close: "Close",
         cashbox: {
           caption: "The built-in cash register: open a shift, ring up items, take the payment and print a fiscal receipt – all on the terminal.",
-          alt: "Screens from the SmartOne cash-register app",
+          alt: "The product catalogue in the SmartOne cash-register app",
         },
         portal: {
           frame: "Portal · Money",
@@ -68,7 +68,7 @@ export async function Gap() {
         close: "Cerrar",
         cashbox: {
           caption: "La caja registradora integrada: abre turno, cobra artículos, acepta el pago e imprime un ticket fiscal, todo en el terminal.",
-          alt: "Pantallas de la app de caja registradora de SmartOne",
+          alt: "El catálogo de productos en la app de caja registradora de SmartOne",
         },
         portal: {
           frame: "Portal · Dinero",

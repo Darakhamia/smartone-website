@@ -45,7 +45,9 @@ export function detectIso(phone: string): string | null {
 export const COUNTRY_DIAL: Record<string, string> = {
   Malta: "356",
   Spain: "34",
+  Cyprus: "357",
   Slovakia: "421",
+  "United Kingdom": "44",
 };
 
 export function PhoneField({

@@ -42,7 +42,9 @@ export function LeadForm() {
       phone: "Phone (optional)",
       countryL: "Country",
       spain: "Spain",
+      cyprus: "Cyprus",
       slovakia: "Slovakia",
+      uk: "United Kingdom",
       other: "Other",
       typeL: "Type of business",
       vets: "Vets",
@@ -73,14 +75,16 @@ export function LeadForm() {
       phone: "Teléfono (opcional)",
       countryL: "País",
       spain: "España",
+      cyprus: "Chipre",
       slovakia: "Eslovaquia",
+      uk: "Reino Unido",
       other: "Otro",
       typeL: "Tipo de negocio",
       vets: "Veterinaria",
       retail: "Retail",
       cafes: "Cafeterías y restaurantes",
       services: "Servicios",
-      mobile: "Móvil / calle",
+      mobile: "Móvil / Calle",
       acquirerL: "¿Quién procesa tus tarjetas hoy? (opcional)",
       bank: "Banco",
       none: "Ninguno",
@@ -196,7 +200,9 @@ export function LeadForm() {
             <option value="" disabled>{t.choose}</option>
             <option value="Malta">{flag("MT")} Malta</option>
             <option value="Spain">{flag("ES")} {t.spain}</option>
+            <option value="Cyprus">{flag("CY")} {t.cyprus}</option>
             <option value="Slovakia">{flag("SK")} {t.slovakia}</option>
+            <option value="United Kingdom">{flag("GB")} {t.uk}</option>
             <option value="Other">🌐 {t.other}</option>
           </select>
         </Field>

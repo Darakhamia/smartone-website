@@ -1,15 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 /* Interactive "gaps" cards: click a card to preview the product it describes –
-   the built-in Cashbox on the terminal, and the Merchant Portal money screen.
-   The Cashbox preview is a phone-framed carousel of real screenshots from the
-   cash-register app (public/cashbox/1–5.webp): open shift, catalogue, cart,
-   payment and a fiscal receipt. */
+   the built-in cash register, and the Merchant Portal money screen.
+   The register preview shows a real screenshot of the app's catalogue. The
+   other demo screens are held back until we have euro-denominated ones: the
+   originals priced in dollars, and their totals didn't reconcile. */
 
-const cashboxShots = ["/cashbox/1.webp", "/cashbox/2.webp", "/cashbox/3.webp", "/cashbox/4.webp", "/cashbox/5.webp"];
+const cashboxShot = "/cashbox/catalogue.webp";
 
 type GapCard = { tag: string; title: string; text: string; kind: "cashbox" | "portal" };
 export type GapModal = {
@@ -25,43 +25,11 @@ const gapIcons: Record<GapCard["kind"], React.ReactNode> = {
 };
 
 function CashboxScreen({ m }: { m: GapModal }) {
-  const [i, setI] = useState(0);
-  const reduced = useRef(false);
-
-  useEffect(() => {
-    reduced.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  }, []);
-
-  useEffect(() => {
-    if (reduced.current) return;
-    const id = window.setInterval(() => setI((v) => (v + 1) % cashboxShots.length), 2600);
-    return () => window.clearInterval(id);
-  }, []);
-
   return (
     <div className="mx-auto w-full max-w-[236px]">
-      {/* real screenshots from the cash-register app */}
-      <div className="relative aspect-[1/2] overflow-hidden rounded-[26px] bg-[#0e0e10] shadow-[0_40px_80px_-30px_rgba(0,0,0,0.6)]" role="group" aria-label={m.cashbox.alt}>
-        {cashboxShots.map((src, idx) => (
-          <Image
-            key={src}
-            src={src}
-            alt=""
-            fill
-            sizes="236px"
-            className={`object-cover transition-opacity duration-500 ease-in-out ${idx === i ? "opacity-100" : "opacity-0"}`}
-          />
-        ))}
-      </div>
-      <div className="mt-3.5 flex justify-center gap-1.5">
-        {cashboxShots.map((_, idx) => (
-          <button
-            key={idx}
-            onClick={() => setI(idx)}
-            aria-label={`${idx + 1} / ${cashboxShots.length}`}
-            className={`h-1.5 rounded-full transition-all duration-300 ${idx === i ? "w-5 bg-white" : "w-1.5 bg-white/35 hover:bg-white/55"}`}
-          />
-        ))}
+      {/* real screenshot from the cash-register app */}
+      <div className="relative aspect-[1/2] overflow-hidden rounded-[26px] bg-[#0e0e10] shadow-[0_40px_80px_-30px_rgba(0,0,0,0.6)]">
+        <Image src={cashboxShot} alt={m.cashbox.alt} fill sizes="236px" className="object-cover" />
       </div>
     </div>
   );

@@ -22,14 +22,14 @@ function copyFor(lang: Lang) {
     {
       eyebrow: "Built for your kind of business",
       title: "Solutions tailored to your industry.",
-      titles: ["Vets & services", "Retail", "Cafés & HoReCa", "Professional services", "Mobile / street", "Bakeries", "Beauty & wellness", "Grocery"],
+      titles: ["Vets & services", "Retail", "Cafés & HoReCa", "Professional services", "Mobile / Street", "Bakeries", "Beauty & wellness", "Grocery"],
       more: ["…and many", "more businesses"],
       moreText: "If you take payments, SmartOne fits your counter.",
     },
     {
       eyebrow: "Hecho para tu tipo de negocio",
       title: "Soluciones a la medida de tu sector.",
-      titles: ["Veterinarias y servicios", "Retail", "Cafeterías y HoReCa", "Servicios profesionales", "Móvil / calle", "Panaderías", "Belleza y bienestar", "Alimentación"],
+      titles: ["Veterinarias y servicios", "Retail", "Cafeterías y HoReCa", "Servicios profesionales", "Móvil / Calle", "Panaderías", "Belleza y bienestar", "Alimentación"],
       more: ["…y muchos", "más negocios"],
       moreText: "Si aceptas pagos, SmartOne encaja en tu mostrador.",
     },
