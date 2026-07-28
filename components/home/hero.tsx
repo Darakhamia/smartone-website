@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ReceiptText, Tag, Landmark } from "lucide-react";
 import { HeroCarousel } from "@/components/home/hero-carousel";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
@@ -40,20 +41,35 @@ function DeviceVisual({ register, lang }: { register: boolean; lang: Lang }) {
       </div>
       {/* floating fact chips */}
       <div className="absolute top-7 -left-3 -rotate-3 sm:-left-5">
-        <div className="chip-float rounded-full border border-line bg-white px-4 py-2 text-[12.5px] font-medium text-ink-2 shadow-lg shadow-black/10">
-          {c.receipt}
-          <span className="font-semibold text-ink">{c.built}</span>
+        <div className="chip-float inline-flex items-center gap-2.5 rounded-full border border-line bg-white py-2 pr-4.5 pl-2 text-[13.5px] font-medium text-ink-2 shadow-lg shadow-black/10">
+          <span className="grid size-8 place-items-center rounded-full bg-brand-tint text-brand">
+            <ReceiptText className="size-4.5" strokeWidth={1.9} aria-hidden />
+          </span>
+          <span>
+            {c.receipt}
+            <span className="font-semibold text-ink">{c.built}</span>
+          </span>
         </div>
       </div>
       <div className="absolute right-5 bottom-24 rotate-2 lg:right-8">
-        <div className="chip-float-slow rounded-full border border-line bg-white px-4 py-2 text-[12.5px] font-medium text-ink-2 shadow-lg shadow-black/10">
-          {c.fee}
-          <span className="font-semibold text-brand">{c.noSurprises}</span>
+        <div className="chip-float-slow inline-flex items-center gap-2.5 rounded-full border border-line bg-white py-2 pr-4.5 pl-2 text-[13.5px] font-medium text-ink-2 shadow-lg shadow-black/10">
+          <span className="grid size-8 place-items-center rounded-full bg-brand-tint text-brand">
+            <Tag className="size-4.5" strokeWidth={1.9} aria-hidden />
+          </span>
+          <span>
+            {c.fee}
+            <span className="font-semibold text-brand">{c.noSurprises}</span>
+          </span>
         </div>
       </div>
       <div className="absolute -bottom-4 left-8 rotate-1">
-        <div className="chip-float rounded-full border border-line bg-white px-4 py-2 text-[12.5px] font-medium text-ink-2 shadow-lg shadow-black/10" style={{ animationDelay: "2s" }}>
-          T+1 · <span className="font-semibold text-ink">{c.bank}</span>
+        <div className="chip-float inline-flex items-center gap-2.5 rounded-full border border-line bg-white py-2 pr-4.5 pl-2 text-[13.5px] font-medium text-ink-2 shadow-lg shadow-black/10" style={{ animationDelay: "2s" }}>
+          <span className="grid size-8 place-items-center rounded-full bg-brand-tint text-brand">
+            <Landmark className="size-4.5" strokeWidth={1.9} aria-hidden />
+          </span>
+          <span>
+            T+1 · <span className="font-semibold text-ink">{c.bank}</span>
+          </span>
         </div>
       </div>
     </div>
