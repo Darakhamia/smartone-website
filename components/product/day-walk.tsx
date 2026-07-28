@@ -1,9 +1,10 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import { useCountry } from "@/components/country/country-context";
 import { tr } from "@/lib/dictionaries";
-import type { Lang } from "@/lib/countries";
+import { terminalModel, TERMINAL_MODELS, type Country, type Lang } from "@/lib/countries";
 
 const STEP_MS = 4500;
 
@@ -49,21 +50,16 @@ function copyFor(lang: Lang) {
 
 type Copy = ReturnType<typeof copyFor>;
 
-function PayScene() {
+/* The real device photo for the visitor's market (Malta gets the dual-screen
+   Bank Pro S, every other country the Bank Pro). */
+function PayScene({ country }: { country: Country }) {
+  const { dir, name } = TERMINAL_MODELS[terminalModel(country)];
   return (
     <div className="grid w-full max-w-70 place-items-center">
-      <svg viewBox="0 0 200 220" className="w-40" aria-hidden>
-        <rect x="46" y="20" width="108" height="180" rx="22" fill="#1d1d1f" />
-        <rect x="62" y="36" width="76" height="86" rx="10" fill="#0e0e10" />
-        <text x="100" y="76" fontSize="18" fontWeight="700" textAnchor="middle" fill="#fff" fontFamily="IBM Plex Mono, monospace">€24.60</text>
-        <text x="100" y="98" fontSize="8" textAnchor="middle" fill="#a578e8" fontFamily="IBM Plex Mono, monospace">Approved ✓</text>
-        <g stroke="rgba(255,255,255,0.35)" strokeWidth="2" fill="none" strokeLinecap="round">
-          <path d="M90 54 a10 10 0 0 1 20 0" />
-        </g>
-        <g fill="rgba(255,255,255,0.14)">
-          {[0, 1, 2].map((c) => [0, 1, 2].map((r) => <circle key={`${c}-${r}`} cx={76 + c * 24} cy={140 + r * 20} r="6" />))}
-        </g>
-      </svg>
+      <div className="relative aspect-square w-52">
+        <div className="pointer-events-none absolute bottom-[14%] left-1/2 h-6 w-1/2 -translate-x-1/2 rounded-[50%] bg-[radial-gradient(ellipse,rgba(29,29,31,0.16),transparent_70%)] blur-md" />
+        <Image src={`${dir}/hero.webp`} alt={`${name} payment terminal`} fill sizes="208px" className="object-contain" />
+      </div>
     </div>
   );
 }
@@ -142,12 +138,12 @@ function AccountantScene({ c }: { c: Copy }) {
 }
 
 export function DayWalk() {
-  const { lang } = useCountry();
+  const { country, lang } = useCountry();
   const c = copyFor(lang);
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
 
-  const scenes = [<PayScene key="0" />, <ReceiptScene key="1" c={c} />, <CloseScene key="2" c={c} />, <MoneyScene key="3" />, <AccountantScene key="4" c={c} />];
+  const scenes = [<PayScene key="0" country={country} />, <ReceiptScene key="1" c={c} />, <CloseScene key="2" c={c} />, <MoneyScene key="3" />, <AccountantScene key="4" c={c} />];
   const advance = () => setActive((a) => (a + 1) % c.steps.length);
   const pick = (i: number) => setActive(i);
 
