@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { Check } from "lucide-react";
 import { Reveal } from "@/components/reveal";
 import { SectionHead } from "@/components/section-head";
 import { TerminalGallery, type Shot } from "@/components/product/terminal-gallery";
@@ -227,8 +228,11 @@ export default async function TerminalsPage() {
       <section className="overflow-x-clip pt-16 pb-18 lg:pt-22">
         <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-6 lg:grid-cols-[1.05fr_0.95fr]">
           <div>
-            <span className="anim-fade-up eyebrow">{c.eyebrow}</span>
-            <h1 className="anim-fade-up anim-d-1 h-display mt-4 text-[clamp(36px,4.8vw,60px)] leading-[1.04]">
+            <span className="anim-fade-up inline-flex items-center gap-2 rounded-full bg-brand-tint px-3.5 py-1.5 text-[12px] font-semibold tracking-[0.08em] text-brand uppercase">
+              <span className="size-1.5 rounded-full bg-brand" />
+              {c.eyebrow}
+            </span>
+            <h1 className="anim-fade-up anim-d-1 h-display mt-5 text-[clamp(36px,4.8vw,60px)] leading-[1.04]">
               {c.h1a}{" "}
               <span className="bg-gradient-to-r from-brand via-[#7b3ce8] to-[#a86cf5] bg-clip-text text-transparent">{c.h1b}</span>
             </h1>
@@ -237,21 +241,44 @@ export default async function TerminalsPage() {
               <Link href="/contact" className="btn-primary">{c.get}</Link>
               <Link href="/pricing" className="btn-ghost">{c.seePricing}</Link>
             </div>
+            <div className="anim-fade-up anim-d-3 mt-8 flex flex-wrap items-center gap-x-6 gap-y-2.5 border-t border-line pt-6">
+              {c.facts.slice(0, 3).map((f) => (
+                <span key={f} className="flex items-center gap-2 text-[13.5px] font-medium text-ink-2">
+                  <Check className="size-4 text-brand" strokeWidth={2.4} aria-hidden />
+                  {f}
+                </span>
+              ))}
+            </div>
           </div>
+          {/* Stage: a deep brand backdrop so the charcoal device reads, with a
+              lilac spotlight behind it and a soft reflection on the floor. */}
           <div className="anim-fade-up anim-d-2 relative">
-            <div className="pointer-events-none absolute -inset-6 rounded-[48px] bg-[radial-gradient(circle,rgba(90,25,181,0.12),transparent_70%)]" />
-            <div className="relative grid aspect-square place-items-center overflow-hidden rounded-[32px] bg-gradient-to-b from-white to-brand-tint/50 ring-1 ring-line/60 sm:aspect-[5/4]">
-              {/* soft ground shadow so the device sits, not floats */}
-              <div className="pointer-events-none absolute bottom-[14%] left-1/2 h-8 w-1/2 -translate-x-1/2 rounded-[50%] bg-[radial-gradient(ellipse,rgba(29,29,31,0.16),transparent_70%)] blur-md" />
-              <div className="chip-float relative h-[88%] w-[62%]">
-                <Image
-                  src={c.heroSrc}
-                  alt={c.heroAlt}
-                  fill
-                  priority
-                  sizes="(max-width: 1024px) 90vw, 480px"
-                  className="object-contain"
-                />
+            <div className="pointer-events-none absolute -inset-8 rounded-[56px] bg-[radial-gradient(circle,rgba(90,25,181,0.18),transparent_70%)] blur-xl" />
+            <div className="relative grid aspect-square place-items-center overflow-hidden rounded-[36px] bg-[linear-gradient(155deg,#2b1259_0%,#4a17a0_48%,#2a1156_100%)] shadow-[0_50px_100px_-45px_rgba(90,25,181,0.75)] sm:aspect-[5/4]">
+              {/* spotlight behind the device */}
+              <div className="pointer-events-none absolute top-[38%] left-1/2 size-[78%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(196,160,255,0.42),transparent_66%)] blur-2xl" />
+              {/* subtle floor line */}
+              <div className="pointer-events-none absolute right-0 bottom-[22%] left-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+
+              <div className="relative h-[92%] w-[88%]">
+                <div className="chip-float absolute inset-0">
+                  <Image
+                    src={c.heroSrc}
+                    alt={c.heroAlt}
+                    fill
+                    priority
+                    sizes="(max-width: 1024px) 92vw, 620px"
+                    className="object-contain drop-shadow-[0_28px_40px_rgba(0,0,0,0.45)]"
+                  />
+                </div>
+                {/* mirrored reflection, faded out downwards */}
+                <div
+                  className="pointer-events-none absolute inset-x-0 top-[86%] h-1/2 scale-y-[-1] opacity-20 blur-[1px]"
+                  style={{ maskImage: "linear-gradient(to top, transparent 12%, black 92%)", WebkitMaskImage: "linear-gradient(to top, transparent 12%, black 92%)" }}
+                  aria-hidden
+                >
+                  <Image src={c.heroSrc} alt="" fill sizes="620px" className="object-contain" />
+                </div>
               </div>
             </div>
           </div>
