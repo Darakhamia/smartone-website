@@ -58,9 +58,13 @@ function copyFor(lang: Lang) {
   );
 }
 
+/* Renting carries the lower per-transaction rate (you pay a monthly fee and
+   commit to a year); buying is a one-off device cost with no minimum term but
+   a slightly higher rate. Keep this in step with the "Buy or rent" FAQ answer
+   and its JSON-LD copy. */
 const RATES: Record<Mode, [string, string, string]> = {
-  buy: ["1.65", "1.00", "0.85"],
-  rent: ["1.90", "1.20", "0.90"],
+  buy: ["1.90", "1.20", "0.90"],
+  rent: ["1.65", "1.00", "0.85"],
 };
 
 export function PlanPicker() {
