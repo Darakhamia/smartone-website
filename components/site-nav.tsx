@@ -43,14 +43,14 @@ const tapToPhoneIcon = (
     <path d="M17 8a5 5 0 0 1 0 8M20 5a9 9 0 0 1 0 14" />
   </>
 );
-const paymentsIcon = (
+const portalIcon = (
   <>
-    <rect x="2.5" y="5.5" width="19" height="13" rx="2.5" />
-    <path d="M2.5 10h19M6 15h4" />
+    <rect x="3" y="3" width="7.5" height="7.5" rx="1.8" />
+    <rect x="13.5" y="3" width="7.5" height="7.5" rx="1.8" />
+    <rect x="3" y="13.5" width="7.5" height="7.5" rx="1.8" />
+    <rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.8" />
   </>
 );
-const payoutsIcon = <path d="M3 10l9-6 9 6M5 10v8m4.5-8v8m5-8v8M19 10v8M3 20h18" />;
-const reportsIcon = <path d="M4 20V10M9 20V4M14 20v-7M19 20V8" />;
 const clickIcon = <path d="M6 3v6a2 2 0 0 0 4 0V3M8 9v12M16 3c-1.5 0-2.5 2-2.5 5s1 4 2.5 4v9" />;
 
 type MegaCol = { title: string; desc: string; items: MegaItem[] };
@@ -74,9 +74,7 @@ function productMenu(lang: Lang, register: boolean): MegaCol[] {
       title: "Retail",
       desc: tr(lang, "Manage the money side of your business.", "Gestiona la parte financiera de tu negocio."),
       items: [
-        { label: tr(lang, "Track payments", "Sigue tus pagos"), sub: tr(lang, "Every transaction", "Cada operación"), href: "/merchant-portal", icon: paymentsIcon },
-        { label: tr(lang, "Payouts & money", "Dinero y liquidaciones"), sub: tr(lang, "What lands in your bank", "Lo que llega a tu banco"), href: "/merchant-portal", icon: payoutsIcon },
-        { label: tr(lang, "Reports", "Informes"), sub: tr(lang, "Know your numbers", "Conoce tus cifras"), href: "/merchant-portal", icon: reportsIcon },
+        { label: "Merchant Portal", sub: tr(lang, "Payments, payouts and reports", "Pagos, liquidaciones e informes"), href: "/merchant-portal", icon: portalIcon },
       ],
     },
     {

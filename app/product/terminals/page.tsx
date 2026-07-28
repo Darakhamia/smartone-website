@@ -250,15 +250,15 @@ export default async function TerminalsPage() {
               ))}
             </div>
           </div>
-          {/* Stage: a deep brand backdrop so the charcoal device reads, with a
-              lilac spotlight behind it and a soft reflection on the floor. */}
+          {/* Stage: light and airy like the rest of the site, with a soft lilac
+              halo behind the device and a faint reflection so it still has depth. */}
           <div className="anim-fade-up anim-d-2 relative">
-            <div className="pointer-events-none absolute -inset-8 rounded-[56px] bg-[radial-gradient(circle,rgba(90,25,181,0.18),transparent_70%)] blur-xl" />
-            <div className="relative grid aspect-square place-items-center overflow-hidden rounded-[36px] bg-[linear-gradient(155deg,#2b1259_0%,#4a17a0_48%,#2a1156_100%)] shadow-[0_50px_100px_-45px_rgba(90,25,181,0.75)] sm:aspect-[5/4]">
-              {/* spotlight behind the device */}
-              <div className="pointer-events-none absolute top-[38%] left-1/2 size-[78%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(196,160,255,0.42),transparent_66%)] blur-2xl" />
+            <div className="pointer-events-none absolute -inset-8 rounded-[56px] bg-[radial-gradient(circle,rgba(90,25,181,0.10),transparent_70%)] blur-xl" />
+            <div className="relative grid aspect-square place-items-center overflow-hidden rounded-[36px] bg-[linear-gradient(155deg,#faf6ff_0%,#ffffff_45%,#f0e8fd_100%)] ring-1 ring-brand/10 shadow-[0_40px_90px_-55px_rgba(90,25,181,0.5)] sm:aspect-[5/4]">
+              {/* soft halo behind the device */}
+              <div className="pointer-events-none absolute top-[38%] left-1/2 size-[78%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(165,120,232,0.28),transparent_66%)] blur-2xl" />
               {/* subtle floor line */}
-              <div className="pointer-events-none absolute right-0 bottom-[22%] left-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+              <div className="pointer-events-none absolute right-0 bottom-[22%] left-0 h-px bg-gradient-to-r from-transparent via-brand/12 to-transparent" />
 
               <div className="relative h-[92%] w-[88%]">
                 <div className="chip-float absolute inset-0">
@@ -268,7 +268,7 @@ export default async function TerminalsPage() {
                     fill
                     priority
                     sizes="(max-width: 1024px) 92vw, 620px"
-                    className="object-contain drop-shadow-[0_28px_40px_rgba(0,0,0,0.45)]"
+                    className="object-contain drop-shadow-[0_26px_38px_rgba(45,20,90,0.28)]"
                   />
                 </div>
                 {/* mirrored reflection, faded out downwards */}
