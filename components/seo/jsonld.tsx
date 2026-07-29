@@ -7,6 +7,7 @@
    search engines index). Google requires the markup to match visible content:
    if the FAQ copy on the page changes, update it here too. */
 
+import { COMPANY } from "@/lib/legal";
 import { SITE_URL } from "@/lib/site";
 
 export function OrgJsonLd() {
@@ -14,10 +15,23 @@ export function OrgJsonLd() {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "SmartOne",
+    /* The registered entity behind the brand – same values as /imprint and the
+       footer, so the structured data can't contradict the published notice. */
+    legalName: COMPANY.name,
     url: SITE_URL,
     logo: `${SITE_URL}/icon.svg`,
     description:
       "Fiscally-certified payment devices for European small businesses: card terminal, certified cash register and receipt printer in one box, with a Merchant Portal included.",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "Level 6, Room 2, Tagliaferro Business Centre, Sqaq Gaiety",
+      addressLocality: "Sliema",
+      postalCode: "SLM 1551",
+      addressCountry: "MT",
+    },
+    vatID: COMPANY.vat,
+    identifier: COMPANY.registrationNumber,
+    email: COMPANY.email,
   };
   return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />;
 }

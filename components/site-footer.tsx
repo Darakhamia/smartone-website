@@ -4,6 +4,7 @@ import { FooterRegion } from "@/components/country/footer-region";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { DICT, tr } from "@/lib/dictionaries";
 import { promotesRegister } from "@/lib/countries";
+import { COMPANY } from "@/lib/legal";
 import { MERCHANT_PORTAL_URL } from "@/lib/links";
 
 export async function SiteFooter() {
@@ -30,6 +31,7 @@ export async function SiteFooter() {
       contact: "Contact",
       privacy: "Privacy Policy",
       cookies: "Cookie Policy",
+      imprint: "Legal Notice",
     },
     {
       paymentsFiscal: "Pagos y fiscal",
@@ -45,6 +47,7 @@ export async function SiteFooter() {
       contact: "Contacto",
       privacy: "Política de privacidad",
       cookies: "Política de cookies",
+      imprint: "Aviso legal",
     },
   );
 
@@ -120,8 +123,15 @@ export async function SiteFooter() {
         <div className="mt-10 border-t border-white/12 pt-5">
           <p className="text-[12px] leading-relaxed text-white/40">{t.disclaimer}</p>
           <div className="mt-4 flex flex-wrap items-center justify-between gap-x-5 gap-y-3 text-[12.5px]">
-            <span>© {new Date().getFullYear()} SmartOne</span>
+            {/* The operating company, its registration number and VAT number have
+                to be identifiable site-wide (Malta e-Commerce Act Cap. 426,
+                Companies Act Cap. 386 s.82) – the full details live on /imprint,
+                which is why that link sits on every page. */}
+            <span className="text-white/50">
+              © {new Date().getFullYear()} {COMPANY.name} · {COMPANY.registrationNumber} · VAT {COMPANY.vat}
+            </span>
             <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+              <Link href="/imprint" className="text-white/60 transition-colors hover:text-white">{l.imprint}</Link>
               <Link href="/privacy" className="text-white/60 transition-colors hover:text-white">{l.privacy}</Link>
               <Link href="/cookies" className="text-white/60 transition-colors hover:text-white">{l.cookies}</Link>
               <span className="text-white/40">{region}</span>

@@ -1,16 +1,16 @@
-import Script from "next/script";
 import { getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 
 export const TRUSTPILOT_PROFILE_URL =
-  "https://ie.trustpilot.com/review/smartoneglobal.com";
+  "https://www.trustpilot.com/review/smartoneglobal.com";
 
-/* Official Trustpilot TrustBox (Micro Combo). Needs the Business Unit ID from
-   Trustpilot Business → Integrations → TrustBox: set
-   NEXT_PUBLIC_TRUSTPILOT_BUSINESS_UNIT_ID at build time (Coolify env var).
-   Until it's set we render an honest link to the real profile instead –
-   never fabricated numbers. */
-const businessUnitId = process.env.NEXT_PUBLIC_TRUSTPILOT_BUSINESS_UNIT_ID;
+/* A plain link to the real Trustpilot profile – deliberately NOT the TrustBox
+   widget. The widget loads a third-party script that sets Trustpilot's own
+   cookies, which would make the "no third-party cookies" statement in
+   /cookies false and would need consent plus extra CSP origins. If the widget
+   is ever wanted, /cookies, the consent flow and the CSP in next.config.ts all
+   have to change with it. Ratings are never rendered here – we don't hold the
+   numbers, so we don't state them. */
 
 function TrustpilotStar() {
   return (
@@ -27,29 +27,6 @@ export async function TrustpilotBadge() {
     { reviews: "Read our reviews on" },
     { reviews: "Lee nuestras reseñas en" },
   );
-  if (businessUnitId) {
-    return (
-      <>
-        <div
-          className="trustpilot-widget"
-          data-locale="en-US"
-          data-template-id="5419b6ffb0d04a076446a9af"
-          data-businessunit-id={businessUnitId}
-          data-style-height="22px"
-          data-style-width="280px"
-          data-theme="light"
-        >
-          <a href={TRUSTPILOT_PROFILE_URL} target="_blank" rel="noopener">
-            Trustpilot
-          </a>
-        </div>
-        <Script
-          src="https://widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js"
-          strategy="lazyOnload"
-        />
-      </>
-    );
-  }
   return (
     <a
       href={TRUSTPILOT_PROFILE_URL}

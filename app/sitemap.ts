@@ -16,11 +16,12 @@ const PAGES = [
   "/about",
   "/case-studies",
   "/contact",
+  "/imprint",
   "/privacy",
   "/cookies",
 ];
 
-const LEGAL = new Set(["/privacy", "/cookies"]);
+const LEGAL = new Set(["/imprint", "/privacy", "/cookies"]);
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();

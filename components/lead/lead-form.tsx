@@ -1,16 +1,18 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { PhoneField, COUNTRY_DIAL, flag } from "@/components/lead/phone-field";
 import { useCountry } from "@/components/country/country-context";
 import { tr } from "@/lib/dictionaries";
+import { LEAD_ENDPOINT } from "@/lib/links";
 
 /* SmartOne lead form. Posts JSON to the Vercel serverless endpoint (no keys
    on the site). The field `name` attributes and every <option> value are
    fixed by the endpoint contract – do not rename or retype them (note the
    en-dash in "€4,000–€15,000"). Labels, order and styling are ours. */
 
-const ENDPOINT = "https://smartone-lead-form.vercel.app/api/lead";
+const ENDPOINT = LEAD_ENDPOINT;
 
 // min-height keeps the label box the same height whether it wraps to one or
 // two lines, so the inputs in a row never drift out of alignment.
@@ -65,6 +67,12 @@ export function LeadForm() {
       submit: "Contact sales",
       sending: "Sending…",
       reply: "We'll reply within one business day.",
+      /* GDPR Art. 13 notice at the point of collection. No consent checkbox:
+         the legal basis is Art. 6(1)(b)/(f), not consent – a checkbox here
+         would misdescribe it. Add one only for marketing email, unticked. */
+      privacyBefore: "By submitting this form you agree we may use your details to respond to your enquiry and prepare an offer. See how we handle your data in our ",
+      privacyLink: "Privacy Policy",
+      privacyAfter: ".",
       doneTitle: "Thanks — we got it!",
       doneText: "We'll get back to you within one business day.",
       error: "Something went wrong — please try again, or email us directly.",
@@ -99,6 +107,9 @@ export function LeadForm() {
       submit: "Contactar con ventas",
       sending: "Enviando…",
       reply: "Respondemos en un día hábil.",
+      privacyBefore: "Al enviar este formulario aceptas que usemos tus datos para responder a tu consulta y preparar una oferta. Consulta cómo los tratamos en nuestra ",
+      privacyLink: "Política de privacidad",
+      privacyAfter: ".",
       doneTitle: "¡Gracias, lo recibimos!",
       doneText: "Te responderemos en un día hábil.",
       error: "Algo salió mal. Inténtalo de nuevo o escríbenos por email.",
@@ -275,6 +286,13 @@ export function LeadForm() {
         </button>
         <p className="text-[13px] text-ink-3">{t.reply}</p>
       </div>
+      <p className="mt-4 text-[12.5px] leading-relaxed text-ink-3">
+        {t.privacyBefore}
+        <Link href="/privacy" className="underline underline-offset-2 transition-colors hover:text-ink-2">
+          {t.privacyLink}
+        </Link>
+        {t.privacyAfter}
+      </p>
       {status === "error" && (
         <p className="mt-4 rounded-xl bg-[#fbeaea] px-4 py-3 text-[13.5px] text-[#b4231f]">{t.error}</p>
       )}

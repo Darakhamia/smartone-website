@@ -10,9 +10,9 @@ Key facts:
 - Activation in four business days or less, including fiscal registration of the device.
 
 ## Pages
-- [Home](https://smartone.global/): what the device does and why merchants switch
-- [Pricing](https://smartone.global/pricing): rates by monthly card volume, buy vs rent, FAQ
-- [Product](https://smartone.global/product): terminal, cash register, Tap to Phone
-- [Industries](https://smartone.global/industries): retail, services, hospitality
-- [About](https://smartone.global/about): company
-- [Contact](https://smartone.global/contact): get a terminal or ask for your exact rate
+- [Home](https://smartoneglobal.com/): what the device does and why merchants switch
+- [Pricing](https://smartoneglobal.com/pricing): rates by monthly card volume, buy vs rent, FAQ
+- [Product](https://smartoneglobal.com/product): terminal, cash register, Tap to Phone
+- [Industries](https://smartoneglobal.com/industries): retail, services, hospitality
+- [About](https://smartoneglobal.com/about): company
+- [Contact](https://smartoneglobal.com/contact): get a terminal or ask for your exact rate
