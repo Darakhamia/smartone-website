@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
-import { terminalModel, TERMINAL_MODELS, type Lang } from "@/lib/countries";
+import { currencyWord, terminalModel, TERMINAL_MODELS, type Lang } from "@/lib/countries";
 
 export const metadata: Metadata = {
   title: "Industries",
@@ -24,7 +24,7 @@ type Industry = {
   click?: boolean;
 };
 
-function copyFor(lang: Lang, device: string) {
+function copyFor(lang: Lang, device: string, cur: string) {
   return tr(
     lang,
     {
@@ -87,7 +87,7 @@ function copyFor(lang: Lang, device: string) {
           scenarios: [
             { title: "Service, then payment", text: "Finish the appointment, take the payment on the same device – card or contactless." },
             { title: "Receipt every time", text: "A compliant fiscal receipt prints for every client, automatically." },
-            { title: "Know your week", text: "What you took and what you'll receive, in euros, in the portal." },
+            { title: "Know your week", text: `What you took and what you'll receive, in ${cur}, in the portal.` },
           ],
           device: `${device} at the chair`,
           scope: "Payments and fiscal receipts. Appointment booking stays in your current scheduler.",
@@ -164,7 +164,7 @@ function copyFor(lang: Lang, device: string) {
           scenarios: [
             { title: "Servicio y luego pago", text: "Termina la cita y cobra en el mismo dispositivo, tarjeta o contactless." },
             { title: "Ticket siempre", text: "Un ticket fiscal conforme se imprime para cada cliente, automáticamente." },
-            { title: "Controla tu semana", text: "Lo que cobraste y lo que vas a recibir, en euros, en el portal." },
+            { title: "Controla tu semana", text: `Lo que cobraste y lo que vas a recibir, en ${cur}, en el portal.` },
           ],
           device: `${device} en el sillón`,
           scope: "Pagos y tickets fiscales. Las reservas de cita se quedan en tu agenda actual.",
@@ -249,7 +249,7 @@ export default async function IndustriesPage() {
   const country = await getActiveCountry();
   const lang = await getActiveLang();
   // One device per country: never name a model the visitor's market can't buy.
-  const c = copyFor(lang, TERMINAL_MODELS[terminalModel(country)].name);
+  const c = copyFor(lang, TERMINAL_MODELS[terminalModel(country)].name, currencyWord(country, lang));
   return (
     <>
       {/* 1 · hero */}

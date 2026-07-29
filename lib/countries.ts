@@ -145,3 +145,10 @@ export const TERMINAL_MODELS: Record<TerminalModel, { name: string; dir: string;
 
 export const COUNTRY_COOKIE = "so_country";
 export const LANG_COOKIE = "so_lang";
+
+/* The currency as a word, for copy like "every fee shown in euros". Keeps
+   GBP markets from being told their fees are in euros. */
+export function currencyWord(country: Country, lang: Lang): string {
+  if (country.currency === "GBP") return lang === "es" ? "libras" : "pounds";
+  return "euros";
+}

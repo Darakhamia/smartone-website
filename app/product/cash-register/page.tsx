@@ -11,7 +11,7 @@ import { promotesRegister, terminalModel, TERMINAL_MODELS, type CountryCode, typ
 export const metadata: Metadata = {
   title: "Cash register",
   description:
-    "A certified fiscal cash register built into the device you already use to take payments. Fiscal receipts, Z-reports and certification market by market – from €400.",
+    "A certified fiscal cash register built into the device you already use to take payments. Fiscal receipts, Z-reports and certification for the market you trade in.",
 };
 
 const whatIcons = [
@@ -20,7 +20,7 @@ const whatIcons = [
   <path key="2" d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3Zm-3 9 2 2 4-4.5" />,
 ];
 
-function copyFor(lang: Lang, register: boolean, fiscal: boolean, c$: string, countryName: string) {
+function copyFor(lang: Lang, register: boolean, fiscal: boolean, c$: string, countryName: string, device: string) {
   return tr(
     lang,
     {
@@ -32,7 +32,7 @@ function copyFor(lang: Lang, register: boolean, fiscal: boolean, c$: string, cou
         : fiscal
           ? "Your market doesn't require a certified register from you today. When the rules change, your SmartOne device is ready – no new hardware, no second box on the counter."
           : "Your market doesn't require a fiscal register – so we don't sell you one. You get card payments and the Merchant Portal, ready to go.",
-      heroAlt: register ? "The SmartOne Pro S dual-screen register" : "The SmartOne Bank Pro payment terminal",
+      heroAlt: register ? `The ${device} dual-screen register` : `The ${device} payment terminal`,
       get: "Get a terminal →",
       seePricing: "See pricing",
       // what it is
@@ -46,7 +46,7 @@ function copyFor(lang: Lang, register: boolean, fiscal: boolean, c$: string, cou
       ],
       // price anchor
       priceEyebrow: "What a full setup costs",
-      priceTitle: "A full setup worth €800–1,200. Yours for €400.",
+      priceTitle: `A full setup worth ${c$}800–1,200. Yours for ${c$}400.`,
       priceSub: "A cash register, a payment terminal and a printer add up fast as three separate boxes. We build all three into one certified device – so you pay once.",
       standaloneLabel: "Register + terminal + printer",
       standaloneRange: `${c$}800–1,200`,
@@ -93,7 +93,7 @@ function copyFor(lang: Lang, register: boolean, fiscal: boolean, c$: string, cou
         : fiscal
           ? "Tu mercado no te exige hoy una caja fiscal certificada. Cuando cambien las normas, tu dispositivo SmartOne está listo, sin comprar hardware nuevo ni una segunda caja en el mostrador."
           : "Tu mercado no exige una caja fiscal, así que no te la vendemos. Tienes pagos con tarjeta y el Merchant Portal, listos para usar.",
-      heroAlt: register ? "El registro de doble pantalla SmartOne Pro S" : "El terminal de pago SmartOne Bank Pro",
+      heroAlt: register ? `El registro de doble pantalla ${device}` : `El terminal de pago ${device}`,
       get: "Solicita tu terminal →",
       seePricing: "Ver precios",
       whatEyebrow: "Qué es",
@@ -105,7 +105,7 @@ function copyFor(lang: Lang, register: boolean, fiscal: boolean, c$: string, cou
         { title: `Certificado para ${countryName}`, text: "Registrado y aprobado para el mercado en el que operas: la registración fiscal del dispositivo forma parte del alta." },
       ],
       priceEyebrow: "Lo que cuesta un montaje completo",
-      priceTitle: "Un montaje completo que vale 800-1.200 €. El tuyo por 400 €.",
+      priceTitle: `Un montaje completo que vale ${c$}800-1.200. El tuyo por ${c$}400.`,
       priceSub: "Una caja registradora, un terminal de pago y una impresora suman rápido como tres cajas separadas. Nosotros integramos los tres en un dispositivo certificado, así que pagas una vez.",
       standaloneLabel: "Caja + terminal + impresora",
       standaloneRange: `${c$}800-1.200`,
@@ -150,7 +150,7 @@ export default async function CashRegisterPage() {
   const register = promotesRegister(country);
   // Spanish is only offered in Spain, so its native name is the right label there.
   const countryName = lang === "es" ? (country.nativeName ?? country.name) : country.name;
-  const c = copyFor(lang, register, fiscal, country.currencySymbol, countryName);
+  const c = copyFor(lang, register, fiscal, country.currencySymbol, countryName, TERMINAL_MODELS[terminalModel(country)].name);
   const isEs = country.code === "es";
   // Fiscal-compliance block: only fiscal markets not yet live (not Malta / UK).
   // The Verifactu card is Spain-only.

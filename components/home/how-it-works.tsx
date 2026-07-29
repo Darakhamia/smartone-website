@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Reveal } from "@/components/reveal";
 import { useCountry } from "@/components/country/country-context";
 import { tr } from "@/lib/dictionaries";
-import type { Lang } from "@/lib/countries";
+import { currencyWord, type Lang } from "@/lib/countries";
 
 const STEP_MS = 6000;
 
@@ -31,14 +31,14 @@ function Row({ label, value, accent = false }: { label: string; value: string; a
   );
 }
 
-function copyFor(lang: Lang) {
+function copyFor(lang: Lang, cur: string) {
   return tr(
     lang,
     {
       eyebrow: "From the counter to your accountant",
       title: "Close the day. Know your real numbers.",
       steps: [
-        { n: "01", title: "Money & transparency", text: "Know what you'll receive and what you paid – in euros." },
+        { n: "01", title: "Money & transparency", text: `Know what you'll receive and what you paid – in ${cur}.` },
         { n: "02", title: "Reconcile the till", text: "Z-report & receipts in one place; reprint or email any one." },
         { n: "03", title: "Find a transaction", text: "Search by RRN / receipt #, settle a dispute on the spot." },
         { n: "04", title: "See the period", text: "Revenue, average check, card vs cash, top categories." },
@@ -72,7 +72,7 @@ function copyFor(lang: Lang) {
       eyebrow: "Del mostrador a tu contable",
       title: "Cierra el día. Conoce tus cifras reales.",
       steps: [
-        { n: "01", title: "Dinero y transparencia", text: "Mira lo que vas a recibir y lo que pagaste, en euros." },
+        { n: "01", title: "Dinero y transparencia", text: `Mira lo que vas a recibir y lo que pagaste, en ${cur}.` },
         { n: "02", title: "Cuadra la caja", text: "Informe Z y tickets en un solo sitio; reimprime o envía cualquiera por email." },
         { n: "03", title: "Encuentra una operación", text: "Busca por RRN o nº de ticket y resuelve una incidencia al momento." },
         { n: "04", title: "Mira el periodo", text: "Ingresos, ticket medio, tarjeta vs efectivo, categorías top." },
@@ -107,39 +107,39 @@ function copyFor(lang: Lang) {
 
 type Copy = ReturnType<typeof copyFor>;
 
-function MoneyVisual({ c }: { c: Copy }) {
+function MoneyVisual({ c, c$ }: { c: Copy; c$: string }) {
   return (
     <Frame title={c.f.money}>
       <div className="grid grid-cols-2 gap-3">
         <div className="rounded-xl bg-bg-2 p-4">
           <div className="text-[10.5px] font-semibold tracking-wide text-ink-3 uppercase">{c.cardSales}</div>
-          <div className="h-display mt-1.5 text-[22px]">€980.00</div>
+          <div className="h-display mt-1.5 text-[22px]">{c$}980.00</div>
         </div>
         <div className="rounded-xl bg-brand-tint p-4">
           <div className="text-[10.5px] font-semibold tracking-wide text-brand uppercase">{c.receive}</div>
-          <div className="h-display mt-1.5 text-[22px] text-brand">€970.40</div>
+          <div className="h-display mt-1.5 text-[22px] text-brand">{c$}970.40</div>
         </div>
       </div>
       <div className="mt-4 border-t border-dashed border-line-2 pt-3">
-        <Row label={c.commission} value="−€9.60 · 0.98%" accent />
+        <Row label={c.commission} value={`−${c$}9.60 · 0.98%`} accent />
         <Row label={c.status} value={c.processed} />
       </div>
     </Frame>
   );
 }
 
-function TillVisual({ c }: { c: Copy }) {
+function TillVisual({ c, c$ }: { c: Copy; c$: string }) {
   return (
     <Frame title={c.f.receipts}>
       <div className="rounded-xl bg-bg-2 p-4">
         <div className="flex items-baseline justify-between">
           <span className="font-mono text-[12.5px] text-ink-2">Z-report #218</span>
-          <span className="h-display text-[18px]">€1,240.00</span>
+          <span className="h-display text-[18px]">{c$}1,240.00</span>
         </div>
         <div className="mt-1 font-mono text-[11px] text-ink-3">{c.receiptsN}</div>
       </div>
       <div className="mt-3 space-y-2">
-        {["#0421 · €24.60", "#0420 · €8.90", "#0419 · €112.00"].map((r) => (
+        {[`#0421 · ${c$}24.60`, `#0420 · ${c$}8.90`, `#0419 · ${c$}112.00`].map((r) => (
           <div key={r} className="flex items-center justify-between rounded-lg border border-line px-3.5 py-2.5">
             <span className="font-mono text-[12px] text-ink-2">{r}</span>
             <span className="flex gap-2 text-[11.5px] font-semibold text-brand">
@@ -153,7 +153,7 @@ function TillVisual({ c }: { c: Copy }) {
   );
 }
 
-function SearchVisual({ c }: { c: Copy }) {
+function SearchVisual({ c, c$ }: { c: Copy; c$: string }) {
   return (
     <Frame title={c.f.tx}>
       <div className="flex items-center gap-2.5 rounded-full border border-line px-4 py-2.5">
@@ -166,7 +166,7 @@ function SearchVisual({ c }: { c: Copy }) {
       <div className="mt-3 rounded-xl border-2 border-brand/40 bg-brand-tint/50 p-4">
         <div className="flex items-baseline justify-between">
           <span className="font-mono text-[12.5px] text-ink-2">{c.receiptN}</span>
-          <span className="h-display text-[18px]">€24.60</span>
+          <span className="h-display text-[18px]">{c$}24.60</span>
         </div>
         <div className="mt-1 font-mono text-[11px] text-ink-3">{c.approved}</div>
         <div className="mt-2.5 flex gap-3 text-[11.5px] font-semibold text-brand">
@@ -179,7 +179,7 @@ function SearchVisual({ c }: { c: Copy }) {
   );
 }
 
-function PeriodVisual({ c }: { c: Copy }) {
+function PeriodVisual({ c, c$ }: { c: Copy; c$: string }) {
   const bars = [34, 52, 44, 68, 58, 84, 74];
   return (
     <Frame title={c.f.analytics}>
@@ -191,11 +191,11 @@ function PeriodVisual({ c }: { c: Copy }) {
       <div className="mt-4 grid grid-cols-3 gap-3 border-t border-dashed border-line-2 pt-3">
         <div>
           <div className="font-mono text-[10.5px] text-ink-3 uppercase">{c.revenue}</div>
-          <div className="h-display mt-0.5 text-[16px]">€8,412</div>
+          <div className="h-display mt-0.5 text-[16px]">{c$}8,412</div>
         </div>
         <div>
           <div className="font-mono text-[10.5px] text-ink-3 uppercase">{c.avg}</div>
-          <div className="h-display mt-0.5 text-[16px]">€23.80</div>
+          <div className="h-display mt-0.5 text-[16px]">{c$}23.80</div>
         </div>
         <div>
           <div className="font-mono text-[10.5px] text-ink-3 uppercase">{c.card}</div>
@@ -206,18 +206,18 @@ function PeriodVisual({ c }: { c: Copy }) {
   );
 }
 
-function ShareVisual({ c }: { c: Copy }) {
+function ShareVisual({ c, c$ }: { c: Copy; c$: string }) {
   return (
     <Frame title={c.f.reports}>
       <div className="rounded-xl bg-bg-2 p-4">
         <div className="flex items-baseline justify-between">
           <span className="font-mono text-[12.5px] text-ink-2">{c.reportTitle}</span>
-          <span className="h-display text-[18px]">€980.00</span>
+          <span className="h-display text-[18px]">{c$}980.00</span>
         </div>
         <div className="mt-2.5 border-t border-dashed border-line-2 pt-2.5">
-          <Row label={c.revenue} value="€980.00" />
-          <Row label={c.vat} value="€149.50" />
-          <Row label={c.commission} value="−€9.60" accent />
+          <Row label={c.revenue} value={`${c$}980.00`} />
+          <Row label={c.vat} value={`${c$}149.50`} />
+          <Row label={c.commission} value={`−${c$}9.60`} accent />
         </div>
       </div>
       <div className="mt-3 flex gap-2">
@@ -241,12 +241,13 @@ function ShareVisual({ c }: { c: Copy }) {
 }
 
 export function HowItWorks() {
-  const { lang } = useCountry();
-  const c = copyFor(lang);
+  const { country, lang } = useCountry();
+  const c$ = country.currencySymbol;
+  const c = copyFor(lang, currencyWord(country, lang));
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
 
-  const visuals = [<MoneyVisual key="0" c={c} />, <TillVisual key="1" c={c} />, <SearchVisual key="2" c={c} />, <PeriodVisual key="3" c={c} />, <ShareVisual key="4" c={c} />];
+  const visuals = [<MoneyVisual key="0" c={c} c$={c$} />, <TillVisual key="1" c={c} c$={c$} />, <SearchVisual key="2" c={c} c$={c$} />, <PeriodVisual key="3" c={c} c$={c$} />, <ShareVisual key="4" c={c} c$={c$} />];
   const advance = () => setActive((a) => (a + 1) % c.steps.length);
   const pick = (i: number) => setActive(i);
 

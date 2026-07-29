@@ -1,18 +1,18 @@
 import { Reveal } from "@/components/reveal";
 import { LogoMark } from "@/components/logo";
-import { getActiveLang } from "@/lib/country-server";
+import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 
-function FeeVisual({ sale, fee }: { sale: string; fee: string }) {
+function FeeVisual({ sale, fee, c$ }: { sale: string; fee: string; c$: string }) {
   return (
     <div className="rounded-2xl bg-bg-2 p-4 font-mono text-[13px]">
       <div className="flex items-baseline justify-between">
         <span className="text-ink-3">{sale}</span>
-        <span className="text-ink-2">€24.60</span>
+        <span className="text-ink-2">{c$}24.60</span>
       </div>
       <div className="mt-2 flex items-baseline justify-between border-t border-dashed border-line-2 pt-2">
         <span className="text-ink-3">{fee}</span>
-        <b className="fee-pulse -mx-1.5 inline-block rounded-md px-1.5 font-semibold text-brand">−€0.24</b>
+        <b className="fee-pulse -mx-1.5 inline-block rounded-md px-1.5 font-semibold text-brand">−{c$}0.24</b>
       </div>
     </div>
   );
@@ -59,6 +59,7 @@ function TplusOneVisual({ sold, paid }: { sold: string; paid: string }) {
 }
 
 export async function WhySwitch() {
+  const country = await getActiveCountry();
   const lang = await getActiveLang();
   const c = tr(
     lang,
@@ -93,7 +94,7 @@ export async function WhySwitch() {
   );
 
   const visuals = [
-    <FeeVisual key="fee" sale={c.sale} fee={c.fee} />,
+    <FeeVisual key="fee" sale={c.sale} fee={c.fee} c$={country.currencySymbol} />,
     <BankVisual key="bank" bank={c.bank} />,
     <TplusOneVisual key="t1" sold={c.sold} paid={c.paid} />,
   ];

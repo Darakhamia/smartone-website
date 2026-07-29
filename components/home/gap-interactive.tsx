@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useCountry } from "@/components/country/country-context";
 
 /* Interactive "gaps" cards: click a card to preview the product it describes –
    the built-in cash register, and the Merchant Portal money screen.
@@ -35,7 +36,7 @@ function CashboxScreen({ m }: { m: GapModal }) {
   );
 }
 
-function PortalScreen({ m }: { m: GapModal }) {
+function PortalScreen({ m, c$ }: { m: GapModal; c$: string }) {
   return (
     <div className="mx-auto w-full max-w-sm overflow-hidden rounded-2xl border border-line bg-white shadow-[0_40px_80px_-30px_rgba(0,0,0,0.4)]">
       <div className="flex items-center gap-1.5 border-b border-line px-5 py-3">
@@ -48,16 +49,16 @@ function PortalScreen({ m }: { m: GapModal }) {
         <div className="grid grid-cols-2 gap-3">
           <div className="rounded-xl bg-bg-2 p-4">
             <div className="text-[10.5px] font-semibold tracking-wide text-ink-3 uppercase">{m.portal.cardSales}</div>
-            <div className="h-display mt-1.5 text-[22px]">€980.00</div>
+            <div className="h-display mt-1.5 text-[22px]">{c$}980.00</div>
           </div>
           <div className="rounded-xl bg-brand-tint p-4">
             <div className="text-[10.5px] font-semibold tracking-wide text-brand uppercase">{m.portal.receive}</div>
-            <div className="h-display mt-1.5 text-[22px] text-brand">€970.40</div>
+            <div className="h-display mt-1.5 text-[22px] text-brand">{c$}970.40</div>
           </div>
         </div>
         <div className="mt-3 flex items-center justify-between rounded-lg border border-line px-3.5 py-2.5 font-mono text-[12px]">
           <span className="text-ink-3">{m.portal.commission}</span>
-          <span className="font-semibold text-brand">−€9.60 · 0.98%</span>
+          <span className="font-semibold text-brand">−{c$}9.60 · 0.98%</span>
         </div>
       </div>
     </div>
@@ -65,6 +66,8 @@ function PortalScreen({ m }: { m: GapModal }) {
 }
 
 export function GapCards({ cards, modal }: { cards: GapCard[]; modal: GapModal }) {
+  const { country } = useCountry();
+  const c$ = country.currencySymbol;
   const [open, setOpen] = useState<number | null>(null);
 
   useEffect(() => {
@@ -119,7 +122,7 @@ export function GapCards({ cards, modal }: { cards: GapCard[]; modal: GapModal }
                 <path d="M6 6l12 12M18 6L6 18" />
               </svg>
             </button>
-            {cards[open].kind === "cashbox" ? <CashboxScreen m={modal} /> : <PortalScreen m={modal} />}
+            {cards[open].kind === "cashbox" ? <CashboxScreen m={modal} /> : <PortalScreen m={modal} c$={c$} />}
             <p className="mx-auto mt-4 max-w-xs text-center text-[13px] leading-relaxed text-white/85">
               {cards[open].kind === "cashbox" ? modal.cashbox.caption : modal.portal.caption}
             </p>

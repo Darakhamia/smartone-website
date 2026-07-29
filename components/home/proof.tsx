@@ -1,7 +1,8 @@
 import Image from "next/image";
 import { Reveal } from "@/components/reveal";
-import { getActiveLang } from "@/lib/country-server";
+import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
+import { currencyWord } from "@/lib/countries";
 
 /* Social proof. Photos are stock placeholders (Unsplash license) and the
    quotes are illustrative – swap both for REAL customers before public
@@ -19,14 +20,16 @@ const imgs = [
 ];
 
 export async function Proof() {
+  const country = await getActiveCountry();
   const lang = await getActiveLang();
+  const cur = currencyWord(country, lang);
   const c = tr(
     lang,
     {
       eyebrow: "Real businesses",
       title: "Stories from the counter.",
       stories: [
-        { alt: "Merchant in a red apron behind the counter", quote: "I finally see what I pay – in euros, not in fine print.", role: "Shop owner" },
+        { alt: "Merchant in a red apron behind the counter", quote: `I finally see what I pay – in ${cur}, not in fine print.`, role: "Shop owner" },
         { alt: "A French bulldog patient at the clinic", quote: "One box instead of three. Even my accountant noticed.", role: "Vet clinic" },
         { alt: "Barista handing a receipt to a customer at the counter", quote: "The money is on my account next morning. That's it.", role: "Café owner" },
       ],
@@ -35,7 +38,7 @@ export async function Proof() {
       eyebrow: "Negocios reales",
       title: "Historias desde el mostrador.",
       stories: [
-        { alt: "Comerciante con delantal rojo tras el mostrador", quote: "Por fin veo lo que pago, en euros y no en letra pequeña.", role: "Dueña de tienda" },
+        { alt: "Comerciante con delantal rojo tras el mostrador", quote: `Por fin veo lo que pago, en ${cur} y no en letra pequeña.`, role: "Dueña de tienda" },
         { alt: "Un bulldog francés como paciente en la clínica", quote: "Un solo equipo en lugar de tres. Hasta mi contable lo notó.", role: "Clínica veterinaria" },
         { alt: "Barista entregando un ticket a un cliente en el mostrador", quote: "El dinero está en mi cuenta a la mañana siguiente. Así de simple.", role: "Dueño de cafetería" },
       ],

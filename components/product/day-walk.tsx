@@ -4,11 +4,11 @@ import Image from "next/image";
 import { useState } from "react";
 import { useCountry } from "@/components/country/country-context";
 import { tr } from "@/lib/dictionaries";
-import { terminalModel, TERMINAL_MODELS, type Country, type Lang } from "@/lib/countries";
+import { currencyWord, terminalModel, TERMINAL_MODELS, type Country, type Lang } from "@/lib/countries";
 
 const STEP_MS = 4500;
 
-function copyFor(lang: Lang) {
+function copyFor(lang: Lang, cur: string) {
   return tr(
     lang,
     {
@@ -24,7 +24,7 @@ function copyFor(lang: Lang) {
         { title: "Take a payment", text: "Card, contactless or cash – one tap on one device." },
         { title: "The fiscal receipt prints", text: "Certified, numbered, from the built-in printer." },
         { title: "Close the day", text: "Z-report in one tap – the till is reconciled." },
-        { title: "See the money", text: "What you sold and what you'll receive – every fee shown in euros." },
+        { title: "See the money", text: `What you sold and what you'll receive – every fee shown in ${cur}.` },
         { title: "Hand it to your accountant", text: "Receipts and reports in one place, nothing to collect." },
       ],
     },
@@ -41,7 +41,7 @@ function copyFor(lang: Lang) {
         { title: "Cobra", text: "Tarjeta, contactless o efectivo: un tap en un solo dispositivo." },
         { title: "Se imprime el ticket fiscal", text: "Certificado y numerado, desde la impresora integrada." },
         { title: "Cierra el día", text: "Informe Z en un tap: la caja queda cuadrada." },
-        { title: "Mira el dinero", text: "Lo que vendiste y lo que vas a recibir, con cada comisión en euros." },
+        { title: "Mira el dinero", text: `Lo que vendiste y lo que vas a recibir, con cada comisión en ${cur}.` },
         { title: "Pásaselo a tu contable", text: "Tickets e informes en un solo sitio, nada que recopilar." },
       ],
     },
@@ -64,15 +64,15 @@ function PayScene({ country }: { country: Country }) {
   );
 }
 
-function ReceiptScene({ c }: { c: Copy }) {
+function ReceiptScene({ c, c$ }: { c: Copy; c$: string }) {
   return (
     <div className="grid w-full max-w-70 place-items-center">
       <div className="receipt-bottom w-44 rounded-t-xl border border-line bg-white p-4 font-mono text-[11px] shadow-lg shadow-black/5">
         <div className="font-semibold text-ink">SmartOne</div>
         <div className="text-ink-3">{c.rcpt}</div>
         <div className="my-2 border-t border-dashed border-line-2" />
-        <div className="flex justify-between text-ink-2"><span>{c.sale}</span><span>€24.60</span></div>
-        <div className="flex justify-between text-brand"><span>{c.fee}</span><span>€0.24</span></div>
+        <div className="flex justify-between text-ink-2"><span>{c.sale}</span><span>{c$}24.60</span></div>
+        <div className="flex justify-between text-brand"><span>{c.fee}</span><span>{c$}0.24</span></div>
         <div className="my-2 border-t border-dashed border-line-2" />
         <div className="text-ink-3">{c.rcptFoot}</div>
       </div>
@@ -80,13 +80,13 @@ function ReceiptScene({ c }: { c: Copy }) {
   );
 }
 
-function CloseScene({ c }: { c: Copy }) {
+function CloseScene({ c, c$ }: { c: Copy; c$: string }) {
   return (
     <div className="grid w-full max-w-70 place-items-center">
       <div className="w-56 rounded-2xl bg-white p-5 shadow-lg shadow-black/5 ring-1 ring-line">
         <div className="flex items-baseline justify-between">
           <span className="font-mono text-[12px] text-ink-2">Z-report #218</span>
-          <span className="h-display text-[20px]">€1,240.00</span>
+          <span className="h-display text-[20px]">{c$}1,240.00</span>
         </div>
         <div className="mt-1 font-mono text-[11px] text-ink-3">{c.closed}</div>
         <div className="mt-3 flex h-2 overflow-hidden rounded-full bg-line">
@@ -98,15 +98,15 @@ function CloseScene({ c }: { c: Copy }) {
   );
 }
 
-function MoneyScene() {
+function MoneyScene({ c$ }: { c$: string }) {
   return (
     <div className="grid w-full max-w-90 place-items-center">
       <div className="flex items-center gap-3 font-display font-semibold tracking-tight">
-        <span className="text-[26px] text-ink">€980</span>
+        <span className="text-[26px] text-ink">{c$}980</span>
         <span className="text-[20px] text-ink-3">−</span>
-        <span className="rounded-lg bg-brand-tint px-2 py-1 text-[22px] text-brand">€9.60</span>
+        <span className="rounded-lg bg-brand-tint px-2 py-1 text-[22px] text-brand">{c$}9.60</span>
         <span className="text-[20px] text-ink-3">=</span>
-        <span className="text-[26px] text-brand">€970.40</span>
+        <span className="text-[26px] text-brand">{c$}970.40</span>
       </div>
     </div>
   );
@@ -139,11 +139,12 @@ function AccountantScene({ c }: { c: Copy }) {
 
 export function DayWalk() {
   const { country, lang } = useCountry();
-  const c = copyFor(lang);
+  const c$ = country.currencySymbol;
+  const c = copyFor(lang, currencyWord(country, lang));
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
 
-  const scenes = [<PayScene key="0" country={country} />, <ReceiptScene key="1" c={c} />, <CloseScene key="2" c={c} />, <MoneyScene key="3" />, <AccountantScene key="4" c={c} />];
+  const scenes = [<PayScene key="0" country={country} />, <ReceiptScene key="1" c={c} c$={c$} />, <CloseScene key="2" c={c} c$={c$} />, <MoneyScene key="3" c$={c$} />, <AccountantScene key="4" c={c} />];
   const advance = () => setActive((a) => (a + 1) % c.steps.length);
   const pick = (i: number) => setActive(i);
 

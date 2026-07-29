@@ -3,10 +3,10 @@ import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 import { SectionHead } from "@/components/section-head";
 import { PortalPreview } from "@/components/product/portal-preview";
-import { getActiveLang } from "@/lib/country-server";
+import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 import { MERCHANT_PORTAL_URL } from "@/lib/links";
-import type { Lang } from "@/lib/countries";
+import { currencyWord, type Lang } from "@/lib/countries";
 
 export const metadata: Metadata = {
   title: "Merchant Portal",
@@ -21,7 +21,7 @@ const featIcons = [
   <path key="3" d="M12 7v5l3.5 2M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />,
 ];
 
-function copyFor(lang: Lang) {
+function copyFor(lang: Lang, cur: string) {
   return tr(
     lang,
     {
@@ -37,7 +37,7 @@ function copyFor(lang: Lang) {
       featEyebrow: "Why it helps",
       featTitle: "Less admin, more certainty.",
       feats: [
-        { title: "Every transaction, with status", text: "See each payment, its method and its status – confirmed to pay, in euros." },
+        { title: "Every transaction, with status", text: `See each payment, its method and its status – confirmed to pay, in ${cur}.` },
         { title: "Payouts to your own bank", text: "Follow what's landing and when – money to your account, next business day." },
         { title: "Receipts & Z-reports", text: "Reprint or email any fiscal receipt, and close the day with a Z-report." },
         { title: "Know your numbers", text: "What you sold, what you'll receive, and every fee – nothing buried." },
@@ -60,7 +60,7 @@ function copyFor(lang: Lang) {
       featEyebrow: "Por qué ayuda",
       featTitle: "Menos gestión, más certeza.",
       feats: [
-        { title: "Cada operación, con su estado", text: "Ve cada pago, su método y su estado: confirmado a pagar, en euros." },
+        { title: "Cada operación, con su estado", text: `Ve cada pago, su método y su estado: confirmado a pagar, en ${cur}.` },
         { title: "Liquidaciones a tu propio banco", text: "Sigue qué llega y cuándo: dinero a tu cuenta, al día hábil siguiente." },
         { title: "Tickets e informes Z", text: "Reimprime o envía por email cualquier ticket fiscal y cierra el día con un informe Z." },
         { title: "Conoce tus cifras", text: "Lo que vendiste, lo que vas a recibir y cada comisión, nada oculto." },
@@ -74,8 +74,9 @@ function copyFor(lang: Lang) {
 }
 
 export default async function MerchantPortalPage() {
+  const country = await getActiveCountry();
   const lang = await getActiveLang();
-  const c = copyFor(lang);
+  const c = copyFor(lang, currencyWord(country, lang));
 
   return (
     <>

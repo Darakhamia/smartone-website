@@ -3,11 +3,11 @@
 import { useState } from "react";
 import { useCountry } from "@/components/country/country-context";
 import { tr } from "@/lib/dictionaries";
-import type { Lang } from "@/lib/countries";
+import { currencyWord, type Lang } from "@/lib/countries";
 
 const STEP_MS = 5000;
 
-function copyFor(lang: Lang) {
+function copyFor(lang: Lang, c$: string, cur: string) {
   return tr(
     lang,
     {
@@ -25,9 +25,9 @@ function copyFor(lang: Lang) {
       sold: "Sold",
       receive: "You'll receive",
       commission: "Commission",
-      confirmed: "−€9.60 · confirmed to pay",
+      confirmed: `−${c$}9.60 · confirmed to pay`,
       jobs: [
-        { title: "Follow your payments", text: "Every transaction with its status – confirmed to pay, in euros." },
+        { title: "Follow your payments", text: `Every transaction with its status – confirmed to pay, in ${cur}.` },
         { title: "Stay compliant", text: "Fiscal receipts and Z-reports – reprint or email any one." },
         { title: "Sell & manage", text: "Products and prices in one catalogue – orders via Click for HoReCa." },
         { title: "Track your money", text: "What you sold and what's landing in your bank – every fee clear." },
@@ -48,9 +48,9 @@ function copyFor(lang: Lang) {
       sold: "Vendido",
       receive: "Recibirás",
       commission: "Comisión",
-      confirmed: "−€9.60 · confirmado a pagar",
+      confirmed: `−${c$}9.60 · confirmado a pagar`,
       jobs: [
-        { title: "Sigue tus pagos", text: "Cada operación con su estado, confirmado a pagar, en euros." },
+        { title: "Sigue tus pagos", text: `Cada operación con su estado, confirmado a pagar, en ${cur}.` },
         { title: "Cumple la normativa", text: "Tickets fiscales e informes Z: reimprime o envía cualquiera por email." },
         { title: "Vende y gestiona", text: "Productos y precios en un catálogo, pedidos con Click para HoReCa." },
         { title: "Controla tu dinero", text: "Lo que vendiste y lo que llega a tu banco, con cada comisión clara." },
@@ -79,11 +79,11 @@ function StatusPill({ label }: { label: string }) {
   return <span className="rounded-full bg-[#e5f3ec] px-2.5 py-0.5 font-mono text-[10.5px] font-semibold text-[#0e8a5f]">{label}</span>;
 }
 
-function PaymentsScreen({ c }: { c: Copy }) {
+function PaymentsScreen({ c, c$ }: { c: Copy; c$: string }) {
   const rows = [
-    ["14:32", "Visa ··6041", "€24.60"],
-    ["14:05", "Contactless", "€8.90"],
-    ["13:48", "Mastercard ··2270", "€112.00"],
+    ["14:32", "Visa ··6041", `${c$}24.60`],
+    ["14:05", "Contactless", `${c$}8.90`],
+    ["13:48", "Mastercard ··2270", `${c$}112.00`],
   ];
   return (
     <Frame title={c.fPayments}>
@@ -106,18 +106,18 @@ function PaymentsScreen({ c }: { c: Copy }) {
   );
 }
 
-function CompliantScreen({ c }: { c: Copy }) {
+function CompliantScreen({ c, c$ }: { c: Copy; c$: string }) {
   return (
     <Frame title={c.fReceipts}>
       <div className="rounded-xl bg-bg-2 p-4">
         <div className="flex items-baseline justify-between">
           <span className="font-mono text-[12.5px] text-ink-2">Z-report #218</span>
-          <span className="h-display text-[18px]">€1,240.00</span>
+          <span className="h-display text-[18px]">{c$}1,240.00</span>
         </div>
         <div className="mt-1 font-mono text-[11px] text-ink-3">{c.closed}</div>
       </div>
       <div className="mt-3 space-y-2">
-        {["#0421 · €24.60", "#0420 · €8.90"].map((r) => (
+        {[`#0421 · ${c$}24.60`, `#0420 · ${c$}8.90`].map((r) => (
           <div key={r} className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 rounded-lg border border-line px-3 py-2.5 sm:px-3.5">
             <span className="font-mono text-[12px] text-ink-2">{r}</span>
             <span className="flex gap-2 text-[11.5px] font-semibold text-brand">
@@ -131,11 +131,11 @@ function CompliantScreen({ c }: { c: Copy }) {
   );
 }
 
-function SellScreen({ c }: { c: Copy }) {
+function SellScreen({ c, c$ }: { c: Copy; c$: string }) {
   const items = [
-    ["Flat white", "€3.20"],
-    ["Croissant", "€2.40"],
-    [c.bouquet, "€28.00"],
+    ["Flat white", `${c$}3.20`],
+    ["Croissant", `${c$}2.40`],
+    [c.bouquet, `${c$}28.00`],
   ];
   return (
     <Frame title={c.fCatalogue}>
@@ -155,17 +155,17 @@ function SellScreen({ c }: { c: Copy }) {
   );
 }
 
-function MoneyScreen({ c }: { c: Copy }) {
+function MoneyScreen({ c, c$ }: { c: Copy; c$: string }) {
   return (
     <Frame title={c.fMoney}>
       <div className="grid grid-cols-2 gap-3">
         <div className="rounded-xl bg-bg-2 p-4">
           <div className="text-[10.5px] font-semibold tracking-wide text-ink-3 uppercase">{c.sold}</div>
-          <div className="h-display mt-1.5 text-[22px]">€980.00</div>
+          <div className="h-display mt-1.5 text-[22px]">{c$}980.00</div>
         </div>
         <div className="rounded-xl bg-brand-tint p-4">
           <div className="text-[10.5px] font-semibold tracking-wide text-brand uppercase">{c.receive}</div>
-          <div className="h-display mt-1.5 text-[22px] text-brand">€970.40</div>
+          <div className="h-display mt-1.5 text-[22px] text-brand">{c$}970.40</div>
         </div>
       </div>
       <div className="mt-3 flex items-center justify-between rounded-lg border border-line px-3.5 py-2.5 font-mono text-[12px]">
@@ -189,12 +189,13 @@ const jobIcons = [
 ];
 
 export function PortalPreview() {
-  const { lang } = useCountry();
-  const c = copyFor(lang);
+  const { country, lang } = useCountry();
+  const c$ = country.currencySymbol;
+  const c = copyFor(lang, c$, currencyWord(country, lang));
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
 
-  const screens = [<PaymentsScreen key="0" c={c} />, <CompliantScreen key="1" c={c} />, <SellScreen key="2" c={c} />, <MoneyScreen key="3" c={c} />];
+  const screens = [<PaymentsScreen key="0" c={c} c$={c$} />, <CompliantScreen key="1" c={c} c$={c$} />, <SellScreen key="2" c={c} c$={c$} />, <MoneyScreen key="3" c={c} c$={c$} />];
   const advance = () => setActive((a) => (a + 1) % c.jobs.length);
   const pick = (i: number) => setActive(i);
 

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ReceiptText, Tag, Landmark } from "lucide-react";
+import { ReceiptText, Tag, Landmark, type LucideIcon } from "lucide-react";
 import { HeroCarousel } from "@/components/home/hero-carousel";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
@@ -8,14 +8,38 @@ import { promotesRegister, type Lang } from "@/lib/countries";
 /* Hero photo: the branded render of a florist taking a card payment on a
    SmartOne terminal (public/hero-florist.jpg). On desktop the photo bleeds
    past the grid to the right edge of the viewport. */
-function DeviceVisual({ register, lang }: { register: boolean; lang: Lang }) {
+function Chip({
+  icon: Icon,
+  float,
+  delay,
+  children,
+}: {
+  icon: LucideIcon;
+  float: "chip-float" | "chip-float-slow";
+  delay?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div
+      className={`${float} inline-flex items-center gap-2 rounded-full border border-line bg-white py-1.5 pr-3 pl-1.5 text-[11.5px] font-medium text-ink-2 shadow-lg shadow-black/10 sm:gap-2.5 sm:py-2 sm:pr-4.5 sm:pl-2 sm:text-[13.5px]`}
+      style={delay ? { animationDelay: delay } : undefined}
+    >
+      <span className="grid size-6 place-items-center rounded-full bg-brand-tint text-brand sm:size-8">
+        <Icon className="size-3.5 sm:size-4.5" strokeWidth={1.9} aria-hidden />
+      </span>
+      <span>{children}</span>
+    </div>
+  );
+}
+
+function DeviceVisual({ register, lang, c$ }: { register: boolean; lang: Lang; c$: string }) {
   const c = tr(
     lang,
     {
       alt: "Merchant taking a contactless card payment on a SmartOne terminal",
       receipt: register ? "Fiscal receipt · " : "Receipt printer · ",
       built: "built in",
-      fee: "Fee €0.24 · ",
+      fee: `Fee ${c$}0.24 · `,
       noSurprises: "no surprises",
       bank: "to your own bank",
     },
@@ -23,7 +47,7 @@ function DeviceVisual({ register, lang }: { register: boolean; lang: Lang }) {
       alt: "Comerciante aceptando un pago contactless en un terminal SmartOne",
       receipt: register ? "Ticket fiscal · " : "Impresora de tickets · ",
       built: "integrado",
-      fee: "Comisión €0.24 · ",
+      fee: `Comisión ${c$}0.24 · `,
       noSurprises: "sin sorpresas",
       bank: "a tu propio banco",
     },
@@ -39,38 +63,24 @@ function DeviceVisual({ register, lang }: { register: boolean; lang: Lang }) {
         {/* soft vignette so the chips stay readable on any photo */}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-night/15 via-transparent to-transparent" />
       </div>
-      {/* floating fact chips */}
-      <div className="absolute top-7 -left-3 -rotate-3 sm:-left-5">
-        <div className="chip-float inline-flex items-center gap-2.5 rounded-full border border-line bg-white py-2 pr-4.5 pl-2 text-[13.5px] font-medium text-ink-2 shadow-lg shadow-black/10">
-          <span className="grid size-8 place-items-center rounded-full bg-brand-tint text-brand">
-            <ReceiptText className="size-4.5" strokeWidth={1.9} aria-hidden />
-          </span>
-          <span>
-            {c.receipt}
-            <span className="font-semibold text-ink">{c.built}</span>
-          </span>
-        </div>
+      {/* Floating fact chips. On phones the photo is small, so they shrink and
+          tuck closer to the edges instead of covering the merchant. */}
+      <div className="absolute top-4 -left-1 -rotate-3 sm:top-7 sm:-left-5">
+        <Chip icon={ReceiptText} float="chip-float">
+          {c.receipt}
+          <span className="font-semibold text-ink">{c.built}</span>
+        </Chip>
       </div>
-      <div className="absolute right-5 bottom-24 rotate-2 lg:right-8">
-        <div className="chip-float-slow inline-flex items-center gap-2.5 rounded-full border border-line bg-white py-2 pr-4.5 pl-2 text-[13.5px] font-medium text-ink-2 shadow-lg shadow-black/10">
-          <span className="grid size-8 place-items-center rounded-full bg-brand-tint text-brand">
-            <Tag className="size-4.5" strokeWidth={1.9} aria-hidden />
-          </span>
-          <span>
-            {c.fee}
-            <span className="font-semibold text-brand">{c.noSurprises}</span>
-          </span>
-        </div>
+      <div className="absolute right-2 bottom-20 rotate-2 sm:right-5 lg:right-8">
+        <Chip icon={Tag} float="chip-float-slow">
+          {c.fee}
+          <span className="font-semibold text-brand">{c.noSurprises}</span>
+        </Chip>
       </div>
-      <div className="absolute -bottom-4 left-8 rotate-1">
-        <div className="chip-float inline-flex items-center gap-2.5 rounded-full border border-line bg-white py-2 pr-4.5 pl-2 text-[13.5px] font-medium text-ink-2 shadow-lg shadow-black/10" style={{ animationDelay: "2s" }}>
-          <span className="grid size-8 place-items-center rounded-full bg-brand-tint text-brand">
-            <Landmark className="size-4.5" strokeWidth={1.9} aria-hidden />
-          </span>
-          <span>
-            T+1 · <span className="font-semibold text-ink">{c.bank}</span>
-          </span>
-        </div>
+      <div className="absolute -bottom-3 left-4 rotate-1 sm:left-8">
+        <Chip icon={Landmark} float="chip-float" delay="2s">
+          T+1 · <span className="font-semibold text-ink">{c.bank}</span>
+        </Chip>
       </div>
     </div>
   );
@@ -124,7 +134,7 @@ export async function Hero() {
             </Link>
           </div>
         </div>
-        <DeviceVisual register={register} lang={lang} />
+        <DeviceVisual register={register} lang={lang} c$={country.currencySymbol} />
       </div>
     </section>
   );

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getActiveLang } from "@/lib/country-server";
+import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 
 export const metadata: Metadata = {
@@ -9,6 +9,7 @@ export const metadata: Metadata = {
 };
 
 export default async function TapToPhonePage() {
+  const country = await getActiveCountry();
   const lang = await getActiveLang();
   const c = tr(
     lang,
@@ -72,7 +73,7 @@ export default async function TapToPhonePage() {
               <rect x="70" y="20" width="120" height="240" rx="26" fill="url(#psheen)" />
               <rect x="82" y="40" width="96" height="200" rx="14" fill="#0e0e10" />
               {/* amount on screen */}
-              <text x="130" y="118" fontSize="22" fontWeight="700" textAnchor="middle" fill="#ffffff" fontFamily="IBM Plex Mono, monospace">€24.60</text>
+              <text x="130" y="118" fontSize="22" fontWeight="700" textAnchor="middle" fill="#ffffff" fontFamily="IBM Plex Mono, monospace">{country.currencySymbol}24.60</text>
               <text x="130" y="142" fontSize="10.5" textAnchor="middle" fill="#a578e8" fontFamily="IBM Plex Mono, monospace">Tap to pay</text>
               {/* contactless waves emanating */}
               <g stroke="#a578e8" fill="none" strokeLinecap="round" strokeWidth="3">

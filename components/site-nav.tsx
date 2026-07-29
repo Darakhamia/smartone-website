@@ -139,12 +139,9 @@ export function SiteNav() {
     { href: "/about", label: t.nav.about },
   ];
 
-  // flat list of product destinations for the mobile menu
-  const mobileProduct = [
-    ...pm[0].items.map((i) => ({ href: i.href, label: i.label })),
-    { href: "/merchant-portal", label: "Retail" },
-    ...pm[2].items.map((i) => ({ href: i.href, label: i.label })),
-  ];
+  // flat list of product destinations for the mobile menu – built from the same
+  // columns as the desktop mega-menu so the two never drift apart
+  const mobileProduct = pm.flatMap((col) => col.items.map((i) => ({ href: i.href, label: i.label, icon: i.icon })));
 
   const closeMenu = () => setMenu(false);
 
@@ -225,30 +222,30 @@ export function SiteNav() {
           <Link href="/product" onClick={() => setOpen(false)} className="block py-2.5 text-[15px] font-semibold text-ink">
             {t.nav.product}
           </Link>
-          <div className="mb-1 grid gap-0.5 pl-1">
-            {mobileProduct.map((it) =>
-              it.href.startsWith("http") ? (
-                <a
-                  key={it.href + it.label}
-                  href={it.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => setOpen(false)}
-                  className="block py-1.5 text-[14px] font-medium text-ink-2"
-                >
+          {/* icon rows mirror the desktop mega-menu and give a comfortable tap target */}
+          <div className="mb-2 grid gap-0.5">
+            {mobileProduct.map((it) => {
+              const inner = (
+                <>
+                  <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-brand-tint text-brand">
+                    <svg viewBox="0 0 24 24" className="size-4.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                      {it.icon}
+                    </svg>
+                  </span>
                   {it.label}
+                </>
+              );
+              const cls = "flex items-center gap-3 rounded-xl py-2 text-[14.5px] font-medium text-ink-2 active:bg-bg-2";
+              return it.href.startsWith("http") ? (
+                <a key={it.href + it.label} href={it.href} target="_blank" rel="noopener noreferrer" onClick={() => setOpen(false)} className={cls}>
+                  {inner}
                 </a>
               ) : (
-                <Link
-                  key={it.href + it.label}
-                  href={it.href}
-                  onClick={() => setOpen(false)}
-                  className="block py-1.5 text-[14px] font-medium text-ink-2"
-                >
-                  {it.label}
+                <Link key={it.href + it.label} href={it.href} onClick={() => setOpen(false)} className={cls}>
+                  {inner}
                 </Link>
-              ),
-            )}
+              );
+            })}
           </div>
           {rest.map((l) => (
             <Link

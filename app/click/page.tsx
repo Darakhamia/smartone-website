@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 import { SectionHead } from "@/components/section-head";
-import { getActiveLang } from "@/lib/country-server";
+import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 import type { Lang } from "@/lib/countries";
 
@@ -44,7 +44,7 @@ const featIcons = [
   <path key="r" d="M6 2h12v20l-3-2-3 2-3-2-3 2V2Zm3 5h6M9 11h6" />,
 ];
 
-function copyFor(lang: Lang) {
+function copyFor(lang: Lang, c$: string) {
   return tr(
     lang,
     {
@@ -65,7 +65,7 @@ function copyFor(lang: Lang) {
       demoOrder: "Order #47 · table 3",
       demoReg: "→ register",
       demoItems: "2× latte · 1× croissant",
-      demoTotal: "€9.60",
+      demoTotal: `${c$}9.60`,
       featEyebrow: "Built for hospitality",
       featTitle: "A restaurant, automated.",
       featSub: "One system for the whole floor: ordering, kitchen, bookings, delivery and loyalty – all feeding the same register.",
@@ -99,7 +99,7 @@ function copyFor(lang: Lang) {
       demoOrder: "Pedido #47 · mesa 3",
       demoReg: "→ caja",
       demoItems: "2× latte · 1× croissant",
-      demoTotal: "€9,60",
+      demoTotal: `${c$}9,60`,
       featEyebrow: "Hecho para hostelería",
       featTitle: "Un restaurante, automatizado.",
       featSub: "Un sistema para toda la sala: pedidos, cocina, reservas, delivery y fidelización, todo alimentando la misma caja.",
@@ -119,8 +119,9 @@ function copyFor(lang: Lang) {
 }
 
 export default async function ClickPage() {
+  const country = await getActiveCountry();
   const lang = await getActiveLang();
-  const c = copyFor(lang);
+  const c = copyFor(lang, country.currencySymbol);
 
   return (
     <>

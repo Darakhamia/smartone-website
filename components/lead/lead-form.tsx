@@ -29,7 +29,8 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 }
 
 export function LeadForm() {
-  const { lang } = useCountry();
+  const { country: activeCountry, lang } = useCountry();
+  const c$ = activeCountry.currencySymbol;
   /* Only the display text is translated – every <option> value stays exactly
      as the endpoint contract expects it. */
   const t = tr(
@@ -56,8 +57,9 @@ export function LeadForm() {
       bank: "Bank",
       none: "None",
       volumeL: "Monthly card sales (optional)",
-      under: "Under €4,000",
-      over: "Over €15,000",
+      under: `Under ${c$}4,000`,
+      mid: `${c$}4,000–${c$}15,000`,
+      over: `Over ${c$}15,000`,
       messageL: "Anything you'd like to ask? (optional)",
       heardL: "How did you hear about us? (optional)",
       submit: "Contact sales",
@@ -89,8 +91,9 @@ export function LeadForm() {
       bank: "Banco",
       none: "Ninguno",
       volumeL: "Ventas mensuales con tarjeta (opcional)",
-      under: "Menos de €4,000",
-      over: "Más de €15,000",
+      under: `Menos de ${c$}4,000`,
+      mid: `${c$}4,000–${c$}15,000`,
+      over: `Más de ${c$}15,000`,
       messageL: "¿Algo que quieras preguntar? (opcional)",
       heardL: "¿Cómo nos conociste? (opcional)",
       submit: "Contactar con ventas",
@@ -233,7 +236,7 @@ export function LeadForm() {
           <select name="monthly_card_volume" defaultValue="" className={selectCls}>
             <option value="">{t.choose}</option>
             <option value="Under €4,000">{t.under}</option>
-            <option>€4,000–€15,000</option>
+            <option value="€4,000–€15,000">{t.mid}</option>
             <option value="Over €15,000">{t.over}</option>
           </select>
         </Field>
