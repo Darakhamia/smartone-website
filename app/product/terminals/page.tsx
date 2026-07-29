@@ -254,7 +254,9 @@ export default async function TerminalsPage() {
               halo behind the device and a faint reflection so it still has depth. */}
           <div className="anim-fade-up anim-d-2 relative">
             <div className="pointer-events-none absolute -inset-8 rounded-[56px] bg-[radial-gradient(circle,rgba(90,25,181,0.10),transparent_70%)] blur-xl" />
-            <div className="relative grid aspect-square place-items-center overflow-hidden rounded-[36px] bg-[linear-gradient(155deg,#faf6ff_0%,#ffffff_45%,#f0e8fd_100%)] ring-1 ring-brand/10 shadow-[0_40px_90px_-55px_rgba(90,25,181,0.5)] sm:aspect-[5/4]">
+            {/* the hero shot is a wide, lying composition – a square stage on
+                phones leaves a lot of dead space above and below it */}
+            <div className="relative grid aspect-[4/3] place-items-center overflow-hidden rounded-[36px] bg-[linear-gradient(155deg,#faf6ff_0%,#ffffff_45%,#f0e8fd_100%)] ring-1 ring-brand/10 shadow-[0_40px_90px_-55px_rgba(90,25,181,0.5)] sm:aspect-[5/4]">
               {/* soft halo behind the device */}
               <div className="pointer-events-none absolute top-[38%] left-1/2 size-[78%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(165,120,232,0.28),transparent_66%)] blur-2xl" />
               {/* subtle floor line */}

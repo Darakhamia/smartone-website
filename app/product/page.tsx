@@ -5,7 +5,7 @@ import { Reveal } from "@/components/reveal";
 import { SectionHead } from "@/components/section-head";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
-import { promotesRegister, type CountryCode, type Lang } from "@/lib/countries";
+import { promotesRegister, terminalModel, TERMINAL_MODELS, type CountryCode, type Lang } from "@/lib/countries";
 
 export const metadata: Metadata = {
   title: "Product",
@@ -31,7 +31,7 @@ const icons = {
   click: <path key="c" d="M6 3v6a2 2 0 0 0 4 0V3M8 9v12M16 3c-1.5 0-2.5 2-2.5 5s1 4 2.5 4v9" />,
 };
 
-function copyFor(lang: Lang, register: boolean) {
+function copyFor(lang: Lang, register: boolean, device: string) {
   return tr(
     lang,
     {
@@ -51,7 +51,7 @@ function copyFor(lang: Lang, register: boolean) {
       toolsTitle: "The software around the counter.",
       explore: "Explore",
       cards: {
-        cardReader: { title: "Card reader", text: "The payment terminal: card, contactless and cash on one screen, with the receipt printer built in. The SmartOne Bank Pro." },
+        cardReader: { title: "Card reader", text: `The payment terminal: card, contactless and cash on one screen, with the receipt printer built in. The ${device}.` },
         cashRegister: {
           title: "Cash register",
           text: "Register, terminal and printer in one certified device – worth €800–1,200 as three boxes, yours for €400.",
@@ -92,7 +92,7 @@ function copyFor(lang: Lang, register: boolean) {
       toolsTitle: "El software alrededor del mostrador.",
       explore: "Descubrir",
       cards: {
-        cardReader: { title: "Datáfono", text: "El terminal de pago: tarjeta, contactless y efectivo en una pantalla, con impresora integrada. El SmartOne Bank Pro." },
+        cardReader: { title: "Datáfono", text: `El terminal de pago: tarjeta, contactless y efectivo en una pantalla, con impresora integrada. El ${device}.` },
         cashRegister: {
           title: "Caja registradora",
           text: "Caja, terminal e impresora en un dispositivo certificado: vale 800-1.200 € en tres cajas, la tuya por 400 €.",
@@ -142,7 +142,7 @@ export default async function ProductPage() {
   const lang = await getActiveLang();
   const { fiscal } = country;
   const register = promotesRegister(country);
-  const c = copyFor(lang, register);
+  const c = copyFor(lang, register, TERMINAL_MODELS[terminalModel(country)].name);
   const isEs = country.code === "es";
   // Fiscal-compliance block: only fiscal markets that aren't already live (so
   // not Malta, and not the non-fiscal UK). The Verifactu card is Spain-only.

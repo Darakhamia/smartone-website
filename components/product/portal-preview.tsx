@@ -70,7 +70,7 @@ function Frame({ title, children }: { title: string; children: React.ReactNode }
         <span className="size-2.5 rounded-full bg-line-2" />
         <span className="ml-3 font-mono text-[11px] tracking-wide text-ink-3 uppercase">{title}</span>
       </div>
-      <div className="p-5">{children}</div>
+      <div className="p-4 sm:p-5">{children}</div>
     </div>
   );
 }
@@ -87,12 +87,13 @@ function PaymentsScreen({ c }: { c: Copy }) {
   ];
   return (
     <Frame title={c.fPayments}>
+      {/* rows wrap on narrow phones instead of forcing the frame wider */}
       <div className="space-y-2">
         {rows.map((r) => (
-          <div key={r[0]} className="flex items-center justify-between rounded-lg border border-line px-3.5 py-2.5">
-            <div className="flex items-center gap-3 font-mono text-[12px]">
-              <span className="text-ink-3">{r[0]}</span>
-              <span className="text-ink-2">{r[1]}</span>
+          <div key={r[0]} className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 rounded-lg border border-line px-3 py-2.5 sm:px-3.5">
+            <div className="flex min-w-0 items-center gap-2.5 font-mono text-[12px]">
+              <span className="shrink-0 text-ink-3">{r[0]}</span>
+              <span className="truncate text-ink-2">{r[1]}</span>
             </div>
             <div className="flex items-center gap-2.5">
               <span className="font-mono text-[12.5px] font-semibold text-ink">{r[2]}</span>
@@ -117,7 +118,7 @@ function CompliantScreen({ c }: { c: Copy }) {
       </div>
       <div className="mt-3 space-y-2">
         {["#0421 · €24.60", "#0420 · €8.90"].map((r) => (
-          <div key={r} className="flex items-center justify-between rounded-lg border border-line px-3.5 py-2.5">
+          <div key={r} className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 rounded-lg border border-line px-3 py-2.5 sm:px-3.5">
             <span className="font-mono text-[12px] text-ink-2">{r}</span>
             <span className="flex gap-2 text-[11.5px] font-semibold text-brand">
               <span>{c.reprint}</span>
@@ -140,7 +141,7 @@ function SellScreen({ c }: { c: Copy }) {
     <Frame title={c.fCatalogue}>
       <div className="space-y-2">
         {items.map((it) => (
-          <div key={it[0]} className="flex items-center justify-between rounded-lg border border-line px-3.5 py-2.5">
+          <div key={it[0]} className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 rounded-lg border border-line px-3 py-2.5 sm:px-3.5">
             <span className="text-[13px] text-ink-2">{it[0]}</span>
             <span className="font-mono text-[12.5px] font-semibold text-ink">{it[1]}</span>
           </div>
@@ -241,7 +242,7 @@ export function PortalPreview() {
         })}
       </div>
 
-      <div className="rounded-3xl bg-gradient-to-br from-brand-tint via-white to-bg-2 p-6 sm:p-8">
+      <div className="rounded-3xl bg-gradient-to-br from-brand-tint via-white to-bg-2 p-4 sm:p-8">
         <div key={active} className="anim-tier-in">{screens[active]}</div>
       </div>
     </div>

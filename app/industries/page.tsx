@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
-import type { Lang } from "@/lib/countries";
+import { terminalModel, TERMINAL_MODELS, type Lang } from "@/lib/countries";
 
 export const metadata: Metadata = {
   title: "Industries",
@@ -24,7 +24,7 @@ type Industry = {
   click?: boolean;
 };
 
-function copyFor(lang: Lang) {
+function copyFor(lang: Lang, device: string) {
   return tr(
     lang,
     {
@@ -58,7 +58,7 @@ function copyFor(lang: Lang) {
             { title: "Reprint on the spot", text: "A client needs the receipt again for insurance? Find it and reprint in seconds." },
             { title: "Close the day clean", text: "Z-report at closing, and your numbers are ready for the accountant." },
           ],
-          device: "SmartOne Bank Pro on the counter",
+          device: `${device} on the counter`,
           scope: "Fiscal receipts and card payments on one certified device. Booking or clinical records stay in your existing tools.",
         },
         {
@@ -68,7 +68,7 @@ function copyFor(lang: Lang) {
             { title: "Any way they pay", text: "Card, contactless or cash, all on the same screen." },
             { title: "See your best sellers", text: "Revenue, average basket and top categories in the portal." },
           ],
-          device: "SmartOne Bank Pro on the counter",
+          device: `${device} on the counter`,
           scope: "Payments, fiscal receipts and a product catalogue. Stock counts and suppliers stay where you keep them today.",
         },
         {
@@ -78,7 +78,7 @@ function copyFor(lang: Lang) {
             { title: "Fast at the peak", text: "The big screen keeps the morning rush moving." },
             { title: "One fiscal receipt", text: "Every order closes with a compliant receipt from the built-in printer." },
           ],
-          device: "SmartOne Bank Pro + Click",
+          device: `${device} + Click`,
           scope: "Payments, fiscal receipts and the Click ordering solution. Table plans beyond Click are on your side.",
           click: true,
         },
@@ -89,7 +89,7 @@ function copyFor(lang: Lang) {
             { title: "Receipt every time", text: "A compliant fiscal receipt prints for every client, automatically." },
             { title: "Know your week", text: "What you took and what you'll receive, in euros, in the portal." },
           ],
-          device: "SmartOne Bank Pro at the chair",
+          device: `${device} at the chair`,
           scope: "Payments and fiscal receipts. Appointment booking stays in your current scheduler.",
         },
         {
@@ -99,7 +99,7 @@ function copyFor(lang: Lang) {
             { title: "Lasts the day", text: "One charge covers the shift – no scrambling for a socket." },
             { title: "Standalone box", text: "No phone, no laptop, no extra terminal – it's all one device." },
           ],
-          device: "SmartOne Bank Pro, on the move",
+          device: `${device}, on the move`,
           scope: "Payments and fiscal receipts anywhere with mobile signal. Delivery apps stay separate.",
         },
       ] as Industry[],
@@ -135,7 +135,7 @@ function copyFor(lang: Lang) {
             { title: "Reimprime al momento", text: "¿Un cliente necesita el ticket otra vez para el seguro? Búscalo y reimprímelo en segundos." },
             { title: "Cierra el día limpio", text: "Informe Z al cerrar, y tus cifras listas para el contable." },
           ],
-          device: "SmartOne Bank Pro en el mostrador",
+          device: `${device} en el mostrador`,
           scope: "Tickets fiscales y pagos con tarjeta en un solo dispositivo certificado. Las reservas o el historial clínico se quedan en tus herramientas actuales.",
         },
         {
@@ -145,7 +145,7 @@ function copyFor(lang: Lang) {
             { title: "Como quieran pagar", text: "Tarjeta, contactless o efectivo, todo en la misma pantalla." },
             { title: "Mira tus más vendidos", text: "Ingresos, cesta media y categorías top en el portal." },
           ],
-          device: "SmartOne Bank Pro en el mostrador",
+          device: `${device} en el mostrador`,
           scope: "Pagos, tickets fiscales y un catálogo de productos. El inventario y los proveedores se quedan donde los tienes hoy.",
         },
         {
@@ -155,7 +155,7 @@ function copyFor(lang: Lang) {
             { title: "Rápido en la hora punta", text: "La pantalla grande mantiene el ritmo en la hora punta de la mañana." },
             { title: "Un ticket fiscal", text: "Cada pedido cierra con un ticket conforme desde la impresora integrada." },
           ],
-          device: "SmartOne Bank Pro + Click",
+          device: `${device} + Click`,
           scope: "Pagos, tickets fiscales y la solución de pedidos Click. La gestión de mesas más allá de Click corre de tu parte.",
           click: true,
         },
@@ -166,7 +166,7 @@ function copyFor(lang: Lang) {
             { title: "Ticket siempre", text: "Un ticket fiscal conforme se imprime para cada cliente, automáticamente." },
             { title: "Controla tu semana", text: "Lo que cobraste y lo que vas a recibir, en euros, en el portal." },
           ],
-          device: "SmartOne Bank Pro en el sillón",
+          device: `${device} en el sillón`,
           scope: "Pagos y tickets fiscales. Las reservas de cita se quedan en tu agenda actual.",
         },
         {
@@ -176,7 +176,7 @@ function copyFor(lang: Lang) {
             { title: "Aguanta el día", text: "Una carga cubre el turno, sin buscar un enchufe." },
             { title: "Equipo autónomo", text: "Sin móvil, sin portátil, sin terminal extra: todo en un solo dispositivo." },
           ],
-          device: "SmartOne Bank Pro, en movimiento",
+          device: `${device}, en movimiento`,
           scope: "Pagos y tickets fiscales en cualquier sitio con cobertura móvil. Las apps de delivery van aparte.",
         },
       ] as Industry[],
@@ -248,7 +248,8 @@ function IndustrySection({ ind, i, get, sales, clickCallout }: { ind: Industry; 
 export default async function IndustriesPage() {
   const country = await getActiveCountry();
   const lang = await getActiveLang();
-  const c = copyFor(lang);
+  // One device per country: never name a model the visitor's market can't buy.
+  const c = copyFor(lang, TERMINAL_MODELS[terminalModel(country)].name);
   return (
     <>
       {/* 1 · hero */}

@@ -7,7 +7,7 @@ import { Logo } from "@/components/logo";
 import { useCountry } from "@/components/country/country-context";
 import { DICT, tr } from "@/lib/dictionaries";
 import { MERCHANT_PORTAL_URL } from "@/lib/links";
-import { promotesRegister, type Lang } from "@/lib/countries";
+import { promotesRegister, terminalModel, TERMINAL_MODELS, type Lang } from "@/lib/countries";
 
 export function Brand({ light = false }: { light?: boolean }) {
   return (
@@ -55,7 +55,7 @@ const clickIcon = <path d="M6 3v6a2 2 0 0 0 4 0V3M8 9v12M16 3c-1.5 0-2.5 2-2.5 5
 
 type MegaCol = { title: string; desc: string; items: MegaItem[] };
 
-function productMenu(lang: Lang, register: boolean): MegaCol[] {
+function productMenu(lang: Lang, register: boolean, device: string): MegaCol[] {
   return [
     {
       title: tr(lang, register ? "Payments & Fiscal" : "Payments", register ? "Pagos y fiscal" : "Pagos"),
@@ -63,7 +63,7 @@ function productMenu(lang: Lang, register: boolean): MegaCol[] {
         ? tr(lang, "Take payment and stay compliant on one device.", "Cobra y cumple la normativa en un solo dispositivo.")
         : tr(lang, "Take every kind of payment on one device.", "Acepta todo tipo de pago en un solo dispositivo."),
       items: [
-        { label: tr(lang, "Card reader", "Datáfono"), sub: tr(lang, "The SmartOne Bank Pro terminal", "El terminal SmartOne Bank Pro"), href: "/product/terminals", icon: cardReaderIcon },
+        { label: tr(lang, "Card reader", "Datáfono"), sub: tr(lang, `The ${device} terminal`, `El terminal ${device}`), href: "/product/terminals", icon: cardReaderIcon },
         ...(register
           ? [{ label: tr(lang, "Cash register", "Caja registradora"), sub: tr(lang, "Certified fiscal till", "Caja fiscal certificada"), href: "/product/cash-register", icon: cashRegisterIcon }]
           : []),
@@ -128,7 +128,7 @@ export function SiteNav() {
   const pathname = usePathname();
   const { country, lang } = useCountry();
   const t = DICT[lang];
-  const pm = productMenu(lang, promotesRegister(country));
+  const pm = productMenu(lang, promotesRegister(country), TERMINAL_MODELS[terminalModel(country)].name);
 
   // The country picker is a full-screen splash – no nav there.
   if (pathname === "/welcome") return null;
