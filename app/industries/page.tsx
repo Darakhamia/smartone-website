@@ -1,6 +1,22 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import {
+  ReceiptText,
+  Printer,
+  FileCheck,
+  Tags,
+  CreditCard,
+  TrendingUp,
+  ArrowRightLeft,
+  Zap,
+  CalendarCheck,
+  BarChart3,
+  Signal,
+  BatteryFull,
+  Package,
+  type LucideIcon,
+} from "lucide-react";
 import { Reveal } from "@/components/reveal";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
@@ -22,6 +38,16 @@ type Industry = {
   device: string;
   scope: string;
   click?: boolean;
+};
+
+/* One icon per scenario, keyed by industry id – language-independent, so it
+   lives outside the copy. */
+const scenarioIcons: Record<string, LucideIcon[]> = {
+  vets: [ReceiptText, Printer, FileCheck],
+  retail: [Tags, CreditCard, TrendingUp],
+  cafes: [ArrowRightLeft, Zap, ReceiptText],
+  beauty: [CalendarCheck, ReceiptText, BarChart3],
+  mobile: [Signal, BatteryFull, Package],
 };
 
 function copyFor(lang: Lang, device: string, cur: string) {
@@ -54,53 +80,53 @@ function copyFor(lang: Lang, device: string, cur: string) {
         {
           id: "vets", img: "/industries/vets.jpg", alt: "Vet examining a cat at the clinic counter", eyebrow: "Flagship", title: "Vets & services",
           scenarios: [
-            { title: "One receipt, two lines", text: "Consultation and the medication that goes home – both on a single fiscal receipt." },
-            { title: "Reprint on the spot", text: "A client needs the receipt again for insurance? Find it and reprint in seconds." },
-            { title: "Close the day clean", text: "Z-report at closing, and your numbers are ready for the accountant." },
+            { title: "One receipt, two lines", text: "Consultation and meds on one fiscal receipt." },
+            { title: "Reprint on the spot", text: "Find any receipt and reprint it in seconds." },
+            { title: "Close the day clean", text: "Z-report at closing – numbers ready for the accountant." },
           ],
           device: `${device} on the counter`,
-          scope: "Fiscal receipts and card payments on one certified device. Booking or clinical records stay in your existing tools.",
+          scope: "Booking and clinical records stay in your existing tools.",
         },
         {
           id: "retail", img: "/industries/retail.jpg", alt: "Interior of a modern clothing boutique", eyebrow: "", title: "Retail",
           scenarios: [
-            { title: "Products priced once", text: "Set your catalogue in the portal, ring up on the register – no re-typing prices." },
+            { title: "Products priced once", text: "Set prices in the portal, ring up on the register." },
             { title: "Any way they pay", text: "Card, contactless or cash, all on the same screen." },
             { title: "See your best sellers", text: "Revenue, average basket and top categories in the portal." },
           ],
           device: `${device} on the counter`,
-          scope: "Payments, fiscal receipts and a product catalogue. Stock counts and suppliers stay where you keep them today.",
+          scope: "Stock counts and suppliers stay where you keep them today.",
         },
         {
           id: "cafes", img: "/industries/cafes.jpg", alt: "Barista and a fresh coffee on the café counter", eyebrow: "+ Click", title: "Cafés & HoReCa",
           scenarios: [
-            { title: "Orders reach the register", text: "SmartOne Click takes the order and sends it straight to the register – one catalogue, no re-keying." },
+            { title: "Orders reach the register", text: "Click sends the order straight to the register." },
             { title: "Fast at the peak", text: "The big screen keeps the morning rush moving." },
-            { title: "One fiscal receipt", text: "Every order closes with a compliant receipt from the built-in printer." },
+            { title: "One fiscal receipt", text: "Every order closes with a compliant receipt." },
           ],
           device: `${device} + Click`,
-          scope: "Payments, fiscal receipts and the Click ordering solution. Table plans beyond Click are on your side.",
+          scope: "Table plans beyond Click are on your side.",
           click: true,
         },
         {
           id: "beauty", img: "/industries/beauty.jpg", alt: "Beauty professional finishing a treatment", eyebrow: "", title: "Beauty & wellness",
           scenarios: [
-            { title: "Service, then payment", text: "Finish the appointment, take the payment on the same device – card or contactless." },
-            { title: "Receipt every time", text: "A compliant fiscal receipt prints for every client, automatically." },
-            { title: "Know your week", text: `What you took and what you'll receive, in ${cur}, in the portal.` },
+            { title: "Service, then payment", text: "Finish the appointment, take payment on the same device." },
+            { title: "Receipt every time", text: "A fiscal receipt prints for every client." },
+            { title: "Know your week", text: `What you took and what you'll receive, in ${cur}.` },
           ],
           device: `${device} at the chair`,
-          scope: "Payments and fiscal receipts. Appointment booking stays in your current scheduler.",
+          scope: "Appointment booking stays in your current scheduler.",
         },
         {
           id: "mobile", img: "/industries/mobile.jpg", alt: "Food truck vendor on a city street", eyebrow: "", title: "Mobile / Street",
           scenarios: [
-            { title: "No Wi-Fi dependency", text: "Built-in SIM keeps you taking cards on the street or at the market." },
-            { title: "Lasts the day", text: "One charge covers the shift – no scrambling for a socket." },
-            { title: "Standalone box", text: "No phone, no laptop, no extra terminal – it's all one device." },
+            { title: "No Wi-Fi dependency", text: "Built-in SIM keeps you taking cards anywhere." },
+            { title: "Lasts the day", text: "One charge covers the shift." },
+            { title: "Standalone box", text: "No phone, no laptop, no extra terminal." },
           ],
           device: `${device}, on the move`,
-          scope: "Payments and fiscal receipts anywhere with mobile signal. Delivery apps stay separate.",
+          scope: "Delivery apps stay separate.",
         },
       ] as Industry[],
     },
@@ -141,7 +167,7 @@ function copyFor(lang: Lang, device: string, cur: string) {
         {
           id: "retail", img: "/industries/retail.jpg", alt: "Interior de una tienda de ropa moderna", eyebrow: "", title: "Retail",
           scenarios: [
-            { title: "Precios una sola vez", text: "Configura tu catálogo en el portal y cobra en la caja, sin volver a teclear precios." },
+            { title: "Precios una sola vez", text: "Configura precios en el portal y cobra en la caja." },
             { title: "Como quieran pagar", text: "Tarjeta, contactless o efectivo, todo en la misma pantalla." },
             { title: "Mira tus más vendidos", text: "Ingresos, cesta media y categorías top en el portal." },
           ],
@@ -164,7 +190,7 @@ function copyFor(lang: Lang, device: string, cur: string) {
           scenarios: [
             { title: "Servicio y luego pago", text: "Termina la cita y cobra en el mismo dispositivo, tarjeta o contactless." },
             { title: "Ticket siempre", text: "Un ticket fiscal conforme se imprime para cada cliente, automáticamente." },
-            { title: "Controla tu semana", text: `Lo que cobraste y lo que vas a recibir, en ${cur}, en el portal.` },
+            { title: "Controla tu semana", text: `Lo que cobraste y lo que vas a recibir, en ${cur}.` },
           ],
           device: `${device} en el sillón`,
           scope: "Pagos y tickets fiscales. Las reservas de cita se quedan en tu agenda actual.",
@@ -172,8 +198,8 @@ function copyFor(lang: Lang, device: string, cur: string) {
         {
           id: "mobile", img: "/industries/mobile.jpg", alt: "Vendedor de food truck en una calle de la ciudad", eyebrow: "", title: "Móvil / Calle",
           scenarios: [
-            { title: "Sin depender del Wi-Fi", text: "La SIM integrada te permite cobrar con tarjeta en la calle o en el mercado." },
-            { title: "Aguanta el día", text: "Una carga cubre el turno, sin buscar un enchufe." },
+            { title: "Sin depender del Wi-Fi", text: "La SIM integrada te permite cobrar en cualquier sitio." },
+            { title: "Aguanta el día", text: "Una carga cubre el turno." },
             { title: "Equipo autónomo", text: "Sin móvil, sin portátil, sin terminal extra: todo en un solo dispositivo." },
           ],
           device: `${device}, en movimiento`,
@@ -203,17 +229,20 @@ function IndustrySection({ ind, i, get, sales, clickCallout }: { ind: Industry; 
               {ind.eyebrow && <span className="eyebrow">{ind.eyebrow}</span>}
               <h2 className={`h-display text-[clamp(28px,3.4vw,40px)] leading-[1.06] ${ind.eyebrow ? "mt-3" : ""}`}>{ind.title}</h2>
               <div className="mt-6 space-y-4">
-                {ind.scenarios.map((s) => (
+                {ind.scenarios.map((s, si) => {
+                  const Icon = scenarioIcons[ind.id][si];
+                  return (
                   <div key={s.title} className="flex gap-3.5">
-                    <svg viewBox="0 0 24 24" className="mt-0.5 size-5 shrink-0 stroke-brand" fill="none" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                      <path d="M4 12.5l5 5L20 6" />
-                    </svg>
+                    <span className="mt-0.5 grid size-9 shrink-0 place-items-center rounded-xl bg-brand-tint">
+                      <Icon className="size-5 text-brand" strokeWidth={1.75} aria-hidden />
+                    </span>
                     <div>
                       <h3 className="font-display text-[16px] font-semibold tracking-tight">{s.title}</h3>
                       <p className="mt-0.5 text-[14.5px] leading-relaxed text-ink-2">{s.text}</p>
                     </div>
                   </div>
-                ))}
+                  );
+                })}
               </div>
 
               {ind.click && (
