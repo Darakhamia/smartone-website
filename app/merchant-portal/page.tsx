@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
+  LayoutDashboard,
+  Activity,
+  ReceiptText,
   Search,
   Landmark,
   TrendingUp,
@@ -52,7 +55,7 @@ function copyFor(lang: Lang) {
       // 2 · overview
       ovEyebrow: "One portal. The whole operation.",
       ovTitle: "From the first sale to the money in your bank.",
-      ovSub: "SmartOne Merchant Portal brings daily sales, transaction data, fiscal reporting and payouts together, so you always know what happened and what happens next.",
+      ovSub: "Daily sales, transactions, fiscal reporting and payouts — in one place.",
       overview: [
         { title: "See the day at a glance", text: "Revenue, average check, payment mix and top-selling products in one dashboard." },
         { title: "Trace every payment", text: "Find sales and refunds, check their status and open complete transaction details." },
@@ -62,8 +65,8 @@ function copyFor(lang: Lang) {
 
       // 3 · dashboard
       dashEyebrow: "Business overview",
-      dashTitle: "Know how your business is performing — without building a report.",
-      dashSub: "See revenue, average check, card versus cash, sales throughout the day and your top-selling products. Choose any date range and get a clear overview of the entire business.",
+      dashTitle: "Your numbers, without building a report.",
+      dashSub: "Pick any date range and see the whole business.",
       dash: [
         { title: "Sales performance", text: "Follow revenue and transaction trends throughout the day." },
         { title: "Payment breakdown", text: "See exactly how much was paid by card and by cash." },
@@ -72,8 +75,8 @@ function copyFor(lang: Lang) {
 
       // 4 · analytics
       anEyebrow: "Payment analytics",
-      anTitle: "See what you sold, what you paid and what reaches your bank.",
-      anSub: "Gross card volume, processing fees, net amount and settlement dates are shown side by side. No spreadsheets, no manual calculations and no surprises.",
+      anTitle: "What you sold, what you paid, what lands.",
+      anSub: "Gross volume, fees and net amount, side by side.",
       an: [
         { title: "Gross payment volume", text: "See the complete value of processed card payments." },
         { title: "Processing fees", text: "Understand exactly how much was deducted in fees." },
@@ -83,9 +86,8 @@ function copyFor(lang: Lang) {
 
       // 5 · transaction log
       logEyebrow: "Transaction log",
-      logTitle: "Every transaction, easy to find and easy to explain.",
-      logSub: "Search by amount or RRN, filter by status or terminal, and review sales and refunds across any date range.",
-      logNote: "Approved, pending, refunded or failed — the complete transaction history is always available and ready to export.",
+      logTitle: "Every transaction, easy to find.",
+      logSub: "Search, filter and review sales and refunds across any date range.",
       log: [
         { title: "Search by amount or RRN", text: "Find a specific payment without manually checking long lists." },
         { title: "Filter by status and terminal", text: "Review only the transactions relevant to a particular location, device or result." },
@@ -97,8 +99,7 @@ function copyFor(lang: Lang) {
       // 6 · details
       detEyebrow: "Complete payment details",
       detTitle: "When something goes wrong, you can see why.",
-      detSub: "Open any payment to see its status, timestamps, card details, response code, routing information and the exact reason it failed.",
-      detNote: "Give your support team the information they need without searching through different systems.",
+      detSub: "Open any payment for its status, card, response code and routing.",
       det: [
         { title: "Response codes and failure reasons", text: "See why a payment was declined or failed." },
         { title: "Terminal and transaction identifiers", text: "Find the exact device and transaction reference connected to the payment." },
@@ -110,7 +111,7 @@ function copyFor(lang: Lang) {
       // 7 · cash register (Malta only)
       regEyebrow: "Fiscal operations",
       regTitle: "Every shift, receipt and Z-report in one place.",
-      regSub: "Review fiscal shifts by store and device, check turnover and operation counts, and find the exact record you need without contacting the location.",
+      regSub: "Filter by store and device, and find the record you need.",
       reg: [
         { title: "Filter by store, terminal and date", text: "Quickly narrow down the information you need." },
         { title: "Review opening and closing times", text: "See when every fiscal shift started and ended." },
@@ -122,8 +123,7 @@ function copyFor(lang: Lang) {
       // 8 · z-reports (Malta only)
       zEyebrow: "Z-reports",
       zTitle: "Close the day without chasing paperwork.",
-      zSub: "Open a complete Z-report directly from the Portal, including sales, refunds, cash collection, deposits, payment methods, net sales and VAT.",
-      zNote: "The report stays linked to its store, device and fiscal shift, so it is always easy to find later.",
+      zSub: "A full Z-report from the Portal — sales, refunds, cash and VAT.",
       shotZ: "A Z-report opened in the Merchant Portal",
 
       // 9 · daily operations
@@ -155,7 +155,7 @@ function copyFor(lang: Lang) {
 
       ovEyebrow: "Un portal. Toda la operación.",
       ovTitle: "De la primera venta al dinero en tu banco.",
-      ovSub: "El Merchant Portal de SmartOne reúne ventas diarias, datos de operaciones, informes fiscales y liquidaciones, para que siempre sepas qué pasó y qué viene después.",
+      ovSub: "Ventas diarias, operaciones, informes fiscales y liquidaciones, en un solo sitio.",
       overview: [
         { title: "El día de un vistazo", text: "Ingresos, ticket medio, mezcla de pagos y productos más vendidos en un panel." },
         { title: "Rastrea cada pago", text: "Encuentra ventas y devoluciones, revisa su estado y abre el detalle completo." },
@@ -164,8 +164,8 @@ function copyFor(lang: Lang) {
       ],
 
       dashEyebrow: "Visión del negocio",
-      dashTitle: "Sabe cómo va tu negocio, sin montar un informe.",
-      dashSub: "Mira ingresos, ticket medio, tarjeta frente a efectivo, las ventas a lo largo del día y tus productos más vendidos. Elige cualquier rango de fechas y obtén una visión clara de todo el negocio.",
+      dashTitle: "Tus cifras, sin montar un informe.",
+      dashSub: "Elige cualquier rango de fechas y ve todo el negocio.",
       dash: [
         { title: "Rendimiento de ventas", text: "Sigue la evolución de ingresos y operaciones durante el día." },
         { title: "Desglose de pagos", text: "Mira exactamente cuánto se pagó con tarjeta y cuánto en efectivo." },
@@ -173,8 +173,8 @@ function copyFor(lang: Lang) {
       ],
 
       anEyebrow: "Analítica de pagos",
-      anTitle: "Mira lo que vendiste, lo que pagaste y lo que llega a tu banco.",
-      anSub: "Volumen bruto con tarjeta, comisiones de procesamiento, importe neto y fechas de liquidación, uno al lado del otro. Sin hojas de cálculo, sin cálculos manuales y sin sorpresas.",
+      anTitle: "Lo que vendiste, lo que pagaste, lo que llega.",
+      anSub: "Volumen bruto, comisiones e importe neto, uno al lado del otro.",
       an: [
         { title: "Volumen bruto de pagos", text: "Mira el valor completo de los pagos con tarjeta procesados." },
         { title: "Comisiones de procesamiento", text: "Entiende exactamente cuánto se descontó en comisiones." },
@@ -183,9 +183,8 @@ function copyFor(lang: Lang) {
       shotAnalytics: "Analítica de pagos en el Merchant Portal: volumen bruto, comisiones e importe neto",
 
       logEyebrow: "Registro de operaciones",
-      logTitle: "Cada operación, fácil de encontrar y de explicar.",
-      logSub: "Busca por importe o RRN, filtra por estado o terminal y revisa ventas y devoluciones en cualquier rango de fechas.",
-      logNote: "Aprobada, pendiente, devuelta o fallida: el historial completo siempre está disponible y listo para exportar.",
+      logTitle: "Cada operación, fácil de encontrar.",
+      logSub: "Busca, filtra y revisa ventas y devoluciones en cualquier rango de fechas.",
       log: [
         { title: "Busca por importe o RRN", text: "Encuentra un pago concreto sin revisar listas larguísimas a mano." },
         { title: "Filtra por estado y terminal", text: "Revisa solo las operaciones de una ubicación, dispositivo o resultado concreto." },
@@ -196,8 +195,7 @@ function copyFor(lang: Lang) {
 
       detEyebrow: "Detalle completo del pago",
       detTitle: "Cuando algo sale mal, puedes ver por qué.",
-      detSub: "Abre cualquier pago para ver su estado, marcas de tiempo, datos de la tarjeta, código de respuesta, información de enrutado y el motivo exacto del fallo.",
-      detNote: "Dale a tu equipo de soporte la información que necesita sin rebuscar en varios sistemas.",
+      detSub: "Abre cualquier pago: estado, tarjeta, código de respuesta y enrutado.",
       det: [
         { title: "Códigos de respuesta y motivos de fallo", text: "Mira por qué se rechazó o falló un pago." },
         { title: "Identificadores de terminal y operación", text: "Encuentra el dispositivo y la referencia exactos del pago." },
@@ -208,7 +206,7 @@ function copyFor(lang: Lang) {
 
       regEyebrow: "Operaciones fiscales",
       regTitle: "Cada turno, ticket e informe Z en un solo sitio.",
-      regSub: "Revisa los turnos fiscales por tienda y dispositivo, comprueba la facturación y el número de operaciones, y encuentra el registro exacto sin llamar a la tienda.",
+      regSub: "Filtra por tienda y dispositivo, y encuentra el registro que necesitas.",
       reg: [
         { title: "Filtra por tienda, terminal y fecha", text: "Acota rápidamente la información que necesitas." },
         { title: "Revisa aperturas y cierres", text: "Mira cuándo empezó y terminó cada turno fiscal." },
@@ -219,8 +217,7 @@ function copyFor(lang: Lang) {
 
       zEyebrow: "Informes Z",
       zTitle: "Cierra el día sin perseguir papeles.",
-      zSub: "Abre un informe Z completo directamente desde el Portal, con ventas, devoluciones, recogida de efectivo, depósitos, métodos de pago, ventas netas e IVA.",
-      zNote: "El informe queda vinculado a su tienda, dispositivo y turno fiscal, así que siempre es fácil encontrarlo después.",
+      zSub: "Un informe Z completo desde el Portal: ventas, devoluciones, efectivo e IVA.",
       shotZ: "Un informe Z abierto en el Merchant Portal",
 
       dayEyebrow: "Hecho para el día a día",
@@ -272,8 +269,11 @@ export default async function MerchantPortalPage() {
   const c = copyFor(lang);
 
   // The fiscal sections describe the cash register, which is promoted only
-  // where it is live (Malta today).
-  const overview = c.overview.filter((_, i) => register || i !== 2);
+  // where it is live (Malta today). Icons ride along so the two stay in step.
+  const overviewIcons: LucideIcon[] = [LayoutDashboard, Activity, ReceiptText, Landmark];
+  const overview = c.overview
+    .map((o, i) => ({ ...o, icon: overviewIcons[i] }))
+    .filter((_, i) => register || i !== 2);
 
   return (
     <>
@@ -310,14 +310,20 @@ export default async function MerchantPortalPage() {
         <div className="mx-auto max-w-6xl px-6">
           <SectionHead eyebrow={c.ovEyebrow} title={c.ovTitle} sub={c.ovSub} />
           <div className={`mt-11 grid gap-4 sm:grid-cols-2 ${register ? "lg:grid-cols-4" : "lg:grid-cols-3"}`}>
-            {overview.map((o, i) => (
-              <Reveal key={o.title} delay={i * 80} className="h-full">
-                <div className="h-full rounded-3xl border border-line bg-white p-6">
-                  <h3 className="font-display text-[16.5px] font-semibold tracking-tight">{o.title}</h3>
-                  <p className="mt-2 text-[14px] leading-relaxed text-ink-2">{o.text}</p>
-                </div>
-              </Reveal>
-            ))}
+            {overview.map((o, i) => {
+              const Icon = o.icon;
+              return (
+                <Reveal key={o.title} delay={i * 80} className="h-full">
+                  <div className="h-full rounded-3xl border border-line bg-white p-6">
+                    <span className="grid size-11 place-items-center rounded-xl bg-brand-tint">
+                      <Icon className="size-5.5 text-brand" strokeWidth={1.75} aria-hidden />
+                    </span>
+                    <h3 className="mt-5 font-display text-[16.5px] font-semibold tracking-tight">{o.title}</h3>
+                    <p className="mt-2 text-[14px] leading-relaxed text-ink-2">{o.text}</p>
+                  </div>
+                </Reveal>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -362,7 +368,6 @@ export default async function MerchantPortalPage() {
           <div className="grid items-center gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-14">
             <div>
               <SectionHead eyebrow={c.logEyebrow} title={c.logTitle} sub={c.logSub} />
-              <p className="mt-3 text-[15px] leading-relaxed text-ink-3">{c.logNote}</p>
               <Reveal delay={90}>
                 <Points items={c.log} icons={[Search, Filter, RotateCcw, Download]} />
               </Reveal>
@@ -383,7 +388,6 @@ export default async function MerchantPortalPage() {
             </Reveal>
             <div className="lg:order-2">
               <SectionHead eyebrow={c.detEyebrow} title={c.detTitle} sub={c.detSub} />
-              <p className="mt-3 text-[15px] leading-relaxed text-ink-3">{c.detNote}</p>
               <Reveal delay={90}>
                 <Points items={c.det} icons={[AlertCircle, Fingerprint, Route, CreditCard]} />
               </Reveal>
@@ -414,9 +418,6 @@ export default async function MerchantPortalPage() {
           <section className="bg-brand-tint/50 py-24">
             <div className="mx-auto max-w-6xl px-6">
               <SectionHead eyebrow={c.zEyebrow} title={c.zTitle} sub={c.zSub} center />
-              <Reveal>
-                <p className="mx-auto mt-3 max-w-135 text-center text-[15px] leading-relaxed text-ink-3">{c.zNote}</p>
-              </Reveal>
               <Reveal delay={80}>
                 <div className="mx-auto mt-11 max-w-4xl">
                   <PortalShot src="/portal/zreport.webp" alt={c.shotZ} />
