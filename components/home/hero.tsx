@@ -5,9 +5,10 @@ import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 import { promotesRegister, type Lang } from "@/lib/countries";
 
-/* Hero photo: the branded render of a florist taking a card payment on a
-   SmartOne terminal (public/hero-florist.jpg). On desktop the photo bleeds
-   past the grid to the right edge of the viewport. */
+/* Hero photo: a rotating set of merchants taking a card payment on a SmartOne
+   terminal. It stays inside the page container – aligned with the right edge
+   of the content, not bled off the viewport – so it keeps the same gutter as
+   every other section and reads as a framed image rather than a cut-off one. */
 function Chip({
   icon: Icon,
   float,
@@ -53,9 +54,9 @@ function DeviceVisual({ register, lang, c$ }: { register: boolean; lang: Lang; c
     },
   );
   return (
-    <div className="anim-fade-up anim-d-2 relative lg:mr-[calc((1104px-100vw)/2)]">
+    <div className="anim-fade-up anim-d-2 relative">
       <div className="pointer-events-none absolute -inset-8 rounded-[48px] bg-[radial-gradient(circle,rgba(90,25,181,0.12),transparent_70%)]" />
-      <div className="relative aspect-[16/11] overflow-hidden rounded-[32px] shadow-[0_48px_90px_-48px_rgba(90,25,181,0.55)] lg:aspect-[16/10.5] lg:rounded-r-none">
+      <div className="relative aspect-[16/11] overflow-hidden rounded-[32px] shadow-[0_48px_90px_-48px_rgba(90,25,181,0.55)] lg:aspect-[16/10.5]">
         <HeroCarousel
           images={["/hero/market.webp", "/hero/foodtruck.webp", "/hero/florist.webp"]}
           alt={c.alt}
