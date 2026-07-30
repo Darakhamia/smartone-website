@@ -13,6 +13,7 @@ import { HideOnWelcome } from "@/components/country/hide-on-welcome";
 import { RegionGate } from "@/components/country/region-gate";
 import { OrgJsonLd } from "@/components/seo/jsonld";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
+import { BUILD_ID } from "@/lib/build-info";
 import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -24,6 +25,10 @@ export const metadata: Metadata = {
   description:
     "A certified cash register and payment terminal in one device – plus a portal with clear fees. The rate you signed up for is the rate you pay.",
   alternates: { canonical: "/" },
+  /* Lets anyone confirm which build is actually live:
+       curl -s https://smartoneglobal.com/ | grep x-build
+     Not indexable content – search engines ignore unknown meta names. */
+  other: { "x-build": BUILD_ID },
 };
 
 export default async function RootLayout({
