@@ -1,4 +1,3 @@
-import { TrustpilotBadge } from "@/components/trustpilot";
 import { getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 
@@ -38,7 +37,6 @@ export async function TrustLine() {
               {f.label}
             </span>
           ))}
-          <TrustpilotBadge />
         </div>
       </div>
     </section>

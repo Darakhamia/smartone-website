@@ -40,7 +40,6 @@ export type Dict = {
   };
   footer: {
     tagline: string;
-    disclaimer: string;
     product: string;
     industries: string;
     company: string;
@@ -77,11 +76,6 @@ export const DICT: Record<Lang, Dict> = {
     footer: {
       tagline:
         "SmartOne provides connected payment and business solutions for modern merchants.",
-      /* Names the regulated partner rather than saying "authorised financial
-         partners" – SmartOne is a technology provider, and who actually holds
-         the licence should be visible without opening /imprint. */
-      disclaimer:
-        "Product availability may vary by country. Payment, e-money and card-acquiring services are provided by Paynetics AD, an authorised electronic-money institution; SmartOne is a technology provider and is not itself licensed. Settlement times are subject to banking days and the agreed commercial terms.",
       product: "Product",
       industries: "Industries",
       company: "Company",
@@ -116,8 +110,6 @@ export const DICT: Record<Lang, Dict> = {
     footer: {
       tagline:
         "SmartOne ofrece soluciones conectadas de pago y de negocio para comercios modernos.",
-      disclaimer:
-        "La disponibilidad de los productos puede variar según el país. Los servicios de pago, dinero electrónico y adquirencia de tarjetas los presta Paynetics AD, entidad de dinero electrónico autorizada; SmartOne es un proveedor tecnológico y no está licenciado como tal. Los plazos de liquidación dependen de los días bancarios y de las condiciones comerciales acordadas.",
       product: "Producto",
       industries: "Sectores",
       company: "Empresa",

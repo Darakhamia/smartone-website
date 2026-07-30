@@ -4,7 +4,7 @@ import { FooterRegion } from "@/components/country/footer-region";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { DICT, tr } from "@/lib/dictionaries";
 import { promotesRegister } from "@/lib/countries";
-import { COMPANY } from "@/lib/legal";
+import { COMPANY, emiPartner } from "@/lib/legal";
 import { MERCHANT_PORTAL_URL } from "@/lib/links";
 
 export async function SiteFooter() {
@@ -49,6 +49,17 @@ export async function SiteFooter() {
       cookies: "Política de cookies",
       imprint: "Aviso legal",
     },
+  );
+
+  /* Names the licensed partner rather than "authorised financial partners",
+     and names the right one: UK merchants are served by the FCA-authorised
+     company, everyone else by the EEA one. Built here rather than kept in the
+     dictionary because it depends on the active country, not just language. */
+  const emi = emiPartner(country);
+  const disclaimer = tr(
+    lang,
+    `Product availability may vary by country. Payment, e-money and card-acquiring services are provided by ${emi.name}, an authorised electronic-money institution regulated by ${emi.regulator}; SmartOne is a technology provider and is not itself licensed. Settlement times are subject to banking days and the agreed commercial terms.`,
+    `La disponibilidad de los productos puede variar según el país. Los servicios de pago, dinero electrónico y adquirencia de tarjetas los presta ${emi.name}, entidad de dinero electrónico autorizada y supervisada por ${emi.regulatorEs}; SmartOne es un proveedor tecnológico y no está licenciado como tal. Los plazos de liquidación dependen de los días bancarios y de las condiciones comerciales acordadas.`,
   );
 
   // Mirrors the header's Product mega-menu: Payments & Fiscal, Merchant Portal, HoReCa.
@@ -121,7 +132,7 @@ export async function SiteFooter() {
           ))}
         </div>
         <div className="mt-10 border-t border-white/12 pt-5">
-          <p className="text-[12px] leading-relaxed text-white/40">{t.disclaimer}</p>
+          <p className="text-[12px] leading-relaxed text-white/40">{disclaimer}</p>
           <div className="mt-4 flex flex-wrap items-center justify-between gap-x-5 gap-y-3 text-[12.5px]">
             {/* The operating company, its registration number and VAT number have
                 to be identifiable site-wide (Malta e-Commerce Act Cap. 426,

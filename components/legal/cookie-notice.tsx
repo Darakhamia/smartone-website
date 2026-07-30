@@ -4,21 +4,26 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useCountry } from "@/components/country/country-context";
 import { tr } from "@/lib/dictionaries";
+import {
+  COOKIE_NOTICE_KEY,
+  CONSENT_ACCEPTED,
+  CONSENT_DECLINED,
+  CONSENT_EVENT,
+  noticeAnswered,
+} from "@/lib/consent";
 
-/* Lightweight cookie notice. We only set strictly-necessary / functional
-   cookies (country, language, and this acknowledgement), so this informs
-   rather than gates. If analytics or marketing cookies are added later, this
-   should become a full consent banner with opt-in categories. */
-const KEY = "so_cookie_notice";
-
+/* Cookie notice. The functional cookies (country, language, this answer) need
+   no consent and are set regardless. The one thing that does need consent is
+   first-touch attribution, which is why this asks rather than merely informs,
+   and why refusing is a button rather than a matter of ignoring the banner.
+   See lib/consent.ts for how the answer reaches the attribution component. */
 export function CookieNotice() {
   const { lang } = useCountry();
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const ack = document.cookie.split("; ").some((row) => row.startsWith(`${KEY}=`));
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- client-only: reveal after mount if not yet acknowledged
-    if (!ack) setVisible(true);
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- client-only: reveal after mount if unanswered
+    if (!noticeAnswered()) setVisible(true);
   }, []);
 
   if (!visible) return null;
@@ -26,19 +31,22 @@ export function CookieNotice() {
   const c = tr(
     lang,
     {
-      text: "We use only the cookies needed to run the site and remember your country and language – no tracking without your say-so.",
+      text: "We use functional cookies to run the site and remember your country and language. With your agreement we also note which campaign or site brought you here, so we know where enquiries come from. We run no advertising or analytics trackers.",
       link: "Cookie Policy",
       accept: "Got it",
+      decline: "Decline",
     },
     {
-      text: "Usamos solo las cookies necesarias para que el sitio funcione y para recordar tu país e idioma, sin seguimiento sin tu permiso.",
+      text: "Usamos cookies funcionales para que el sitio funcione y para recordar tu país e idioma. Con tu consentimiento también anotamos qué campaña o sitio te trajo hasta aquí, para saber de dónde llegan las consultas. No usamos rastreadores de publicidad ni de analítica.",
       link: "Política de cookies",
       accept: "Entendido",
+      decline: "Rechazar",
     },
   );
 
-  const accept = () => {
-    document.cookie = `${KEY}=1; path=/; max-age=${60 * 60 * 24 * 365}; samesite=lax`;
+  const answer = (value: string) => {
+    document.cookie = `${COOKIE_NOTICE_KEY}=${value}; path=/; max-age=${60 * 60 * 24 * 365}; samesite=lax`;
+    if (value === CONSENT_ACCEPTED) window.dispatchEvent(new Event(CONSENT_EVENT));
     setVisible(false);
   };
 
@@ -52,9 +60,17 @@ export function CookieNotice() {
           </Link>
           .
         </p>
-        <button onClick={accept} className="btn-primary shrink-0 px-6 py-2.5 text-[14px]">
-          {c.accept}
-        </button>
+        <div className="flex shrink-0 items-center justify-end gap-2.5">
+          <button
+            onClick={() => answer(CONSENT_DECLINED)}
+            className="rounded-full px-4 py-2.5 text-[14px] font-medium text-ink-2 transition-colors hover:bg-bg-2 hover:text-ink"
+          >
+            {c.decline}
+          </button>
+          <button onClick={() => answer(CONSENT_ACCEPTED)} className="btn-primary px-6 py-2.5 text-[14px]">
+            {c.accept}
+          </button>
+        </div>
       </div>
     </div>
   );

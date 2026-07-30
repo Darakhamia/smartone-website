@@ -10,14 +10,14 @@ export const metadata: Metadata = { title: "Cookie Policy" };
    functional cookies (so_country, so_lang, so_cookie_notice) plus one
    localStorage entry (so_first_touch, components/lead/attribution.tsx) –
    ePrivacy Art. 5(3) covers local storage the same way it covers cookies, so
-   it is listed here too.
+   it is listed here too, and it is written only after the visitor accepts.
 
-   Trustpilot is a plain link on purpose (components/trustpilot.tsx): embedding
-   the TrustBox widget would load a third-party script that sets its own
-   cookies, which makes the "no third-party cookies" statement below false. If
-   the widget is ever added, this page, the notice (opt-in before it loads) and
-   the CSP in next.config.ts all have to change together. The same goes for
-   adding analytics or advertising tags. */
+   There is no third-party content on any page, hence no "third-party content"
+   section: nothing external is embedded, so nothing external sets a cookie.
+   Adding any embed – a review widget, analytics, a video – means bringing that
+   section back, gating the embed behind consent, and adding its origins to the
+   CSP in next.config.ts. All three have to move together, or the statements
+   below stop being true. */
 export default async function CookiesPage() {
   const lang = await getActiveLang();
   const c = tr(
@@ -46,10 +46,10 @@ export default async function CookiesPage() {
           ],
         },
         {
-          h: "Local storage",
+          h: "Local storage — only if you agree",
           p: [
-            "Alongside the cookies above, the first time you arrive we save one entry in your browser's local storage, so_first_touch. It records which campaign tag or referring site brought you to us, and it is sent with the contact form if you decide to write to us, so we know which channel the enquiry came from.",
-            "It holds no name and no contact details, it is first-party, and it is never shared with advertising networks. You can clear it at any time in your browser settings, along with the cookies.",
+            "One entry, so_first_touch, records which campaign tag or referring site brought you to us. If you later send us an enquiry it travels with the form, so we know which channel it came from.",
+            "This one is not needed to run the site, so we ask first: it is written only after you accept the cookie notice. Decline, and nothing is stored. It holds no name and no contact details, it is first-party, and it is never shared with advertising networks. You can clear it at any time in your browser settings, along with the cookies.",
           ],
         },
         {
@@ -57,12 +57,6 @@ export default async function CookiesPage() {
           p: [
             "We do not use advertising cookies, and we do not run analytics or cross-site tracking. No third party sets a cookie from our pages.",
             "If that ever changes, we will update this page and ask for your consent first, before any such cookie or tag is loaded.",
-          ],
-        },
-        {
-          h: "Third-party content",
-          p: [
-            "We link to our Trustpilot profile but do not embed the Trustpilot widget, so no third-party cookie is set from our pages. Following that link takes you to Trustpilot, where their own cookie policy applies.",
           ],
         },
         {
@@ -101,10 +95,10 @@ export default async function CookiesPage() {
           ],
         },
         {
-          h: "Almacenamiento local",
+          h: "Almacenamiento local: solo si lo aceptas",
           p: [
-            "Además de las cookies anteriores, la primera vez que llegas guardamos una entrada en el almacenamiento local de tu navegador, so_first_touch. Registra qué etiqueta de campaña o qué sitio de referencia te trajo hasta nosotros y se envía con el formulario de contacto si decides escribirnos, para saber de qué canal procede la consulta.",
-            "No contiene tu nombre ni tus datos de contacto, es propia y nunca se comparte con redes publicitarias. Puedes borrarla cuando quieras desde la configuración de tu navegador, junto con las cookies.",
+            "Una entrada, so_first_touch, registra qué etiqueta de campaña o qué sitio de referencia te trajo hasta nosotros. Si después nos envías una consulta, viaja con el formulario para saber de qué canal procede.",
+            "Esta no es necesaria para que el sitio funcione, así que te lo preguntamos antes: solo se guarda después de que aceptes el aviso de cookies. Si lo rechazas, no se guarda nada. No contiene tu nombre ni tus datos de contacto, es propia y nunca se comparte con redes publicitarias. Puedes borrarla cuando quieras desde la configuración de tu navegador, junto con las cookies.",
           ],
         },
         {
@@ -112,12 +106,6 @@ export default async function CookiesPage() {
           p: [
             "No usamos cookies de publicidad ni ejecutamos analítica o rastreo entre sitios. Ningún tercero instala cookies desde nuestras páginas.",
             "Si esto cambia alguna vez, actualizaremos esta página y te pediremos consentimiento antes de cargar cualquier cookie o etiqueta de ese tipo.",
-          ],
-        },
-        {
-          h: "Contenido de terceros",
-          p: [
-            "Enlazamos a nuestro perfil de Trustpilot, pero no incrustamos su widget, así que desde nuestras páginas no se instala ninguna cookie de terceros. Al seguir ese enlace vas a Trustpilot, donde se aplica su propia política de cookies.",
           ],
         },
         {

@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { LegalLayout, type LegalSection } from "@/components/legal/legal-layout";
-import { getActiveLang } from "@/lib/country-server";
+import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
-import { COMPANY, EMI_PARTNER } from "@/lib/legal";
+import { COMPANY, emiPartner } from "@/lib/legal";
 
 export const metadata: Metadata = { title: "Legal Notice" };
 
@@ -10,8 +10,12 @@ export const metadata: Metadata = { title: "Legal Notice" };
    implementing Dir. 2000/31 Art. 5) and the Companies Act (Cap. 386 s.82):
    the operator's identity, address, registration number, VAT number and a
    direct contact have to be easily, directly and permanently accessible –
-   hence the footer link on every page. Every value comes from lib/legal.ts. */
+   hence the footer link on every page. Every value comes from lib/legal.ts,
+   including the licensed payment partner, which differs by market: UK
+   merchants are served by the FCA-authorised company, not the EEA one. */
 export default async function ImprintPage() {
+  const country = await getActiveCountry();
+  const emi = emiPartner(country);
   const lang = await getActiveLang();
   const c = tr(
     lang,
@@ -42,7 +46,7 @@ export default async function ImprintPage() {
         {
           h: "Payments — regulated partner",
           p: [
-            `Payment, electronic-money and card-acquiring services are provided by ${EMI_PARTNER.name}, an authorised electronic-money institution regulated by ${EMI_PARTNER.regulator} and passported into the European Union.`,
+            `Payment, electronic-money and card-acquiring services are provided by ${emi.name}, an authorised electronic-money institution regulated by ${emi.regulator}${emi.passported ? " and passported into the European Union" : ""}.`,
             `${COMPANY.name} is a technology provider. It is not itself a licensed payment institution or electronic-money institution, and its own activity is not subject to authorisation; the regulated payment activity is carried out by the partner named above, which is also responsible for the related regulatory checks, including AML and KYC.`,
           ],
         },
@@ -87,7 +91,7 @@ export default async function ImprintPage() {
         {
           h: "Pagos: socio regulado",
           p: [
-            `Los servicios de pago, dinero electrónico y adquirencia de tarjetas los presta ${EMI_PARTNER.name}, entidad de dinero electrónico autorizada y supervisada por el Banco Nacional de Bulgaria, con pasaporte comunitario en la Unión Europea.`,
+            `Los servicios de pago, dinero electrónico y adquirencia de tarjetas los presta ${emi.name}, entidad de dinero electrónico autorizada y supervisada por ${emi.regulatorEs}${emi.passported ? ", con pasaporte comunitario en la Unión Europea" : ""}.`,
             `${COMPANY.name} es un proveedor tecnológico. No es una entidad de pago ni una entidad de dinero electrónico autorizada, y su propia actividad no está sujeta a autorización; la actividad de pago regulada la realiza el socio indicado arriba, que también es responsable de los controles regulatorios asociados, incluidos los de prevención de blanqueo (AML) y conocimiento del cliente (KYC).`,
           ],
         },
