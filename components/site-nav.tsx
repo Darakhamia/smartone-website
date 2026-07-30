@@ -204,7 +204,9 @@ export function SiteNav() {
           >
             {t.nav.login}
           </a>
-          <Link href="/contact" className="btn-primary px-5 py-2.5">
+          {/* shadow-none: btn-primary carries a violet glow that works on the
+              page but reads as a smudge against the white header bar. */}
+          <Link href="/contact" className="btn-primary px-5 py-2.5 shadow-none">
             {t.nav.getStarted}
           </Link>
         </div>
@@ -261,7 +263,7 @@ export function SiteNav() {
             <a href={MERCHANT_PORTAL_URL} target="_blank" rel="noopener noreferrer" onClick={() => setOpen(false)} className="text-[15px] font-medium text-ink-2">
               {t.nav.login}
             </a>
-            <Link href="/contact" onClick={() => setOpen(false)} className="btn-primary px-5 py-2.5">
+            <Link href="/contact" onClick={() => setOpen(false)} className="btn-primary px-5 py-2.5 shadow-none">
               {t.nav.getStarted}
             </Link>
           </div>
