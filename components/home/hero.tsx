@@ -53,8 +53,14 @@ function DeviceVisual({ register, lang, c$ }: { register: boolean; lang: Lang; c
       bank: "a tu propio banco",
     },
   );
+  /* From xl up the photo reaches past the grid so it can be large, but the
+     margin is computed to always leave a 64px gutter to the viewport edge – it
+     never runs into it. Below xl the container is narrower than its max, so the
+     same formula would over-shrink the photo; there it just fills its grid
+     column. 1104px is the container's content width: max-w-6xl minus the px-6
+     padding on both sides. */
   return (
-    <div className="anim-fade-up anim-d-2 relative">
+    <div className="anim-fade-up anim-d-2 relative xl:mr-[calc((1104px-100vw)/2+64px)]">
       <div className="pointer-events-none absolute -inset-8 rounded-[48px] bg-[radial-gradient(circle,rgba(90,25,181,0.12),transparent_70%)]" />
       <div className="relative aspect-[16/11] overflow-hidden rounded-[32px] shadow-[0_48px_90px_-48px_rgba(90,25,181,0.55)] lg:aspect-[16/10.5]">
         <HeroCarousel
