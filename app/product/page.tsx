@@ -159,7 +159,7 @@ export default async function ProductPage() {
               {c.h1a}{" "}
               <span className="bg-gradient-to-r from-brand via-[#7b3ce8] to-[#a86cf5] bg-clip-text text-transparent">{c.h1b}</span>
             </h1>
-            <p className="anim-fade-up anim-d-2 mt-5 mb-8 max-w-125 text-lg leading-relaxed text-ink-2">{c.sub}</p>
+            <p className="lead anim-fade-up anim-d-2 mt-5 mb-8 max-w-125 text-lg leading-relaxed text-ink-2">{c.sub}</p>
             <div className="anim-fade-up anim-d-3 flex flex-wrap items-center gap-3.5">
               <Link href="/contact" className="btn-primary">{c.get}</Link>
               <Link href="/pricing" className="btn-ghost">{c.seePricing}</Link>

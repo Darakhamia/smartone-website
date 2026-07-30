@@ -70,8 +70,21 @@ body {
     @apply text-brand-l;
   }
 
+  /* text-wrap: balance evens out the lines of a heading, which is what stops a
+     heading ending in a single stranded word. Applied here rather than per
+     heading so new headings get it for free – the whole class of bug goes away
+     instead of the five instances someone happened to notice. Browsers without
+     support just wrap normally. */
   .h-display {
     @apply font-display font-semibold tracking-[-0.03em];
+    text-wrap: balance;
+  }
+
+  /* The paragraph counterpart: text-wrap: pretty leaves no last line holding a
+     lone word. Balance is wrong for body copy – it applies only to short blocks
+     and evens line lengths, which reads oddly over several lines. */
+  .lead {
+    text-wrap: pretty;
   }
 }
 

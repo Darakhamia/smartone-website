@@ -290,7 +290,7 @@ export default async function IndustriesPage() {
               {c.titleA}{" "}
               <span className="bg-gradient-to-r from-brand via-[#7b3ce8] to-[#a86cf5] bg-clip-text text-transparent">{c.titleB}</span>
             </h1>
-            <p className="anim-fade-up anim-d-2 mx-auto mt-5 max-w-130 text-lg leading-relaxed text-ink-2">{c.lead}</p>
+            <p className="lead anim-fade-up anim-d-2 mx-auto mt-5 max-w-130 text-lg leading-relaxed text-ink-2">{c.lead}</p>
           </div>
         </div>
       </section>

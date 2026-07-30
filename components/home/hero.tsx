@@ -1,57 +1,28 @@
 import Link from "next/link";
-import { ReceiptText, Tag, Landmark, type LucideIcon } from "lucide-react";
 import { HeroCarousel } from "@/components/home/hero-carousel";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 import { promotesRegister, type Lang } from "@/lib/countries";
 
 /* Hero photo: a rotating set of merchants taking a card payment on a SmartOne
-   terminal. It stays inside the page container – aligned with the right edge
-   of the content, not bled off the viewport – so it keeps the same gutter as
-   every other section and reads as a framed image rather than a cut-off one. */
-function Chip({
-  icon: Icon,
-  float,
-  delay,
-  children,
-}: {
-  icon: LucideIcon;
-  float: "chip-float" | "chip-float-slow";
-  delay?: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div
-      className={`${float} inline-flex items-center gap-2 rounded-full border border-line bg-white py-1.5 pr-3 pl-1.5 text-[11.5px] font-medium text-ink-2 shadow-lg shadow-black/10 sm:gap-2.5 sm:py-2 sm:pr-4.5 sm:pl-2 sm:text-[13.5px]`}
-      style={delay ? { animationDelay: delay } : undefined}
-    >
-      <span className="grid size-6 place-items-center rounded-full bg-brand-tint text-brand sm:size-8">
-        <Icon className="size-3.5 sm:size-4.5" strokeWidth={1.9} aria-hidden />
-      </span>
-      <span>{children}</span>
-    </div>
-  );
-}
+   terminal, set in a frosted-glass frame over soft violet light.
 
-function DeviceVisual({ register, lang, c$ }: { register: boolean; lang: Lang; c$: string }) {
-  const c = tr(
+   No floating labels over the photo: the pill-shaped chips that used to sit
+   here read as buttons, so people tried to work out what they did instead of
+   looking at the product. The facts they carried are already made properly by
+   the trust line directly below and by the sections further down.
+
+   The frame is real glass, not a painted-on effect: the blurred violet shapes
+   sit behind it and the panel's backdrop-blur frosts them. That needs colour
+   behind it to be visible at all, which is why the shapes come first.
+
+   The drop shadow is neutral, not violet. A tinted shadow over white reads as
+   a dirty smudge rather than depth. */
+function DeviceVisual({ lang }: { lang: Lang }) {
+  const alt = tr(
     lang,
-    {
-      alt: "Merchant taking a contactless card payment on a SmartOne terminal",
-      receipt: register ? "Fiscal receipt · " : "Receipt printer · ",
-      built: "built in",
-      fee: `Fee ${c$}0.24 · `,
-      noSurprises: "no surprises",
-      bank: "to your own bank",
-    },
-    {
-      alt: "Comerciante aceptando un pago contactless en un terminal SmartOne",
-      receipt: register ? "Ticket fiscal · " : "Impresora de tickets · ",
-      built: "integrado",
-      fee: `Comisión ${c$}0.24 · `,
-      noSurprises: "sin sorpresas",
-      bank: "a tu propio banco",
-    },
+    "Merchant taking a contactless card payment on a SmartOne terminal",
+    "Comerciante aceptando un pago contactless en un terminal SmartOne",
   );
   /* From xl up the photo reaches past the grid so it can be large, but the
      margin is computed to always leave a 64px gutter to the viewport edge – it
@@ -61,33 +32,18 @@ function DeviceVisual({ register, lang, c$ }: { register: boolean; lang: Lang; c
      padding on both sides. */
   return (
     <div className="anim-fade-up anim-d-2 relative xl:mr-[calc((1104px-100vw)/2+64px)]">
-      <div className="pointer-events-none absolute -inset-8 rounded-[48px] bg-[radial-gradient(circle,rgba(90,25,181,0.12),transparent_70%)]" />
-      <div className="relative aspect-[16/11] overflow-hidden rounded-[32px] shadow-[0_48px_90px_-48px_rgba(90,25,181,0.55)] lg:aspect-[16/10.5]">
-        <HeroCarousel
-          images={["/hero/market.webp", "/hero/foodtruck.webp", "/hero/florist.webp"]}
-          alt={c.alt}
-        />
-        {/* soft vignette so the chips stay readable on any photo */}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-night/15 via-transparent to-transparent" />
-      </div>
-      {/* Floating fact chips. On phones the photo is small, so they shrink and
-          tuck closer to the edges instead of covering the merchant. */}
-      <div className="absolute top-4 -left-1 -rotate-3 sm:top-7 sm:-left-5">
-        <Chip icon={ReceiptText} float="chip-float">
-          {c.receipt}
-          <span className="font-semibold text-ink">{c.built}</span>
-        </Chip>
-      </div>
-      <div className="absolute right-2 bottom-20 rotate-2 sm:right-5 lg:right-8">
-        <Chip icon={Tag} float="chip-float-slow">
-          {c.fee}
-          <span className="font-semibold text-brand">{c.noSurprises}</span>
-        </Chip>
-      </div>
-      <div className="absolute -bottom-3 left-4 rotate-1 sm:left-8">
-        <Chip icon={Landmark} float="chip-float" delay="2s">
-          T+1 · <span className="font-semibold text-ink">{c.bank}</span>
-        </Chip>
+      {/* the light the glass frosts */}
+      <div className="pointer-events-none absolute -top-14 -right-8 size-56 rounded-full bg-[radial-gradient(circle,rgba(122,60,232,0.5),transparent_70%)] blur-2xl sm:size-72" />
+      <div className="pointer-events-none absolute -bottom-16 -left-12 size-48 rounded-full bg-[radial-gradient(circle,rgba(168,108,245,0.42),transparent_70%)] blur-2xl sm:size-64" />
+      <div className="pointer-events-none absolute top-1/3 -left-6 size-28 rounded-full bg-[radial-gradient(circle,rgba(90,25,181,0.32),transparent_70%)] blur-xl sm:size-36" />
+
+      <div className="relative rounded-[36px] border border-white/70 bg-white/35 p-2 shadow-[0_36px_80px_-44px_rgba(17,17,20,0.5)] backdrop-blur-2xl sm:p-2.5">
+        <div className="relative aspect-[16/11] overflow-hidden rounded-[28px] lg:aspect-[16/10.5]">
+          <HeroCarousel
+            images={["/hero/market.webp", "/hero/foodtruck.webp", "/hero/florist.webp"]}
+            alt={alt}
+          />
+        </div>
       </div>
     </div>
   );
@@ -129,7 +85,7 @@ export async function Hero() {
               {c.titleB}
             </span>
           </h1>
-          <p className="anim-fade-up anim-d-1 mt-6 mb-9 max-w-130 text-[clamp(17px,1.4vw,20px)] leading-relaxed text-ink-2">
+          <p className="lead anim-fade-up anim-d-1 mt-6 mb-9 max-w-130 text-[clamp(17px,1.4vw,20px)] leading-relaxed text-ink-2">
             {c.sub}
           </p>
           <div className="anim-fade-up anim-d-2 flex flex-wrap items-center gap-3.5">
@@ -141,7 +97,7 @@ export async function Hero() {
             </Link>
           </div>
         </div>
-        <DeviceVisual register={register} lang={lang} c$={country.currencySymbol} />
+        <DeviceVisual lang={lang} />
       </div>
     </section>
   );

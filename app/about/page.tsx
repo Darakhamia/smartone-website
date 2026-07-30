@@ -163,7 +163,7 @@ export default async function AboutPage() {
                 {c.titleB}
               </span>
             </h1>
-            <p className="anim-fade-up anim-d-2 mt-6 max-w-135 text-[clamp(17px,1.4vw,20px)] leading-relaxed text-ink-2">
+            <p className="lead anim-fade-up anim-d-2 mt-6 max-w-135 text-[clamp(17px,1.4vw,20px)] leading-relaxed text-ink-2">
               {c.lead}
             </p>
             <div className="anim-fade-up anim-d-3 mt-9 flex flex-wrap items-center gap-3.5">

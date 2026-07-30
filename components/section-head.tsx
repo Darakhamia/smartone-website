@@ -23,7 +23,7 @@ export function SectionHead({
           {title}
         </h2>
         {sub && (
-          <p className={`mt-4 text-lg leading-relaxed ${dark ? "text-white/70" : "text-ink-2"} ${center ? "mx-auto max-w-135" : ""}`}>
+          <p className={`lead mt-4 text-lg leading-relaxed ${dark ? "text-white/70" : "text-ink-2"} ${center ? "mx-auto max-w-135" : ""}`}>
             {sub}
           </p>
         )}
