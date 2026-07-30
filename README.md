@@ -28,15 +28,40 @@ server (`output: "standalone"` in `next.config.ts`).
 1. In Coolify create a new **Application** from this Git repository.
 2. Build pack: **Dockerfile** (auto-detected from the repo root).
 3. Port: **3000** (exposed by the image).
-4. Attach your domain and deploy.
+4. Attach the domain — `smartoneglobal.com` — and let Coolify issue the
+   Let's Encrypt certificate and redirect HTTP → HTTPS.
+5. Deploy. No database is required.
 
-No database is required at this stage.
+The canonical domain is **smartoneglobal.com**. It is the built-in default, so
+production needs no environment variable to get the right absolute URLs in
+`robots.txt`, `sitemap.xml`, canonical/OG tags and JSON-LD.
 
-### Environment variables
+### Build arguments
 
-| Variable | Purpose |
+Both values below are resolved during `next build`, so they must be set as
+Docker **build** arguments. Setting them as runtime environment variables in
+Coolify has no effect and fails silently: `NEXT_PUBLIC_*` is inlined into the
+client bundle, and the `headers()` in `next.config.ts` is compiled into
+`.next/routes-manifest.json`. Changing either one needs a **rebuild**, not a
+restart.
+
+| Build arg | Purpose |
 | --- | --- |
-| `NEXT_PUBLIC_TRUSTPILOT_BUSINESS_UNIT_ID` | Enables the official Trustpilot TrustBox widget in the trust line (live stars + review count). Get it in Trustpilot Business → Integrations → TrustBox. Until set, the site shows a plain link to the [Trustpilot profile](https://ie.trustpilot.com/review/smartoneglobal.com) instead. Build-time variable — set it in Coolify **build** args/env and redeploy. |
+| `ENABLE_HSTS` | Set to `1` to add `Strict-Transport-Security` (2 years, includeSubDomains, preload) and `upgrade-insecure-requests` to the CSP. **Leave unset until HTTPS is live and verified on the production domain** — HSTS is effectively irreversible for the length of its max-age, and `upgrade-insecure-requests` breaks a build still served over plain HTTP. |
+| `NEXT_PUBLIC_SITE_URL` | Overrides the canonical origin. Only for a staging build that should advertise itself (e.g. `https://staging.example.com`) instead of the production domain. Leave unset in production. An empty value falls back to the canonical domain. |
+
+### Security headers
+
+`next.config.ts` sends a CSP plus `X-Frame-Options`, `X-Content-Type-Options`,
+`Referrer-Policy` and `Permissions-Policy`, and disables `X-Powered-By`.
+
+The CSP allows exactly one external origin: the contact-form endpoint
+(`LEAD_ENDPOINT` in `lib/links.ts`), in `connect-src` and `form-action`. There
+are no third-party scripts. **Adding any embed — a Trustpilot widget,
+analytics, an external video — means adding its origins to the CSP _and_
+updating `/cookies`** (and, for anything that sets a cookie, gating it behind
+consent). The two have to move together, or the published cookie policy stops
+being true.
 
 ## Structure
 
@@ -47,14 +72,16 @@ No database is required at this stage.
   `SHOW_PROOF = false` until real customer stories exist (real photos and
   quotes only — no fabricated testimonials)
 
-### Content TODOs before launch
+### TODOs before launch
 
-- Set `NEXT_PUBLIC_TRUSTPILOT_BUSINESS_UNIT_ID` to show the live Trustpilot
-  widget (`components/trustpilot.tsx`)
-- Real sales email / phone on `/contact`
-- Merchant portal URL for `/login`
-- Replace the hero SVG placeholder and the stock industry photos with the
-  real photo/video shoot (real merchants, aprons, counters)
+- HTTPS live on `smartoneglobal.com`, then rebuild with `ENABLE_HSTS=1`
+- Create the `info@smartoneglobal.com` mailbox — it is already published in
+  `/imprint`, `/privacy` and `/cookies` (see `lib/legal.ts`)
+- Confirm the Paynetics wording in `/imprint` and the footer disclaimer with
+  the partner, and have the legal texts read by Maltese counsel
+- Real sales phone number on `/contact`, if one is to be published
+- Replace the stock industry photos with the real photo shoot (real merchants,
+  aprons, counters)
 
 ### Stock photo credits (Unsplash license, free commercial use)
 

@@ -8,7 +8,20 @@ FROM node:22-alpine AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-ENV NEXT_TELEMETRY_DISABLED=1
+
+# Both of these are resolved during `next build`, NOT at run time, so they have
+# to be build args – setting them as runtime environment variables in Coolify
+# has no effect at all, and fails silently:
+#   NEXT_PUBLIC_SITE_URL is inlined into the client bundle;
+#   ENABLE_HSTS is read by next.config.ts, whose headers() is compiled into
+#   .next/routes-manifest.json at build time.
+# Leaving them unset is the normal production case: SITE_URL then falls back to
+# the canonical domain, and HSTS stays off until TLS is confirmed working.
+ARG NEXT_PUBLIC_SITE_URL=""
+ARG ENABLE_HSTS=""
+ENV NEXT_TELEMETRY_DISABLED=1 \
+    NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL \
+    ENABLE_HSTS=$ENABLE_HSTS
 RUN npm run build
 
 FROM node:22-alpine AS runner
