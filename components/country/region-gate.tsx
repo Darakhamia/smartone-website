@@ -3,23 +3,28 @@
 import { useCallback, useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useCountry } from "@/components/country/country-context";
-import { CountryPicker } from "@/components/country/country-picker";
+import { WelcomeScreen } from "@/components/country/welcome-screen";
 import { COUNTRY_COOKIE, DEFAULT_COUNTRY_CODE, getCountry } from "@/lib/countries";
 
-/* First-visit region picker, shown as a dismissable overlay instead of a
-   redirect – so every page still serves real, indexable content. It appears
-   only when no country cookie is set yet. Dismissing keeps the visitor on the
-   default region (they can switch any time from the footer). */
+/* First-visit region picker, shown as a dismissable overlay rather than a
+   redirect – so every page still serves real, indexable content to crawlers
+   while the visitor is choosing. It appears only when no country cookie is set.
+   Dismissing keeps the visitor on the default region; they can switch any time
+   from the footer.
+
+   It renders the same full-screen WelcomeScreen as the /welcome route. It used
+   to be a small card holding the bare picker, which meant the version nearly
+   every visitor saw was the plain one and the designed one was the version
+   almost nobody reached. */
 export function RegionGate() {
   const pathname = usePathname();
   const router = useRouter();
-  const { enter, lang } = useCountry();
+  const { enter } = useCountry();
   const [show, setShow] = useState(false);
-  const closeLabel = lang === "es" ? "Cerrar" : "Close";
 
   /* Re-read the cookie on every route change, not just on mount. Picking a
      country on /welcome writes the cookie and then navigates; the layout never
-     remounts, so a mount-only check would leave `show` true and pop the modal
+     remounts, so a mount-only check would leave `show` true and pop the picker
      over the page the visitor just landed on. */
   useEffect(() => {
     const hasCountry = document.cookie.split("; ").some((c) => c.startsWith(`${COUNTRY_COOKIE}=`));
@@ -34,17 +39,24 @@ export function RegionGate() {
     setShow(false);
   }, [enter]);
 
+  const open = show && pathname !== "/welcome";
+
   useEffect(() => {
-    if (!show) return;
+    if (!open) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") dismiss();
     };
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [show, dismiss]);
+    // the page behind is covered – don't let it scroll under the picker
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [open, dismiss]);
 
-  // Never over the full-screen /welcome picker.
-  if (pathname === "/welcome" || !show) return null;
+  if (!open) return null;
 
   // A real choice was made: re-render server components with the new cookie.
   const complete = () => {
@@ -53,27 +65,8 @@ export function RegionGate() {
   };
 
   return (
-    <div
-      className="fixed inset-0 z-[80] grid place-items-center bg-night/50 p-5 backdrop-blur-sm"
-      role="dialog"
-      aria-modal="true"
-      onClick={dismiss}
-    >
-      <div
-        className="anim-tier-in relative w-full max-w-lg rounded-3xl border border-line bg-white p-6 shadow-[0_40px_90px_-40px_rgba(0,0,0,0.55)] sm:p-8"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <button
-          onClick={dismiss}
-          aria-label={closeLabel}
-          className="absolute -top-3 -right-3 z-10 grid size-9 place-items-center rounded-full bg-white text-ink shadow-lg transition-transform hover:scale-105"
-        >
-          <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
-            <path d="M6 6l12 12M18 6L6 18" />
-          </svg>
-        </button>
-        <CountryPicker onComplete={complete} />
-      </div>
+    <div className="anim-fade-up fixed inset-0 z-[80] overflow-y-auto bg-white" role="dialog" aria-modal="true">
+      <WelcomeScreen onComplete={complete} onDismiss={dismiss} />
     </div>
   );
 }
