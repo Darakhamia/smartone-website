@@ -1,16 +1,24 @@
 import Image from "next/image";
 
-/* A real Merchant Portal screenshot in a light browser frame. The shots are
-   wide (1920px), so they get a generous stage and soft elevation rather than
-   redrawn UI. */
-export function PortalShot({
+/* A real product screenshot in a light browser frame – used for both the
+   Merchant Portal and the Click back office and POS.
+
+   width/height are the screenshot's own pixel dimensions. They are only a
+   ratio hint for next/image, but they have to match the file or the browser
+   reserves the wrong space and the page jumps as the image loads. The two
+   apps ship shots at different ratios, hence the props. */
+export function AppShot({
   src,
   alt,
+  width = 1920,
+  height = 1200,
   priority = false,
   className = "",
 }: {
   src: string;
   alt: string;
+  width?: number;
+  height?: number;
   priority?: boolean;
   className?: string;
 }) {
@@ -24,8 +32,8 @@ export function PortalShot({
       <Image
         src={src}
         alt={alt}
-        width={1920}
-        height={1200}
+        width={width}
+        height={height}
         priority={priority}
         sizes="(max-width: 1024px) 100vw, 60vw"
         className="h-auto w-full"

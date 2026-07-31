@@ -26,7 +26,7 @@ import {
 } from "lucide-react";
 import { Reveal } from "@/components/reveal";
 import { SectionHead } from "@/components/section-head";
-import { PortalShot } from "@/components/product/portal-shot";
+import { AppShot } from "@/components/product/app-shot";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 import { MERCHANT_PORTAL_URL } from "@/lib/links";
@@ -300,7 +300,7 @@ export default async function MerchantPortalPage() {
             <p className="anim-fade-up anim-d-3 mt-4 text-[13.5px] text-ink-3">{c.included}</p>
           </div>
           <Reveal>
-            <PortalShot src="/portal/dashboard.webp" alt={c.shotDashboard} priority />
+            <AppShot src="/portal/dashboard.webp" alt={c.shotDashboard} priority />
           </Reveal>
         </div>
       </section>
@@ -339,7 +339,7 @@ export default async function MerchantPortalPage() {
               </Reveal>
             </div>
             <Reveal delay={60}>
-              <PortalShot src="/portal/dashboard.webp" alt={c.shotDashboard} />
+              <AppShot src="/portal/dashboard.webp" alt={c.shotDashboard} />
             </Reveal>
           </div>
         </div>
@@ -350,7 +350,7 @@ export default async function MerchantPortalPage() {
         <div className="mx-auto max-w-6xl px-6">
           <div className="grid items-center gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-14">
             <Reveal className="lg:order-1">
-              <PortalShot src="/portal/analytics.webp" alt={c.shotAnalytics} />
+              <AppShot src="/portal/analytics.webp" alt={c.shotAnalytics} />
             </Reveal>
             <div className="lg:order-2">
               <SectionHead eyebrow={c.anEyebrow} title={c.anTitle} sub={c.anSub} />
@@ -373,7 +373,7 @@ export default async function MerchantPortalPage() {
               </Reveal>
             </div>
             <Reveal delay={60}>
-              <PortalShot src="/portal/transactions.webp" alt={c.shotLog} />
+              <AppShot src="/portal/transactions.webp" alt={c.shotLog} />
             </Reveal>
           </div>
         </div>
@@ -384,7 +384,7 @@ export default async function MerchantPortalPage() {
         <div className="mx-auto max-w-6xl px-6">
           <div className="grid items-center gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-14">
             <Reveal className="lg:order-1">
-              <PortalShot src="/portal/details.webp" alt={c.shotDetails} />
+              <AppShot src="/portal/details.webp" alt={c.shotDetails} />
             </Reveal>
             <div className="lg:order-2">
               <SectionHead eyebrow={c.detEyebrow} title={c.detTitle} sub={c.detSub} />
@@ -409,7 +409,7 @@ export default async function MerchantPortalPage() {
                   </Reveal>
                 </div>
                 <Reveal delay={60}>
-                  <PortalShot src="/portal/shifts.webp" alt={c.shotShifts} />
+                  <AppShot src="/portal/shifts.webp" alt={c.shotShifts} />
                 </Reveal>
               </div>
             </div>
@@ -420,7 +420,7 @@ export default async function MerchantPortalPage() {
               <SectionHead eyebrow={c.zEyebrow} title={c.zTitle} sub={c.zSub} center />
               <Reveal delay={80}>
                 <div className="mx-auto mt-11 max-w-4xl">
-                  <PortalShot src="/portal/zreport.webp" alt={c.shotZ} />
+                  <AppShot src="/portal/zreport.webp" alt={c.shotZ} />
                 </div>
               </Reveal>
             </div>

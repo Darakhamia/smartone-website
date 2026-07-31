@@ -1,236 +1,501 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import {
+  LayoutGrid,
+  Monitor,
+  BarChart3,
+  ChefHat,
+  Receipt,
+  Users,
+  MapPin,
+  Tags,
+  Coins,
+  SlidersHorizontal,
+  ImageIcon,
+  LayoutList,
+  UtensilsCrossed,
+  Clock,
+  type LucideIcon,
+} from "lucide-react";
 import { Reveal } from "@/components/reveal";
 import { SectionHead } from "@/components/section-head";
-import { getActiveCountry, getActiveLang } from "@/lib/country-server";
+import { AppShot } from "@/components/product/app-shot";
+import { getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 import type { Lang } from "@/lib/countries";
 
 export const metadata: Metadata = {
   title: "Click",
   description:
-    "SmartOne Click takes orders for cafés and restaurants and sends them straight to the register – one catalogue, one flow, no re-typing.",
+    "SmartOne Click is a restaurant management platform: back office, POS, kitchen display, staff, multi-location and analytics in one connected system.",
 };
 
-const stepIcons = [
-  <path key="0" d="M6 3v6a2 2 0 0 0 4 0V3M8 9v12M16 3c-1.5 0-2.5 2-2.5 5s1 4 2.5 4v9" />,
-  <path key="1" d="M5 8h14l-1 12H6L5 8Zm4 0V6a3 3 0 0 1 6 0v2M9 12h6" />,
-  <path key="2" d="M6 2h12v20l-3-2-3 2-3-2-3 2V2Zm3 5h6M9 11h6" />,
-];
+/* Every screenshot on this page is a real capture of the Click back office and
+   POS, not a redrawn mock. They are 1960×1004 – the ratio is passed to AppShot
+   so the browser reserves the right space and the page doesn't jump.
 
-const featIcons = [
-  // QR menu
-  <>
-    <rect x="4" y="4" width="6" height="6" rx="1" />
-    <rect x="14" y="4" width="6" height="6" rx="1" />
-    <rect x="4" y="14" width="6" height="6" rx="1" />
-    <path d="M14 14h2v2M18 14h2v2M14 18h2v2M18 18h2v2" />
-  </>,
-  // kitchen display (KDS)
-  <>
-    <rect x="3" y="4" width="18" height="12" rx="2" />
-    <path d="M8 20h8M12 16v4" />
-  </>,
-  // bookings (calendar)
-  <>
-    <rect x="3" y="5" width="18" height="16" rx="2" />
-    <path d="M3 9h18M8 3v4M16 3v4M8 14h3" />
-  </>,
-  // delivery (van)
-  <path key="d" d="M3 7h11v8H3zM14 10h3.5L21 13v2h-7M7.5 18.5a1.8 1.8 0 1 0 0-3.6 1.8 1.8 0 0 0 0 3.6Zm9 0a1.8 1.8 0 1 0 0-3.6 1.8 1.8 0 0 0 0 3.6Z" />,
-  // loyalty (star)
-  <path key="l" d="M12 3l2.7 5.9 6.3.6-4.8 4.2 1.5 6.3L12 17l-5.7 3 1.5-6.3L3 9.5l6.3-.6L12 3Z" />,
-  // fiscal receipt / register
-  <path key="r" d="M6 2h12v20l-3-2-3 2-3-2-3 2V2Zm3 5h6M9 11h6" />,
-];
+   The page is deliberately register-neutral. The cash register is promoted
+   only where it is live (promotesRegister() in lib/countries.ts), and Click is
+   sold in every market, so the copy talks about orders, kitchen and analytics
+   and never claims a fiscal register the visitor's country can't buy. */
+const SHOT = { width: 1960, height: 1004 };
 
-function copyFor(lang: Lang, c$: string) {
+type Feature = { title: string; text: string };
+
+function copyFor(lang: Lang) {
   return tr(
     lang,
     {
-      eyebrow: "Click · HoReCa",
-      h1a: "Orders straight",
-      h1b: "to the register.",
-      sub: "SmartOne Click takes orders for cafés and restaurants and sends them to the same register that takes the payment – one catalogue, one flow, no re-typing.",
+      /* hero */
+      eyebrow: "SmartOne Click",
+      h1a: "Run your restaurant",
+      h1b: "from a single platform.",
+      sub: "Manage menus, staff, tables, orders, kitchens and business analytics from one connected ecosystem built for modern restaurants.",
       get: "Get started →",
-      industries: "See HoReCa setups",
-      flowEyebrow: "How it works",
-      flowTitle: "From table to till, in one flow.",
-      flowSub: "The order and the payment share one catalogue, so nothing gets keyed in twice.",
-      steps: [
-        { title: "Take the order", text: "Staff or guests choose from your catalogue in Click – table by table." },
-        { title: "It lands on the register", text: "The order appears on the till instantly – same prices, same items, no re-typing." },
-        { title: "Pay & print", text: "Take the payment and print the fiscal receipt from the one device." },
+      demo: "Book a demo",
+
+      /* 1 · everything */
+      allEyebrow: "One platform",
+      allTitle: "Everything your restaurant needs.",
+      allSub:
+        "SmartOne Click combines business management, POS operations, kitchen workflow and analytics into one connected platform.",
+      pillars: [
+        { title: "Business management", text: "Menus, pricing, staff and locations in one back office." },
+        { title: "POS", text: "Floor plan, tables and orders on the counter." },
+        { title: "Kitchen display", text: "Orders reach the pass the moment they are taken." },
+        { title: "Analytics", text: "Revenue, checks and staff performance in one view." },
+      ] as Feature[],
+
+      /* 2 · analytics */
+      anEyebrow: "Business analytics",
+      anTitle: "Know how your business performs.",
+      anSub:
+        "Monitor revenue, average check, employees, locations and operational metrics from one dashboard.",
+      anPoints: ["Revenue", "Orders", "Average check", "Employees"],
+      anShot: "The Click back office analytics dashboard",
+
+      /* 3 · menu */
+      menuEyebrow: "Menu management",
+      menuTitle: "Build your menu once.",
+      menuSub:
+        "Create products, categories, modifiers and pricing once. Every POS stays synchronised automatically.",
+      menuPoints: ["Categories", "Products", "Pricing", "Modifiers", "Images"],
+      menuShot: "The assortment screen, with menu categories and products",
+
+      /* 4 · multi-location */
+      placesEyebrow: "Multi-location",
+      placesTitle: "Manage every location.",
+      placesSub: "Operate one café or hundreds of restaurants from the same back office.",
+      placesShot: "The places screen, listing restaurant locations",
+
+      /* 5 · setup */
+      setupEyebrow: "Guided setup",
+      setupTitle: "Launch faster.",
+      setupSub:
+        "Guided onboarding helps configure menus, locations, staff and pricing before opening day.",
+      setupShot: "The guided launch setup checklist",
+
+      /* 6 · transition */
+      runEyebrow: "On the floor",
+      runTitle: "Run your restaurant.",
+      runSub: "The back office sets it up. The POS runs the service.",
+
+      /* 7 · floor */
+      floorEyebrow: "Restaurant floor",
+      floorTitle: "See every table in real time.",
+      floorSub:
+        "Track occupied tables, waiter assignments and open orders with an interactive floor plan.",
+      floorPoints: ["Live tables", "Multiple halls", "Waiter assignment", "Instant access"],
+      floorShot: "The interactive restaurant floor plan with live table status",
+
+      /* 8 · orders */
+      ordersEyebrow: "Orders",
+      ordersTitle: "Every order under control.",
+      ordersSub: "Every order has its own status, waiter, table and payment progress.",
+      ordersShot: "The tickets screen, listing open and completed orders",
+
+      /* 9 · kitchen */
+      kitchenEyebrow: "Kitchen display",
+      kitchenTitle: "Kitchen stays synchronised.",
+      kitchenSub: "Orders reach the kitchen instantly, reducing mistakes and improving service speed.",
+      kitchenShot: "The kitchen desk, showing orders sent from the floor",
+
+      /* 10 · shift */
+      shiftEyebrow: "Shift management",
+      shiftTitle: "From opening to closing.",
+      shiftSub: "Track turnover, payment methods, discounts, tips and shift performance.",
+      shiftShot: "The work shift report, with turnover by payment method",
+
+      /* 11 · ecosystem */
+      ecoEyebrow: "One ecosystem",
+      ecoTitle: "Every SmartOne product works together.",
+      ecoSub: "Click is not a separate system bolted on. It is one layer of the same platform.",
+      ecoChain: [
+        { name: "Merchant Portal", text: "Your money, settlements and fees" },
+        { name: "Business back office", text: "Menus, staff, locations, analytics" },
+        { name: "SmartOne Click", text: "Floor, orders, kitchen" },
+        { name: "SmartOne terminal", text: "Takes the payment at the table" },
       ],
-      demoOrder: "Order #47 · table 3",
-      demoReg: "→ register",
-      demoItems: "2× latte · 1× croissant",
-      demoTotal: `${c$}9.60`,
-      featEyebrow: "Built for hospitality",
-      featTitle: "A restaurant, automated.",
-      featSub: "One system for the whole floor: ordering, kitchen, bookings, delivery and loyalty – all feeding the same register.",
-      feats: [
-        { title: "QR menu ordering", text: "Guests scan, browse and order from the table – or your staff key it in. Prices come from your catalogue." },
-        { title: "Kitchen display (KDS)", text: "Orders route to the kitchen and bar – a display screen or a printer for each station." },
-        { title: "Table bookings", text: "Take reservations from your website or by phone, and see the floor at a glance." },
-        { title: "Delivery & takeaway", text: "Delivery and pickup orders land in the same flow, paid on the terminal." },
-        { title: "Loyalty & feedback", text: "Run bonus schemes and promotions, and collect guest feedback after the visit." },
-        { title: "One catalogue, on the register", text: "Every Click order is a fiscal sale on the register – reconciled with the rest of your day." },
-      ],
-      ctaTitle: "Serve faster. Reconcile automatically.",
-      ctaText: "Live in four business days or less.",
-      sales: "Contact sales",
+
+      /* final CTA */
+      ctaTitle: "Ready to simplify restaurant operations?",
+      ctaText: "Everything your restaurant needs – from the first setup to the final report.",
     },
     {
-      eyebrow: "Click · HoReCa",
-      h1a: "Los pedidos, directos",
-      h1b: "a la caja.",
-      sub: "SmartOne Click toma los pedidos de cafeterías y restaurantes y los envía a la misma caja que cobra: un catálogo, un flujo, sin volver a teclear.",
+      eyebrow: "SmartOne Click",
+      h1a: "Gestiona tu restaurante",
+      h1b: "desde una sola plataforma.",
+      sub: "Gestiona cartas, personal, mesas, pedidos, cocina y analítica de negocio desde un ecosistema conectado, hecho para restaurantes modernos.",
       get: "Empezar →",
-      industries: "Ver montajes HoReCa",
-      flowEyebrow: "Cómo funciona",
-      flowTitle: "De la mesa a la caja, en un solo flujo.",
-      flowSub: "El pedido y el pago comparten un catálogo, así que nada se teclea dos veces.",
-      steps: [
-        { title: "Toma el pedido", text: "El personal o los clientes eligen de tu catálogo en Click, mesa a mesa." },
-        { title: "Llega a la caja", text: "El pedido aparece en la caja al instante: mismos precios, mismos productos, sin reteclear." },
-        { title: "Cobra e imprime", text: "Cobra e imprime el ticket fiscal desde el mismo dispositivo." },
+      demo: "Reservar una demo",
+
+      allEyebrow: "Una plataforma",
+      allTitle: "Todo lo que tu restaurante necesita.",
+      allSub:
+        "SmartOne Click reúne la gestión del negocio, la operativa del TPV, el flujo de cocina y la analítica en una sola plataforma conectada.",
+      pillars: [
+        { title: "Gestión del negocio", text: "Cartas, precios, personal y locales en un back office." },
+        { title: "TPV", text: "Plano de sala, mesas y pedidos en el mostrador." },
+        { title: "Pantalla de cocina", text: "Los pedidos llegan al pase en el momento en que se toman." },
+        { title: "Analítica", text: "Ingresos, tickets y rendimiento del personal en una vista." },
+      ] as Feature[],
+
+      anEyebrow: "Analítica de negocio",
+      anTitle: "Conoce cómo va tu negocio.",
+      anSub:
+        "Controla ingresos, ticket medio, empleados, locales y métricas operativas desde un único panel.",
+      anPoints: ["Ingresos", "Pedidos", "Ticket medio", "Empleados"],
+      anShot: "El panel de analítica del back office de Click",
+
+      menuEyebrow: "Gestión de la carta",
+      menuTitle: "Crea tu carta una vez.",
+      menuSub:
+        "Crea productos, categorías, modificadores y precios una sola vez. Cada TPV se sincroniza automáticamente.",
+      menuPoints: ["Categorías", "Productos", "Precios", "Modificadores", "Imágenes"],
+      menuShot: "La pantalla de surtido, con categorías y productos de la carta",
+
+      placesEyebrow: "Multi-local",
+      placesTitle: "Gestiona todos tus locales.",
+      placesSub: "Opera una cafetería o cientos de restaurantes desde el mismo back office.",
+      placesShot: "La pantalla de locales, con la lista de restaurantes",
+
+      setupEyebrow: "Puesta en marcha guiada",
+      setupTitle: "Arranca antes.",
+      setupSub:
+        "El onboarding guiado te ayuda a configurar cartas, locales, personal y precios antes de abrir.",
+      setupShot: "La lista de puesta en marcha guiada",
+
+      runEyebrow: "En la sala",
+      runTitle: "Lleva tu restaurante.",
+      runSub: "El back office lo configura. El TPV lleva el servicio.",
+
+      floorEyebrow: "Sala del restaurante",
+      floorTitle: "Ve cada mesa en tiempo real.",
+      floorSub:
+        "Controla mesas ocupadas, camareros asignados y pedidos abiertos con un plano de sala interactivo.",
+      floorPoints: ["Mesas en vivo", "Varias salas", "Camarero asignado", "Acceso inmediato"],
+      floorShot: "El plano interactivo de la sala con el estado de las mesas en vivo",
+
+      ordersEyebrow: "Pedidos",
+      ordersTitle: "Cada pedido bajo control.",
+      ordersSub: "Cada pedido tiene su estado, su camarero, su mesa y su progreso de cobro.",
+      ordersShot: "La pantalla de tickets, con pedidos abiertos y cerrados",
+
+      kitchenEyebrow: "Pantalla de cocina",
+      kitchenTitle: "La cocina va sincronizada.",
+      kitchenSub: "Los pedidos llegan a cocina al instante, con menos errores y más velocidad de servicio.",
+      kitchenShot: "La pantalla de cocina, con los pedidos enviados desde la sala",
+
+      shiftEyebrow: "Gestión de turnos",
+      shiftTitle: "De la apertura al cierre.",
+      shiftSub: "Controla la facturación, los métodos de pago, los descuentos, las propinas y el turno.",
+      shiftShot: "El informe de turno, con la facturación por método de pago",
+
+      ecoEyebrow: "Un ecosistema",
+      ecoTitle: "Todos los productos SmartOne funcionan juntos.",
+      ecoSub: "Click no es un sistema aparte añadido encima. Es una capa más de la misma plataforma.",
+      ecoChain: [
+        { name: "Portal del comercio", text: "Tu dinero, liquidaciones y comisiones" },
+        { name: "Back office de negocio", text: "Cartas, personal, locales, analítica" },
+        { name: "SmartOne Click", text: "Sala, pedidos, cocina" },
+        { name: "Terminal SmartOne", text: "Cobra en la mesa" },
       ],
-      demoOrder: "Pedido #47 · mesa 3",
-      demoReg: "→ caja",
-      demoItems: "2× latte · 1× croissant",
-      demoTotal: `${c$}9,60`,
-      featEyebrow: "Hecho para hostelería",
-      featTitle: "Un restaurante, automatizado.",
-      featSub: "Un sistema para toda la sala: pedidos, cocina, reservas, delivery y fidelización, todo alimentando la misma caja.",
-      feats: [
-        { title: "Pedidos con menú QR", text: "Los clientes escanean, ven la carta y piden desde la mesa, o lo teclea tu personal. Los precios salen de tu catálogo." },
-        { title: "Pantalla de cocina (KDS)", text: "Los pedidos se enrutan a cocina y barra: una pantalla o una impresora por estación." },
-        { title: "Reservas de mesa", text: "Acepta reservas desde tu web o por teléfono y ve la sala de un vistazo." },
-        { title: "Delivery y para llevar", text: "Los pedidos de reparto y recogida entran en el mismo flujo, cobrados en el terminal." },
-        { title: "Fidelización y opiniones", text: "Lanza programas de puntos y promociones, y recoge la opinión del cliente tras la visita." },
-        { title: "Un catálogo, en la caja", text: "Cada pedido de Click es una venta fiscal en la caja, cuadrada con el resto del día." },
-      ],
-      ctaTitle: "Sirve más rápido. Cuadra automáticamente.",
-      ctaText: "Operativo en cuatro días hábiles o menos.",
-      sales: "Contactar con ventas",
+
+      ctaTitle: "¿Listo para simplificar la operativa de tu restaurante?",
+      ctaText: "Todo lo que tu restaurante necesita, desde la primera configuración hasta el informe final.",
     },
   );
 }
 
+const pillarIcons: LucideIcon[] = [LayoutGrid, Monitor, ChefHat, BarChart3];
+const anIcons: LucideIcon[] = [Coins, Receipt, Coins, Users];
+const menuIcons: LucideIcon[] = [LayoutList, UtensilsCrossed, Tags, SlidersHorizontal, ImageIcon];
+const floorIcons: LucideIcon[] = [LayoutGrid, MapPin, Users, Clock];
+
+/* A labelled row of facts under a section's copy. Kept small on purpose – the
+   screenshot is the argument, these are just the handles. */
+function Points({ items, icons }: { items: string[]; icons: LucideIcon[] }) {
+  return (
+    <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-2.5">
+      {items.map((p, i) => {
+        const Icon = icons[i % icons.length];
+        return (
+          <li key={p} className="inline-flex items-center gap-2 text-[14.5px] text-ink-2">
+            <Icon className="size-4.5 text-brand" strokeWidth={1.75} aria-hidden />
+            {p}
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
+
+/* One story beat: copy on one side, a real screenshot on the other. `flip`
+   puts the image first on desktop so consecutive sections alternate. */
+function Beat({
+  eyebrow,
+  title,
+  sub,
+  src,
+  alt,
+  flip = false,
+  children,
+}: {
+  eyebrow: string;
+  title: string;
+  sub: string;
+  src: string;
+  alt: string;
+  flip?: boolean;
+  children?: React.ReactNode;
+}) {
+  return (
+    <div className="mx-auto grid max-w-6xl items-center gap-10 px-6 lg:grid-cols-2 lg:gap-16">
+      <div className={flip ? "lg:order-2" : ""}>
+        <span className="eyebrow">{eyebrow}</span>
+        <h2 className="h-display mt-4 text-[clamp(26px,3.2vw,40px)] leading-[1.07]">{title}</h2>
+        <p className="lead mt-4 text-[16.5px] leading-relaxed text-ink-2">{sub}</p>
+        {children}
+      </div>
+      <Reveal className={flip ? "lg:order-1" : ""}>
+        <AppShot src={src} alt={alt} width={SHOT.width} height={SHOT.height} />
+      </Reveal>
+    </div>
+  );
+}
+
 export default async function ClickPage() {
-  const country = await getActiveCountry();
   const lang = await getActiveLang();
-  const c = copyFor(lang, country.currencySymbol);
+  const c = copyFor(lang);
 
   return (
     <>
-      {/* 1 · hero (dark, matches the Click brand block) */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-night-2 to-night py-24 text-white lg:py-28">
-        <div className="pointer-events-none absolute -right-20 -top-20 size-96 rounded-full bg-[radial-gradient(circle,rgba(90,25,181,0.55),transparent_70%)]" />
+      {/* hero – dark, with the floor plan as the headline visual */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-night-2 to-night py-20 text-white lg:py-24">
+        <div className="pointer-events-none absolute -top-20 -right-20 size-96 rounded-full bg-[radial-gradient(circle,rgba(90,25,181,0.55),transparent_70%)]" />
         <div className="pointer-events-none absolute -bottom-24 left-1/4 size-80 rounded-full bg-[radial-gradient(circle,rgba(90,25,181,0.35),transparent_70%)]" />
-        <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-6 lg:grid-cols-[1.05fr_0.95fr]">
-          <div>
+        <div className="relative mx-auto max-w-6xl px-6">
+          <div className="mx-auto max-w-160 text-center">
             <span className="anim-fade-up eyebrow eyebrow-dark">{c.eyebrow}</span>
-            <h1 className="anim-fade-up anim-d-1 h-display mt-4 text-[clamp(36px,4.8vw,60px)] leading-[1.04]">
+            <h1 className="anim-fade-up anim-d-1 h-display mt-4 text-[clamp(34px,4.6vw,58px)] leading-[1.04]">
               {c.h1a}{" "}
-              <span className="bg-gradient-to-r from-brand-l via-[#c9a6f5] to-white bg-clip-text text-transparent">{c.h1b}</span>
+              <span className="bg-gradient-to-r from-brand-l via-[#c9a6f5] to-white bg-clip-text text-transparent">
+                {c.h1b}
+              </span>
             </h1>
-            <p className="anim-fade-up anim-d-2 mt-5 mb-8 max-w-125 text-lg leading-relaxed text-white/70">{c.sub}</p>
-            <div className="anim-fade-up anim-d-3 flex flex-wrap items-center gap-3.5">
+            <p className="lead anim-fade-up anim-d-2 mx-auto mt-5 max-w-135 text-lg leading-relaxed text-white/70">
+              {c.sub}
+            </p>
+            <div className="anim-fade-up anim-d-3 mt-8 flex flex-wrap justify-center gap-3.5">
               <Link href="/contact" className="btn-light">{c.get}</Link>
-              <Link href="/industries" className="btn-ghost-dark">{c.industries}</Link>
+              <Link href="/contact" className="btn-ghost-dark">{c.demo}</Link>
             </div>
           </div>
-          {/* order → register demo */}
-          <div className="anim-fade-up anim-d-2">
-            <div className="rounded-3xl bg-white/8 p-6 ring-1 ring-white/12 backdrop-blur-sm">
-              <div className="rounded-2xl bg-white/8 p-4 font-mono text-[12.5px] ring-1 ring-white/10">
-                <div className="flex justify-between">
-                  <span className="text-white/70">{c.demoOrder}</span>
-                  <span className="font-semibold text-brand-l">{c.demoReg}</span>
-                </div>
-                <div className="mt-1 text-[11px] text-white/50">{c.demoItems}</div>
-              </div>
-              <div className="my-4 flex items-center justify-center">
-                <svg viewBox="0 0 24 24" className="size-6 stroke-brand-l" fill="none" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                  <path d="M12 5v14M6 13l6 6 6-6" />
-                </svg>
-              </div>
-              <div className="rounded-2xl bg-white p-4 text-ink">
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-[11px] tracking-wide text-ink-3 uppercase">Register</span>
-                  <span className="rounded-full bg-[#e5f3ec] px-2.5 py-0.5 font-mono text-[10.5px] font-semibold text-[#0e8a5f]">
-                    {tr(lang, "Received", "Recibido")}
-                  </span>
-                </div>
-                <div className="mt-3 flex items-center justify-between">
-                  <span className="text-[13px] text-ink-2">{c.demoItems}</span>
-                  <span className="font-mono text-[13px] font-semibold text-ink">{c.demoTotal}</span>
-                </div>
-              </div>
-            </div>
+          <div className="anim-fade-up anim-d-3 mt-14">
+            <AppShot src="/click/floor.webp" alt={c.floorShot} width={SHOT.width} height={SHOT.height} priority />
           </div>
         </div>
       </section>
 
-      {/* 2 · how it works */}
-      <section className="py-24">
+      {/* 1 · everything your restaurant needs */}
+      <section className="py-22 lg:py-26">
         <div className="mx-auto max-w-6xl px-6">
-          <SectionHead eyebrow={c.flowEyebrow} title={c.flowTitle} sub={c.flowSub} />
-          <div className="mt-11 grid gap-4 md:grid-cols-3">
-            {c.steps.map((s, i) => (
-              <Reveal key={s.title} delay={i * 100} className="h-full">
-                <div className="relative h-full rounded-3xl border border-line bg-white p-7">
-                  <span className="absolute right-6 top-6 font-mono text-[13px] font-semibold text-ink-3">0{i + 1}</span>
-                  <span className="grid size-12 place-items-center rounded-xl bg-brand-tint">
-                    <svg viewBox="0 0 24 24" className="size-6 stroke-brand" fill="none" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                      {stepIcons[i]}
-                    </svg>
+          <SectionHead eyebrow={c.allEyebrow} title={c.allTitle} sub={c.allSub} center />
+          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {c.pillars.map((p, i) => {
+              const Icon = pillarIcons[i];
+              return (
+                <Reveal key={p.title} delay={i * 90} className="h-full">
+                  <div className="h-full rounded-3xl border border-line bg-white p-6">
+                    <span className="grid size-11 place-items-center rounded-xl bg-brand-tint">
+                      <Icon className="size-5.5 text-brand" strokeWidth={1.75} aria-hidden />
+                    </span>
+                    <h3 className="mt-4 font-display text-[17.5px] font-semibold tracking-tight">{p.title}</h3>
+                    <p className="mt-2 text-[14.5px] leading-relaxed text-ink-2">{p.text}</p>
+                  </div>
+                </Reveal>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* 2 · analytics */}
+      <section className="bg-bg-2 py-22 lg:py-26">
+        <Beat
+          eyebrow={c.anEyebrow}
+          title={c.anTitle}
+          sub={c.anSub}
+          src="/click/analytics.webp"
+          alt={c.anShot}
+        >
+          <Points items={c.anPoints} icons={anIcons} />
+        </Beat>
+      </section>
+
+      {/* 3 · menu management */}
+      <section className="py-22 lg:py-26">
+        <Beat
+          eyebrow={c.menuEyebrow}
+          title={c.menuTitle}
+          sub={c.menuSub}
+          src="/click/assortment.webp"
+          alt={c.menuShot}
+          flip
+        >
+          <Points items={c.menuPoints} icons={menuIcons} />
+        </Beat>
+      </section>
+
+      {/* 4 · multi-location */}
+      <section className="bg-bg-2 py-22 lg:py-26">
+        <Beat
+          eyebrow={c.placesEyebrow}
+          title={c.placesTitle}
+          sub={c.placesSub}
+          src="/click/places.webp"
+          alt={c.placesShot}
+        />
+      </section>
+
+      {/* 5 · guided setup */}
+      <section className="py-22 lg:py-26">
+        <Beat
+          eyebrow={c.setupEyebrow}
+          title={c.setupTitle}
+          sub={c.setupSub}
+          src="/click/setup.webp"
+          alt={c.setupShot}
+          flip
+        />
+      </section>
+
+      {/* 6 · transition: back office → the floor */}
+      <section className="bg-night py-20 text-white lg:py-24">
+        <div className="mx-auto max-w-6xl px-6 text-center">
+          <Reveal>
+            <span className="eyebrow eyebrow-dark">{c.runEyebrow}</span>
+            <h2 className="h-display mx-auto mt-4 max-w-160 text-[clamp(30px,4vw,52px)] leading-[1.05]">
+              {c.runTitle}
+            </h2>
+            <p className="lead mx-auto mt-4 max-w-120 text-[16.5px] leading-relaxed text-white/65">{c.runSub}</p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* 7 · restaurant floor */}
+      <section className="py-22 lg:py-26">
+        <Beat
+          eyebrow={c.floorEyebrow}
+          title={c.floorTitle}
+          sub={c.floorSub}
+          src="/click/floor.webp"
+          alt={c.floorShot}
+        >
+          <Points items={c.floorPoints} icons={floorIcons} />
+        </Beat>
+      </section>
+
+      {/* 8 · orders */}
+      <section className="bg-bg-2 py-22 lg:py-26">
+        <Beat
+          eyebrow={c.ordersEyebrow}
+          title={c.ordersTitle}
+          sub={c.ordersSub}
+          src="/click/tickets.webp"
+          alt={c.ordersShot}
+          flip
+        />
+      </section>
+
+      {/* 9 · kitchen display */}
+      <section className="py-22 lg:py-26">
+        <Beat
+          eyebrow={c.kitchenEyebrow}
+          title={c.kitchenTitle}
+          sub={c.kitchenSub}
+          src="/click/kitchen.webp"
+          alt={c.kitchenShot}
+        />
+      </section>
+
+      {/* 10 · shift management */}
+      <section className="bg-bg-2 py-22 lg:py-26">
+        <Beat
+          eyebrow={c.shiftEyebrow}
+          title={c.shiftTitle}
+          sub={c.shiftSub}
+          src="/click/shift.webp"
+          alt={c.shiftShot}
+          flip
+        />
+      </section>
+
+      {/* 11 · ecosystem */}
+      <section className="py-22 lg:py-26">
+        <div className="mx-auto max-w-6xl px-6">
+          <SectionHead eyebrow={c.ecoEyebrow} title={c.ecoTitle} sub={c.ecoSub} center />
+          <div className="mx-auto mt-12 max-w-160">
+            {c.ecoChain.map((node, i) => (
+              <Reveal key={node.name} delay={i * 90}>
+                <div className="flex items-center gap-4 rounded-2xl border border-line bg-white px-5 py-4 sm:gap-5 sm:px-6 sm:py-5">
+                  <span className="grid size-9 shrink-0 place-items-center rounded-full bg-brand-tint font-mono text-[12.5px] font-semibold text-brand">
+                    {i + 1}
                   </span>
-                  <h3 className="mt-5 font-display text-[19px] font-semibold tracking-tight">{s.title}</h3>
-                  <p className="mt-2 text-[14.5px] leading-relaxed text-ink-2">{s.text}</p>
+                  <div className="min-w-0">
+                    <h3 className="font-display text-[16.5px] font-semibold tracking-tight">{node.name}</h3>
+                    <p className="mt-0.5 text-[14px] leading-relaxed text-ink-2">{node.text}</p>
+                  </div>
                 </div>
+                {i < c.ecoChain.length - 1 && (
+                  <div className="flex justify-center py-2" aria-hidden>
+                    <svg viewBox="0 0 24 24" className="size-5 stroke-line-2" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M12 5v14M6 13l6 6 6-6" />
+                    </svg>
+                  </div>
+                )}
               </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* 3 · features */}
-      <section className="bg-bg-2 py-24">
-        <div className="mx-auto max-w-6xl px-6">
-          <SectionHead eyebrow={c.featEyebrow} title={c.featTitle} sub={c.featSub} />
-          <div className="mt-11 grid gap-4 md:grid-cols-3">
-            {c.feats.map((f, i) => (
-              <Reveal key={f.title} delay={(i % 3) * 100} className="h-full">
-                <div className="h-full rounded-3xl bg-white p-7 shadow-sm shadow-black/3">
-                  <span className="grid size-12 place-items-center rounded-xl bg-brand-tint">
-                    <svg viewBox="0 0 24 24" className="size-6 stroke-brand" fill="none" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                      {featIcons[i]}
-                    </svg>
-                  </span>
-                  <h3 className="mt-5 font-display text-[19px] font-semibold tracking-tight">{f.title}</h3>
-                  <p className="mt-2 text-[14.5px] leading-relaxed text-ink-2">{f.text}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 4 · CTA */}
-      <section className="py-24">
+      {/* final CTA */}
+      <section className="pb-24">
         <div className="mx-auto max-w-6xl px-6">
           <Reveal>
             <div className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-brand to-brand-d px-8 py-14 text-center text-white">
               <div className="pointer-events-none absolute top-1/2 left-1/2 size-120 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.15),transparent_65%)]" />
               <div className="relative">
-                <h2 className="h-display mx-auto max-w-140 text-[clamp(26px,3.2vw,38px)] leading-[1.08]">{c.ctaTitle}</h2>
-                <p className="mx-auto mt-3 mb-8 max-w-120 text-[16.5px] leading-relaxed text-white/80">{c.ctaText}</p>
+                <h2 className="h-display mx-auto max-w-140 text-[clamp(26px,3.2vw,38px)] leading-[1.08]">
+                  {c.ctaTitle}
+                </h2>
+                <p className="lead mx-auto mt-3 mb-8 max-w-120 text-[16.5px] leading-relaxed text-white/80">
+                  {c.ctaText}
+                </p>
                 <div className="flex flex-wrap justify-center gap-3.5">
                   <Link href="/contact" className="btn-light">{c.get}</Link>
-                  <Link href="/contact" className="btn-ghost-dark">{c.sales}</Link>
+                  <Link href="/contact" className="btn-ghost-dark">{c.demo}</Link>
                 </div>
               </div>
             </div>
