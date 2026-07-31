@@ -130,10 +130,11 @@ function copyFor(lang: Lang) {
       ecoEyebrow: "One ecosystem",
       ecoTitle: "Every SmartOne product works together.",
       ecoSub: "Click is not a separate system bolted on. It is one layer of the same platform.",
+      /* The back office is part of Click, not a product next to it – listing
+         them as separate links in the chain said the opposite. */
       ecoChain: [
         { name: "Merchant Portal", text: "Your money, settlements and fees" },
-        { name: "Business back office", text: "Menus, staff, locations, analytics" },
-        { name: "SmartOne Click", text: "Floor, orders, kitchen" },
+        { name: "SmartOne Click", text: "Back office, floor, orders, kitchen and analytics" },
         { name: "SmartOne terminal", text: "Takes the payment at the table" },
       ],
 
@@ -216,8 +217,7 @@ function copyFor(lang: Lang) {
       ecoSub: "Click no es un sistema aparte añadido encima. Es una capa más de la misma plataforma.",
       ecoChain: [
         { name: "Portal del comercio", text: "Tu dinero, liquidaciones y comisiones" },
-        { name: "Back office de negocio", text: "Cartas, personal, locales, analítica" },
-        { name: "SmartOne Click", text: "Sala, pedidos, cocina" },
+        { name: "SmartOne Click", text: "Back office, sala, pedidos, cocina y analítica" },
         { name: "Terminal SmartOne", text: "Cobra en la mesa" },
       ],
 
@@ -303,7 +303,12 @@ export default async function ClickPage() {
                 {c.h1b}
               </span>
             </h1>
-            <p className="lead anim-fade-up anim-d-2 mx-auto mt-5 max-w-135 text-lg leading-relaxed text-white/70">
+            {/* text-balance, not the usual pretty: pretty only guarantees the
+                last line isn't a single word, which still left "modern
+                restaurants." stranded on a short third line. Balance evens all
+                three lines instead. Right for a short centred paragraph like
+                this one; wrong for long body copy, hence not in .lead. */}
+            <p className="anim-fade-up anim-d-2 mx-auto mt-5 max-w-135 text-lg leading-relaxed text-balance text-white/70">
               {c.sub}
             </p>
             <div className="anim-fade-up anim-d-3 mt-8 flex flex-wrap justify-center gap-3.5">
@@ -311,8 +316,25 @@ export default async function ClickPage() {
               <Link href="/contact" className="btn-ghost-dark">{c.demo}</Link>
             </div>
           </div>
-          <div className="anim-fade-up anim-d-3 mt-14">
-            <AppShot src="/click/floor.webp" alt={c.floorShot} width={SHOT.width} height={SHOT.height} priority />
+          {/* Three screens, not one: Click is a platform, and a single
+              screenshot argues for a single app. The floor plan leads; the back
+              office and the order list sit behind it, angled and dimmed, so
+              they read as depth rather than as three things competing.
+
+              They deliberately overhang the container – the section clips them,
+              which is the effect – so the hero can never widen the page. Below
+              lg the side shots are dropped: at phone width they would be too
+              small to read and would only crowd the one that matters. */}
+          <div className="anim-fade-up anim-d-3 relative mx-auto mt-14 max-w-3xl">
+            <div className="absolute top-12 -left-32 hidden w-[52%] -rotate-6 opacity-70 blur-[0.4px] lg:block" aria-hidden>
+              <AppShot src="/click/analytics.webp" alt="" width={SHOT.width} height={SHOT.height} />
+            </div>
+            <div className="absolute top-16 -right-32 hidden w-[52%] rotate-6 opacity-70 blur-[0.4px] lg:block" aria-hidden>
+              <AppShot src="/click/tickets.webp" alt="" width={SHOT.width} height={SHOT.height} />
+            </div>
+            <div className="relative z-10">
+              <AppShot src="/click/floor.webp" alt={c.floorShot} width={SHOT.width} height={SHOT.height} priority />
+            </div>
           </div>
         </div>
       </section>
