@@ -53,6 +53,7 @@ function copyFor(lang: Lang) {
       sub: "Manage menus, staff, tables, orders, kitchens and business analytics from one connected ecosystem built for modern restaurants.",
       get: "Get started →",
       demo: "Book a demo",
+      included: "Back office, POS, kitchen display and analytics – all included.",
 
       /* 1 · everything */
       allEyebrow: "One platform",
@@ -149,6 +150,7 @@ function copyFor(lang: Lang) {
       sub: "Gestiona cartas, personal, mesas, pedidos, cocina y analítica de negocio desde un ecosistema conectado, hecho para restaurantes modernos.",
       get: "Empezar →",
       demo: "Reservar una demo",
+      included: "Back office, TPV, pantalla de cocina y analítica, todo incluido.",
 
       allEyebrow: "Una plataforma",
       allTitle: "Todo lo que tu restaurante necesita.",
@@ -290,52 +292,36 @@ export default async function ClickPage() {
 
   return (
     <>
-      {/* hero – dark, with the floor plan as the headline visual */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-night-2 to-night py-20 text-white lg:py-24">
-        <div className="pointer-events-none absolute -top-20 -right-20 size-96 rounded-full bg-[radial-gradient(circle,rgba(90,25,181,0.55),transparent_70%)]" />
-        <div className="pointer-events-none absolute -bottom-24 left-1/4 size-80 rounded-full bg-[radial-gradient(circle,rgba(90,25,181,0.35),transparent_70%)]" />
-        <div className="relative mx-auto max-w-6xl px-6">
-          <div className="mx-auto max-w-160 text-center">
-            <span className="anim-fade-up eyebrow eyebrow-dark">{c.eyebrow}</span>
-            <h1 className="anim-fade-up anim-d-1 h-display mt-4 text-[clamp(34px,4.6vw,58px)] leading-[1.04]">
+      {/* hero – same shape as the Merchant Portal hero: light section, the
+          purple bloom top right, copy in the narrower column and the product
+          shot in the wider one. It used to be a dark gradient, matching a Click
+          brand block on the homepage that no longer exists; the footer is now
+          the only dark surface on the site, so the dark hero just made this one
+          page look like a different site. */}
+      <section className="relative overflow-x-clip pt-16 pb-20 lg:pt-24">
+        <div className="pointer-events-none absolute -top-40 right-[-10%] size-150 rounded-full bg-[radial-gradient(circle,rgba(90,25,181,0.09),transparent_65%)]" />
+        <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-6 lg:grid-cols-[0.85fr_1.15fr] lg:gap-14">
+          <div>
+            <span className="anim-fade-up inline-flex items-center gap-2 rounded-full bg-brand-tint px-3.5 py-1.5 text-[12px] font-semibold tracking-[0.08em] text-brand uppercase">
+              <span className="size-1.5 rounded-full bg-brand" />
+              {c.eyebrow}
+            </span>
+            <h1 className="anim-fade-up anim-d-1 h-display mt-5 text-[clamp(34px,4.6vw,58px)] leading-[1.04]">
               {c.h1a}{" "}
-              <span className="bg-gradient-to-r from-brand-l via-[#c9a6f5] to-white bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-brand via-[#7b3ce8] to-[#a86cf5] bg-clip-text text-transparent">
                 {c.h1b}
               </span>
             </h1>
-            {/* text-balance, not the usual pretty: pretty only guarantees the
-                last line isn't a single word, which still left "modern
-                restaurants." stranded on a short third line. Balance evens all
-                three lines instead. Right for a short centred paragraph like
-                this one; wrong for long body copy, hence not in .lead. */}
-            <p className="anim-fade-up anim-d-2 mx-auto mt-5 max-w-135 text-lg leading-relaxed text-balance text-white/70">
-              {c.sub}
-            </p>
-            <div className="anim-fade-up anim-d-3 mt-8 flex flex-wrap justify-center gap-3.5">
-              <Link href="/contact" className="btn-light">{c.get}</Link>
-              <Link href="/contact" className="btn-ghost-dark">{c.demo}</Link>
+            <p className="lead anim-fade-up anim-d-2 mt-5 max-w-125 text-[17px] leading-relaxed text-ink-2">{c.sub}</p>
+            <div className="anim-fade-up anim-d-3 mt-8 flex flex-wrap items-center gap-3.5">
+              <Link href="/contact" className="btn-primary">{c.get}</Link>
+              <Link href="/contact" className="btn-ghost">{c.demo}</Link>
             </div>
+            <p className="anim-fade-up anim-d-3 mt-4 text-[13.5px] text-ink-3">{c.included}</p>
           </div>
-          {/* Three screens, not one: Click is a platform, and a single
-              screenshot argues for a single app. The floor plan leads; the back
-              office and the order list sit behind it, angled and dimmed, so
-              they read as depth rather than as three things competing.
-
-              They deliberately overhang the container – the section clips them,
-              which is the effect – so the hero can never widen the page. Below
-              lg the side shots are dropped: at phone width they would be too
-              small to read and would only crowd the one that matters. */}
-          <div className="anim-fade-up anim-d-3 relative mx-auto mt-14 max-w-3xl">
-            <div className="absolute top-12 -left-32 hidden w-[52%] -rotate-6 opacity-70 blur-[0.4px] lg:block" aria-hidden>
-              <AppShot src="/click/analytics.webp" alt="" width={SHOT.width} height={SHOT.height} />
-            </div>
-            <div className="absolute top-16 -right-32 hidden w-[52%] rotate-6 opacity-70 blur-[0.4px] lg:block" aria-hidden>
-              <AppShot src="/click/tickets.webp" alt="" width={SHOT.width} height={SHOT.height} />
-            </div>
-            <div className="relative z-10">
-              <AppShot src="/click/floor.webp" alt={c.floorShot} width={SHOT.width} height={SHOT.height} priority />
-            </div>
-          </div>
+          <Reveal>
+            <AppShot src="/click/floor.webp" alt={c.floorShot} width={SHOT.width} height={SHOT.height} priority />
+          </Reveal>
         </div>
       </section>
 
