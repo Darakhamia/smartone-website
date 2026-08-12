@@ -51,6 +51,23 @@ const securityHeaders = [
     : []),
 ];
 
+/* The Webflow site this replaced used different paths, and those are the URLs
+   sitting in Google's index today – all of them now 404. A permanent redirect
+   keeps the visitor and hands the ranking to the new page instead of losing
+   both. Keep these long after launch: old URLs take months to age out of an
+   index, and they stay in other people's links and bookmarks for longer.
+
+   Only paths with a genuine equivalent are listed. The old GovTech pages
+   (/government, /smartone-dms, /smartone-tms, /smartone-track-trace) have no
+   counterpart here and are deliberately left to 404: pointing them at the
+   homepage would be a soft 404 to a search engine and a dead end to a reader. */
+const legacyRedirects = [
+  { source: "/smartone-click", destination: "/click", permanent: true },
+  { source: "/smartone-bank", destination: "/product/terminals", permanent: true },
+  { source: "/smartone-merchant-portal", destination: "/merchant-portal", permanent: true },
+  { source: "/smartone-about-company", destination: "/about", permanent: true },
+];
+
 const nextConfig: NextConfig = {
   // Standalone output for the Docker image deployed via Coolify
   output: "standalone",
@@ -58,6 +75,9 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
+  },
+  async redirects() {
+    return legacyRedirects;
   },
 };
 
