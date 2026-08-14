@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Logo } from "@/components/logo";
 import { useCountry } from "@/components/country/country-context";
 import { DICT, tr } from "@/lib/dictionaries";
@@ -130,6 +130,51 @@ export function SiteNav() {
   const t = DICT[lang];
   const pm = productMenu(lang, promotesRegister(country), TERMINAL_MODELS[terminalModel(country)].name);
 
+  /* The mega-menu closes on a delay rather than on the first pixel outside.
+     The element carrying the hover handlers is just the "Product" link, which
+     is narrow; reaching the far column of the panel is a diagonal, and the
+     natural path leaves the trigger sideways before it arrives. Closing
+     instantly snapped the menu shut mid-gesture.
+
+     The timer is cancelled as soon as the pointer comes back, so deliberately
+     moving away still closes without feeling sticky. */
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const cancelClose = () => {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+  };
+
+  const openMenu = () => {
+    cancelClose();
+    setMenu(true);
+  };
+
+  const scheduleClose = () => {
+    cancelClose();
+    closeTimer.current = setTimeout(() => setMenu(false), 240);
+  };
+
+  const closeMenu = () => {
+    cancelClose();
+    setMenu(false);
+  };
+
+  // don't leave a timer running against an unmounted component
+  useEffect(() => cancelClose, []);
+
+  // Escape closes it, for anyone not using a pointer
+  useEffect(() => {
+    if (!menu) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenu(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [menu]);
+
   // The country picker is a full-screen splash – no nav there.
   if (pathname === "/welcome") return null;
 
@@ -143,8 +188,6 @@ export function SiteNav() {
   // columns as the desktop mega-menu so the two never drift apart
   const mobileProduct = pm.flatMap((col) => col.items.map((i) => ({ href: i.href, label: i.label, icon: i.icon })));
 
-  const closeMenu = () => setMenu(false);
-
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-white/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-6xl items-center gap-7 px-6">
@@ -153,8 +196,8 @@ export function SiteNav() {
           {/* Product · full-width mega-menu */}
           <div
             className="relative flex h-16 items-center"
-            onMouseEnter={() => setMenu(true)}
-            onMouseLeave={() => setMenu(false)}
+            onMouseEnter={openMenu}
+            onMouseLeave={scheduleClose}
           >
             <Link
               href="/product"
