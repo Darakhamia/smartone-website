@@ -5,7 +5,7 @@ import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { DICT, tr } from "@/lib/dictionaries";
 import { promotesRegister } from "@/lib/countries";
 import { COMPANY, emiPartner } from "@/lib/legal";
-import { MERCHANT_PORTAL_URL } from "@/lib/links";
+import { API_DOCS_URL, MERCHANT_PORTAL_URL } from "@/lib/links";
 
 export async function SiteFooter() {
   const country = await getActiveCountry();
@@ -25,6 +25,7 @@ export async function SiteFooter() {
       cashRegister: "Cash register",
       whatIs: "What it is",
       login: "Log in",
+      apiDocs: "API docs",
       pricing: "Pricing",
       about: "About",
       industries: "Industries",
@@ -41,6 +42,7 @@ export async function SiteFooter() {
       cashRegister: "Caja registradora",
       whatIs: "Qué es",
       login: "Iniciar sesión",
+      apiDocs: "Documentación de la API",
       pricing: "Precios",
       about: "Nosotros",
       industries: "Sectores",
@@ -78,6 +80,7 @@ export async function SiteFooter() {
       links: [
         { href: "/merchant-portal", label: l.whatIs },
         { href: MERCHANT_PORTAL_URL, label: l.login },
+        { href: API_DOCS_URL, label: l.apiDocs },
       ],
     },
     {

@@ -2,6 +2,10 @@
    "Open the portal" link across the site points here. */
 export const MERCHANT_PORTAL_URL = "https://smartoneclub.com";
 
+/* API documentation, hosted on the portal's own domain – which is why the
+   footer lists it beside the Merchant Portal rather than under Company. */
+export const API_DOCS_URL = "https://docs.smartoneclub.com";
+
 /* Where the contact form posts (a serverless endpoint, so no keys live on the
    site). It is a cross-origin request, so the Content-Security-Policy in
    next.config.ts has to allow this origin in both connect-src (the fetch) and
