@@ -87,7 +87,7 @@ being true.
 
 `public/industries/`: events — unsplash.com/photos/1533174072545-7a4b6ad7a6c3,
 retail — 1556740738-b6a63e27c4df, cafés — 1509042239860-f550ce710b93,
-services — 1625047509168-a7026f36de04,
+services-electrician — 1621905251189-08b45d6a269e,
 mobile-courier — 1526367790999-0150786686a2,
 bakery — 1509440159596-0249088772ff,
 beauty-salon — 1521590832167-7bcbfaa6381f,

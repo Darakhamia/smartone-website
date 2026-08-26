@@ -9,7 +9,7 @@ const imgs = [
   { img: "/industries/events.jpg" },
   { img: "/industries/retail.jpg" },
   { img: "/industries/cafes.jpg" },
-  { img: "/industries/services.jpg" },
+  { img: "/industries/services-electrician.jpg" },
   { img: "/industries/mobile-courier.jpg" },
   { img: "/industries/bakery.jpg" },
   { img: "/industries/beauty-salon.jpg" },
