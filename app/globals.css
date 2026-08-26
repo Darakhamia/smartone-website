@@ -99,6 +99,21 @@ body {
     transform: none;
   }
 }
+/* Hero copy reveal: rises and sharpens rather than just fading. The blur is
+   what makes it read as focus pulling in instead of a plain fade – kept small
+   and short, so it registers without anyone watching it happen. */
+@keyframes focus-in {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
 @keyframes float-y {
   0%,
   100% {
@@ -220,6 +235,15 @@ body {
     opacity: 0;
     animation: fade-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
+  /* Used on the hero copy. Longer and softer than fade-up: this is the first
+     thing anyone sees and it plays once. Deliberately no `will-change` – it
+     would promote the heading to its own layer for the whole life of the page
+     to save one 900ms animation. */
+  .anim-focus-in {
+    opacity: 0;
+    animation: focus-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
   .anim-d-1 {
     animation-delay: 0.1s;
   }
