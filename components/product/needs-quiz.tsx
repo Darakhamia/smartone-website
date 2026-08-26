@@ -261,14 +261,33 @@ export function NeedsQuiz() {
       {!done ? (
         <div key={step} className="anim-tier-in">
           <div className="flex items-center justify-between">
-            <span className="font-mono text-[12px] font-semibold tracking-wide text-brand">
-              {c.question} {step + 1} {c.of} {questions.length}
+            {/* Sans, not mono: the monospace face is for figures, receipts and
+                codes, and this is a sentence that happens to contain a number.
+                Only the number itself takes the brand colour. */}
+            <span className="text-[12.5px] font-semibold tracking-[0.08em] text-ink-3 uppercase">
+              {c.question} <span className="text-brand">{step + 1}</span> {c.of} {questions.length}
             </span>
             <HeaderControls step={step} back={back} reset={reset} backLabel={c.back} startLabel={c.startOver} />
           </div>
 
-          <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-line">
-            <div className="h-full rounded-full bg-brand transition-[width] duration-500 ease-out" style={{ width: `${(step / questions.length) * 100}%` }} />
+          {/* One segment per question rather than a continuous bar. With three
+              questions a bar has almost nothing to say, and it read as broken on
+              the first one – the old fill was step/total, which is 0% while you
+              are looking at question one. The current step now counts as
+              reached, so the segments track the label above them. */}
+          <div
+            className="mt-4 flex gap-1.5"
+            role="progressbar"
+            aria-valuenow={step + 1}
+            aria-valuemin={1}
+            aria-valuemax={questions.length}
+          >
+            {questions.map((q, i) => (
+              <span
+                key={q.id}
+                className={`h-1.5 flex-1 rounded-full transition-colors duration-300 ${i <= step ? "bg-brand" : "bg-line"}`}
+              />
+            ))}
           </div>
 
           <h3 className="mt-7 font-display text-[clamp(21px,2.4vw,26px)] font-semibold tracking-tight">{questions[step].q}</h3>
@@ -278,8 +297,13 @@ export function NeedsQuiz() {
               <button
                 key={opt.label}
                 onClick={() => pick(oi)}
-                className="group flex flex-col gap-3.5 rounded-2xl border border-line-2 p-5 text-left transition-all duration-200 hover:-translate-y-0.5 hover:border-brand hover:bg-brand-tint hover:shadow-[0_16px_32px_-26px_rgba(90,25,181,0.55)]"
+                className="group relative flex flex-col gap-3.5 rounded-2xl border border-line-2 p-5 text-left transition-all duration-200 hover:-translate-y-0.5 hover:border-brand hover:bg-brand-tint hover:shadow-[0_16px_32px_-26px_rgba(90,25,181,0.55)]"
               >
+                {/* these are cards, so nothing about them says "clickable" until
+                    you are already on them – the arrow answers that on hover */}
+                <svg viewBox="0 0 16 16" className="absolute top-5 right-5 size-4 text-brand opacity-0 transition-all duration-200 group-hover:translate-x-0.5 group-hover:opacity-100" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <path d="M3 8h10M9 4l4 4-4 4" />
+                </svg>
                 <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-brand-tint text-brand transition-colors duration-200 group-hover:bg-brand group-hover:text-white">
                   <svg viewBox="0 0 24 24" className="size-6" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                     {optIcons[questions[step].id][oi]}
