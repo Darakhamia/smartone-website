@@ -106,9 +106,11 @@ export default async function PricingPage() {
             <p className="mx-auto mt-8 max-w-2xl text-center text-[12.5px] leading-relaxed text-ink-3">
               {c.footnote} {c.included} · {c.footnote2}
             </p>
-            {/* Legal qualifiers, kept but set smaller so they don't compete
-                with the headline terms above. */}
-            <p className="mx-auto mt-2 max-w-2xl text-center text-[11px] leading-relaxed text-ink-3/75">
+            {/* Legal qualifiers, set smaller so they don't compete with the
+                headline terms above – but not on a phone, where 11px is below
+                what anyone reads comfortably and this is the sentence that
+                tells them their card rate may differ. */}
+            <p className="mx-auto mt-2 max-w-2xl text-center text-[12.5px] leading-relaxed text-ink-3/75 sm:text-[11px]">
               {c.smallprint}
             </p>
           </Reveal>
