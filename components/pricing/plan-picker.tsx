@@ -114,7 +114,7 @@ export function PlanPicker() {
               {/* Badge sits inside the card, top right, in lilac – purple on
                   purple reads as washed out. */}
               {popular && (
-                <span className="absolute top-5 right-5 rounded-full bg-brand-l px-3 py-1 text-[10.5px] font-bold tracking-wide text-brand-d uppercase">
+                <span className="absolute top-5 right-5 rounded-full bg-brand-l px-3 py-1 text-[11.5px] font-bold tracking-wide text-brand-d uppercase sm:text-[10.5px]">
                   {t.popular}
                 </span>
               )}

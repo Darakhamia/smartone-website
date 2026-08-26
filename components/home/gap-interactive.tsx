@@ -93,7 +93,7 @@ export function GapCards({ cards, modal }: { cards: GapCard[]; modal: GapModal }
                   {gapIcons[g.kind]}
                 </svg>
               </span>
-              <span className="rounded-full bg-brand-tint px-3.5 py-1 text-[11px] font-semibold tracking-wide text-brand uppercase">{g.tag}</span>
+              <span className="rounded-full bg-brand-tint px-3.5 py-1 text-[12px] font-semibold tracking-wide text-brand uppercase sm:text-[11px]">{g.tag}</span>
             </div>
             <h3 className="mt-6 font-display text-[22px] font-semibold tracking-tight">{g.title}</h3>
             <p className="mt-2.5 leading-relaxed text-ink-2">{g.text}</p>
