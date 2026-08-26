@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 import { Brand } from "@/components/site-nav";
 import { FooterRegion } from "@/components/country/footer-region";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
@@ -117,15 +118,17 @@ export async function SiteFooter() {
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block py-1 text-[13.5px] text-white/60 transition-colors hover:text-white"
+                    className="flex items-center gap-1 py-2.5 text-[13.5px] text-white/60 transition-colors hover:text-white sm:py-1"
                   >
                     {link.label}
+                    {/* these open a new tab – the arrow is the only warning */}
+                    <ArrowUpRight className="size-3.5 shrink-0 opacity-70" strokeWidth={2} aria-hidden />
                   </a>
                 ) : (
                   <Link
                     key={link.label}
                     href={link.href}
-                    className="block py-1 text-[13.5px] text-white/60 transition-colors hover:text-white"
+                    className="block py-2.5 text-[13.5px] text-white/60 transition-colors hover:text-white sm:py-1"
                   >
                     {link.label}
                   </Link>
@@ -145,9 +148,9 @@ export async function SiteFooter() {
               © {new Date().getFullYear()} {COMPANY.name} · {COMPANY.registrationNumber} · VAT {COMPANY.vat}
             </span>
             <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
-              <Link href="/imprint" className="text-white/60 transition-colors hover:text-white">{l.imprint}</Link>
-              <Link href="/privacy" className="text-white/60 transition-colors hover:text-white">{l.privacy}</Link>
-              <Link href="/cookies" className="text-white/60 transition-colors hover:text-white">{l.cookies}</Link>
+              <Link href="/imprint" className="inline-block py-1.5 text-white/60 transition-colors hover:text-white">{l.imprint}</Link>
+              <Link href="/privacy" className="inline-block py-1.5 text-white/60 transition-colors hover:text-white">{l.privacy}</Link>
+              <Link href="/cookies" className="inline-block py-1.5 text-white/60 transition-colors hover:text-white">{l.cookies}</Link>
               <span className="text-white/40">{region}</span>
             </div>
           </div>

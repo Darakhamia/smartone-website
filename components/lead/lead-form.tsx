@@ -5,6 +5,7 @@ import Link from "next/link";
 import { PhoneField, COUNTRY_DIAL, flag } from "@/components/lead/phone-field";
 import { useCountry } from "@/components/country/country-context";
 import { tr } from "@/lib/dictionaries";
+import { COMPANY } from "@/lib/legal";
 import { LEAD_ENDPOINT } from "@/lib/links";
 
 /* SmartOne lead form. Posts JSON to the Vercel serverless endpoint (no keys
@@ -13,6 +14,17 @@ import { LEAD_ENDPOINT } from "@/lib/links";
    en-dash in "€4,000–€15,000"). Labels, order and styling are ours. */
 
 const ENDPOINT = LEAD_ENDPOINT;
+
+/* Active country code → the exact <option value> the endpoint expects. Keep it
+   in step with the options below; a value it doesn't recognise is worse than
+   an empty one. */
+const COUNTRY_BY_CODE: Record<string, string> = {
+  mt: "Malta",
+  es: "Spain",
+  cy: "Cyprus",
+  sk: "Slovakia",
+  uk: "United Kingdom",
+};
 
 // min-height keeps the label box the same height whether it wraps to one or
 // two lines, so the inputs in a row never drift out of alignment.
@@ -75,7 +87,8 @@ export function LeadForm() {
       privacyAfter: ".",
       doneTitle: "Thanks — we got it!",
       doneText: "We'll get back to you within one business day.",
-      error: "Something went wrong — please try again, or email us directly.",
+      errorBefore: "Something went wrong — please try again, or email us at ",
+      errorAfter: ".",
     },
     {
       choose: "Elige…",
@@ -112,13 +125,21 @@ export function LeadForm() {
       privacyAfter: ".",
       doneTitle: "¡Gracias, lo recibimos!",
       doneText: "Te responderemos en un día hábil.",
-      error: "Algo salió mal. Inténtalo de nuevo o escríbenos por email.",
+      errorBefore: "Algo salió mal. Inténtalo de nuevo o escríbenos a ",
+      errorAfter: ".",
     },
   );
   const formRef = useRef<HTMLFormElement>(null);
   const [status, setStatus] = useState<"idle" | "sending" | "error" | "done">("idle");
-  const [country, setCountry] = useState("");
-  const [phone, setPhone] = useState("");
+  /* The site already knows which region the visitor picked, so the form starts
+     there instead of asking again – it stays a normal select, so anyone
+     ordering from somewhere else just changes it. The values are fixed by the
+     lead endpoint's contract, hence the map rather than the country name. */
+  const initialCountry = COUNTRY_BY_CODE[activeCountry.code] ?? "";
+  const [country, setCountry] = useState(initialCountry);
+  const [phone, setPhone] = useState(
+    initialCountry && COUNTRY_DIAL[initialCountry] ? `+${COUNTRY_DIAL[initialCountry]} ` : "",
+  );
 
   // pick a country → prefill the phone dial code (only if phone is empty),
   // so the flag lights up straight away
@@ -294,7 +315,13 @@ export function LeadForm() {
         {t.privacyAfter}
       </p>
       {status === "error" && (
-        <p className="mt-4 rounded-xl bg-[#fbeaea] px-4 py-3 text-[13.5px] text-[#b4231f]">{t.error}</p>
+        <p className="mt-4 rounded-xl bg-[#fbeaea] px-4 py-3 text-[13.5px] text-[#b4231f]">
+          {t.errorBefore}
+          <a href={`mailto:${COMPANY.email}`} className="font-semibold underline underline-offset-2">
+            {COMPANY.email}
+          </a>
+          {t.errorAfter}
+        </p>
       )}
     </form>
   );

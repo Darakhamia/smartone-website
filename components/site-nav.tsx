@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { ArrowUpRight } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { useCountry } from "@/components/country/country-context";
 import { DICT, tr } from "@/lib/dictionaries";
@@ -14,7 +15,7 @@ export function Brand({ light = false }: { light?: boolean }) {
     <Link
       href="/"
       aria-label="SmartOne – home"
-      className={light ? "text-white" : "text-brand"}
+      className={`inline-block py-2 ${light ? "text-white" : "text-brand"}`}
     >
       {/* the mark's rays extend above the cap line, so the box centre sits
           below the letters – nudge up to optically centre the wordmark */}
@@ -243,9 +244,11 @@ export function SiteNav() {
             href={MERCHANT_PORTAL_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[14.5px] font-medium text-ink-2 transition-colors hover:text-ink"
+            className="inline-flex items-center gap-1 text-[14.5px] font-medium text-ink-2 transition-colors hover:text-ink"
           >
             {t.nav.login}
+            {/* the portal is a separate app in a new tab – say so */}
+            <ArrowUpRight className="size-3.5 opacity-60" strokeWidth={2} aria-hidden />
           </a>
           {/* shadow-none: btn-primary carries a violet glow that works on the
               page but reads as a smudge against the white header bar. */}
@@ -303,8 +306,9 @@ export function SiteNav() {
             </Link>
           ))}
           <div className="mt-3 flex items-center gap-4 border-t border-line pt-4">
-            <a href={MERCHANT_PORTAL_URL} target="_blank" rel="noopener noreferrer" onClick={() => setOpen(false)} className="text-[15px] font-medium text-ink-2">
+            <a href={MERCHANT_PORTAL_URL} target="_blank" rel="noopener noreferrer" onClick={() => setOpen(false)} className="inline-flex items-center gap-1 py-2 text-[15px] font-medium text-ink-2">
               {t.nav.login}
+              <ArrowUpRight className="size-3.5 opacity-60" strokeWidth={2} aria-hidden />
             </a>
             <Link href="/contact" onClick={() => setOpen(false)} className="btn-primary px-5 py-2.5 shadow-none">
               {t.nav.getStarted}
