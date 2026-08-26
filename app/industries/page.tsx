@@ -50,7 +50,14 @@ const scenarioIcons: Record<string, LucideIcon[]> = {
   mobile: [Signal, BatteryFull, Package],
 };
 
-function copyFor(lang: Lang, device: string, cur: string) {
+/* `fiscal` is not cosmetic: the UK is the one market where the device does not
+   issue fiscal receipts and there is no Z-report, so promising either there is
+   simply untrue. Only the English copy varies – Spanish renders for Spain
+   alone, which is a fiscal market, so its wording is always right. If a
+   non-fiscal Spanish-speaking market is ever added, the Spanish strings below
+   need the same treatment. */
+function copyFor(lang: Lang, device: string, cur: string, fiscal: boolean) {
+  const receipt = fiscal ? "fiscal receipt" : "receipt";
   return tr(
     lang,
     {
@@ -58,6 +65,7 @@ function copyFor(lang: Lang, device: string, cur: string) {
       titleA: "One device,",
       titleB: "your kind of business.",
       lead: "It's the same job everywhere – take the payment, print the receipt, know your money. Here's what that looks like at your counter.",
+      cardsHeading: "Industries we serve",
       clickCallout: "is a connected ordering solution – orders flow to the register in real time.",
       get: "Get a terminal →",
       sales: "Contact sales",
@@ -80,9 +88,9 @@ function copyFor(lang: Lang, device: string, cur: string) {
         {
           id: "vets", img: "/industries/vets.jpg", alt: "Vet examining a cat at the clinic counter", eyebrow: "Flagship", title: "Vets & services",
           scenarios: [
-            { title: "One receipt, two lines", text: "Consultation and meds on one fiscal receipt." },
+            { title: "One receipt, two lines", text: `Consultation and meds on one ${receipt}.` },
             { title: "Reprint on the spot", text: "Find any receipt and reprint it in seconds." },
-            { title: "Close the day clean", text: "Z-report at closing – numbers ready for the accountant." },
+            { title: "Close the day clean", text: fiscal ? "Z-report at closing – numbers ready for the accountant." : "Day-end totals at closing – numbers ready for the accountant." },
           ],
           device: `${device} on the counter`,
           scope: "Booking and clinical records stay in your existing tools.",
@@ -102,7 +110,7 @@ function copyFor(lang: Lang, device: string, cur: string) {
           scenarios: [
             { title: "Orders reach the register", text: "Click sends the order straight to the register." },
             { title: "Fast at the peak", text: "The big screen keeps the morning rush moving." },
-            { title: "One fiscal receipt", text: "Every order closes with a compliant receipt." },
+            { title: fiscal ? "One fiscal receipt" : "One receipt", text: fiscal ? "Every order closes with a compliant receipt." : "Every order closes with a printed receipt." },
           ],
           device: `${device} + Click`,
           scope: "Table plans beyond Click are on your side.",
@@ -112,7 +120,7 @@ function copyFor(lang: Lang, device: string, cur: string) {
           id: "beauty", img: "/industries/beauty.jpg", alt: "Beauty professional finishing a treatment", eyebrow: "", title: "Beauty & wellness",
           scenarios: [
             { title: "Service, then payment", text: "Finish the appointment, take payment on the same device." },
-            { title: "Receipt every time", text: "A fiscal receipt prints for every client." },
+            { title: "Receipt every time", text: `A ${receipt} prints for every client.` },
             { title: "Know your week", text: `What you took and what you'll receive, in ${cur}.` },
           ],
           device: `${device} at the chair`,
@@ -135,6 +143,7 @@ function copyFor(lang: Lang, device: string, cur: string) {
       titleA: "Un dispositivo,",
       titleB: "para tu tipo de negocio.",
       lead: "Es el mismo trabajo en todas partes: cobrar, imprimir el ticket, controlar tu dinero. Así se ve en tu mostrador.",
+      cardsHeading: "Sectores a los que servimos",
       clickCallout: "es una solución de pedidos conectada: los pedidos llegan a la caja en tiempo real.",
       get: "Solicita tu terminal →",
       sales: "Contactar con ventas",
@@ -278,7 +287,7 @@ export default async function IndustriesPage() {
   const country = await getActiveCountry();
   const lang = await getActiveLang();
   // One device per country: never name a model the visitor's market can't buy.
-  const c = copyFor(lang, TERMINAL_MODELS[terminalModel(country)].name, currencyWord(country, lang));
+  const c = copyFor(lang, TERMINAL_MODELS[terminalModel(country)].name, currencyWord(country, lang), country.fiscal);
   return (
     <>
       {/* 1 · hero */}
@@ -298,6 +307,8 @@ export default async function IndustriesPage() {
       {/* 2 · industry cards grid */}
       <section className="pb-16">
         <div className="mx-auto max-w-6xl px-6">
+          {/* the cards below are h3; without this the outline jumps h1 → h3 */}
+          <h2 className="sr-only">{c.cardsHeading}</h2>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {c.cards.map((card, i) => (
               <Reveal key={card.title} delay={i * 60} className="h-full">

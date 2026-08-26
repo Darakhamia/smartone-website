@@ -24,6 +24,7 @@ export default async function ContactPage() {
       eyebrow: "Get started",
       titleA: "Let's get you",
       titleB: "on the counter.",
+      pointsHeading: "What you get",
       lead: "Tell us about your business. Ready to order or just have questions – either way, we'll reply within one business day.",
       points: [
         { title: "Live in ≤4 business days", text: "From this form to taking payments – including fiscal registration for your market." },
@@ -35,6 +36,7 @@ export default async function ContactPage() {
       eyebrow: "Empieza",
       titleA: "Vamos a ponerlo",
       titleB: "en tu mostrador.",
+      pointsHeading: "Qué obtienes",
       lead: "Cuéntanos sobre tu negocio. ¿Listo para pedir o solo tienes dudas? En cualquier caso, respondemos en un día hábil.",
       points: [
         { title: "Operativo en ≤4 días hábiles", text: "De este formulario a cobrar, incluida la registración fiscal para tu mercado." },
@@ -56,6 +58,8 @@ export default async function ContactPage() {
             </span>
           </h1>
           <p className="anim-fade-up anim-d-2 mt-5 max-w-115 text-lg leading-relaxed text-ink-2">{c.lead}</p>
+          {/* keeps the outline from jumping h1 → h3 over these three points */}
+          <h2 className="sr-only">{c.pointsHeading}</h2>
           <div className="anim-fade-up anim-d-3 mt-9 space-y-5">
             {c.points.map((p, i) => (
               <div key={p.title} className="flex gap-4">

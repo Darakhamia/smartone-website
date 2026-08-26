@@ -2,7 +2,11 @@ import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/site";
 
 /* Substantive, indexable routes. The /welcome and /login utility pages are
-   left out on purpose (they're also disallowed in robots + noindex). */
+   left out on purpose (they're also disallowed in robots + noindex), and so is
+   /case-studies: nothing on the site links to it and it has no stories on it
+   yet, so listing it only offers search engines an orphaned page whose whole
+   content is that we have nothing to show. Put it back the day it has a real
+   case study on it. */
 const PAGES = [
   "",
   "/pricing",
@@ -14,7 +18,6 @@ const PAGES = [
   "/click",
   "/industries",
   "/about",
-  "/case-studies",
   "/contact",
   "/imprint",
   "/privacy",

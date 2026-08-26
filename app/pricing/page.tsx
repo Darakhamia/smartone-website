@@ -22,6 +22,7 @@ export default async function PricingPage() {
     lang,
     {
       eyebrow: "Pricing",
+      ratesHeading: "Rates by monthly card volume",
       titleA: "Transparent rates.",
       titleB: "No hidden fees.",
       lead: "One rate per band, every fee shown up front. Buy the terminal or rent it – your call.",
@@ -46,6 +47,7 @@ export default async function PricingPage() {
     },
     {
       eyebrow: "Precios",
+      ratesHeading: "Tarifas por volumen mensual con tarjeta",
       titleA: "Tarifas transparentes.",
       titleB: "Sin comisiones ocultas.",
       lead: "Una tarifa por tramo, cada comisión visible desde el principio. Compra el terminal o alquílalo, tú decides.",
@@ -93,6 +95,10 @@ export default async function PricingPage() {
       {/* 2 · plan picker */}
       <section className="pb-8">
         <div className="mx-auto max-w-6xl px-6">
+          {/* The rate cards are h3, and the page heading is h1 – without this the
+              outline skips a level. Hidden visually because the section reads
+              fine without it; screen readers and search engines need it. */}
+          <h2 className="sr-only">{c.ratesHeading}</h2>
           <Reveal>
             <PlanPicker />
           </Reveal>
