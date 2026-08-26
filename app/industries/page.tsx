@@ -77,8 +77,8 @@ function copyFor(lang: Lang, device: string, cur: string, fiscal: boolean) {
         { img: "/industries/events.jpg", title: "Festivals & events", hook: "Every bar takes cards", href: "#events" },
         { img: "/industries/retail.jpg", title: "Retail", hook: "Ring up, tap, receipt out", href: "#retail" },
         { img: "/industries/cafes.jpg", title: "Cafés & HoReCa", hook: "Orders reach the register", href: "#cafes" },
-        { img: "/industries/beauty.jpg", title: "Beauty & wellness", hook: "Book, serve, get paid", href: "#beauty" },
-        { img: "/industries/mobile.jpg", title: "Mobile / Street", hook: "No Wi-Fi? No problem", href: "#mobile" },
+        { img: "/industries/beauty-salon.jpg", title: "Beauty & wellness", hook: "Book, serve, get paid", href: "#beauty" },
+        { img: "/industries/mobile-courier.jpg", title: "Mobile / Street", hook: "No Wi-Fi? No problem", href: "#mobile" },
         { img: "/industries/services.jpg", title: "Professional services", hook: "Parts and labour, one bill", href: "/contact" },
         { img: "/industries/bakery.jpg", title: "Bakeries", hook: "Fast morning queue", href: "/contact" },
         { img: "/industries/grocery.jpg", title: "Grocery", hook: "Card, contactless and cash", href: "/contact" },
@@ -116,7 +116,7 @@ function copyFor(lang: Lang, device: string, cur: string, fiscal: boolean) {
           click: true,
         },
         {
-          id: "beauty", img: "/industries/beauty.jpg", alt: "Styling chairs and mirrors in a salon", eyebrow: "", title: "Beauty & wellness",
+          id: "beauty", img: "/industries/beauty-salon.jpg", alt: "Styling chairs and mirrors in a salon", eyebrow: "", title: "Beauty & wellness",
           scenarios: [
             { title: "Service, then payment", text: "Finish the appointment, take payment on the same device." },
             { title: "Receipt every time", text: `A ${receipt} prints for every client.` },
@@ -126,7 +126,7 @@ function copyFor(lang: Lang, device: string, cur: string, fiscal: boolean) {
           scope: "Appointment booking stays in your current scheduler.",
         },
         {
-          id: "mobile", img: "/industries/mobile.jpg", alt: "Delivery courier riding through a city street", eyebrow: "", title: "Mobile / Street",
+          id: "mobile", img: "/industries/mobile-courier.jpg", alt: "Delivery courier riding through a city street", eyebrow: "", title: "Mobile / Street",
           scenarios: [
             { title: "No Wi-Fi dependency", text: "Built-in SIM keeps you taking cards anywhere." },
             { title: "Lasts the day", text: "One charge covers the shift." },
@@ -155,8 +155,8 @@ function copyFor(lang: Lang, device: string, cur: string, fiscal: boolean) {
         { img: "/industries/events.jpg", title: "Festivales y eventos", hook: "Todas las barras cobran con tarjeta", href: "#events" },
         { img: "/industries/retail.jpg", title: "Retail", hook: "Cobra, tap, ticket fuera", href: "#retail" },
         { img: "/industries/cafes.jpg", title: "Cafeterías y HoReCa", hook: "Los pedidos llegan a la caja", href: "#cafes" },
-        { img: "/industries/beauty.jpg", title: "Belleza y bienestar", hook: "Reserva, atiende, cobra", href: "#beauty" },
-        { img: "/industries/mobile.jpg", title: "Móvil / Calle", hook: "¿Sin Wi-Fi? Sin problema", href: "#mobile" },
+        { img: "/industries/beauty-salon.jpg", title: "Belleza y bienestar", hook: "Reserva, atiende, cobra", href: "#beauty" },
+        { img: "/industries/mobile-courier.jpg", title: "Móvil / Calle", hook: "¿Sin Wi-Fi? Sin problema", href: "#mobile" },
         { img: "/industries/services.jpg", title: "Servicios profesionales", hook: "Piezas y mano de obra, una factura", href: "/contact" },
         { img: "/industries/bakery.jpg", title: "Panaderías", hook: "Cola de la mañana, rápida", href: "/contact" },
         { img: "/industries/grocery.jpg", title: "Alimentación", hook: "Tarjeta, contactless y efectivo", href: "/contact" },
@@ -194,7 +194,7 @@ function copyFor(lang: Lang, device: string, cur: string, fiscal: boolean) {
           click: true,
         },
         {
-          id: "beauty", img: "/industries/beauty.jpg", alt: "Sillones y espejos en un salón de belleza", eyebrow: "", title: "Belleza y bienestar",
+          id: "beauty", img: "/industries/beauty-salon.jpg", alt: "Sillones y espejos en un salón de belleza", eyebrow: "", title: "Belleza y bienestar",
           scenarios: [
             { title: "Servicio y luego pago", text: "Termina la cita y cobra en el mismo dispositivo, tarjeta o contactless." },
             { title: "Ticket siempre", text: "Un ticket fiscal conforme se imprime para cada cliente, automáticamente." },
@@ -204,7 +204,7 @@ function copyFor(lang: Lang, device: string, cur: string, fiscal: boolean) {
           scope: "Pagos y tickets fiscales. Las reservas de cita se quedan en tu agenda actual.",
         },
         {
-          id: "mobile", img: "/industries/mobile.jpg", alt: "Repartidor circulando por una calle de la ciudad", eyebrow: "", title: "Móvil / Calle",
+          id: "mobile", img: "/industries/mobile-courier.jpg", alt: "Repartidor circulando por una calle de la ciudad", eyebrow: "", title: "Móvil / Calle",
           scenarios: [
             { title: "Sin depender del Wi-Fi", text: "La SIM integrada te permite cobrar en cualquier sitio." },
             { title: "Aguanta el día", text: "Una carga cubre el turno." },
