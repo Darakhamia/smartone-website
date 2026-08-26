@@ -85,10 +85,10 @@ being true.
 
 ### Stock photo credits (Unsplash license, free commercial use)
 
-`public/industries/`: vets — unsplash.com/photos/1628009368231-7bb7cfcb0def,
+`public/industries/`: events — unsplash.com/photos/1533174072545-7a4b6ad7a6c3,
 retail — 1556740738-b6a63e27c4df, cafés — 1509042239860-f550ce710b93,
-services — 1625047509168-a7026f36de04, mobile — 1565123409695-7b5ef63a2efb,
-bakery — 1509440159596-0249088772ff, beauty — 1604654894610-df63bc536371,
+services — 1625047509168-a7026f36de04, mobile — 1526367790999-0150786686a2,
+bakery — 1509440159596-0249088772ff, beauty — 1521590832167-7bcbfaa6381f,
 grocery — 1542838132-92c53300491e
 
 `public/proof/`: shop — 1607631568010-a87245c0daf8,

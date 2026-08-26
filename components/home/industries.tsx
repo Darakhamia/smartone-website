@@ -6,7 +6,7 @@ import { tr } from "@/lib/dictionaries";
 import type { Lang } from "@/lib/countries";
 
 const imgs = [
-  { img: "/industries/vets.jpg" },
+  { img: "/industries/events.jpg" },
   { img: "/industries/retail.jpg" },
   { img: "/industries/cafes.jpg" },
   { img: "/industries/services.jpg" },
@@ -22,14 +22,14 @@ function copyFor(lang: Lang) {
     {
       eyebrow: "Built for your kind of business",
       title: "Solutions tailored to your industry.",
-      titles: ["Vets & services", "Retail", "Cafés & HoReCa", "Professional services", "Mobile / Street", "Bakeries", "Beauty & wellness", "Grocery"],
+      titles: ["Festivals & events", "Retail", "Cafés & HoReCa", "Professional services", "Mobile / Street", "Bakeries", "Beauty & wellness", "Grocery"],
       more: ["…and many", "more businesses"],
       moreText: "If you take payments, SmartOne fits your counter.",
     },
     {
       eyebrow: "Hecho para tu tipo de negocio",
       title: "Soluciones a la medida de tu sector.",
-      titles: ["Veterinarias y servicios", "Retail", "Cafeterías y HoReCa", "Servicios profesionales", "Móvil / Calle", "Panaderías", "Belleza y bienestar", "Alimentación"],
+      titles: ["Festivales y eventos", "Retail", "Cafeterías y HoReCa", "Servicios profesionales", "Móvil / Calle", "Panaderías", "Belleza y bienestar", "Alimentación"],
       more: ["…y muchos", "más negocios"],
       moreText: "Si aceptas pagos, SmartOne encaja en tu mostrador.",
     },

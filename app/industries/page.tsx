@@ -3,8 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   ReceiptText,
-  Printer,
-  FileCheck,
+  Store,
   Tags,
   CreditCard,
   TrendingUp,
@@ -25,7 +24,7 @@ import { currencyWord, terminalModel, TERMINAL_MODELS, type Lang } from "@/lib/c
 export const metadata: Metadata = {
   title: "Industries",
   description:
-    "One device, your kind of business. Vets, retail, cafés, beauty, mobile vendors and more – SmartOne fits the counter you already run.",
+    "One device, your kind of business. Festivals, retail, cafés, beauty, mobile vendors and more – SmartOne fits the counter you already run.",
 };
 
 type Industry = {
@@ -43,7 +42,7 @@ type Industry = {
 /* One icon per scenario, keyed by industry id – language-independent, so it
    lives outside the copy. */
 const scenarioIcons: Record<string, LucideIcon[]> = {
-  vets: [ReceiptText, Printer, FileCheck],
+  events: [Store, ReceiptText, TrendingUp],
   retail: [Tags, CreditCard, TrendingUp],
   cafes: [ArrowRightLeft, Zap, ReceiptText],
   beauty: [CalendarCheck, ReceiptText, BarChart3],
@@ -75,7 +74,7 @@ function copyFor(lang: Lang, device: string, cur: string, fiscal: boolean) {
       ctaTitle: "Don't see your trade? It still fits.",
       ctaText: "If you take payments across a counter, SmartOne works for you.",
       cards: [
-        { img: "/industries/vets.jpg", title: "Vets & services", hook: "Consult and meds on one receipt", href: "#vets" },
+        { img: "/industries/events.jpg", title: "Festivals & events", hook: "Every bar takes cards", href: "#events" },
         { img: "/industries/retail.jpg", title: "Retail", hook: "Ring up, tap, receipt out", href: "#retail" },
         { img: "/industries/cafes.jpg", title: "Cafés & HoReCa", hook: "Orders reach the register", href: "#cafes" },
         { img: "/industries/beauty.jpg", title: "Beauty & wellness", hook: "Book, serve, get paid", href: "#beauty" },
@@ -86,14 +85,14 @@ function copyFor(lang: Lang, device: string, cur: string, fiscal: boolean) {
       ],
       industries: [
         {
-          id: "vets", img: "/industries/vets.jpg", alt: "Vet examining a cat at the clinic counter", eyebrow: "Flagship", title: "Vets & services",
+          id: "events", img: "/industries/events.jpg", alt: "Festival crowd and confetti in front of a lit stage", eyebrow: "", title: "Festivals & events",
           scenarios: [
-            { title: "One receipt, two lines", text: `Consultation and meds on one ${receipt}.` },
-            { title: "Reprint on the spot", text: "Find any receipt and reprint it in seconds." },
-            { title: "Close the day clean", text: fiscal ? "Z-report at closing – numbers ready for the accountant." : "Day-end totals at closing – numbers ready for the accountant." },
+            { title: "Every stand, one account", text: "Set the menu once in the portal – every bar rings up the same prices." },
+            { title: fiscal ? "A fiscal receipt at every bar" : "A receipt at every bar", text: `The printer is built in, so the ${receipt} prints at the bar.` },
+            { title: "See the takings live", text: "Revenue by day and by bar in the portal, while the gates are still open." },
           ],
-          device: `${device} on the counter`,
-          scope: "Booking and clinical records stay in your existing tools.",
+          device: `${device} at every bar`,
+          scope: "Ticketing and access control stay with your event platform.",
         },
         {
           id: "retail", img: "/industries/retail.jpg", alt: "Interior of a modern clothing boutique", eyebrow: "", title: "Retail",
@@ -117,7 +116,7 @@ function copyFor(lang: Lang, device: string, cur: string, fiscal: boolean) {
           click: true,
         },
         {
-          id: "beauty", img: "/industries/beauty.jpg", alt: "Beauty professional finishing a treatment", eyebrow: "", title: "Beauty & wellness",
+          id: "beauty", img: "/industries/beauty.jpg", alt: "Styling chairs and mirrors in a salon", eyebrow: "", title: "Beauty & wellness",
           scenarios: [
             { title: "Service, then payment", text: "Finish the appointment, take payment on the same device." },
             { title: "Receipt every time", text: `A ${receipt} prints for every client.` },
@@ -127,7 +126,7 @@ function copyFor(lang: Lang, device: string, cur: string, fiscal: boolean) {
           scope: "Appointment booking stays in your current scheduler.",
         },
         {
-          id: "mobile", img: "/industries/mobile.jpg", alt: "Food truck vendor on a city street", eyebrow: "", title: "Mobile / Street",
+          id: "mobile", img: "/industries/mobile.jpg", alt: "Delivery courier riding through a city street", eyebrow: "", title: "Mobile / Street",
           scenarios: [
             { title: "No Wi-Fi dependency", text: "Built-in SIM keeps you taking cards anywhere." },
             { title: "Lasts the day", text: "One charge covers the shift." },
@@ -153,7 +152,7 @@ function copyFor(lang: Lang, device: string, cur: string, fiscal: boolean) {
       ctaTitle: "¿No ves tu sector? También encaja.",
       ctaText: "Si cobras en un mostrador, SmartOne funciona para ti.",
       cards: [
-        { img: "/industries/vets.jpg", title: "Veterinarias y servicios", hook: "Consulta y medicación en un ticket", href: "#vets" },
+        { img: "/industries/events.jpg", title: "Festivales y eventos", hook: "Todas las barras cobran con tarjeta", href: "#events" },
         { img: "/industries/retail.jpg", title: "Retail", hook: "Cobra, tap, ticket fuera", href: "#retail" },
         { img: "/industries/cafes.jpg", title: "Cafeterías y HoReCa", hook: "Los pedidos llegan a la caja", href: "#cafes" },
         { img: "/industries/beauty.jpg", title: "Belleza y bienestar", hook: "Reserva, atiende, cobra", href: "#beauty" },
@@ -164,14 +163,14 @@ function copyFor(lang: Lang, device: string, cur: string, fiscal: boolean) {
       ],
       industries: [
         {
-          id: "vets", img: "/industries/vets.jpg", alt: "Veterinaria examinando un gato en el mostrador de la clínica", eyebrow: "Destacado", title: "Veterinarias y servicios",
+          id: "events", img: "/industries/events.jpg", alt: "Público de un festival con confeti frente a un escenario iluminado", eyebrow: "", title: "Festivales y eventos",
           scenarios: [
-            { title: "Un ticket, dos líneas", text: "La consulta y la medicación que se lleva a casa, en un solo ticket fiscal." },
-            { title: "Reimprime al momento", text: "¿Un cliente necesita el ticket otra vez para el seguro? Búscalo y reimprímelo en segundos." },
-            { title: "Cierra el día limpio", text: "Informe Z al cerrar, y tus cifras listas para el contable." },
+            { title: "Cada barra, una sola cuenta", text: "Configura la carta una vez en el portal y todas las barras cobran los mismos precios." },
+            { title: "Un ticket fiscal en cada barra", text: "La impresora va integrada: el ticket sale en la propia barra." },
+            { title: "Mira la recaudación en directo", text: "Ingresos por día y por barra en el portal, con el recinto abierto." },
           ],
-          device: `${device} en el mostrador`,
-          scope: "Tickets fiscales y pagos con tarjeta en un solo dispositivo certificado. Las reservas o el historial clínico se quedan en tus herramientas actuales.",
+          device: `${device} en cada barra`,
+          scope: "Pagos y tickets fiscales en cada barra del recinto. La venta de entradas y el control de accesos se quedan en tu plataforma de eventos.",
         },
         {
           id: "retail", img: "/industries/retail.jpg", alt: "Interior de una tienda de ropa moderna", eyebrow: "", title: "Retail",
@@ -195,7 +194,7 @@ function copyFor(lang: Lang, device: string, cur: string, fiscal: boolean) {
           click: true,
         },
         {
-          id: "beauty", img: "/industries/beauty.jpg", alt: "Profesional de belleza terminando un tratamiento", eyebrow: "", title: "Belleza y bienestar",
+          id: "beauty", img: "/industries/beauty.jpg", alt: "Sillones y espejos en un salón de belleza", eyebrow: "", title: "Belleza y bienestar",
           scenarios: [
             { title: "Servicio y luego pago", text: "Termina la cita y cobra en el mismo dispositivo, tarjeta o contactless." },
             { title: "Ticket siempre", text: "Un ticket fiscal conforme se imprime para cada cliente, automáticamente." },
@@ -205,7 +204,7 @@ function copyFor(lang: Lang, device: string, cur: string, fiscal: boolean) {
           scope: "Pagos y tickets fiscales. Las reservas de cita se quedan en tu agenda actual.",
         },
         {
-          id: "mobile", img: "/industries/mobile.jpg", alt: "Vendedor de food truck en una calle de la ciudad", eyebrow: "", title: "Móvil / Calle",
+          id: "mobile", img: "/industries/mobile.jpg", alt: "Repartidor circulando por una calle de la ciudad", eyebrow: "", title: "Móvil / Calle",
           scenarios: [
             { title: "Sin depender del Wi-Fi", text: "La SIM integrada te permite cobrar en cualquier sitio." },
             { title: "Aguanta el día", text: "Una carga cubre el turno." },

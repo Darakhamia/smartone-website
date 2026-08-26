@@ -62,7 +62,7 @@ export function LeadForm() {
       uk: "United Kingdom",
       other: "Other",
       typeL: "Type of business",
-      vets: "Vets",
+      events: "Festivals & events",
       retail: "Retail",
       cafes: "Café & Restaurants",
       services: "Services",
@@ -103,7 +103,7 @@ export function LeadForm() {
       uk: "Reino Unido",
       other: "Otro",
       typeL: "Tipo de negocio",
-      vets: "Veterinaria",
+      events: "Festivales y eventos",
       retail: "Retail",
       cafes: "Cafeterías y restaurantes",
       services: "Servicios",
@@ -244,7 +244,7 @@ export function LeadForm() {
         <Field label={t.typeL}>
           <select name="business_type" required defaultValue="" className={selectCls}>
             <option value="" disabled>{t.choose}</option>
-            <option value="Vets">{t.vets}</option>
+            <option value="Festivals / Events">{t.events}</option>
             <option value="Retail">{t.retail}</option>
             <option value="Cafe / HoReCa">{t.cafes}</option>
             <option value="Services">{t.services}</option>
