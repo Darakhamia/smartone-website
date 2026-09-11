@@ -5,12 +5,17 @@ import { useState } from "react";
 import { useCountry } from "@/components/country/country-context";
 import { tr } from "@/lib/dictionaries";
 import { promotesRegister } from "@/lib/countries";
+import { rentUndercutsBuy, termsFor } from "@/lib/pricing";
 
 /* FAQ accordion, CSS grid-rows transitions, no animation libraries. */
 
 export function Faq() {
   const { country, lang } = useCountry();
   const register = promotesRegister(country);
+  /* Not every market prices renting below buying – in the UK the rate follows
+     the volume band alone. Answering "renting is cheaper per transaction"
+     everywhere would be untrue there, so ask lib/pricing rather than assume. */
+  const rentCheaper = rentUndercutsBuy(termsFor(country));
   const c = tr(
     lang,
     {
@@ -23,7 +28,7 @@ export function Faq() {
         { q: "When do I get my money?", a: "Next business day (T+1). The portal shows exactly what's confirmed to pay you – net of commission, clearly shown." },
         { q: "Are there any hidden fees?", a: "No. Your commission is shown up front on every settlement in the portal. No setup fees, no monthly minimums, no surprise line items in a PDF statement." },
         { q: "How fast can I start taking payments?", a: register ? "Four business days or less from signing up to going live – including fiscal registration of the device for your market." : "Four business days or less from signing up to going live." },
-        { q: "Buy or rent – which is cheaper?", a: "Renting keeps your upfront cost low with a small monthly fee and a slightly lower transaction rate, on a one-year term. Buying is a one-off device cost with no minimum term. Either way, the same three volume bands apply." },
+        { q: "Buy or rent – which is cheaper?", a: rentCheaper ? "Renting keeps your upfront cost low with a small monthly fee and a slightly lower transaction rate, on a one-year term. Buying is a one-off device cost with no minimum term. Either way, the same three volume bands apply." : "Your rate is the same either way – it follows your monthly card volume, not how you got the device. Renting is a monthly fee that falls as your volume grows; buying is a one-off device cost with nothing monthly. Either way, the same three volume bands apply." },
         { q: "How is my rate decided?", a: "By your monthly card volume – the more you take, the lower the rate. Pick the band that fits on the table above; if you're near an edge or want a tailored quote, talk to us and we'll confirm your rate within one business day." },
       ],
     },
@@ -37,7 +42,7 @@ export function Faq() {
         { q: "¿Cuándo recibo mi dinero?", a: "Al día hábil siguiente (T+1). El portal muestra exactamente lo que está confirmado para pagarte, neto de comisión y con total claridad." },
         { q: "¿Hay comisiones ocultas?", a: "No. Tu comisión se muestra por adelantado en cada liquidación en el portal. Sin cuotas de alta, sin mínimos mensuales, sin líneas sorpresa en un PDF." },
         { q: "¿En cuánto tiempo puedo empezar a cobrar?", a: register ? "En cuatro días hábiles o menos, desde el alta hasta estar operativo, incluida la registración fiscal del dispositivo para tu mercado." : "En cuatro días hábiles o menos, desde el alta hasta estar operativo." },
-        { q: "¿Comprar o alquilar? ¿Qué sale más barato?", a: "Alquilar mantiene bajo el coste inicial con una pequeña cuota mensual y una tarifa por operación algo más baja, con permanencia de un año. Comprar es un coste único del dispositivo, sin permanencia. En ambos casos aplican los mismos tres tramos por volumen." },
+        { q: "¿Comprar o alquilar? ¿Qué sale más barato?", a: rentCheaper ? "Alquilar mantiene bajo el coste inicial con una pequeña cuota mensual y una tarifa por operación algo más baja, con permanencia de un año. Comprar es un coste único del dispositivo, sin permanencia. En ambos casos aplican los mismos tres tramos por volumen." : "Tu tarifa es la misma en ambos casos: depende de tu volumen mensual con tarjeta, no de cómo conseguiste el dispositivo. El alquiler es una cuota mensual que baja según crece tu volumen; comprar es un coste único, sin cuota mensual. En ambos casos aplican los mismos tres tramos por volumen." },
         { q: "¿Cómo se decide mi tarifa?", a: "Según tu volumen mensual con tarjeta: cuanto más cobras, más baja la tarifa. Elige el tramo que encaja en la tabla de arriba; si estás cerca de un límite o quieres una oferta a medida, habla con nosotros y confirmamos tu tarifa en un día hábil." },
       ],
     },
