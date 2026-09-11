@@ -4,11 +4,11 @@ import Link from "next/link";
 import { useState } from "react";
 import { useCountry } from "@/components/country/country-context";
 import { tr } from "@/lib/dictionaries";
-import { promotesRegister, type Lang } from "@/lib/countries";
+import { promotesRegister, type CountryCode, type Lang } from "@/lib/countries";
 
 /* Buy / Rent plan picker – a segmented toggle over three volume-based tiers.
-   NOTE: rates and device prices below follow the agreed reference figures –
-   change them in one place here if commercial terms change. */
+   NOTE: rates and device prices are commercial terms and live in TERMS below,
+   keyed by market – change them there if commercial terms change. */
 
 type Mode = "buy" | "rent";
 
@@ -18,8 +18,8 @@ function copyFor(lang: Lang) {
     {
       modes: { buy: "Buy terminal", rent: "Rent terminal" },
       device: {
-        buy: { label: "Buy terminal", price: "400", suffix: "+ VAT", term: "No minimum term" },
-        rent: { label: "Rent terminal", price: "30", suffix: "+ VAT / month", term: "1-year minimum term" },
+        buy: { label: "Buy terminal", suffix: "+ VAT", term: "No minimum term" },
+        rent: { label: "Rent terminal", suffix: "+ VAT / month", term: "1-year minimum term" },
       },
       tiers: [
         { name: "Getting Started", band: "under {c}4,000 / month" },
@@ -38,8 +38,8 @@ function copyFor(lang: Lang) {
     {
       modes: { buy: "Compra el terminal", rent: "Alquila el terminal" },
       device: {
-        buy: { label: "Compra", price: "400", suffix: "+ IVA", term: "Sin permanencia" },
-        rent: { label: "Alquiler", price: "30", suffix: "+ IVA / mes", term: "Permanencia de 1 año" },
+        buy: { label: "Compra", suffix: "+ IVA", term: "Sin permanencia" },
+        rent: { label: "Alquiler", suffix: "+ IVA / mes", term: "Permanencia de 1 año" },
       },
       tiers: [
         { name: "Para empezar", band: "menos de {c}4,000 / mes" },
@@ -58,13 +58,32 @@ function copyFor(lang: Lang) {
   );
 }
 
-/* Renting carries the lower per-transaction rate (you pay a monthly fee and
+/* Commercial terms, per market. These are prices, not copy, so they are keyed
+   by country rather than by language – Spanish is offered in Spain today, but
+   keying on it would hand Spain's rates to any other market that ever adds
+   Spanish. Markets with no entry here fall back to DEFAULT_TERMS.
+
+   Renting carries the lower per-transaction rate (you pay a monthly fee and
    commit to a year); buying is a one-off device cost with no minimum term but
-   a slightly higher rate. Keep this in step with the "Buy or rent" FAQ answer
-   and its JSON-LD copy. */
-const RATES: Record<Mode, [string, string, string]> = {
-  buy: ["1.90", "1.20", "0.90"],
-  rent: ["1.65", "1.00", "0.85"],
+   a slightly higher rate. Keep that relationship intact in every market – the
+   "Buy or rent" FAQ answer and its JSON-LD copy state it in words. */
+type Terms = {
+  /** Per-transaction rate for each of the three volume bands, in order. */
+  rates: Record<Mode, [string, string, string]>;
+  /** Device cost: a one-off to buy, per month to rent. */
+  price: Record<Mode, string>;
+};
+
+const DEFAULT_TERMS: Terms = {
+  rates: { buy: ["1.90", "1.20", "0.90"], rent: ["1.65", "1.00", "0.85"] },
+  price: { buy: "400", rent: "30" },
+};
+
+const TERMS: Partial<Record<CountryCode, Terms>> = {
+  es: {
+    rates: { buy: ["1.20", "1.00", "0.80"], rent: ["1.00", "0.90", "0.70"] },
+    price: { buy: "130", rent: "20" },
+  },
 };
 
 export function PlanPicker() {
@@ -73,6 +92,7 @@ export function PlanPicker() {
   const t = copyFor(lang);
   const [mode, setMode] = useState<Mode>("buy");
   const d = t.device[mode];
+  const terms = TERMS[country.code] ?? DEFAULT_TERMS;
 
   return (
     <div>
@@ -101,7 +121,7 @@ export function PlanPicker() {
           const popular = i === 1;
           const first = i === 0;
           const band = tier.band.replaceAll("{c}", c);
-          const rate = RATES[mode][i];
+          const rate = terms.rates[mode][i];
           return (
             <div
               key={tier.name}
@@ -131,7 +151,7 @@ export function PlanPicker() {
                 <span className={popular ? "text-white/80" : "text-ink-2"}>{d.label}</span>
                 <span className={`font-semibold ${popular ? "text-white" : "text-ink"}`}>
                   {c}
-                  {d.price} {d.suffix}
+                  {terms.price[mode]} {d.suffix}
                 </span>
               </div>
 
