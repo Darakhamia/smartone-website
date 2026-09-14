@@ -16,7 +16,15 @@ import {
    no consent and are set regardless. The one thing that does need consent is
    first-touch attribution, which is why this asks rather than merely informs,
    and why refusing is a button rather than a matter of ignoring the banner.
-   See lib/consent.ts for how the answer reaches the attribution component. */
+   See lib/consent.ts for how the answer reaches the attribution component.
+
+   The two buttons are deliberately identical – same shape, padding and size,
+   neither filled. Consent has to be an active choice, so the button that gives
+   it must not be the one the eye lands on: an accent-filled Accept beside a
+   plain-text Decline is the pattern EDPB guidance and the 2023 Cookie Banner
+   Taskforce report single out. For the same reason the label is "Accept" and
+   not "Got it" – "got it" acknowledges that you read something, which is not
+   the same as agreeing to it. */
 export function CookieNotice() {
   const { lang } = useCountry();
   const [visible, setVisible] = useState(false);
@@ -33,13 +41,13 @@ export function CookieNotice() {
     {
       text: "We use functional cookies to run the site and remember your country and language. With your agreement we also note which campaign or site brought you here, so we know where enquiries come from. We run no advertising or analytics trackers.",
       link: "Cookie Policy",
-      accept: "Got it",
+      accept: "Accept",
       decline: "Decline",
     },
     {
       text: "Usamos cookies funcionales para que el sitio funcione y para recordar tu país e idioma. Con tu consentimiento también anotamos qué campaña o sitio te trajo hasta aquí, para saber de dónde llegan las consultas. No usamos rastreadores de publicidad ni de analítica.",
       link: "Política de cookies",
-      accept: "Entendido",
+      accept: "Aceptar",
       decline: "Rechazar",
     },
   );
@@ -61,13 +69,10 @@ export function CookieNotice() {
           .
         </p>
         <div className="flex shrink-0 items-center justify-end gap-2.5">
-          <button
-            onClick={() => answer(CONSENT_DECLINED)}
-            className="rounded-full px-4 py-2.5 text-[14px] font-medium text-ink-2 transition-colors hover:bg-bg-2 hover:text-ink"
-          >
+          <button onClick={() => answer(CONSENT_DECLINED)} className="btn-ghost px-6 py-2.5 text-[14px]">
             {c.decline}
           </button>
-          <button onClick={() => answer(CONSENT_ACCEPTED)} className="btn-primary px-6 py-2.5 text-[14px]">
+          <button onClick={() => answer(CONSENT_ACCEPTED)} className="btn-ghost px-6 py-2.5 text-[14px]">
             {c.accept}
           </button>
         </div>
