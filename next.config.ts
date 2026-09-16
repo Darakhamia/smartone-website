@@ -15,22 +15,65 @@ const LEAD_ORIGIN = "https://smartone-lead-form.vercel.app";
    in Coolify after TLS is live and verified. */
 const httpsReady = process.env.ENABLE_HSTS === "1";
 
+/* Google Tag Manager and the tags it is meant to carry: GA4, the Google Ads
+   conversion tag and the Meta pixel.
+
+   Every system is named here rather than googletagmanager.com alone. A tag
+   added through the GTM interface is still an ordinary third-party script –
+   the browser checks the origin the script came from, not who injected it – so
+   a container that is allowed while the tags inside it are not would load and
+   then fail silently, with the breakage visible only in the console.
+
+   These are allowances, not loads. Nothing below fetches anything until the
+   container is actually placed in app/layout.tsx, which is why they can land
+   ahead of it without making /cookies or the cookie notice untrue. The header
+   is compiled into the build (see headers() below), so staging the origins now
+   keeps that step to a single line and one release instead of two.
+
+   td.doubleclick.net is deliberately absent: it is needed only by the Ads
+   remarketing tag, for syncing audiences through an iframe, and audiences are
+   not being collected. If that changes it goes in frame-src. */
+const GTM = "https://www.googletagmanager.com";
+const TAG_SCRIPT = [GTM, "https://www.googleadservices.com", "https://connect.facebook.net"];
+const TAG_CONNECT = [
+  GTM,
+  "https://*.google-analytics.com",
+  "https://*.analytics.google.com",
+  "https://googleads.g.doubleclick.net",
+  "https://www.facebook.com",
+];
+const TAG_IMG = [
+  GTM,
+  "https://*.google-analytics.com",
+  "https://www.google.com",
+  "https://googleads.g.doubleclick.net",
+  "https://www.facebook.com",
+];
+
 /* No nonce: a nonce has to be generated per request, which means every page
    renders dynamically (see the Next CSP guide) – that would undo the static
    generation this marketing site depends on, and the region gate was already
-   moved out of a proxy for exactly that reason. With zero third-party scripts
-   on the page, 'unsafe-inline' for Next's own hydration scripts plus a locked
-   base-uri / object-src / frame-ancestors is the proportionate trade. Adding
-   any embed (Trustpilot widget, analytics, a video) means adding its origins
-   here AND updating /cookies – the two have to move together. */
+   moved out of a proxy for exactly that reason. 'unsafe-inline' covers Next's
+   own hydration scripts, and GTM's loader needs it too; a locked base-uri /
+   object-src / frame-ancestors is the proportionate trade.
+
+   frame-ancestors stays 'none', and X-Frame-Options below stays DENY. GTM's
+   Preview mode loads the site inside an iframe on tagassistant.google.com and
+   will not connect while either is in place: relaxing BOTH (they are separate
+   headers and some browsers honour the older one) is a deliberate, temporary
+   step for whoever is debugging the container, not something to leave on.
+
+   Adding any further embed – a review widget, a video – means adding its
+   origins here AND updating /cookies. Those two move together. */
 const csp = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
+  `script-src 'self' 'unsafe-inline' ${TAG_SCRIPT.join(" ")}${isDev ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob:",
+  `img-src 'self' data: blob: ${TAG_IMG.join(" ")}`,
   "font-src 'self'",
-  `connect-src 'self' ${LEAD_ORIGIN}${isDev ? " ws: wss:" : ""}`,
+  `connect-src 'self' ${LEAD_ORIGIN} ${TAG_CONNECT.join(" ")}${isDev ? " ws: wss:" : ""}`,
   `form-action 'self' ${LEAD_ORIGIN}`,
+  `frame-src ${GTM}`,
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "object-src 'none'",
