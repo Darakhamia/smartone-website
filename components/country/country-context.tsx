@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import {
   COUNTRY_COOKIE,
   LANG_COOKIE,
+  PREF_COOKIE_MAX_AGE,
   getCountry,
   type Country,
   type CountryCode,
@@ -16,16 +17,18 @@ type Ctx = {
   lang: Lang;
   setCountry: (code: CountryCode) => void;
   setLang: (lang: Lang) => void;
-  /* Set country + language together without a refresh – used by the country
-     picker right before it navigates into the site. */
+  /* Set country (+ language, if one was chosen) without a refresh – used by
+     the country picker right before it navigates into the site. */
   enter: (code: CountryCode, lang?: Lang) => void;
 };
 
 const CountryContext = createContext<Ctx | null>(null);
 
-const YEAR = 60 * 60 * 24 * 365;
+/* so_country and so_lang are written only when the visitor makes that choice,
+   as /cookies says – a language that merely follows from the country is left
+   to the server's fallback (getActiveLang) rather than stored. */
 function writeCookie(name: string, value: string) {
-  document.cookie = `${name}=${value};path=/;max-age=${YEAR};samesite=lax`;
+  document.cookie = `${name}=${value};path=/;max-age=${PREF_COOKIE_MAX_AGE};samesite=lax`;
 }
 
 export function CountryProvider({
@@ -63,7 +66,6 @@ export function CountryProvider({
       if (!nextCountry.languages.includes(lang)) {
         const fallback = nextCountry.languages[0];
         setLangState(fallback);
-        writeCookie(LANG_COOKIE, fallback);
         document.documentElement.lang = fallback;
       }
       router.refresh();
@@ -75,9 +77,10 @@ export function CountryProvider({
     setCode(code);
     writeCookie(COUNTRY_COOKIE, code);
     const c = getCountry(code);
-    const finalLang = nextLang && c.languages.includes(nextLang) ? nextLang : c.languages[0];
+    const chosen = nextLang && c.languages.includes(nextLang) ? nextLang : null;
+    const finalLang = chosen ?? c.languages[0];
     setLangState(finalLang);
-    writeCookie(LANG_COOKIE, finalLang);
+    if (chosen) writeCookie(LANG_COOKIE, chosen);
     document.documentElement.lang = finalLang;
   }, []);
 

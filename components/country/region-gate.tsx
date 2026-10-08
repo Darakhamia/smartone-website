@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useCountry } from "@/components/country/country-context";
 import { WelcomeScreen } from "@/components/country/welcome-screen";
-import { COUNTRY_COOKIE, DEFAULT_COUNTRY_CODE, getCountry } from "@/lib/countries";
+import { COUNTRY_COOKIE, DEFAULT_COUNTRY_CODE } from "@/lib/countries";
 
 /* First-visit region picker, shown as a dismissable overlay rather than a
    redirect – so every page still serves real, indexable content to crawlers
@@ -34,8 +34,7 @@ export function RegionGate() {
 
   // Dismiss = accept the default region and stop asking.
   const dismiss = useCallback(() => {
-    const c = getCountry(DEFAULT_COUNTRY_CODE);
-    enter(DEFAULT_COUNTRY_CODE, c.languages[0]);
+    enter(DEFAULT_COUNTRY_CODE);
     setShow(false);
   }, [enter]);
 

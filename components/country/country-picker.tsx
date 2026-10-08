@@ -21,7 +21,8 @@ export function CountryPicker({ onComplete }: { onComplete?: () => void }) {
       setSelected(c);
       return;
     }
-    enter(code, c.languages[0]);
+    // one language only – nothing was chosen, so no so_lang is stored
+    enter(code);
     onComplete?.();
   };
 

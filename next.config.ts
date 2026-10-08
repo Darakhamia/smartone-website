@@ -24,11 +24,15 @@ const httpsReady = process.env.ENABLE_HSTS === "1";
    a container that is allowed while the tags inside it are not would load and
    then fail silently, with the breakage visible only in the console.
 
-   These are allowances, not loads. Nothing below fetches anything until the
-   container is actually placed in app/layout.tsx, which is why they can land
-   ahead of it without making /cookies or the cookie notice untrue. The header
-   is compiled into the build (see headers() below), so staging the origins now
-   keeps that step to a single line and one release instead of two.
+   These are allowances, not loads. The container is requested only by
+   lib/tags.ts, only after the visitor switches on Analytics or Marketing, and
+   only once GTM_ENABLED there is true – an allowance here never makes
+   anything load on its own.
+
+   *.g.doubleclick.net and www.google.com in connect-src cover GA4 with Google
+   Signals (stats.g.doubleclick.net) and Enhanced Conversions; the GTM check in
+   a clean browser should still show no CSP violations in the console before
+   the container goes live.
 
    td.doubleclick.net is deliberately absent: it is needed only by the Ads
    remarketing tag, for syncing audiences through an iframe, and audiences are
@@ -39,14 +43,15 @@ const TAG_CONNECT = [
   GTM,
   "https://*.google-analytics.com",
   "https://*.analytics.google.com",
-  "https://googleads.g.doubleclick.net",
+  "https://*.g.doubleclick.net",
+  "https://www.google.com",
   "https://www.facebook.com",
 ];
 const TAG_IMG = [
   GTM,
   "https://*.google-analytics.com",
   "https://www.google.com",
-  "https://googleads.g.doubleclick.net",
+  "https://*.g.doubleclick.net",
   "https://www.facebook.com",
 ];
 

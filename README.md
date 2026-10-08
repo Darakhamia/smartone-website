@@ -55,13 +55,41 @@ restart.
 `next.config.ts` sends a CSP plus `X-Frame-Options`, `X-Content-Type-Options`,
 `Referrer-Policy` and `Permissions-Policy`, and disables `X-Powered-By`.
 
-The CSP allows exactly one external origin: the contact-form endpoint
-(`LEAD_ENDPOINT` in `lib/links.ts`), in `connect-src` and `form-action`. There
-are no third-party scripts. **Adding any embed — a Trustpilot widget,
-analytics, an external video — means adding its origins to the CSP _and_
-updating `/cookies`** (and, for anything that sets a cookie, gating it behind
-consent). The two have to move together, or the published cookie policy stops
-being true.
+The CSP allows the contact-form endpoint (`LEAD_ENDPOINT` in `lib/links.ts`)
+in `connect-src` and `form-action`, plus Google Tag Manager and the tags it
+carries (GA4, Google Ads, the Meta pixel). Those tags load only on consent —
+see "Cookie consent" below. **Adding any other embed — a Trustpilot widget,
+an external video — means adding its origins to the CSP _and_ updating
+`/cookies`** (and, for anything that sets a cookie, gating it behind consent).
+The two have to move together, or the published cookie policy stops being
+true.
+
+### Cookie consent
+
+The notice (`components/legal/cookie-notice.tsx`) has three categories:
+Necessary (always on), Analytics (GA4 + Google Signals) and Marketing (Google
+Ads + Enhanced Conversions, the Meta pixel, `so_first_touch`). The answer is
+stored in `so_cookie_consent` (`lib/consent.ts`); nothing from Google or Meta —
+not even `gtm.js` — loads before it, and nothing at all after Decline.
+"Cookie settings" in the footer reopens the panel; switching a category off
+deletes what it stored. Inside GTM, every tag must require its category
+(Consent Mode signals for Google tags, the `so_consent` event's
+`consent_marketing` value for the Meta pixel). A sent enquiry pushes
+`generate_lead`, with SHA-256-hashed email and phone (`user_data`,
+`meta_user_data`) only when Marketing is on.
+
+Google Tag Manager (container `GTM-KX26FGG5`) is switched on by
+`GTM_ENABLED` in `lib/tags.ts` — a code constant rather than a build variable,
+so it works the same on any host; `false` takes every tag off the site. Run
+this check in a clean browser profile whenever tags in the container change:
+
+1. Before answering the notice: no requests to Google or Meta, only `so_*`
+   cookies.
+2. Decline: still nothing from Google or Meta.
+3. Analytics only: `_ga` and `_ga_SBS327285V` appear, no advertising requests.
+4. Analytics off again: those cookies are gone.
+5. `/contact`: the form works whatever the choice.
+6. No CSP violations in the console at any step.
 
 ## Structure
 
