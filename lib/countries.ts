@@ -145,6 +145,8 @@ export const TERMINAL_MODELS: Record<TerminalModel, { name: string; dir: string;
 
 export const COUNTRY_COOKIE = "so_country";
 export const LANG_COOKIE = "so_lang";
+/** Lifetime of so_country / so_lang – 6 months, as /cookies states. */
+export const PREF_COOKIE_MAX_AGE = 60 * 60 * 24 * 182;
 
 /* The currency as a word, for copy like "every fee shown in euros". Keeps
    GBP markets from being told their fees are in euros. */

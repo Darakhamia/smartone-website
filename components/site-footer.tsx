@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { Brand } from "@/components/site-nav";
 import { FooterRegion } from "@/components/country/footer-region";
+import { CookieSettingsLink } from "@/components/legal/cookie-settings-link";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { DICT, tr } from "@/lib/dictionaries";
 import { promotesRegister } from "@/lib/countries";
@@ -33,6 +34,7 @@ export async function SiteFooter() {
       contact: "Contact",
       privacy: "Privacy Policy",
       cookies: "Cookie Policy",
+      cookieSettings: "Cookie settings",
       imprint: "Legal Notice",
     },
     {
@@ -50,6 +52,7 @@ export async function SiteFooter() {
       contact: "Contacto",
       privacy: "Política de privacidad",
       cookies: "Política de cookies",
+      cookieSettings: "Configuración de cookies",
       imprint: "Aviso legal",
     },
   );
@@ -151,6 +154,8 @@ export async function SiteFooter() {
               <Link href="/imprint" className="inline-block py-1.5 text-white/60 transition-colors hover:text-white">{l.imprint}</Link>
               <Link href="/privacy" className="inline-block py-1.5 text-white/60 transition-colors hover:text-white">{l.privacy}</Link>
               <Link href="/cookies" className="inline-block py-1.5 text-white/60 transition-colors hover:text-white">{l.cookies}</Link>
+              {/* reopens the consent panel – the notice promises it "at the bottom of every page" */}
+              <CookieSettingsLink className="inline-block py-1.5 text-white/60 transition-colors hover:text-white">{l.cookieSettings}</CookieSettingsLink>
               <span className="text-white/40">{region}</span>
             </div>
           </div>

@@ -38,7 +38,7 @@ production needs no environment variable to get the right absolute URLs in
 
 ### Build arguments
 
-Both values below are resolved during `next build`, so they must be set as
+All values below are resolved during `next build`, so they must be set as
 Docker **build** arguments. Setting them as runtime environment variables in
 Coolify has no effect and fails silently: `NEXT_PUBLIC_*` is inlined into the
 client bundle, and the `headers()` in `next.config.ts` is compiled into
@@ -48,6 +48,7 @@ restart.
 | Build arg | Purpose |
 | --- | --- |
 | `ENABLE_HSTS` | Set to `1` to add `Strict-Transport-Security` (2 years, includeSubDomains, preload) and `upgrade-insecure-requests` to the CSP. **Leave unset until HTTPS is live and verified on the production domain** — HSTS is effectively irreversible for the length of its max-age, and `upgrade-insecure-requests` breaks a build still served over plain HTTP. |
+| `NEXT_PUBLIC_GTM_ID` | Google Tag Manager container ID (`GTM-XXXXXXX`). Unset, no container is ever requested. Set, it loads only after the visitor switches on Analytics or Marketing in the cookie notice (`lib/tags.ts`). **Set it only after the clean-browser check below has passed.** |
 | `NEXT_PUBLIC_SITE_URL` | Overrides the canonical origin. Only for a staging build that should advertise itself (e.g. `https://staging.example.com`) instead of the production domain. Leave unset in production. An empty value falls back to the canonical domain. |
 
 ### Security headers
@@ -55,13 +56,39 @@ restart.
 `next.config.ts` sends a CSP plus `X-Frame-Options`, `X-Content-Type-Options`,
 `Referrer-Policy` and `Permissions-Policy`, and disables `X-Powered-By`.
 
-The CSP allows exactly one external origin: the contact-form endpoint
-(`LEAD_ENDPOINT` in `lib/links.ts`), in `connect-src` and `form-action`. There
-are no third-party scripts. **Adding any embed — a Trustpilot widget,
-analytics, an external video — means adding its origins to the CSP _and_
-updating `/cookies`** (and, for anything that sets a cookie, gating it behind
-consent). The two have to move together, or the published cookie policy stops
-being true.
+The CSP allows the contact-form endpoint (`LEAD_ENDPOINT` in `lib/links.ts`)
+in `connect-src` and `form-action`, plus Google Tag Manager and the tags it
+carries (GA4, Google Ads, the Meta pixel). Those tags load only on consent —
+see "Cookie consent" below. **Adding any other embed — a Trustpilot widget,
+an external video — means adding its origins to the CSP _and_ updating
+`/cookies`** (and, for anything that sets a cookie, gating it behind consent).
+The two have to move together, or the published cookie policy stops being
+true.
+
+### Cookie consent
+
+The notice (`components/legal/cookie-notice.tsx`) has three categories:
+Necessary (always on), Analytics (GA4 + Google Signals) and Marketing (Google
+Ads + Enhanced Conversions, the Meta pixel, `so_first_touch`). The answer is
+stored in `so_cookie_consent` (`lib/consent.ts`); nothing from Google or Meta —
+not even `gtm.js` — loads before it, and nothing at all after Decline.
+"Cookie settings" in the footer reopens the panel; switching a category off
+deletes what it stored. Inside GTM, every tag must require its category
+(Consent Mode signals for Google tags, the `so_consent` event's
+`consent_marketing` value for the Meta pixel). A sent enquiry pushes
+`generate_lead`, with SHA-256-hashed email and phone (`user_data`,
+`meta_user_data`) only when Marketing is on.
+
+Before setting `NEXT_PUBLIC_GTM_ID` in production, check on a build that has
+it, in a clean browser profile:
+
+1. Before answering the notice: no requests to Google or Meta, only `so_*`
+   cookies.
+2. Decline: still nothing from Google or Meta.
+3. Analytics only: `_ga` and `_ga_SBS327285V` appear, no advertising requests.
+4. Analytics off again: those cookies are gone.
+5. `/contact`: the form works whatever the choice.
+6. No CSP violations in the console at any step.
 
 ## Structure
 

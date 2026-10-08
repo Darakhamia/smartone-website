@@ -1,12 +1,15 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import { PhoneField, COUNTRY_DIAL, flag } from "@/components/lead/phone-field";
 import { useCountry } from "@/components/country/country-context";
+import { CookieSettingsLink } from "@/components/legal/cookie-settings-link";
+import { readFirstTouch } from "@/lib/consent";
 import { tr } from "@/lib/dictionaries";
 import { COMPANY } from "@/lib/legal";
 import { LEAD_ENDPOINT } from "@/lib/links";
+import { trackLead } from "@/lib/tags";
 
 /* SmartOne lead form. Posts JSON to the Vercel serverless endpoint (no keys
    on the site). The field `name` attributes and every <option> value are
@@ -80,10 +83,13 @@ export function LeadForm() {
       sending: "Sending…",
       reply: "We'll reply within one business day.",
       /* GDPR Art. 13 notice at the point of collection. No consent checkbox:
-         the legal basis is Art. 6(1)(b)/(f), not consent – a checkbox here
-         would misdescribe it. Add one only for marketing email, unticked. */
-      privacyBefore: "By submitting this form you agree we may use your details to respond to your enquiry and prepare an offer. See how we handle your data in our ",
+         answering the enquiry rests on Art. 6(1)(b)/(f), and the hashed email
+         and phone for ad matching rest on the Marketing choice already made in
+         Cookie settings – a checkbox here would misdescribe both. */
+      privacyBefore: "We use your details to answer your enquiry. If you have agreed to marketing cookies, your email address and phone number are also sent to Google and Meta in a scrambled form so we can see which advertisement brought you to us — see our ",
       privacyLink: "Privacy Policy",
+      privacyAnd: " and ",
+      settingsLink: "Cookie settings",
       privacyAfter: ".",
       doneTitle: "Thanks — we got it!",
       doneText: "We'll get back to you within one business day.",
@@ -120,8 +126,10 @@ export function LeadForm() {
       submit: "Contactar con ventas",
       sending: "Enviando…",
       reply: "Respondemos en un día hábil.",
-      privacyBefore: "Al enviar este formulario aceptas que usemos tus datos para responder a tu consulta y preparar una oferta. Consulta cómo los tratamos en nuestra ",
+      privacyBefore: "Usamos tus datos para responder a tu consulta. Si has aceptado las cookies de marketing, tu email y tu número de teléfono también se envían a Google y a Meta de forma codificada, para que podamos ver qué anuncio te trajo hasta nosotros. Consulta nuestra ",
       privacyLink: "Política de privacidad",
+      privacyAnd: " y la ",
+      settingsLink: "Configuración de cookies",
       privacyAfter: ".",
       doneTitle: "¡Gracias, lo recibimos!",
       doneText: "Te responderemos en un día hábil.",
@@ -148,27 +156,20 @@ export function LeadForm() {
     if (!phone.trim() && COUNTRY_DIAL[c]) setPhone(`+${COUNTRY_DIAL[c]} `);
   };
 
-  // populate the hidden attribution fields from first-touch storage
-  useEffect(() => {
-    const form = formRef.current;
-    if (!form) return;
-    let saved: Record<string, string> = {};
-    try {
-      saved = JSON.parse(localStorage.getItem("so_first_touch") || "{}");
-    } catch {
-      /* ignore */
-    }
-    (["utm_source", "utm_medium", "utm_campaign", "referrer_first_touch"] as const).forEach((f) => {
-      const el = form.elements.namedItem(f) as HTMLInputElement | null;
-      if (el) el.value = saved[f] || "";
-    });
-  }, []);
-
   const onSubmit = (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
     const form = formRef.current;
     if (!form || !form.reportValidity()) return;
     setStatus("sending");
+
+    /* Fill the hidden attribution fields from first-touch storage now, not on
+       mount: Marketing may be switched on or off while the form is open, and
+       without it readFirstTouch returns nothing and the fields go empty. */
+    const saved = readFirstTouch() ?? {};
+    (["utm_source", "utm_medium", "utm_campaign", "referrer_first_touch"] as const).forEach((f) => {
+      const el = form.elements.namedItem(f) as HTMLInputElement | null;
+      if (el) el.value = saved[f] || "";
+    });
 
     const data: Record<string, string> = {};
     Array.from(form.elements).forEach((el) => {
@@ -184,6 +185,8 @@ export function LeadForm() {
       .then((r) => {
         if (!r.ok) throw new Error(String(r.status));
         setStatus("done");
+        // conversion for GA4 / Ads / Meta – a no-op unless tags were consented to and loaded
+        void trackLead(data.email ?? "", data.phone ?? "");
       })
       .catch(() => setStatus("error"));
   };
@@ -295,7 +298,7 @@ export function LeadForm() {
         style={{ position: "absolute", left: "-9999px", opacity: 0, height: 0, overflow: "hidden" }}
       />
 
-      {/* attribution – filled by the effect above, don't touch */}
+      {/* attribution – filled in onSubmit above, don't touch */}
       <input type="hidden" name="utm_source" />
       <input type="hidden" name="utm_medium" />
       <input type="hidden" name="utm_campaign" />
@@ -312,6 +315,10 @@ export function LeadForm() {
         <Link href="/privacy" className="underline underline-offset-2 transition-colors hover:text-ink-2">
           {t.privacyLink}
         </Link>
+        {t.privacyAnd}
+        <CookieSettingsLink className="underline underline-offset-2 transition-colors hover:text-ink-2">
+          {t.settingsLink}
+        </CookieSettingsLink>
         {t.privacyAfter}
       </p>
       {status === "error" && (
