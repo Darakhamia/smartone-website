@@ -38,7 +38,7 @@ production needs no environment variable to get the right absolute URLs in
 
 ### Build arguments
 
-All values below are resolved during `next build`, so they must be set as
+Both values below are resolved during `next build`, so they must be set as
 Docker **build** arguments. Setting them as runtime environment variables in
 Coolify has no effect and fails silently: `NEXT_PUBLIC_*` is inlined into the
 client bundle, and the `headers()` in `next.config.ts` is compiled into
@@ -48,7 +48,6 @@ restart.
 | Build arg | Purpose |
 | --- | --- |
 | `ENABLE_HSTS` | Set to `1` to add `Strict-Transport-Security` (2 years, includeSubDomains, preload) and `upgrade-insecure-requests` to the CSP. **Leave unset until HTTPS is live and verified on the production domain** — HSTS is effectively irreversible for the length of its max-age, and `upgrade-insecure-requests` breaks a build still served over plain HTTP. |
-| `NEXT_PUBLIC_GTM_ID` | Google Tag Manager container ID — ours is `GTM-KX26FGG5`. Unset, no container is ever requested. Set, it loads only after the visitor switches on Analytics or Marketing in the cookie notice (`lib/tags.ts`). **Set it only after the clean-browser check below has passed.** |
 | `NEXT_PUBLIC_SITE_URL` | Overrides the canonical origin. Only for a staging build that should advertise itself (e.g. `https://staging.example.com`) instead of the production domain. Leave unset in production. An empty value falls back to the canonical domain. |
 
 ### Security headers
@@ -79,8 +78,10 @@ deletes what it stored. Inside GTM, every tag must require its category
 `generate_lead`, with SHA-256-hashed email and phone (`user_data`,
 `meta_user_data`) only when Marketing is on.
 
-Before setting `NEXT_PUBLIC_GTM_ID` in production, check on a build that has
-it, in a clean browser profile:
+Google Tag Manager (container `GTM-KX26FGG5`) is switched on by
+`GTM_ENABLED` in `lib/tags.ts` — a code constant rather than a build variable,
+so it works the same on any host. It stays `false` until this check has
+passed, in a clean browser profile, on a build with it set to `true`:
 
 1. Before answering the notice: no requests to Google or Meta, only `so_*`
    cookies.

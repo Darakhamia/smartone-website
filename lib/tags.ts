@@ -8,9 +8,10 @@ import { NONE, clearCategory, hasMarketingConsent, type Consent } from "@/lib/co
    Meta, not even the request for gtm.js. /privacy says exactly that ("nothing
    is loaded before you answer the cookie notice"); keep it true.
 
-   The container ID is a build argument (NEXT_PUBLIC_GTM_ID, see the
-   Dockerfile). Unset, nothing here ever loads – which is how the site ships
-   until the consent flow has been checked in a clean browser.
+   GTM_ENABLED is the switch. It lives in code rather than in a build
+   variable so that turning it on is the same commit-and-deploy on any host.
+   While it is false nothing here ever loads; set it to true only after the
+   clean-browser check in the README has passed.
 
    Inside the container, every tag still has to require its category: GA4 on
    analytics_storage; Google Ads and Enhanced Conversions on ad_storage /
@@ -22,7 +23,8 @@ import { NONE, clearCategory, hasMarketingConsent, type Consent } from "@/lib/co
    a default alone. The container carries its own all-denied default on
    Consent Initialization, which runs after this queue is read; an update
    outranks any default whatever the order, so the visitor's choice holds. */
-const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID ?? "";
+const GTM_ENABLED = false;
+const GTM_ID = "GTM-KX26FGG5";
 
 type Granted = "granted" | "denied";
 
@@ -54,7 +56,7 @@ let loaded = false;
 export function applyConsent(next: Consent, prev: Consent | null) {
   if (!next.analytics) clearCategory("analytics");
   if (!next.marketing) clearCategory("marketing");
-  if (!GTM_ID) return;
+  if (!GTM_ENABLED) return;
 
   const state = { event: "so_consent", consent_analytics: next.analytics, consent_marketing: next.marketing };
 

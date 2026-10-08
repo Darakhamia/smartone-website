@@ -26,7 +26,7 @@ const httpsReady = process.env.ENABLE_HSTS === "1";
 
    These are allowances, not loads. The container is requested only by
    lib/tags.ts, only after the visitor switches on Analytics or Marketing, and
-   only in a build with NEXT_PUBLIC_GTM_ID set – an allowance here never makes
+   only once GTM_ENABLED there is true – an allowance here never makes
    anything load on its own.
 
    *.g.doubleclick.net and www.google.com in connect-src cover GA4 with Google
