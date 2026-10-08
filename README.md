@@ -48,7 +48,7 @@ restart.
 | Build arg | Purpose |
 | --- | --- |
 | `ENABLE_HSTS` | Set to `1` to add `Strict-Transport-Security` (2 years, includeSubDomains, preload) and `upgrade-insecure-requests` to the CSP. **Leave unset until HTTPS is live and verified on the production domain** — HSTS is effectively irreversible for the length of its max-age, and `upgrade-insecure-requests` breaks a build still served over plain HTTP. |
-| `NEXT_PUBLIC_GTM_ID` | Google Tag Manager container ID (`GTM-XXXXXXX`). Unset, no container is ever requested. Set, it loads only after the visitor switches on Analytics or Marketing in the cookie notice (`lib/tags.ts`). **Set it only after the clean-browser check below has passed.** |
+| `NEXT_PUBLIC_GTM_ID` | Google Tag Manager container ID — ours is `GTM-KX26FGG5`. Unset, no container is ever requested. Set, it loads only after the visitor switches on Analytics or Marketing in the cookie notice (`lib/tags.ts`). **Set it only after the clean-browser check below has passed.** |
 | `NEXT_PUBLIC_SITE_URL` | Overrides the canonical origin. Only for a staging build that should advertise itself (e.g. `https://staging.example.com`) instead of the production domain. Leave unset in production. An empty value falls back to the canonical domain. |
 
 ### Security headers

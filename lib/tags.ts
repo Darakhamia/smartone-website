@@ -1,4 +1,4 @@
-import { clearCategory, hasMarketingConsent, type Consent } from "@/lib/consent";
+import { NONE, clearCategory, hasMarketingConsent, type Consent } from "@/lib/consent";
 
 /* Google Tag Manager, loaded on consent and never before it.
 
@@ -16,7 +16,12 @@ import { clearCategory, hasMarketingConsent, type Consent } from "@/lib/consent"
    analytics_storage; Google Ads and Enhanced Conversions on ad_storage /
    ad_user_data; the Meta pixel, which ignores Google's consent signals, on
    the so_consent event's consent_marketing value. Granting is per category
-   only – Analytics never grants an ad_* signal. */
+   only – Analytics never grants an ad_* signal.
+
+   The answer goes in as a default of "denied" followed by an update, not as
+   a default alone. The container carries its own all-denied default on
+   Consent Initialization, which runs after this queue is read; an update
+   outranks any default whatever the order, so the visitor's choice holds. */
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID ?? "";
 
 type Granted = "granted" | "denied";
@@ -68,7 +73,8 @@ export function applyConsent(next: Consent, prev: Consent | null) {
   }
 
   if (!next.analytics && !next.marketing) return;
-  gtag("consent", "default", signals(next));
+  gtag("consent", "default", signals(NONE));
+  gtag("consent", "update", signals(next));
   dataLayer().push(state);
   dataLayer().push({ "gtm.start": Date.now(), event: "gtm.js" });
   const s = document.createElement("script");
