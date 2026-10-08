@@ -9,9 +9,9 @@ import { NONE, clearCategory, hasMarketingConsent, type Consent } from "@/lib/co
    is loaded before you answer the cookie notice"); keep it true.
 
    GTM_ENABLED is the switch. It lives in code rather than in a build
-   variable so that turning it on is the same commit-and-deploy on any host.
-   While it is false nothing here ever loads; set it to true only after the
-   clean-browser check in the README has passed.
+   variable so that changing it is the same commit-and-deploy on any host.
+   Set to false, nothing here ever loads, consent or not – the quick way to
+   take every tag off the site if one misbehaves.
 
    Inside the container, every tag still has to require its category: GA4 on
    analytics_storage; Google Ads and Enhanced Conversions on ad_storage /
@@ -23,7 +23,7 @@ import { NONE, clearCategory, hasMarketingConsent, type Consent } from "@/lib/co
    a default alone. The container carries its own all-denied default on
    Consent Initialization, which runs after this queue is read; an update
    outranks any default whatever the order, so the visitor's choice holds. */
-const GTM_ENABLED = false;
+const GTM_ENABLED = true;
 const GTM_ID = "GTM-KX26FGG5";
 
 type Granted = "granted" | "denied";

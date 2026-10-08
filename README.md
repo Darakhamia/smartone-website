@@ -80,8 +80,8 @@ deletes what it stored. Inside GTM, every tag must require its category
 
 Google Tag Manager (container `GTM-KX26FGG5`) is switched on by
 `GTM_ENABLED` in `lib/tags.ts` — a code constant rather than a build variable,
-so it works the same on any host. It stays `false` until this check has
-passed, in a clean browser profile, on a build with it set to `true`:
+so it works the same on any host; `false` takes every tag off the site. Run
+this check in a clean browser profile whenever tags in the container change:
 
 1. Before answering the notice: no requests to Google or Meta, only `so_*`
    cookies.
