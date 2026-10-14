@@ -42,14 +42,14 @@ function copyFor(lang: Lang, cur: string) {
         { n: "02", title: "Reconcile the till", text: "Z-report & receipts in one place; reprint or email any one." },
         { n: "03", title: "Find a transaction", text: "Search by RRN / receipt #, settle a dispute on the spot." },
         { n: "04", title: "See the period", text: "Revenue, average check, card vs cash, top categories." },
-        { n: "05", title: "Hand it to your accountant", text: "Email or export the day's report straight from the portal – nothing to collect by hand." },
+        { n: "05", title: "Export for your accountant", text: "Download the day's report from the portal – nothing to collect by hand." },
       ],
       f: { money: "Portal · Money", receipts: "Portal · Receipts", tx: "Portal · Transactions", analytics: "Portal · Analytics", reports: "Portal · Reports" },
       reportTitle: "Day report · 12 Jun",
       vat: "VAT",
-      emailAccountant: "Email to accountant",
-      exportBtn: "Export CSV · PDF",
-      sent: "Sent to accountant ✓",
+      download: "Download report",
+      exportBtn: "CSV · PDF",
+      ready: "Ready for your accountant",
       sold: "Sold",
       receive: "You'll receive",
       cardSales: "Card sales",
@@ -76,14 +76,14 @@ function copyFor(lang: Lang, cur: string) {
         { n: "02", title: "Cuadra la caja", text: "Informe Z y tickets en un solo sitio; reimprime o envía cualquiera por email." },
         { n: "03", title: "Encuentra una operación", text: "Busca por RRN o nº de ticket y resuelve una incidencia al momento." },
         { n: "04", title: "Mira el periodo", text: "Ingresos, ticket medio, tarjeta vs efectivo, categorías top." },
-        { n: "05", title: "Pásaselo a tu contable", text: "Envía o exporta el informe del día directo desde el portal, sin recopilar nada a mano." },
+        { n: "05", title: "Exporta para tu contable", text: "Descarga el informe del día desde el portal, sin recopilar nada a mano." },
       ],
       f: { money: "Portal · Dinero", receipts: "Portal · Tickets", tx: "Portal · Operaciones", analytics: "Portal · Analítica", reports: "Portal · Informes" },
       reportTitle: "Informe del día · 12 jun",
       vat: "IVA",
-      emailAccountant: "Enviar al contable",
-      exportBtn: "Exportar CSV · PDF",
-      sent: "Enviado al contable ✓",
+      download: "Descargar informe",
+      exportBtn: "CSV · PDF",
+      ready: "Listo para tu contable",
       sold: "Vendido",
       receive: "Recibirás",
       cardSales: "Ventas con tarjeta",
@@ -223,10 +223,9 @@ function ShareVisual({ c, c$ }: { c: Copy; c$: string }) {
       <div className="mt-3 flex gap-2">
         <span className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-brand px-3 py-2.5 text-[12.5px] font-semibold text-white">
           <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-            <rect x="3" y="5" width="18" height="14" rx="2" />
-            <path d="m3 7 9 6 9-6" />
+            <path d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14" />
           </svg>
-          {c.emailAccountant}
+          {c.download}
         </span>
         <span className="rounded-lg border border-line bg-white px-3 py-2.5 text-[12.5px] font-semibold text-brand">{c.exportBtn}</span>
       </div>
@@ -234,7 +233,7 @@ function ShareVisual({ c, c$ }: { c: Copy; c$: string }) {
         <svg viewBox="0 0 24 24" className="size-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
           <path d="M5 13l4 4L19 7" />
         </svg>
-        {c.sent}
+        {c.ready}
       </div>
     </Frame>
   );
@@ -252,7 +251,8 @@ export function HowItWorks() {
   const pick = (i: number) => setActive(i);
 
   return (
-    <section className="bg-bg-2 py-24">
+    // #how-it-works is where "See how it works →" in Where are you starting from lands
+    <section id="how-it-works" className="scroll-mt-20 bg-bg-2 py-24">
       <div className="mx-auto max-w-6xl px-6">
         <Reveal>
           <div className="max-w-165">
