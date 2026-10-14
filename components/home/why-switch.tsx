@@ -3,17 +3,20 @@ import { LogoMark } from "@/components/logo";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 
-function FeeVisual({ sale, fee, c$ }: { sale: string; fee: string; c$: string }) {
+function FeeVisual({ sale, fee, c$, note }: { sale: string; fee: string; c$: string; note?: string }) {
   return (
-    <div className="rounded-2xl bg-bg-2 p-4 font-mono text-[13px]">
-      <div className="flex items-baseline justify-between">
-        <span className="text-ink-3">{sale}</span>
-        <span className="text-ink-2">{c$}24.60</span>
+    <div>
+      <div className="rounded-2xl bg-bg-2 p-4 font-mono text-[13px]">
+        <div className="flex items-baseline justify-between">
+          <span className="text-ink-3">{sale}</span>
+          <span className="text-ink-2">{c$}24.60</span>
+        </div>
+        <div className="mt-2 flex items-baseline justify-between border-t border-dashed border-line-2 pt-2">
+          <span className="text-ink-3">{fee}</span>
+          <b className="fee-pulse -mx-1.5 inline-block rounded-md px-1.5 font-semibold text-brand">−{c$}0.24</b>
+        </div>
       </div>
-      <div className="mt-2 flex items-baseline justify-between border-t border-dashed border-line-2 pt-2">
-        <span className="text-ink-3">{fee}</span>
-        <b className="fee-pulse -mx-1.5 inline-block rounded-md px-1.5 font-semibold text-brand">−{c$}0.24</b>
-      </div>
+      {note && <p className="mt-2 text-[12.5px] text-ink-3">{note}</p>}
     </div>
   );
 }
@@ -94,7 +97,15 @@ export async function WhySwitch() {
   );
 
   const visuals = [
-    <FeeVisual key="fee" sale={c.sale} fee={c.fee} c$={country.currencySymbol} />,
+    /* The fee shown is Malta's top band (0.90% + €0.02 on €24.60), so only
+       Malta says which volume it belongs to (homepage task §4). */
+    <FeeVisual
+      key="fee"
+      sale={c.sale}
+      fee={c.fee}
+      c$={country.currencySymbol}
+      note={country.code === "mt" ? "Example: card sales over €15,000 a month." : undefined}
+    />,
     <BankVisual key="bank" bank={c.bank} />,
     <TplusOneVisual key="t1" sold={c.sold} paid={c.paid} />,
   ];
