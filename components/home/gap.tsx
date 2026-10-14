@@ -19,7 +19,7 @@ export async function Gap() {
         {
           tag: "Durable gap",
           title: "A cash register, built in",
-          text: "A certified fiscal cash register, not a card reader bolted onto your tablet – with per-market certification competitors don't have.",
+          text: "A VAT-approved fiscal cash register, not a card reader bolted onto your tablet. Approved by Malta's tax authority (MTCA).",
           kind: "cashbox" as const,
         },
         {
@@ -53,7 +53,7 @@ export async function Gap() {
         {
           tag: "Carencia de producto",
           title: "Una caja registradora integrada",
-          text: "Una caja registradora fiscal certificada, no un lector de tarjetas pegado a tu tablet, con certificación por país que la competencia no tiene.",
+          text: "Una caja registradora fiscal aprobada, no un lector de tarjetas pegado a tu tablet. Aprobada por la autoridad fiscal de Malta (MTCA).",
           kind: "cashbox" as const,
         },
         {

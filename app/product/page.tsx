@@ -10,7 +10,7 @@ import { promotesRegister, terminalModel, TERMINAL_MODELS, type CountryCode, typ
 export const metadata: Metadata = {
   title: "Product",
   description:
-    "A certified cash register and payment terminal in one device – plus the Merchant Portal behind it. The complete solution, not just a card machine.",
+    "A fiscal cash register and payment terminal in one device – plus the Merchant Portal behind it. The complete solution, not just a card machine.",
 };
 
 const icons = {
@@ -36,10 +36,10 @@ function copyFor(lang: Lang, register: boolean, device: string, c$: string) {
     lang,
     {
       eyebrow: "Product",
-      h1a: register ? "One certified box." : "One device.",
+      h1a: register ? "One VAT-approved box." : "One device.",
       h1b: "The complete solution.",
       sub: register
-        ? "A certified cash register and payment terminal in one device – the Merchant Portal behind it. Not just a card machine."
+        ? "A VAT-approved cash register and payment terminal in one device – the Merchant Portal behind it. Not just a card machine."
         : "A payment terminal and the Merchant Portal in one device. Not just a card machine.",
       get: "Get a terminal →",
       seePricing: "See pricing",
@@ -54,19 +54,19 @@ function copyFor(lang: Lang, register: boolean, device: string, c$: string) {
         cardReader: { title: "Card reader", text: `The payment terminal: card, contactless and cash on one screen, with the receipt printer built in. The ${device}.` },
         cashRegister: {
           title: "Cash register",
-          text: `Register, terminal and printer in one certified device – worth ${c$}800–1,200 as three boxes, yours for ${c$}400.`,
+          text: `Register, terminal and printer in one VAT-approved device – worth ${c$}800–1,200 as three boxes, yours for ${c$}400.`,
         },
         tapToPhone: { title: "Tap to Phone", text: "Take contactless payments on a phone, no extra hardware. In certification – coming soon." },
         portal: { title: "Merchant Portal", text: "Track payments, follow payouts, reprint receipts and know your numbers – one login." },
         click: { title: "Click", text: "Orders for cafés and restaurants, sent straight to the register – one catalogue, one flow." },
       },
       complianceEyebrow: "Compliance",
-      complianceTitle: "Certified market by market.",
+      complianceTitle: "Compliant market by market.",
       complianceSub: "We name what's live and what's dated – nothing else.",
       compliance: {
-        mt: { title: "Malta – live today", text: "Certified fiscal device, merchants on the counter now." },
+        mt: { title: "Malta – live today", text: "VAT-approved fiscal device, merchants on the counter now." },
         es: { title: "Spain – Verifactu-ready for 2027", text: "Built for the Verifactu programme, ahead of the deadline." },
-        cy: { title: "Cyprus – fiscal receipts supported", text: "Card payments and compliant receipts on one certified device." },
+        cy: { title: "Cyprus – fiscal receipts supported", text: "Card payments and compliant receipts on one device." },
         sk: { title: "Slovakia – fiscal-ready", text: "A payment terminal ready for local fiscal requirements." },
         uk: { title: "United Kingdom – no fiscal register", text: "No fiscal register is required. Take card payments and run your business from the Merchant Portal." },
       } as Record<CountryCode, { title: string; text: string }>,
@@ -77,10 +77,10 @@ function copyFor(lang: Lang, register: boolean, device: string, c$: string) {
     },
     {
       eyebrow: "Producto",
-      h1a: register ? "Una caja certificada." : "Un dispositivo.",
+      h1a: register ? "Una caja fiscal aprobada." : "Un dispositivo.",
       h1b: "La solución completa.",
       sub: register
-        ? "Una caja registradora certificada y terminal de pago en un solo dispositivo, con el Merchant Portal detrás. No solo un datáfono."
+        ? "Una caja registradora fiscal aprobada y terminal de pago en un solo dispositivo, con el Merchant Portal detrás. No solo un datáfono."
         : "Un terminal de pago y el Merchant Portal en un solo dispositivo. No solo un datáfono.",
       get: "Solicita tu terminal →",
       seePricing: "Ver precios",
@@ -95,19 +95,19 @@ function copyFor(lang: Lang, register: boolean, device: string, c$: string) {
         cardReader: { title: "Datáfono", text: `El terminal de pago: tarjeta, contactless y efectivo en una pantalla, con impresora integrada. El ${device}.` },
         cashRegister: {
           title: "Caja registradora",
-          text: `Caja, terminal e impresora en un dispositivo certificado: vale ${c$}800-1.200 en tres cajas, la tuya por ${c$}400.`,
+          text: `Caja, terminal e impresora en un dispositivo fiscal aprobado: vale ${c$}800-1.200 en tres cajas, la tuya por ${c$}400.`,
         },
         tapToPhone: { title: "Tap to Phone", text: "Acepta pagos contactless en un móvil, sin hardware adicional. En certificación, muy pronto." },
         portal: { title: "Merchant Portal", text: "Controla pagos, sigue liquidaciones, reimprime tickets y conoce tus cifras: un solo acceso." },
         click: { title: "Click", text: "Pedidos para cafeterías y restaurantes, directos a la caja: un catálogo, un flujo." },
       },
       complianceEyebrow: "Cumplimiento",
-      complianceTitle: "Certificado mercado a mercado.",
+      complianceTitle: "Cumplimiento mercado a mercado.",
       complianceSub: "Decimos qué está activo y qué tiene fecha, nada más.",
       compliance: {
-        mt: { title: "Malta – activo hoy", text: "Dispositivo fiscal certificado, con comercios operando ya." },
+        mt: { title: "Malta – activo hoy", text: "Dispositivo fiscal aprobado, con comercios operando ya." },
         es: { title: "España – preparado para Verifactu 2027", text: "Diseñado para el programa Verifactu, antes del plazo." },
-        cy: { title: "Chipre – tickets fiscales soportados", text: "Pagos con tarjeta y tickets conformes en un dispositivo certificado." },
+        cy: { title: "Chipre – tickets fiscales soportados", text: "Pagos con tarjeta y tickets conformes en un solo dispositivo." },
         sk: { title: "Eslovaquia – preparado para la normativa fiscal", text: "Un terminal de pago listo para los requisitos fiscales locales." },
         uk: { title: "Reino Unido – sin caja fiscal", text: "No se requiere caja fiscal. Cobra con tarjeta y gestiona tu negocio desde el Merchant Portal." },
       } as Record<CountryCode, { title: string; text: string }>,

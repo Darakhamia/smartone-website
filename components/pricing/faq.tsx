@@ -16,6 +16,9 @@ export function Faq() {
      the volume band alone. Answering "renting is cheaper per transaction"
      everywhere would be untrue there, so ask lib/pricing rather than assume. */
   const rentCheaper = rentUndercutsBuy(termsFor(country));
+  /* UK merchants are acquired by the FCA-authorised company, not the EEA one
+     (lib/legal.ts emiPartner) – "EU acquirer" would be untrue there. */
+  const uk = country.code === "uk";
   const c = tr(
     lang,
     {
@@ -23,8 +26,8 @@ export function Faq() {
       leadA: "Have a question we haven't answered?",
       talk: "Talk to us",
       faqs: [
-        { q: "What's included in the price?", a: register ? "Everything: the certified cash register and payment terminal, plus the Merchant Portal. No separate software subscription, no per-feature charges." : "Everything: the payment terminal and the Merchant Portal. No separate software subscription, no per-feature charges." },
-        { q: "Do I need to open a new bank account?", a: "No. Your payouts go to the bank account you already have – we work with a licensed European banking partner, so there's no new interface to learn and no switching cost." },
+        { q: "What's included in the price?", a: register ? "Everything: the VAT-approved cash register and payment terminal, plus the Merchant Portal. No separate software subscription, no per-feature charges." : "Everything: the payment terminal and the Merchant Portal. No separate software subscription, no per-feature charges." },
+        { q: "Do I need to open a new bank account?", a: `No. Payments are processed by a licensed ${uk ? "UK" : "EU"} acquirer, and your payouts go to the bank account you already have – no new account, nothing to switch.` },
         { q: "When do I get my money?", a: "Next business day (T+1). The portal shows exactly what's confirmed to pay you – net of commission, clearly shown." },
         { q: "Are there any hidden fees?", a: "No. Your commission is shown up front on every settlement in the portal. No setup fees, no monthly minimums, no surprise line items in a PDF statement." },
         { q: "How fast can I start taking payments?", a: register ? "Four business days or less from signing up to going live – including fiscal registration of the device for your market." : "Four business days or less from signing up to going live." },
@@ -37,8 +40,8 @@ export function Faq() {
       leadA: "¿Tienes una pregunta que no hemos respondido?",
       talk: "Habla con nosotros",
       faqs: [
-        { q: "¿Qué incluye el precio?", a: register ? "Todo: la caja registradora certificada y el terminal de pago, más el Merchant Portal. Sin suscripción de software aparte ni cargos por función." : "Todo: el terminal de pago y el Merchant Portal. Sin suscripción de software aparte ni cargos por función." },
-        { q: "¿Necesito abrir una cuenta bancaria nueva?", a: "No. Tus pagos llegan a la cuenta bancaria que ya tienes: trabajamos con un socio bancario europeo autorizado, así que no hay una interfaz nueva que aprender ni coste de cambio." },
+        { q: "¿Qué incluye el precio?", a: register ? "Todo: la caja registradora fiscal aprobada y el terminal de pago, más el Merchant Portal. Sin suscripción de software aparte ni cargos por función." : "Todo: el terminal de pago y el Merchant Portal. Sin suscripción de software aparte ni cargos por función." },
+        { q: "¿Necesito abrir una cuenta bancaria nueva?", a: "No. Los pagos los procesa un adquirente autorizado en la UE, y tus cobros llegan a la cuenta bancaria que ya tienes: sin cuenta nueva y sin nada que cambiar." },
         { q: "¿Cuándo recibo mi dinero?", a: "Al día hábil siguiente (T+1). El portal muestra exactamente lo que está confirmado para pagarte, neto de comisión y con total claridad." },
         { q: "¿Hay comisiones ocultas?", a: "No. Tu comisión se muestra por adelantado en cada liquidación en el portal. Sin cuotas de alta, sin mínimos mensuales, sin líneas sorpresa en un PDF." },
         { q: "¿En cuánto tiempo puedo empezar a cobrar?", a: register ? "En cuatro días hábiles o menos, desde el alta hasta estar operativo, incluida la registración fiscal del dispositivo para tu mercado." : "En cuatro días hábiles o menos, desde el alta hasta estar operativo." },

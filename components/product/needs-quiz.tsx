@@ -107,8 +107,8 @@ function copyFor(lang: Lang) {
         terminal: { name: "Payment terminal", text: "Card, contactless and cash on one device.", href: "/product/terminals" },
         cashRegister: {
           name: "Cash register",
-          text: "A certified fiscal till, built into the device.",
-          textWeb: "A certified fiscal till with a web dashboard for inventory and reports.",
+          text: "A VAT-approved fiscal till, built into the device.",
+          textWeb: "A VAT-approved fiscal till with a web dashboard for inventory and reports.",
           href: "/product/cash-register",
         },
         click: { name: "Click", text: "Orders straight to the register – for cafés & restaurants.", href: "/click" },
@@ -166,8 +166,8 @@ function copyFor(lang: Lang) {
         terminal: { name: "Terminal de pago", text: "Tarjeta, contactless y efectivo en un dispositivo.", href: "/product/terminals" },
         cashRegister: {
           name: "Caja registradora",
-          text: "Una caja fiscal certificada, integrada en el dispositivo.",
-          textWeb: "Una caja fiscal certificada con panel web para inventario e informes.",
+          text: "Una caja fiscal aprobada, integrada en el dispositivo.",
+          textWeb: "Una caja fiscal aprobada con panel web para inventario e informes.",
           href: "/product/cash-register",
         },
         click: { name: "Click", text: "Pedidos directos a la caja: para cafeterías y restaurantes.", href: "/click" },

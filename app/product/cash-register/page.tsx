@@ -11,7 +11,7 @@ import { promotesRegister, terminalModel, TERMINAL_MODELS, type CountryCode, typ
 export const metadata: Metadata = {
   title: "Cash register",
   description:
-    "A certified fiscal cash register built into the device you already use to take payments. Fiscal receipts, Z-reports and certification for the market you trade in.",
+    "A fiscal cash register built into the device you already use to take payments. Fiscal receipts, Z-reports and fiscal registration for the market you trade in.",
 };
 
 const whatIcons = [
@@ -25,12 +25,12 @@ function copyFor(lang: Lang, register: boolean, fiscal: boolean, c$: string, cou
     lang,
     {
       eyebrow: register ? "Payments & Fiscal · Cash register" : "Payments · Fiscal readiness",
-      h1a: register ? "A certified cash register," : fiscal ? "Fiscal-ready when your market is." : "No fiscal register needed here.",
+      h1a: register ? "A VAT-approved cash register," : fiscal ? "Fiscal-ready when your market is." : "No fiscal register needed here.",
       h1b: register ? "built in." : "",
       sub: register
-        ? "The fiscal till lives inside the same device you use to take payments. Certified receipts, Z-reports, and one box on the counter instead of two."
+        ? "The fiscal till lives inside the same device you use to take payments. Fiscal receipts, Z-reports, and one box on the counter instead of two."
         : fiscal
-          ? "Your market doesn't require a certified register from you today. When the rules change, your SmartOne device is ready – no new hardware, no second box on the counter."
+          ? "Your market doesn't require a fiscal register from you today. When the rules change, your SmartOne device is ready – no new hardware, no second box on the counter."
           : "Your market doesn't require a fiscal register – so we don't sell you one. You get card payments and the Merchant Portal, ready to go.",
       heroAlt: register ? `The ${device} dual-screen register` : `The ${device} payment terminal`,
       get: "Get a terminal →",
@@ -38,46 +38,46 @@ function copyFor(lang: Lang, register: boolean, fiscal: boolean, c$: string, cou
       // what it is
       whatEyebrow: "What it is",
       whatTitle: "A fiscal till, not an add-on.",
-      whatSub: "A cash register that records every sale the way the tax office expects – certified, numbered, reconciled.",
+      whatSub: "A cash register that records every sale the way the tax office expects – approved, numbered, reconciled.",
       what: [
-        { title: "Fiscal receipts", text: "Certified, numbered receipts your customers and the tax office accept – printed on the spot." },
+        { title: "Fiscal receipts", text: "Numbered fiscal receipts your customers and the tax office accept – printed on the spot." },
         { title: "Z-reports", text: "Close the day in one tap. The till is reconciled and the report is filed – nothing to tally by hand." },
-        { title: `Certified for ${countryName}`, text: "Registered and approved for the market you trade in – fiscal registration of the device is part of your setup." },
+        { title: `Approved for ${countryName}`, text: "Registered and approved for the market you trade in – fiscal registration of the device is part of your setup." },
       ],
       // price anchor
       priceEyebrow: "What a full setup costs",
       priceTitle: `A full setup worth ${c$}800–1,200. Yours for ${c$}400.`,
-      priceSub: "A cash register, a payment terminal and a printer add up fast as three separate boxes. We build all three into one certified device – so you pay once.",
+      priceSub: "A cash register, a payment terminal and a printer add up fast as three separate boxes. We build all three into one VAT-approved device – so you pay once.",
       standaloneLabel: "Register + terminal + printer",
       standaloneRange: `${c$}800–1,200`,
       standaloneNote: "Three separate boxes, each with its own contract, crowding your counter.",
       oursLabel: "SmartOne, all in one",
       oursPrice: `${c$}400`,
-      oursNote: "The certified register, the payment terminal and the printer in a single device. One box, one price.",
+      oursNote: "The VAT-approved register, the payment terminal and the printer in a single device. One box, one price.",
       // cashbox story
       cashEyebrow: "Cashbox",
       cashTitle: "Start with the register alone.",
       cashText:
-        "SmartOne Cashbox, the on-device fiscal register, is certified on its own – you can start Cashbox-only and add card payments later. Upgrading is a KYC/KYB check, not new hardware.",
+        "SmartOne Cashbox, the on-device fiscal register, is approved on its own – you can start Cashbox-only and add card payments later. Upgrading is a KYC/KYB check, not new hardware.",
       cashReceipts: "41 receipts · closed 19:04",
       // day
       dayEyebrow: "A day with the register",
       dayTitle: "From the first sale to the accountant.",
       // compliance
       complianceEyebrow: "Compliance",
-      complianceTitle: "Certified market by market.",
+      complianceTitle: "Compliant market by market.",
       complianceSub: "We name what's live and what's dated – nothing else.",
       compliance: {
-        mt: { title: "Malta – live today", text: "Certified fiscal device, merchants on the counter now." },
+        mt: { title: "Malta – live today", text: "VAT-approved fiscal device, merchants on the counter now." },
         es: { title: "Spain – Verifactu-ready for 2027", text: "Built for the Verifactu programme, ahead of the deadline." },
-        cy: { title: "Cyprus – fiscal receipts supported", text: "Card payments and compliant receipts on one certified device." },
+        cy: { title: "Cyprus – fiscal receipts supported", text: "Card payments and compliant receipts on one device." },
         sk: { title: "Slovakia – fiscal-ready", text: "A payment terminal ready for local fiscal requirements." },
         uk: { title: "United Kingdom – no fiscal register", text: "No fiscal register is required. Take card payments and run your business from the Merchant Portal." },
       } as Record<CountryCode, { title: string; text: string }>,
       spainTitle: (isEs: boolean) => (isEs ? "Verifactu, explained" : "Selling in Spain? Verifactu 2027"),
       spainText: (isEs: boolean) => (isEs ? "What changes in 2027 and how the device keeps you compliant." : "Getting ready ahead of the deadline? Start here."),
       // cta
-      ctaTitle: register ? "One box on the counter. Fully certified." : fiscal ? "Payments now, fiscal-ready for later." : "Card payments, ready in days.",
+      ctaTitle: register ? "One box on the counter. VAT-approved." : fiscal ? "Payments now, fiscal-ready for later." : "Card payments, ready in days.",
       ctaText: "Live in four business days or less.",
       sales: "Contact sales",
       // no-fiscal helpers
@@ -86,53 +86,53 @@ function copyFor(lang: Lang, register: boolean, fiscal: boolean, c$: string, cou
     },
     {
       eyebrow: register ? "Pagos y fiscal · Caja registradora" : "Pagos · Preparación fiscal",
-      h1a: register ? "Una caja registradora certificada," : fiscal ? "Listo para lo fiscal cuando toque." : "Aquí no hace falta caja fiscal.",
+      h1a: register ? "Una caja registradora fiscal aprobada," : fiscal ? "Listo para lo fiscal cuando toque." : "Aquí no hace falta caja fiscal.",
       h1b: register ? "integrada." : "",
       sub: register
-        ? "La caja fiscal vive dentro del mismo dispositivo con el que cobras. Tickets certificados, informes Z y una sola caja en el mostrador en lugar de dos."
+        ? "La caja fiscal vive dentro del mismo dispositivo con el que cobras. Tickets fiscales, informes Z y una sola caja en el mostrador en lugar de dos."
         : fiscal
-          ? "Tu mercado no te exige hoy una caja fiscal certificada. Cuando cambien las normas, tu dispositivo SmartOne está listo, sin comprar hardware nuevo ni una segunda caja en el mostrador."
+          ? "Tu mercado no te exige hoy una caja fiscal. Cuando cambien las normas, tu dispositivo SmartOne está listo, sin comprar hardware nuevo ni una segunda caja en el mostrador."
           : "Tu mercado no exige una caja fiscal, así que no te la vendemos. Tienes pagos con tarjeta y el Merchant Portal, listos para usar.",
       heroAlt: register ? `El registro de doble pantalla ${device}` : `El terminal de pago ${device}`,
       get: "Solicita tu terminal →",
       seePricing: "Ver precios",
       whatEyebrow: "Qué es",
       whatTitle: "Una caja fiscal, no un añadido.",
-      whatSub: "Una caja registradora que registra cada venta como espera Hacienda: certificada, numerada, cuadrada.",
+      whatSub: "Una caja registradora que registra cada venta como espera Hacienda: aprobada, numerada, cuadrada.",
       what: [
-        { title: "Tickets fiscales", text: "Tickets certificados y numerados que aceptan tus clientes y Hacienda, impresos al momento." },
+        { title: "Tickets fiscales", text: "Tickets fiscales numerados que aceptan tus clientes y Hacienda, impresos al momento." },
         { title: "Informes Z", text: "Cierra el día en un tap. La caja queda cuadrada y el informe presentado, sin cuadrar a mano." },
-        { title: `Certificado para ${countryName}`, text: "Registrado y aprobado para el mercado en el que operas: la registración fiscal del dispositivo forma parte del alta." },
+        { title: `Aprobado para ${countryName}`, text: "Registrado y aprobado para el mercado en el que operas: la registración fiscal del dispositivo forma parte del alta." },
       ],
       priceEyebrow: "Lo que cuesta un montaje completo",
       priceTitle: `Un montaje completo que vale ${c$}800-1.200. El tuyo por ${c$}400.`,
-      priceSub: "Una caja registradora, un terminal de pago y una impresora suman rápido como tres cajas separadas. Nosotros integramos los tres en un dispositivo certificado, así que pagas una vez.",
+      priceSub: "Una caja registradora, un terminal de pago y una impresora suman rápido como tres cajas separadas. Nosotros integramos los tres en un dispositivo fiscal aprobado, así que pagas una vez.",
       standaloneLabel: "Caja + terminal + impresora",
       standaloneRange: `${c$}800-1.200`,
       standaloneNote: "Tres cajas separadas, cada una con su contrato, ocupando tu mostrador.",
       oursLabel: "SmartOne, todo en uno",
       oursPrice: `${c$}400`,
-      oursNote: "La caja certificada, el terminal de pago y la impresora en un solo dispositivo. Una caja, un precio.",
+      oursNote: "La caja fiscal aprobada, el terminal de pago y la impresora en un solo dispositivo. Una caja, un precio.",
       cashEyebrow: "Cashbox",
       cashTitle: "Empieza solo con la caja.",
       cashText:
-        "SmartOne Cashbox, la caja registradora fiscal del dispositivo, está certificada por sí sola: puedes empezar solo con Cashbox y añadir pagos con tarjeta después. Ampliar es una verificación KYC/KYB, no hardware nuevo.",
+        "SmartOne Cashbox, la caja registradora fiscal del dispositivo, está aprobada por sí sola: puedes empezar solo con Cashbox y añadir pagos con tarjeta después. Ampliar es una verificación KYC/KYB, no hardware nuevo.",
       cashReceipts: "41 tickets · cerrado 19:04",
       dayEyebrow: "Un día con la caja",
       dayTitle: "De la primera venta al contable.",
       complianceEyebrow: "Cumplimiento",
-      complianceTitle: "Certificado mercado a mercado.",
+      complianceTitle: "Cumplimiento mercado a mercado.",
       complianceSub: "Decimos qué está activo y qué tiene fecha, nada más.",
       compliance: {
-        mt: { title: "Malta – activo hoy", text: "Dispositivo fiscal certificado, con comercios operando ya." },
+        mt: { title: "Malta – activo hoy", text: "Dispositivo fiscal aprobado, con comercios operando ya." },
         es: { title: "España – preparado para Verifactu 2027", text: "Diseñado para el programa Verifactu, antes del plazo." },
-        cy: { title: "Chipre – tickets fiscales soportados", text: "Pagos con tarjeta y tickets conformes en un dispositivo certificado." },
+        cy: { title: "Chipre – tickets fiscales soportados", text: "Pagos con tarjeta y tickets conformes en un solo dispositivo." },
         sk: { title: "Eslovaquia – preparado para la normativa fiscal", text: "Un terminal de pago listo para los requisitos fiscales locales." },
         uk: { title: "Reino Unido – sin caja fiscal", text: "No se requiere caja fiscal. Cobra con tarjeta y gestiona tu negocio desde el Merchant Portal." },
       } as Record<CountryCode, { title: string; text: string }>,
       spainTitle: (isEs: boolean) => (isEs ? "Verifactu, explicado" : "¿Vendes en España? Verifactu 2027"),
       spainText: (isEs: boolean) => (isEs ? "Qué cambia en 2027 y cómo el dispositivo te mantiene en regla." : "¿Te preparas antes del plazo? Empieza aquí."),
-      ctaTitle: register ? "Una caja en el mostrador. Totalmente certificada." : fiscal ? "Cobra ahora, listo para lo fiscal cuando toque." : "Pagos con tarjeta, listos en días.",
+      ctaTitle: register ? "Una caja en el mostrador. Fiscal y aprobada." : fiscal ? "Cobra ahora, listo para lo fiscal cuando toque." : "Pagos con tarjeta, listos en días.",
       ctaText: "Operativo en cuatro días hábiles o menos.",
       sales: "Contactar con ventas",
       seeTerminals: "Ver los terminales",

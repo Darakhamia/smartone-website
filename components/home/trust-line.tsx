@@ -1,5 +1,5 @@
 import { ShieldCheck, Landmark, Clock, type LucideIcon } from "lucide-react";
-import { getActiveLang } from "@/lib/country-server";
+import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 
 /* The three facts under the hero. Icons come from the same Lucide set as the
@@ -12,16 +12,26 @@ import { tr } from "@/lib/dictionaries";
 type Fact = { label: string; icon: LucideIcon };
 
 export async function TrustLine() {
+  const country = await getActiveCountry();
   const lang = await getActiveLang();
+  /* The first fact is the market's own: the fiscal approval only exists in
+     Malta (MTCA, January 2025), Spain's is Verifactu readiness, and elsewhere
+     what we can stand behind is who processes the payments. */
+  const first =
+    country.code === "mt"
+      ? "VAT-approved in Malta"
+      : country.code === "es"
+        ? tr(lang, "Verifactu-ready for 2027", "Preparado para Verifactu 2027")
+        : "Payments by a licensed acquirer";
   const facts: Fact[] = tr(
     lang,
     [
-      { label: "Certified across Europe", icon: ShieldCheck },
+      { label: first, icon: ShieldCheck },
       { label: "Money to your own bank, T+1", icon: Landmark },
       { label: "Live in ≤4 business days", icon: Clock },
     ],
     [
-      { label: "Certificado en toda Europa", icon: ShieldCheck },
+      { label: first, icon: ShieldCheck },
       { label: "Dinero a tu propio banco, T+1", icon: Landmark },
       { label: "Operativo en ≤4 días hábiles", icon: Clock },
     ],

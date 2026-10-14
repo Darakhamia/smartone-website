@@ -37,7 +37,7 @@ export const COUNTRIES: Country[] = [
     languages: ["en"],
     fiscal: true,
     verifactu: false,
-    tagline: "Certified fiscal device — live today.",
+    tagline: "VAT-approved fiscal device — live today.",
     badge: "Live",
   },
   {
@@ -114,7 +114,7 @@ export function getCountry(code: string | undefined | null): Country {
 }
 
 /** Whether the fiscal cash register is offered/promoted for this country.
-    Today that's Malta only – the certified device is live there. Other fiscal
+    Today that's Malta only – the VAT-approved device is live there. Other fiscal
     markets (e.g. Spain's Verifactu) keep their compliance messaging, but the
     cash register itself is not sold there yet, so it's kept out of the UI. */
 export function promotesRegister(country: Country): boolean {

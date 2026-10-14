@@ -59,7 +59,7 @@ export async function Hero() {
       titleA: "One device to",
       titleB: "run your business.",
       sub: register
-        ? "A certified cash register and payment terminal in one box – with clear fees, not fine print."
+        ? "A VAT-approved cash register and payment terminal in one box – with clear fees, not fine print."
         : "A payment terminal and business tools in one box – with clear fees, not fine print.",
       cta1: "Get a terminal →",
       cta2: "See pricing",
@@ -68,7 +68,7 @@ export async function Hero() {
       titleA: "Un dispositivo para",
       titleB: "gestionar tu negocio.",
       sub: register
-        ? "Una caja registradora certificada y terminal de pago en un solo equipo, con comisiones claras y sin letra pequeña."
+        ? "Una caja registradora fiscal aprobada y terminal de pago en un solo equipo, con comisiones claras y sin letra pequeña."
         : "Un terminal de pago y herramientas de negocio en un solo equipo, con comisiones claras y sin letra pequeña.",
       cta1: "Solicita tu terminal →",
       cta2: "Ver precios",

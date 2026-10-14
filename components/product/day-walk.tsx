@@ -22,7 +22,7 @@ function copyFor(lang: Lang, cur: string) {
       reports: "Receipts & reports",
       steps: [
         { title: "Take a payment", text: "Card, contactless or cash – one tap on one device." },
-        { title: "The fiscal receipt prints", text: "Certified, numbered, from the built-in printer." },
+        { title: "The fiscal receipt prints", text: "Numbered, from the built-in printer." },
         { title: "Close the day", text: "Z-report in one tap – the till is reconciled." },
         { title: "See the money", text: `What you sold and what you'll receive – every fee shown in ${cur}.` },
         { title: "Hand it to your accountant", text: "Receipts and reports in one place, nothing to collect." },
@@ -39,7 +39,7 @@ function copyFor(lang: Lang, cur: string) {
       reports: "Tickets e informes",
       steps: [
         { title: "Cobra", text: "Tarjeta, contactless o efectivo: un tap en un solo dispositivo." },
-        { title: "Se imprime el ticket fiscal", text: "Certificado y numerado, desde la impresora integrada." },
+        { title: "Se imprime el ticket fiscal", text: "Numerado, desde la impresora integrada." },
         { title: "Cierra el día", text: "Informe Z en un tap: la caja queda cuadrada." },
         { title: "Mira el dinero", text: `Lo que vendiste y lo que vas a recibir, con cada comisión en ${cur}.` },
         { title: "Pásaselo a tu contable", text: "Tickets e informes en un solo sitio, nada que recopilar." },
