@@ -216,6 +216,7 @@ export function LeadForm() {
       method="post"
       noValidate
       onSubmit={onSubmit}
+      data-track="form-contact"
       className="rounded-3xl border border-line bg-white p-6 shadow-[0_24px_48px_-36px_rgba(29,29,31,0.4)] sm:p-8"
     >
       <div className="grid gap-4 sm:grid-cols-2">
