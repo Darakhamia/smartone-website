@@ -251,7 +251,8 @@ export function HowItWorks() {
   const pick = (i: number) => setActive(i);
 
   return (
-    <section className="bg-bg-2 py-24">
+    // #how-it-works is where "See how it works →" in Where are you starting from lands
+    <section id="how-it-works" className="scroll-mt-20 bg-bg-2 py-24">
       <div className="mx-auto max-w-6xl px-6">
         <Reveal>
           <div className="max-w-165">
