@@ -4,15 +4,16 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useCountry } from "@/components/country/country-context";
 
-/* Interactive "gaps" cards: click a card to preview the product it describes –
-   the built-in cash register, and the Merchant Portal money screen.
-   The register preview shows a real screenshot of the app's catalogue. The
-   other demo screens are held back until we have euro-denominated ones: the
-   originals priced in dollars, and their totals didn't reconcile. */
+/* "See it in the app" under each gap: opens a preview of the product the gap
+   is about – the built-in cash register, or the Merchant Portal money screen.
+   The register preview is a real screenshot of the app's catalogue, shown as
+   a bare screen: the register runs on the terminal, so no phone around it.
+   The other demo screens are held back until we have euro-denominated ones:
+   the originals priced in dollars, and their totals didn't reconcile. */
 
 const cashboxShot = "/cashbox/catalogue.webp";
 
-type GapCard = { tag: string; title: string; text: string; kind: "cashbox" | "portal" };
+export type GapKind = "cashbox" | "portal";
 export type GapModal = {
   tap: string;
   close: string;
@@ -20,16 +21,10 @@ export type GapModal = {
   portal: { frame: string; cardSales: string; receive: string; commission: string; caption: string };
 };
 
-const gapIcons: Record<GapCard["kind"], React.ReactNode> = {
-  cashbox: <path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3Zm-3 9 2 2 4-4.5" />,
-  portal: <path d="M4 10h12M4 14h9m6-8a7.7 7.7 0 0 0-5.2-2A7.9 7.9 0 0 0 6 12c0 4.4 3.5 8 7.8 8 2 0 3.8-.8 5.2-2" />,
-};
-
 function CashboxScreen({ m }: { m: GapModal }) {
   return (
     <div className="mx-auto w-full max-w-[236px]">
-      {/* real screenshot from the cash-register app */}
-      <div className="relative aspect-[1/2] overflow-hidden rounded-[26px] bg-[#0e0e10] shadow-[0_40px_80px_-30px_rgba(0,0,0,0.6)]">
+      <div className="relative aspect-[1/2] overflow-hidden rounded-2xl bg-white shadow-[0_40px_80px_-30px_rgba(0,0,0,0.6)]">
         <Image src={cashboxShot} alt={m.cashbox.alt} fill sizes="236px" className="object-cover" />
       </div>
     </div>
@@ -65,56 +60,40 @@ function PortalScreen({ m, c$ }: { m: GapModal; c$: string }) {
   );
 }
 
-export function GapCards({ cards, modal }: { cards: GapCard[]; modal: GapModal }) {
+export function SeeInApp({ kind, modal }: { kind: GapKind; modal: GapModal }) {
   const { country } = useCountry();
-  const c$ = country.currencySymbol;
-  const [open, setOpen] = useState<number | null>(null);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
+    if (!open) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(null);
+      if (e.key === "Escape") setOpen(false);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, []);
+  }, [open]);
 
   return (
     <>
-      <div className={`mt-11 grid gap-4 ${cards.length > 1 ? "md:grid-cols-2" : "mx-auto max-w-xl"}`}>
-        {cards.map((g, i) => (
-          <button
-            key={g.tag}
-            onClick={() => setOpen(i)}
-            className="group h-full rounded-3xl border border-line bg-white p-8 text-left shadow-sm shadow-black/3 transition-all duration-300 hover:-translate-y-1 hover:bg-brand-tint/50 hover:shadow-[0_20px_40px_-28px_rgba(90,25,181,0.4)]"
-          >
-            <div className="flex items-center justify-between">
-              <span className="grid size-12 place-items-center rounded-xl bg-brand-tint transition-colors duration-300 group-hover:bg-brand/15">
-                <svg viewBox="0 0 24 24" className="size-6 stroke-brand" fill="none" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                  {gapIcons[g.kind]}
-                </svg>
-              </span>
-              <span className="rounded-full bg-brand-tint px-3.5 py-1 text-[12px] font-semibold tracking-wide text-brand uppercase sm:text-[11px]">{g.tag}</span>
-            </div>
-            <h3 className="mt-6 font-display text-[22px] font-semibold tracking-tight">{g.title}</h3>
-            <p className="mt-2.5 leading-relaxed text-ink-2">{g.text}</p>
-            <span className="mt-4 inline-flex items-center gap-1.5 text-[13px] font-semibold text-brand">
-              {modal.tap}
-              <span className="transition-transform duration-300 group-hover:translate-x-1" aria-hidden>→</span>
-            </span>
-          </button>
-        ))}
-      </div>
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        className="group mt-5 inline-flex items-center gap-1.5 py-1 text-[14.5px] font-semibold text-brand"
+      >
+        {modal.tap}
+        <span className="transition-transform duration-300 group-hover:translate-x-1" aria-hidden>→</span>
+      </button>
 
-      {open !== null && (
+      {open && (
         <div
           className="fixed inset-0 z-[60] grid place-items-center bg-night/50 p-5 backdrop-blur-sm"
           role="dialog"
           aria-modal="true"
-          onClick={() => setOpen(null)}
+          onClick={() => setOpen(false)}
         >
           <div className="anim-tier-in relative w-full max-w-md" onClick={(e) => e.stopPropagation()}>
             <button
-              onClick={() => setOpen(null)}
+              onClick={() => setOpen(false)}
               aria-label={modal.close}
               className="absolute -top-3 -right-3 z-10 grid size-9 place-items-center rounded-full bg-white text-ink shadow-lg transition-transform hover:scale-105"
             >
@@ -122,9 +101,9 @@ export function GapCards({ cards, modal }: { cards: GapCard[]; modal: GapModal }
                 <path d="M6 6l12 12M18 6L6 18" />
               </svg>
             </button>
-            {cards[open].kind === "cashbox" ? <CashboxScreen m={modal} /> : <PortalScreen m={modal} c$={c$} />}
+            {kind === "cashbox" ? <CashboxScreen m={modal} /> : <PortalScreen m={modal} c$={country.currencySymbol} />}
             <p className="mx-auto mt-4 max-w-xs text-center text-[13px] leading-relaxed text-white/85">
-              {cards[open].kind === "cashbox" ? modal.cashbox.caption : modal.portal.caption}
+              {kind === "cashbox" ? modal.cashbox.caption : modal.portal.caption}
             </p>
           </div>
         </div>
