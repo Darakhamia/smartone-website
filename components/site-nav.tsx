@@ -6,8 +6,8 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { useCountry } from "@/components/country/country-context";
+import { PortalLink } from "@/components/portal-link";
 import { DICT, tr } from "@/lib/dictionaries";
-import { MERCHANT_PORTAL_URL } from "@/lib/links";
 import { promotesRegister, terminalModel, TERMINAL_MODELS, type Lang } from "@/lib/countries";
 
 export function Brand({ light = false }: { light?: boolean }) {
@@ -25,7 +25,7 @@ export function Brand({ light = false }: { light?: boolean }) {
 }
 
 /* Full-width Product mega-menu, mirrored in the footer. Three groups:
-   – Payments & Fiscal: the card reader (terminals), the certified cash
+   – Payments & Fiscal: the card reader (terminals), the VAT-approved cash
      register and Tap to Phone (coming soon);
    – Merchant Portal: what it is, plus a log-in;
    – HoReCa: Click, the restaurant ordering system. */
@@ -66,7 +66,7 @@ function productMenu(lang: Lang, register: boolean, device: string): MegaCol[] {
       items: [
         { label: tr(lang, "Card reader", "Datáfono"), sub: tr(lang, `The ${device} terminal`, `El terminal ${device}`), href: "/product/terminals", icon: cardReaderIcon },
         ...(register
-          ? [{ label: tr(lang, "Cash register", "Caja registradora"), sub: tr(lang, "Certified fiscal till", "Caja fiscal certificada"), href: "/product/cash-register", icon: cashRegisterIcon }]
+          ? [{ label: tr(lang, "Cash register", "Caja registradora"), sub: tr(lang, "VAT-approved fiscal till", "Caja fiscal aprobada"), href: "/product/cash-register", icon: cashRegisterIcon }]
           : []),
         { label: "Tap to Phone", sub: tr(lang, "Coming soon", "Muy pronto"), href: "/product/tap-to-phone", icon: tapToPhoneIcon },
       ],
@@ -240,16 +240,11 @@ export function SiteNav() {
           ))}
         </nav>
         <div className="ml-auto hidden items-center gap-4 lg:flex">
-          <a
-            href={MERCHANT_PORTAL_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 text-[14.5px] font-medium text-ink-2 transition-colors hover:text-ink"
-          >
+          <PortalLink className="inline-flex items-center gap-1 text-[14.5px] font-medium text-ink-2 transition-colors hover:text-ink">
             {t.nav.login}
             {/* the portal is a separate app in a new tab – say so */}
             <ArrowUpRight className="size-3.5 opacity-60" strokeWidth={2} aria-hidden />
-          </a>
+          </PortalLink>
           {/* shadow-none: btn-primary carries a violet glow that works on the
               page but reads as a smudge against the white header bar. */}
           <Link href="/contact" className="btn-primary px-5 py-2.5 shadow-none">
@@ -306,10 +301,10 @@ export function SiteNav() {
             </Link>
           ))}
           <div className="mt-3 flex items-center gap-4 border-t border-line pt-4">
-            <a href={MERCHANT_PORTAL_URL} target="_blank" rel="noopener noreferrer" onClick={() => setOpen(false)} className="inline-flex items-center gap-1 py-2 text-[15px] font-medium text-ink-2">
+            <PortalLink onClick={() => setOpen(false)} className="inline-flex items-center gap-1 py-2 text-[15px] font-medium text-ink-2">
               {t.nav.login}
               <ArrowUpRight className="size-3.5 opacity-60" strokeWidth={2} aria-hidden />
-            </a>
+            </PortalLink>
             <Link href="/contact" onClick={() => setOpen(false)} className="btn-primary px-5 py-2.5 shadow-none">
               {t.nav.getStarted}
             </Link>
