@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { URL_TAGS } from "@/lib/attribution";
 import { CONSENT_EVENT, FIRST_TOUCH_KEY, hasMarketingConsent, readFirstTouch } from "@/lib/consent";
 
-/* First-touch attribution: remember where the visitor came from (UTM tags +
-   referrer) so a later enquiry can be credited to the right channel.
+/* First-touch attribution: remember where the visitor came from (UTM tags, ad
+   click IDs and referrer – the list is URL_TAGS in lib/attribution.ts) so a
+   later enquiry or portal registration can be credited to the right channel.
 
    Nothing is written unless the visitor switches on the Marketing category.
    This is marketing measurement, not something the site needs to run, so
@@ -28,9 +30,7 @@ export function LeadAttribution() {
     if (firstTouch.current === null) {
       const p = new URLSearchParams(location.search);
       firstTouch.current = JSON.stringify({
-        utm_source: p.get("utm_source") || "",
-        utm_medium: p.get("utm_medium") || "",
-        utm_campaign: p.get("utm_campaign") || "",
+        ...Object.fromEntries(URL_TAGS.map((tag) => [tag, p.get(tag) || ""])),
         referrer_first_touch: document.referrer || "direct",
         ts: new Date().toISOString(),
       });

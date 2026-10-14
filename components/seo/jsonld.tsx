@@ -21,7 +21,7 @@ export function OrgJsonLd() {
     url: SITE_URL,
     logo: `${SITE_URL}/icon.svg`,
     description:
-      "Fiscally-certified payment devices for European small businesses: card terminal, certified cash register and receipt printer in one box, with a Merchant Portal included.",
+      "Payment devices for European small businesses: card terminal, fiscal cash register and receipt printer in one box, with a Merchant Portal included.",
     address: {
       "@type": "PostalAddress",
       streetAddress: "Level 6, Room 2, Tagliaferro Business Centre, Sqaq Gaiety",
@@ -39,11 +39,11 @@ export function OrgJsonLd() {
 const PRICING_FAQ: Array<[question: string, answer: string]> = [
   [
     "What's included in the price?",
-    "Everything: the certified cash register and payment terminal, plus the Merchant Portal. No separate software subscription, no per-feature charges.",
+    "Everything: the VAT-approved cash register and payment terminal, plus the Merchant Portal. No separate software subscription, no per-feature charges.",
   ],
   [
     "Do I need to open a new bank account?",
-    "No. Your payouts go to the bank account you already have – we work with a licensed European banking partner, so there's no new interface to learn and no switching cost.",
+    "No. Payments are processed by a licensed EU acquirer, and your payouts go to the bank account you already have – no new account, nothing to switch.",
   ],
   [
     "When do I get my money?",

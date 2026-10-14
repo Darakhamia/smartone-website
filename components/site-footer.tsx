@@ -3,11 +3,12 @@ import { ArrowUpRight } from "lucide-react";
 import { Brand } from "@/components/site-nav";
 import { FooterRegion } from "@/components/country/footer-region";
 import { CookieSettingsLink } from "@/components/legal/cookie-settings-link";
+import { PortalLink } from "@/components/portal-link";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { DICT, tr } from "@/lib/dictionaries";
 import { promotesRegister } from "@/lib/countries";
 import { COMPANY, emiPartner } from "@/lib/legal";
-import { API_DOCS_URL, MERCHANT_PORTAL_URL } from "@/lib/links";
+import { API_DOCS_URL } from "@/lib/links";
 
 export async function SiteFooter() {
   const country = await getActiveCountry();
@@ -70,7 +71,8 @@ export async function SiteFooter() {
 
   // Mirrors the header's Product mega-menu: Payments & Fiscal, Merchant Portal, HoReCa.
   const register = promotesRegister(country);
-  const columns = [
+  // `portal` links go to the active country's own Merchant Portal (see PortalLink)
+  const columns: { title: string; links: { href: string; label: string; portal?: boolean }[] }[] = [
     {
       title: register ? l.paymentsFiscal : l.payments,
       links: [
@@ -83,7 +85,7 @@ export async function SiteFooter() {
       title: "Retail",
       links: [
         { href: "/merchant-portal", label: l.whatIs },
-        { href: MERCHANT_PORTAL_URL, label: l.login },
+        { href: "", label: l.login, portal: true },
         { href: API_DOCS_URL, label: l.apiDocs },
       ],
     },
@@ -115,7 +117,15 @@ export async function SiteFooter() {
             <div key={col.title}>
               <h5 className="mb-3.5 font-display text-sm font-semibold text-white">{col.title}</h5>
               {col.links.map((link) =>
-                link.href.startsWith("http") ? (
+                link.portal ? (
+                  <PortalLink
+                    key={link.label}
+                    className="flex items-center gap-1 py-2.5 text-[13.5px] text-white/60 transition-colors hover:text-white sm:py-1"
+                  >
+                    {link.label}
+                    <ArrowUpRight className="size-3.5 shrink-0 opacity-70" strokeWidth={2} aria-hidden />
+                  </PortalLink>
+                ) : link.href.startsWith("http") ? (
                   <a
                     key={link.label}
                     href={link.href}

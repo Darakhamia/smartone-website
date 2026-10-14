@@ -37,7 +37,7 @@ export const COUNTRIES: Country[] = [
     languages: ["en"],
     fiscal: true,
     verifactu: false,
-    tagline: "Certified fiscal device — live today.",
+    tagline: "VAT-approved fiscal device — live today.",
     badge: "Live",
   },
   {
@@ -114,7 +114,7 @@ export function getCountry(code: string | undefined | null): Country {
 }
 
 /** Whether the fiscal cash register is offered/promoted for this country.
-    Today that's Malta only – the certified device is live there. Other fiscal
+    Today that's Malta only – the VAT-approved device is live there. Other fiscal
     markets (e.g. Spain's Verifactu) keep their compliance messaging, but the
     cash register itself is not sold there yet, so it's kept out of the UI. */
 export function promotesRegister(country: Country): boolean {
@@ -142,6 +142,14 @@ export const TERMINAL_MODELS: Record<TerminalModel, { name: string; dir: string;
   "bank-pro": { name: "SmartOne Bank Pro", dir: "/pos/bank-pro", dual: false },
   "bank-pro-s": { name: "SmartOne Bank Pro S", dir: "/pos/bank-pro-s/v2", dual: true },
 };
+
+/* The terminal cut-out on the homepage – the hero, the "Why no one else does
+   this" rows and the quiz result – is the Bank Pro S in every market. Shot
+   from the operator's side its second screen doesn't show, and the Bank Pro
+   has no photo with the current cash-register app (owner's call, 14.10.2026).
+   This is a picture, not the product rule above: the product pages still show
+   each market its own model through terminalModel(). */
+export const SHOWCASE_DEVICE = `${TERMINAL_MODELS["bank-pro-s"].dir}/hero.webp`;
 
 export const COUNTRY_COOKIE = "so_country";
 export const LANG_COOKIE = "so_lang";

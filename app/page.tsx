@@ -1,5 +1,4 @@
 import { Hero } from "@/components/home/hero";
-import { TrustLine } from "@/components/home/trust-line";
 import { Breadth } from "@/components/home/breadth";
 import { WhySwitch } from "@/components/home/why-switch";
 import { DeviceQuiz } from "@/components/home/device-quiz";
@@ -13,11 +12,10 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <TrustLine />
       <Breadth />
       <WhySwitch />
-      <DeviceQuiz />
       <Gap />
+      <DeviceQuiz />
       <HowItWorks />
       <Industries />
       {SHOW_PROOF && <Proof />}

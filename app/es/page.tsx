@@ -13,12 +13,12 @@ export default async function SpainPage() {
     {
       eyebrow: "Spain · Verifactu",
       title: "Ready for Verifactu 2027.",
-      description: "SmartOne is Verifactu-ready for Spain's 2027 deadline – a certified fiscal device with card payments in one box. Talk to us and be ready ahead of time.",
+      description: "SmartOne is Verifactu-ready for Spain's 2027 deadline – a fiscal device with card payments in one box. Talk to us and be ready ahead of time.",
     },
     {
       eyebrow: "España · Verifactu",
       title: "Preparado para Verifactu 2027.",
-      description: "SmartOne está preparado para el plazo de Verifactu 2027 en España: un dispositivo fiscal certificado con pagos con tarjeta en una sola caja. Habla con nosotros y adelántate.",
+      description: "SmartOne está preparado para el plazo de Verifactu 2027 en España: un dispositivo fiscal con pagos con tarjeta en una sola caja. Habla con nosotros y adelántate.",
     },
   );
   return <StubPage eyebrow={c.eyebrow} title={c.title} description={c.description} />;

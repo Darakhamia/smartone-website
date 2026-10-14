@@ -27,9 +27,9 @@ import {
 import { Reveal } from "@/components/reveal";
 import { SectionHead } from "@/components/section-head";
 import { AppShot } from "@/components/product/app-shot";
+import { PortalLink } from "@/components/portal-link";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
-import { MERCHANT_PORTAL_URL } from "@/lib/links";
 import { promotesRegister, type Lang } from "@/lib/countries";
 
 export const metadata: Metadata = {
@@ -292,9 +292,7 @@ export default async function MerchantPortalPage() {
             </h1>
             <p className="anim-fade-up anim-d-2 mt-5 max-w-125 text-[17px] leading-relaxed text-ink-2">{c.sub}</p>
             <div className="anim-fade-up anim-d-3 mt-8 flex flex-wrap items-center gap-3.5">
-              <a href={MERCHANT_PORTAL_URL} target="_blank" rel="noopener noreferrer" className="btn-primary">
-                {c.login}
-              </a>
+              <PortalLink className="btn-primary">{c.login}</PortalLink>
               <Link href="/contact" className="btn-ghost">{c.get}</Link>
             </div>
             <p className="anim-fade-up anim-d-3 mt-4 text-[13.5px] text-ink-3">{c.included}</p>
@@ -465,9 +463,7 @@ export default async function MerchantPortalPage() {
                 <p className="mx-auto mt-4 mb-9 max-w-125 text-[16.5px] leading-relaxed text-white/80">{c.ctaText}</p>
                 <div className="flex flex-wrap justify-center gap-3.5">
                   <Link href="/contact" className="btn-light">{c.ctaGet}</Link>
-                  <a href={MERCHANT_PORTAL_URL} target="_blank" rel="noopener noreferrer" className="btn-ghost-dark">
-                    {c.ctaLogin}
-                  </a>
+                  <PortalLink className="btn-ghost-dark">{c.ctaLogin}</PortalLink>
                 </div>
               </div>
             </div>

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { PhoneField, COUNTRY_DIAL, flag } from "@/components/lead/phone-field";
 import { useCountry } from "@/components/country/country-context";
 import { CookieSettingsLink } from "@/components/legal/cookie-settings-link";
+import { ATTRIBUTION_FIELDS } from "@/lib/attribution";
 import { readFirstTouch } from "@/lib/consent";
 import { tr } from "@/lib/dictionaries";
 import { COMPANY } from "@/lib/legal";
@@ -164,9 +165,12 @@ export function LeadForm() {
 
     /* Fill the hidden attribution fields from first-touch storage now, not on
        mount: Marketing may be switched on or off while the form is open, and
-       without it readFirstTouch returns nothing and the fields go empty. */
+       without it readFirstTouch returns nothing and the fields go empty.
+       Walks the full shared list but fills only the fields the form has, so
+       the payload stays what the endpoint expects today; when the CRM takes
+       the click IDs too, adding their hidden inputs below is all it needs. */
     const saved = readFirstTouch() ?? {};
-    (["utm_source", "utm_medium", "utm_campaign", "referrer_first_touch"] as const).forEach((f) => {
+    ATTRIBUTION_FIELDS.forEach((f) => {
       const el = form.elements.namedItem(f) as HTMLInputElement | null;
       if (el) el.value = saved[f] || "";
     });
@@ -212,6 +216,7 @@ export function LeadForm() {
       method="post"
       noValidate
       onSubmit={onSubmit}
+      data-track="form-contact"
       className="rounded-3xl border border-line bg-white p-6 shadow-[0_24px_48px_-36px_rgba(29,29,31,0.4)] sm:p-8"
     >
       <div className="grid gap-4 sm:grid-cols-2">
