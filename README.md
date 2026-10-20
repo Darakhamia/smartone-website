@@ -72,17 +72,16 @@ server (`POST /api/leads`) to the team's Telegram group through a bot
 (`lib/telegram.ts`). Nothing is stored on the site. `/contact` still posts to
 its original endpoint as well.
 
-Two environment variables, read at run time – set them wherever the site is
-hosted and restart it (no rebuild needed):
+The bot is @s1lead_bot, the group "SmartOne Leads Web". The site's hosting
+has no environment variables to set, so the bot's token and the group's id
+are in `lib/telegram.ts` – the token scrambled, since this repository is
+public; the comment there says how to replace it if it is ever revoked.
+`TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID`, if a host sets them, take
+precedence.
 
-| Variable | Value |
-| --- | --- |
-| `TELEGRAM_BOT_TOKEN` | The bot's token from @BotFather. |
-| `TELEGRAM_CHAT_ID` | The group's id, a negative number. Add the bot to the group, send `/start` there, open `https://api.telegram.org/bot<token>/getUpdates` and copy `"chat":{"id":…}`. |
-
-Without them the Ltd and Talk to us forms show an error (with the email
-address to write to instead); the lead is written to the server log. When the
-CRM is chosen, send leads there from `app/api/leads/route.ts` (`TODO(crm)`).
+If a message can't be sent, the visitor sees an error with the email address
+to write to instead, and the lead is written to the server log. When the CRM
+is chosen, send leads there from `app/api/leads/route.ts` (`TODO(crm)`).
 
 ### Cookie consent
 
