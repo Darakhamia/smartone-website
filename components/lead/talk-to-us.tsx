@@ -5,8 +5,8 @@ import { CallbackForm } from "@/components/lead/callback-form";
 import { Modal } from "@/components/modal";
 
 /* "Talk to us" on the Malta homepage (task §1): opens a two-field call-back
-   form – Name and Phone – that goes to the site's inbox with the source
-   talk_to_us. `children` replaces the button text (the "Prefer to talk?"
+   form – Name and Phone – that goes to the team's Telegram group with the
+   source talk_to_us. `children` replaces the button text (the "Prefer to talk?"
    line under the final CTA opens the same form). */
 export function TalkToUs({
   location,

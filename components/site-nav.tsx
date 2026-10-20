@@ -7,7 +7,6 @@ import { ArrowUpRight } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { useCountry } from "@/components/country/country-context";
 import { PortalLink } from "@/components/portal-link";
-import { isBareRoute } from "@/lib/bare-routes";
 import { DICT, tr } from "@/lib/dictionaries";
 import { promotesRegister, terminalModel, TERMINAL_MODELS, type Lang } from "@/lib/countries";
 
@@ -177,8 +176,8 @@ export function SiteNav() {
     return () => window.removeEventListener("keydown", onKey);
   }, [menu]);
 
-  // The country picker is a full-screen splash, the leads inbox is internal – no nav there.
-  if (isBareRoute(pathname)) return null;
+  // The country picker is a full-screen splash – no nav there.
+  if (pathname === "/welcome") return null;
 
   const rest = [
     { href: "/pricing", label: t.nav.pricing },

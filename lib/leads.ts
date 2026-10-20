@@ -1,10 +1,10 @@
-/* Enquiries sent from the site's forms. Until a CRM is chosen they are kept
-   by the site itself and read on the password-protected /leads page
-   (lib/leads-store.ts, app/leads). This file is the shape both ends agree on:
-   the forms send it (components/lead/submit-lead.ts), /api/leads checks
-   it and keeps only what is listed here.
+/* Enquiries sent from the site's forms. Until a CRM is chosen they are
+   posted to the team's Telegram group (app/api/leads/route.ts). This file is
+   the shape both ends agree on: the forms send it
+   (components/lead/submit-lead.ts), /api/leads checks it and passes on only
+   what is listed here.
 
-   TODO(crm): once the CRM is chosen, forward each lead to it from
+   TODO(crm): once the CRM is chosen, send each lead to it from
    app/api/leads/route.ts – the forms don't need to change. */
 
 export const LEAD_SOURCES = ["contact", "ltd_callback", "talk_to_us"] as const;
@@ -16,7 +16,7 @@ export const LEAD_SOURCE_LABELS: Record<LeadSource, string> = {
   talk_to_us: "Talk to us",
 };
 
-/* The fields a lead may carry, with the longest value kept for each. The
+/* The fields a lead may carry, with the longest value passed on. The
    names are the /contact form's own (it also posts them to its original
    endpoint); the call-back forms reuse them – the Ltd form's "Company name"
    is business_name. Anything else in a submission is dropped. */

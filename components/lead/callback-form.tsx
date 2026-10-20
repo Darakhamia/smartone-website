@@ -14,8 +14,8 @@ import { trackLead } from "@/lib/tags";
 /* The short "call me back" forms of the Malta homepage (task §1):
    - Ltd, inside the Get started window: Name, Phone, Company name;
    - Talk to us: Name and Phone.
-   Both go to the site's own inbox (/leads) with their source and the
-   visitor's campaign tags (submitLead). The data-track values are the ones
+   Both go to the team's Telegram group with their source and the visitor's
+   campaign tags (submitLead → /api/leads). The data-track values are the ones
    the task fixes for GTM – keep them.
 
    Malta-only, so English-only. */

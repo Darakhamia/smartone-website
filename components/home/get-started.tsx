@@ -12,7 +12,7 @@ import { PortalLink } from "@/components/portal-link";
    - self-employed → the Maltese portal's registration page, with the
      visitor's campaign tags on the link (PortalLink);
    - Ltd → a call-back form in this same window (Name, Phone, Company name),
-     sent to the site's inbox with the source ltd_callback.
+     sent to the team's Telegram group with the source ltd_callback.
 
    Malta-only, so English-only: Malta has no Spanish. The data-track
    attributes are the ones the task fixes for GTM – keep their values. */

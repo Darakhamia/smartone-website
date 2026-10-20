@@ -32,10 +32,6 @@ ENV NODE_ENV=production \
     HOSTNAME=0.0.0.0
 
 RUN addgroup -S nodejs && adduser -S nextjs -G nodejs
-# Leads from the site's forms are kept in /app/data (lib/leads-store.ts). Mount
-# a persistent volume there in Coolify; a new volume takes this directory's
-# ownership, so the app's user can write to it.
-RUN mkdir -p /app/data && chown nextjs:nodejs /app/data
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public

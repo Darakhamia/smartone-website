@@ -14,9 +14,9 @@ import { LEAD_ENDPOINT } from "@/lib/links";
 import { trackLead } from "@/lib/tags";
 
 /* SmartOne lead form. Posts JSON to the Vercel serverless endpoint (no keys
-   on the site) and, at the same time, to the site's own inbox (/leads,
-   via submitLead) – the one place every form's leads can be read until a CRM
-   is chosen. Either one taking it counts as sent. The field `name` attributes
+   on the site) and, at the same time, to the team's Telegram group (via
+   submitLead → /api/leads) – where every form's leads arrive until a CRM is
+   chosen. Either one taking it counts as sent. The field `name` attributes
    and every <option> value are fixed by the endpoint contract – do not rename
    or retype them (note the en-dash in "€4,000–€15,000"). Labels, order and
    styling are ours. */
@@ -177,12 +177,12 @@ export function LeadForm() {
       (r) => r.ok,
       () => false,
     );
-    // the inbox keeps the form's own fields; the campaign tags it takes from
-    // first-touch storage itself, all ten of them
-    const toInbox = submitLead("contact", data, data.website);
+    // Telegram gets the form's own fields; submitLead adds the campaign tags
+    // from first-touch storage itself, all ten of them
+    const toTelegram = submitLead("contact", data, data.website);
 
-    void Promise.all([toEndpoint, toInbox]).then(([endpoint, inbox]) => {
-      if (!endpoint && !inbox) {
+    void Promise.all([toEndpoint, toTelegram]).then(([endpoint, telegram]) => {
+      if (!endpoint && !telegram) {
         setStatus("error");
         return;
       }

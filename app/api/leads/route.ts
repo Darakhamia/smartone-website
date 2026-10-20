@@ -1,17 +1,28 @@
 import { cookies } from "next/headers";
 import { ATTRIBUTION_FIELDS } from "@/lib/attribution";
 import { COUNTRIES, COUNTRY_COOKIE } from "@/lib/countries";
-import { LEAD_FIELDS, LEAD_SOURCES, MIN_PHONE_DIGITS, type LeadField, type LeadSource } from "@/lib/leads";
-import { addLead, type AttributionField } from "@/lib/leads-store";
+import {
+  LEAD_FIELD_LABELS,
+  LEAD_FIELDS,
+  LEAD_SOURCE_LABELS,
+  LEAD_SOURCES,
+  MIN_PHONE_DIGITS,
+  type LeadField,
+  type LeadSource,
+} from "@/lib/leads";
 import { clientIp, rateLimited } from "@/lib/rate-limit";
+import { postToTelegram } from "@/lib/telegram";
 
 /* Receives every form on the site – /contact, the Ltd call-back in the Get
-   started window, Talk to us – and keeps it for the /leads inbox.
+   started window, Talk to us – and posts it to the team's Telegram group
+   (lib/telegram.ts). Nothing is stored on the site.
 
-   TODO(crm): when the CRM is chosen, forward the lead to it from here as
-   well; the forms already send everything it will need. */
+   TODO(crm): when the CRM is chosen, send the lead there as well (or
+   instead); the forms already send everything it will need. */
 
 const MAX_BODY = 20_000;
+
+const ICON: Record<LeadSource, string> = { ltd_callback: "🏢", talk_to_us: "📞", contact: "✉️" };
 
 function text(value: unknown, max: number): string {
   return typeof value === "string" ? value.trim().slice(0, max) : "";
@@ -19,11 +30,35 @@ function text(value: unknown, max: number): string {
 
 const fail = (status: number) => Response.json({ ok: false }, { status });
 
+function message(
+  source: LeadSource,
+  fields: Partial<Record<LeadField, string>>,
+  tags: [string, string][],
+  page: string,
+  siteCountry: string,
+): string {
+  const site = COUNTRIES.find((c) => c.code === siteCountry);
+  const lines = [`${ICON[source]} ${LEAD_SOURCE_LABELS[source]}`, ""];
+  for (const name of Object.keys(LEAD_FIELDS) as LeadField[]) {
+    const value = fields[name];
+    if (!value) continue;
+    lines.push(name === "message" ? `${LEAD_FIELD_LABELS[name]}:\n${value}` : `${LEAD_FIELD_LABELS[name]}: ${value}`);
+  }
+  lines.push("", `${site ? `${site.flag} ${site.name} site` : "Site"} · ${page || "/"}`);
+  lines.push(
+    tags.length
+      ? `Campaign: ${tags.map(([k, v]) => `${k}=${v}`).join(" · ")}`
+      : "Campaign: none (direct visit, or no marketing consent)",
+  );
+  return lines.join("\n");
+}
+
 export async function POST(request: Request) {
   // Only our own pages send leads. Browsers say where a request comes from;
   // anything that doesn't say is not a browser form, and is let through to the
   // checks below.
   if (request.headers.get("sec-fetch-site") === "cross-site") return fail(403);
+  // Keep a flood of fake enquiries out of the team's chat.
   if (rateLimited(`lead:${clientIp(request.headers)}`, 8, 10 * 60_000)) return fail(429);
   if (rateLimited("lead:all", 300, 60 * 60_000)) return fail(429);
 
@@ -42,7 +77,7 @@ export async function POST(request: Request) {
   if (!LEAD_SOURCES.includes(source)) return fail(400);
 
   // The honeypot field people never see: a bot that filled it gets a
-  // success it can't tell from the real one, and nothing is kept.
+  // success it can't tell from the real one, and nothing is sent on.
   if (text(body.website, 200)) return Response.json({ ok: true });
 
   const given = (body.fields ?? {}) as Record<string, unknown>;
@@ -53,10 +88,10 @@ export async function POST(request: Request) {
   }
 
   const taken = (body.tags ?? {}) as Record<string, unknown>;
-  const tags: Partial<Record<AttributionField, string>> = {};
+  const tags: [string, string][] = [];
   for (const name of ATTRIBUTION_FIELDS) {
-    const value = text(taken[name], 500);
-    if (value) tags[name] = value;
+    const value = text(taken[name], 200);
+    if (value) tags.push([name, value]);
   }
 
   // The same rules the forms check before sending.
@@ -68,17 +103,14 @@ export async function POST(request: Request) {
   }
 
   const code = (await cookies()).get(COUNTRY_COOKIE)?.value ?? "";
+  const note = message(source, fields, tags, text(body.page, 200), code);
   try {
-    await addLead({
-      source,
-      page: text(body.page, 200),
-      site_country: COUNTRIES.some((c) => c.code === code) ? code : "",
-      fields,
-      tags,
-    });
+    await postToTelegram(note);
   } catch (e) {
-    console.error("[leads] could not store a lead", e);
-    return fail(500);
+    // The visitor is told it failed and offered the email address. The lead
+    // goes to the server log as well, so it can still be found and called.
+    console.error("[leads] could not post to Telegram:", e instanceof Error ? e.message : e, `\n${note}`);
+    return fail(502);
   }
   return Response.json({ ok: true });
 }
