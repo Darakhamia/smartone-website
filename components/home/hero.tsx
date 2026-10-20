@@ -16,7 +16,11 @@ import { promotesRegister, SHOWCASE_DEVICE, type Country, type Lang } from "@/li
    is hidden from screen readers; the photo carries the alt text.
 
    Below sm the two cards are left out – at phone width they would cover the
-   photo – and the terminal shrinks with the frame. */
+   photo – and the terminal shrinks with the frame.
+
+   On desktop the visual takes its height from the window (--hv, 420–560px)
+   so the three facts under the hero fit on the first screen of a laptop
+   without scrolling; the photo and the terminal scale with it. */
 function HeroVisual({ country, lang }: { country: Country; lang: Lang }) {
   const register = promotesRegister(country);
   const c$ = country.currencySymbol;
@@ -46,9 +50,9 @@ function HeroVisual({ country, lang }: { country: Country; lang: Lang }) {
       : ["/hero/florist.webp", "/hero/market.webp", "/hero/foodtruck.webp"];
 
   return (
-    <div className="anim-fade-up anim-d-2 relative h-[380px] sm:h-[520px] lg:h-[560px]">
+    <div className="anim-fade-up anim-d-2 relative h-[380px] sm:h-[520px] lg:h-(--hv) lg:[--hv:clamp(420px,calc(100svh_-_230px),560px)]">
       <div className="pointer-events-none absolute -top-8 -right-10 size-90 rounded-full bg-[radial-gradient(circle,rgba(122,60,232,0.28),transparent_70%)]" />
-      <div className="absolute top-0 right-0 h-[320px] w-[92%] overflow-hidden rounded-[28px] shadow-[0_40px_80px_-48px_rgba(17,17,20,0.55)] sm:h-[440px] sm:w-[86%] sm:rounded-[32px] lg:h-[470px]">
+      <div className="absolute top-0 right-0 h-[320px] w-[92%] overflow-hidden rounded-[28px] shadow-[0_40px_80px_-48px_rgba(17,17,20,0.55)] sm:h-[440px] sm:w-[86%] sm:rounded-[32px] lg:h-[calc(var(--hv)_-_90px)]">
         <HeroCarousel images={photos} alt={t.alt} />
       </div>
 
@@ -76,7 +80,7 @@ function HeroVisual({ country, lang }: { country: Country; lang: Lang }) {
         )}
       </div>
 
-      <div className="absolute -bottom-4 -left-4 size-[200px] sm:-bottom-6 sm:-left-8 sm:size-[300px] lg:size-[330px]">
+      <div className="absolute -bottom-4 -left-4 size-[200px] sm:-bottom-6 sm:-left-8 sm:size-[300px] lg:size-[calc(var(--hv)_*_0.59)]">
         <Image
           src={SHOWCASE_DEVICE}
           alt=""
@@ -157,7 +161,7 @@ export async function Hero() {
 
   return (
     <section className="relative overflow-x-clip">
-      <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 pt-14 lg:grid-cols-[0.92fr_1.08fr] lg:gap-14 lg:pt-20">
+      <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 pt-14 lg:grid-cols-[0.92fr_1.08fr] lg:gap-14 lg:pt-12">
         <div>
           {/* The two halves of the headline arrive separately, then the lead,
               then the buttons. Staggering it makes the sentence land the way it
@@ -197,8 +201,11 @@ export async function Hero() {
         <HeroVisual country={country} lang={lang} />
       </div>
 
-      <div className="mx-auto max-w-6xl px-6 pt-12 pb-14 lg:pb-16">
-        <ul className="flex flex-col gap-4 border-t border-line pt-7 sm:flex-row sm:flex-wrap sm:gap-x-12 sm:gap-y-5">
+      {/* The facts run the full width of the hero – the first under the
+          headline, the last ending under the photo's edge – rather than
+          bunching up on the left. */}
+      <div className="mx-auto max-w-6xl px-6 pt-12 pb-14 lg:pt-10 lg:pb-16">
+        <ul className="flex flex-col gap-4 border-t border-line pt-6 sm:grid sm:grid-cols-3 sm:gap-6 lg:flex lg:flex-row lg:justify-between">
           {facts(country, lang).map((f) => (
             <li key={f.label} className="flex items-center gap-3">
               <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-brand-tint">

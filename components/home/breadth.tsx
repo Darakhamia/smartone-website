@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CreditCard, ReceiptText, ShoppingBag, LineChart, Calculator, Smartphone, FileSpreadsheet, Table2, ChevronRight, type LucideIcon } from "lucide-react";
+import { CreditCard, ReceiptText, ShoppingBag, LineChart, Calculator, Smartphone, FileSpreadsheet, Printer, Table2, ChevronRight, type LucideIcon } from "lucide-react";
 import { Reveal } from "@/components/reveal";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
@@ -7,8 +7,10 @@ import { promotesRegister } from "@/lib/countries";
 
 // order matches c.jobs: take payments, stay compliant, sell & manage, track money
 const jobIcons: LucideIcon[] = [CreditCard, ReceiptText, ShoppingBag, LineChart];
-// order matches c.replaceLabels: cash register, payment terminal, accountant tool, spreadsheet
-const replaceIcons: LucideIcon[] = [Calculator, Smartphone, FileSpreadsheet, Table2];
+// order matches c.replaceRegister: cash register, payment terminal, fiscal printer, spreadsheet
+const registerReplaceIcons: LucideIcon[] = [Calculator, Smartphone, Printer, Table2];
+// order matches c.replaceLabels: payment terminal, accountant tool, spreadsheet
+const replaceIcons: LucideIcon[] = [Smartphone, FileSpreadsheet, Table2];
 
 export async function BreadthComponent() {
   const lang = await getActiveLang();
@@ -21,39 +23,46 @@ export async function BreadthComponent() {
       titleA: "Everything your business needs –",
       titleB: "one device.",
       lead: register
-        ? "Take payments, stay compliant, sell, and track your money – without a four-vendor stack."
+        ? "Take payments, stay compliant, sell and track your money – without a separate till, fiscal printer and card machine."
         : "Take payments, sell, and track your money – without a multi-vendor stack.",
       replaces: "Replaces:",
       jobs: [
         { title: "Take payments", text: "Card, contactless and cash.", href: "/product/terminals" },
         { title: "Stay compliant", text: "Fiscal receipts and reports.", href: "/product/cash-register" },
         { title: "Sell & manage", text: "Products, prices and orders.", href: "/click" },
-        { title: "Track your money", text: "See what you earned and what's landing in your bank.", href: "/merchant-portal" },
+        { title: "Track your money", text: "See what you earned and what's confirmed for payout to your bank.", href: "/merchant-portal" },
       ],
-      replaceLabels: ["Cash register", "Payment terminal", "Accountant tool", "Spreadsheet"],
+      // Where the register is sold, the boxes it replaces are the ones on the
+      // counter (homepage task §3); elsewhere there is no till or fiscal printer
+      // to replace, so those markets keep the office-side list.
+      replaceRegister: ["Cash register", "Payment terminal", "Fiscal printer", "Spreadsheet"],
+      replaceLabels: ["Payment terminal", "Accountant tool", "Spreadsheet"],
     },
     {
       eyebrow: "Equipo todo en uno",
       titleA: "Todo lo que tu negocio necesita,",
       titleB: "en un solo equipo.",
       lead: register
-        ? "Cobra, cumple con la normativa, vende y controla tu dinero, sin depender de cuatro proveedores."
+        ? "Cobra, cumple con la normativa, vende y controla tu dinero, sin caja, impresora fiscal y datáfono por separado."
         : "Cobra, vende y controla tu dinero, sin depender de varios proveedores.",
       replaces: "Sustituye a:",
       jobs: [
         { title: "Cobra", text: "Tarjeta, contactless y efectivo.", href: "/product/terminals" },
         { title: "Cumple la normativa", text: "Tickets fiscales e informes.", href: "/product/cash-register" },
         { title: "Vende y gestiona", text: "Productos, precios y pedidos.", href: "/click" },
-        { title: "Controla tu dinero", text: "Mira lo que ganaste y lo que llega a tu banco.", href: "/merchant-portal" },
+        { title: "Controla tu dinero", text: "Mira lo que ganaste y lo que ya está confirmado para ingresar en tu banco.", href: "/merchant-portal" },
       ],
-      replaceLabels: ["Caja registradora", "Terminal de pago", "Software del contable", "Hoja de cálculo"],
+      replaceRegister: ["Caja registradora", "Terminal de pago", "Impresora fiscal", "Hoja de cálculo"],
+      replaceLabels: ["Terminal de pago", "Software del contable", "Hoja de cálculo"],
     },
   );
 
-  // The fiscal "Stay compliant" job and the "Cash register" replaced-tool are
+  // The fiscal "Stay compliant" job and the register's replaced tools are
   // shown only where the register is offered (Malta today).
   const jobs = c.jobs.map((j, i) => ({ ...j, icon: jobIcons[i] })).filter((_, i) => register || i !== 1);
-  const replaceLabels = c.replaceLabels.map((label, i) => ({ label, icon: replaceIcons[i] })).filter((_, i) => register || i !== 0);
+  const replaceLabels = register
+    ? c.replaceRegister.map((label, i) => ({ label, icon: registerReplaceIcons[i] }))
+    : c.replaceLabels.map((label, i) => ({ label, icon: replaceIcons[i] }));
 
   return (
     <section className="py-24">
