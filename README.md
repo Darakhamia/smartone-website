@@ -30,7 +30,9 @@ server (`output: "standalone"` in `next.config.ts`).
 3. Port: **3000** (exposed by the image).
 4. Attach the domain — `smartoneglobal.com` — and let Coolify issue the
    Let's Encrypt certificate and redirect HTTP → HTTPS.
-5. Deploy. No database is required.
+5. Add a persistent volume for the leads inbox and set its password – see
+   "Leads inbox" below. No database is required.
+6. Deploy.
 
 The canonical domain is **smartoneglobal.com**. It is the built-in default, so
 production needs no environment variable to get the right absolute URLs in
@@ -64,6 +66,29 @@ an external video — means adding its origins to the CSP _and_ updating
 The two have to move together, or the published cookie policy stops being
 true.
 
+### Leads inbox
+
+Until a CRM is chosen, every form on the site – `/contact`, the Ltd call-back
+in the homepage's Get started window and Talk to us – saves its enquiry on
+the site's own server (`POST /api/leads`, `lib/leads-store.ts`). The team
+reads them at **`/leads`**: a password page that nothing on the site links
+to, kept out of search engines. It lists the leads newest first, filters by
+form, downloads them as CSV and deletes one for good. `/contact` still posts
+to its original endpoint as well.
+
+Two settings in Coolify, both at run time – no rebuild needed:
+
+| Setting | Where in Coolify | Value |
+| --- | --- | --- |
+| Persistent storage | the application → **Persistent Storage** → add a **Volume Mount** | Destination path `/app/data`. Without it the leads live inside the container and the next deploy deletes them; the inbox shows a warning while that is the case. |
+| `LEADS_PASSWORD` | the application → **Environment Variables** (runtime, not a build variable) | The shared password, at least 12 characters. Unset or shorter, the inbox stays locked (the forms still save). Changing it signs everyone out. |
+
+Leads are one JSON object per line in `/app/data/leads.jsonl` (`LEADS_DIR`
+moves the directory). Each carries the form's fields, the page and country
+it came from and, with Marketing consent, the visitor's campaign tags. When
+the CRM is chosen, forward leads to it from `app/api/leads/route.ts`
+(`TODO(crm)`).
+
 ### Cookie consent
 
 The notice (`components/legal/cookie-notice.tsx`) has three categories:
@@ -75,8 +100,9 @@ not even `gtm.js` — loads before it, and nothing at all after Decline.
 deletes what it stored. Inside GTM, every tag must require its category
 (Consent Mode signals for Google tags, the `so_consent` event's
 `consent_marketing` value for the Meta pixel). A sent enquiry pushes
-`generate_lead`, with SHA-256-hashed email and phone (`user_data`,
-`meta_user_data`) only when Marketing is on.
+`generate_lead` with `lead_source` (`contact`, `ltd_callback`, `talk_to_us`),
+and SHA-256-hashed email and phone (`user_data`, `meta_user_data`) only when
+Marketing is on.
 
 Google Tag Manager (container `GTM-KX26FGG5`) is switched on by
 `GTM_ENABLED` in `lib/tags.ts` — a code constant rather than a build variable,

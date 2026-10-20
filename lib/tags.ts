@@ -98,21 +98,26 @@ async function sha256(text: string): Promise<string> {
    code – not your email address or number – is sent"). Never the plain
    values: if the browser cannot hash (crypto.subtle needs HTTPS), the event
    goes without them. Google and Meta normalise phone numbers differently
-   (E.164 with "+" vs digits only), so each gets its own hash. */
-export async function trackLead(email: string, phone: string) {
+   (E.164 with "+" vs digits only), so each gets its own hash.
+
+   lead_source names the form (contact, ltd_callback, talk_to_us). The
+   call-back forms have no email field, so their events carry the phone
+   hash alone. */
+export async function trackLead(email: string, phone: string, source: string) {
   if (!loaded) return;
-  const event: Record<string, unknown> = { event: "generate_lead" };
+  const event: Record<string, unknown> = { event: "generate_lead", lead_source: source };
 
   if (hasMarketingConsent() && globalThis.crypto?.subtle) {
-    const em = await sha256(email.trim().toLowerCase());
+    const address = email.trim().toLowerCase();
+    const em = address ? await sha256(address) : null;
     const digits = phone.replace(/\D/g, "");
     // the phone field starts as a bare dial code ("+356 "); that is not a number
     const hasPhone = digits.length >= 8;
     event.user_data = {
-      sha256_email_address: em,
+      ...(em && { sha256_email_address: em }),
       ...(hasPhone && { sha256_phone_number: await sha256(`+${digits}`) }),
     };
-    event.meta_user_data = { em, ...(hasPhone && { ph: await sha256(digits) }) };
+    event.meta_user_data = { ...(em && { em }), ...(hasPhone && { ph: await sha256(digits) }) };
   }
 
   dataLayer().push(event);

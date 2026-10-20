@@ -38,4 +38,7 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+# leads saved by the forms when running locally (lib/leads-store.ts)
+/data/
 next-env.d.ts

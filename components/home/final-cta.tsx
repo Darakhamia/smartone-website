@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 import { GetStarted } from "@/components/home/get-started";
+import { TalkToUs } from "@/components/lead/talk-to-us";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 
@@ -24,9 +25,8 @@ export async function FinalCta() {
   );
   /* Malta follows the homepage task (§13): accounts are created online, so
      the main button is Get started (the self-employed / Ltd choice) and the
-     second is Talk to us.
-     TODO(crm): "Prefer to talk?" should open the Talk to us call-back form;
-     until the CRM is chosen it leads to /contact, like Talk to us itself. */
+     second is Talk to us. The "Prefer to talk?" line opens the same Talk to
+     us call-back form. */
   const malta = country.code === "mt";
 
   return (
@@ -42,9 +42,7 @@ export async function FinalCta() {
             {malta ? (
               <>
                 <GetStarted location="final" className="btn-light" />
-                <Link href="/contact" data-track="cta-talk-to-us" data-location="final" className="btn-ghost-dark">
-                  Talk to us
-                </Link>
+                <TalkToUs location="final" className="btn-ghost-dark" />
               </>
             ) : (
               <>
@@ -58,11 +56,16 @@ export async function FinalCta() {
             )}
           </div>
           {malta && (
-            <p className="mt-6 text-[14.5px] text-white/75">
-              <Link href="/contact" className="underline decoration-white/40 underline-offset-4 transition-colors hover:text-white hover:decoration-white">
+            // a <div>, not a <p>: the form's <dialog> renders in here, and a
+            // <p> can't contain it
+            <div className="mt-6 text-[14.5px] text-white/75">
+              <TalkToUs
+                location="final-line"
+                className="underline decoration-white/40 underline-offset-4 transition-colors hover:text-white hover:decoration-white"
+              >
                 Prefer to talk? Leave your name and number and we&apos;ll call you.
-              </Link>
-            </p>
+              </TalkToUs>
+            </div>
           )}
         </div>
       </Reveal>

@@ -1,10 +1,11 @@
 "use client";
 
 import { useRef, useState } from "react";
-import Link from "next/link";
 import { PhoneField, COUNTRY_DIAL, flag } from "@/components/lead/phone-field";
 import { useCountry } from "@/components/country/country-context";
-import { CookieSettingsLink } from "@/components/legal/cookie-settings-link";
+import { PrivacyNote } from "@/components/lead/privacy-note";
+import { fieldCls } from "@/components/lead/styles";
+import { submitLead } from "@/components/lead/submit-lead";
 import { ATTRIBUTION_FIELDS } from "@/lib/attribution";
 import { readFirstTouch } from "@/lib/consent";
 import { tr } from "@/lib/dictionaries";
@@ -13,9 +14,12 @@ import { LEAD_ENDPOINT } from "@/lib/links";
 import { trackLead } from "@/lib/tags";
 
 /* SmartOne lead form. Posts JSON to the Vercel serverless endpoint (no keys
-   on the site). The field `name` attributes and every <option> value are
-   fixed by the endpoint contract – do not rename or retype them (note the
-   en-dash in "€4,000–€15,000"). Labels, order and styling are ours. */
+   on the site) and, at the same time, to the site's own inbox (/leads,
+   via submitLead) – the one place every form's leads can be read until a CRM
+   is chosen. Either one taking it counts as sent. The field `name` attributes
+   and every <option> value are fixed by the endpoint contract – do not rename
+   or retype them (note the en-dash in "€4,000–€15,000"). Labels, order and
+   styling are ours. */
 
 const ENDPOINT = LEAD_ENDPOINT;
 
@@ -33,8 +37,6 @@ const COUNTRY_BY_CODE: Record<string, string> = {
 // min-height keeps the label box the same height whether it wraps to one or
 // two lines, so the inputs in a row never drift out of alignment.
 const labelCls = "mb-1.5 flex min-h-[34px] items-end text-[13.5px] font-medium text-ink-2";
-const fieldCls =
-  "w-full rounded-xl border border-line-2 bg-white px-4 py-3 text-[15px] text-ink outline-none transition-colors placeholder:text-ink-3 focus:border-brand focus:ring-2 focus:ring-brand/15";
 const selectCls = `${fieldCls} appearance-none bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22 fill=%22none%22 stroke=%22%2386868b%22 stroke-width=%221.6%22 stroke-linecap=%22round%22><path d=%22m4 6 4 4 4-4%22/></svg>')] bg-[length:16px] bg-[right_1rem_center] bg-no-repeat pr-10`;
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
@@ -83,15 +85,6 @@ export function LeadForm() {
       submit: "Contact sales",
       sending: "Sending…",
       reply: "We'll reply within one business day.",
-      /* GDPR Art. 13 notice at the point of collection. No consent checkbox:
-         answering the enquiry rests on Art. 6(1)(b)/(f), and the hashed email
-         and phone for ad matching rest on the Marketing choice already made in
-         Cookie settings – a checkbox here would misdescribe both. */
-      privacyBefore: "We use your details to answer your enquiry. If you have agreed to marketing cookies, your email address and phone number are also sent to Google and Meta in a scrambled form so we can see which advertisement brought you to us — see our ",
-      privacyLink: "Privacy Policy",
-      privacyAnd: " and ",
-      settingsLink: "Cookie settings",
-      privacyAfter: ".",
       doneTitle: "Thanks — we got it!",
       doneText: "We'll get back to you within one business day.",
       errorBefore: "Something went wrong — please try again, or email us at ",
@@ -127,11 +120,6 @@ export function LeadForm() {
       submit: "Contactar con ventas",
       sending: "Enviando…",
       reply: "Respondemos en un día hábil.",
-      privacyBefore: "Usamos tus datos para responder a tu consulta. Si has aceptado las cookies de marketing, tu email y tu número de teléfono también se envían a Google y a Meta de forma codificada, para que podamos ver qué anuncio te trajo hasta nosotros. Consulta nuestra ",
-      privacyLink: "Política de privacidad",
-      privacyAnd: " y la ",
-      settingsLink: "Configuración de cookies",
-      privacyAfter: ".",
       doneTitle: "¡Gracias, lo recibimos!",
       doneText: "Te responderemos en un día hábil.",
       errorBefore: "Algo salió mal. Inténtalo de nuevo o escríbenos a ",
@@ -181,18 +169,27 @@ export function LeadForm() {
       if (input.name) data[input.name] = input.value;
     });
 
-    fetch(ENDPOINT, {
+    const toEndpoint = fetch(ENDPOINT, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
-    })
-      .then((r) => {
-        if (!r.ok) throw new Error(String(r.status));
-        setStatus("done");
-        // conversion for GA4 / Ads / Meta – a no-op unless tags were consented to and loaded
-        void trackLead(data.email ?? "", data.phone ?? "");
-      })
-      .catch(() => setStatus("error"));
+    }).then(
+      (r) => r.ok,
+      () => false,
+    );
+    // the inbox keeps the form's own fields; the campaign tags it takes from
+    // first-touch storage itself, all ten of them
+    const toInbox = submitLead("contact", data, data.website);
+
+    void Promise.all([toEndpoint, toInbox]).then(([endpoint, inbox]) => {
+      if (!endpoint && !inbox) {
+        setStatus("error");
+        return;
+      }
+      setStatus("done");
+      // conversion for GA4 / Ads / Meta – a no-op unless tags were consented to and loaded
+      void trackLead(data.email ?? "", data.phone ?? "", "contact");
+    });
   };
 
   if (status === "done") {
@@ -315,17 +312,7 @@ export function LeadForm() {
         </button>
         <p className="text-[13px] text-ink-3">{t.reply}</p>
       </div>
-      <p className="mt-4 text-[12.5px] leading-relaxed text-ink-3">
-        {t.privacyBefore}
-        <Link href="/privacy" className="underline underline-offset-2 transition-colors hover:text-ink-2">
-          {t.privacyLink}
-        </Link>
-        {t.privacyAnd}
-        <CookieSettingsLink className="underline underline-offset-2 transition-colors hover:text-ink-2">
-          {t.settingsLink}
-        </CookieSettingsLink>
-        {t.privacyAfter}
-      </p>
+      <PrivacyNote lang={lang} className="mt-4" />
       {status === "error" && (
         <p className="mt-4 rounded-xl bg-[#fbeaea] px-4 py-3 text-[13.5px] text-[#b4231f]">
           {t.errorBefore}

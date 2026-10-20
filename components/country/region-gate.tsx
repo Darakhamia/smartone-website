@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useCountry } from "@/components/country/country-context";
 import { WelcomeScreen } from "@/components/country/welcome-screen";
+import { isBareRoute } from "@/lib/bare-routes";
 import { COUNTRY_COOKIE, DEFAULT_COUNTRY_CODE } from "@/lib/countries";
 
 /* First-visit region picker, shown as a dismissable overlay rather than a
@@ -38,7 +39,7 @@ export function RegionGate() {
     setShow(false);
   }, [enter]);
 
-  const open = show && pathname !== "/welcome";
+  const open = show && !isBareRoute(pathname);
 
   useEffect(() => {
     if (!open) return;

@@ -4,3 +4,4 @@ node_modules
 *.md
 .dockerignore
 Dockerfile
+data
