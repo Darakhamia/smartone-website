@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Clock, Landmark, MapPin, ShieldCheck, type LucideIcon } from "lucide-react";
 import { GetStarted } from "@/components/home/get-started";
 import { HeroCarousel } from "@/components/home/hero-carousel";
+import { TalkToUs } from "@/components/lead/talk-to-us";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 import { promotesRegister, SHOWCASE_DEVICE, type Country, type Lang } from "@/lib/countries";
@@ -181,9 +182,7 @@ export async function Hero() {
             {malta ? (
               <>
                 <GetStarted location="hero" className="btn-primary" />
-                <Link href="/contact" data-track="cta-talk-to-us" data-location="hero" className="btn-ghost">
-                  Talk to us
-                </Link>
+                <TalkToUs location="hero" className="btn-ghost" />
               </>
             ) : (
               <>

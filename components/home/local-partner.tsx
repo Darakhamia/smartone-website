@@ -1,7 +1,7 @@
-import Link from "next/link";
 import { Headset, Landmark, UserCheck, type LucideIcon } from "lucide-react";
 import { Reveal } from "@/components/reveal";
 import { GetStarted } from "@/components/home/get-started";
+import { TalkToUs } from "@/components/lead/talk-to-us";
 
 /* "A local partner in Malta" (homepage task §8, Malta only). Only what is
    certain today: a person on the island calls back, a person reviews the
@@ -41,9 +41,7 @@ export function LocalPartner() {
         </div>
         <div className="mt-10 flex flex-wrap gap-3.5">
           <GetStarted location="partner" className="btn-light" />
-          <Link href="/contact" data-track="cta-talk-to-us" data-location="partner" className="btn-ghost-dark">
-            Talk to us
-          </Link>
+          <TalkToUs location="partner" className="btn-ghost-dark" />
         </div>
       </div>
     </section>
