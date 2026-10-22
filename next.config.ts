@@ -34,16 +34,28 @@ const httpsReady = process.env.ENABLE_HSTS === "1";
    a clean browser should still show no CSP violations in the console before
    the container goes live.
 
+   The Google Ads conversion tag also loads a script from
+   googleads.g.doubleclick.net and reports to ad.doubleclick.net (Nadya's
+   list, 22.10). Its other calls – googleads.g.doubleclick.net in connect-src
+   and img-src, www.google.com in both – are already covered by the entries
+   above.
+
    td.doubleclick.net is deliberately absent: it is needed only by the Ads
    remarketing tag, for syncing audiences through an iframe, and audiences are
    not being collected. If that changes it goes in frame-src. */
 const GTM = "https://www.googletagmanager.com";
-const TAG_SCRIPT = [GTM, "https://www.googleadservices.com", "https://connect.facebook.net"];
+const TAG_SCRIPT = [
+  GTM,
+  "https://www.googleadservices.com",
+  "https://googleads.g.doubleclick.net",
+  "https://connect.facebook.net",
+];
 const TAG_CONNECT = [
   GTM,
   "https://*.google-analytics.com",
   "https://*.analytics.google.com",
   "https://*.g.doubleclick.net",
+  "https://ad.doubleclick.net",
   "https://www.google.com",
   "https://www.facebook.com",
 ];
