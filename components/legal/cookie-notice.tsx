@@ -79,7 +79,7 @@ export function CookieNotice() {
       title: "Cookies and similar technologies",
       body: [
         "Necessary cookies keep this site working and remember the country and language you choose.",
-        "With your agreement we also use analytics and advertising technologies from Google and Meta: to see how the site is used, to note which campaign or site brought you here, and to measure which advertisements lead to enquiries. If you are signed in to a Google account and allow ad personalisation in your Google settings, Google may connect your visit to that account across your devices. If you send us an enquiry, your email address and phone number are also passed to Google and Meta in a scrambled form, so that the enquiry can be matched to the advertisement that produced it.",
+        "With your agreement we also use analytics and advertising technologies from Google and Meta: to see how the site is used, to note which campaign or site brought you here, to measure which advertisements lead to enquiries, and to show our advertisements on other websites and apps to people who have visited this site. If you are signed in to a Google account and allow ad personalisation in your Google settings, Google may connect your visit to that account across your devices. If you send us an enquiry, your email address and phone number are also passed to Google and Meta in a scrambled form, so that the enquiry can be matched to the advertisement that produced it.",
         "Google and Meta may process this data outside the European Economic Area, including in the United States. Some identifiers last up to two years.",
         "You can change or withdraw your choice at any time from Cookie settings at the bottom of every page.",
       ],
@@ -98,7 +98,7 @@ export function CookieNotice() {
         "off unless you switch it on. Google Analytics 4, including Google Signals. Lets us see how many people visit, which pages they read and where they stop, and — where you are signed in to Google and allow ad personalisation there — how the same person uses the site across devices.",
       marketing: "Marketing",
       marketingText:
-        "off unless you switch it on. Google Ads, the Meta pixel, and the record of which campaign or site brought you here. Lets us measure which advertisement led to an enquiry. Includes passing your email address and phone number to Google and Meta in scrambled form when you send us an enquiry. Google and Meta also use this data for their own purposes.",
+        "off unless you switch it on. Google Ads, the Meta pixel, and the record of which campaign or site brought you here. Lets us measure which advertisement led to an enquiry, and show our advertisements on other websites and apps to people who have visited this site. Includes passing your email address and phone number to Google and Meta in scrambled form when you send us an enquiry. Google and Meta also use this data for their own purposes.",
       rejectAll: "Reject all",
       saveChoices: "Save my choices",
       acceptAll: "Accept all",

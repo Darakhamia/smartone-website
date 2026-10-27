@@ -22,7 +22,8 @@ export const CONSENT_COOKIE = "so_cookie_consent";
 const LEGACY_NOTICE_COOKIE = "so_cookie_notice";
 
 /** The date of the notice text the visitor answered. */
-export const CONSENT_VERSION = "2026-10-08";
+// 2026-10-27: remarketing added to the Marketing purpose – everyone is asked again
+export const CONSENT_VERSION = "2026-10-27";
 
 const CONSENT_MAX_AGE = 60 * 60 * 24 * 365; // 12 months
 
