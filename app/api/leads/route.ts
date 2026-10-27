@@ -13,8 +13,8 @@ import {
 import { clientIp, rateLimited } from "@/lib/rate-limit";
 import { postToTelegram } from "@/lib/telegram";
 
-/* Receives every form on the site – /contact, the Ltd call-back in the Get
-   started window, Talk to us – and posts it to the team's Telegram group
+/* Receives every form on the site – /contact, and the call-back form behind
+   Get started and Talk to us – and posts it to the team's Telegram group
    (lib/telegram.ts). Nothing is stored on the site.
 
    TODO(crm): when the CRM is chosen, send the lead there as well (or
@@ -22,7 +22,7 @@ import { postToTelegram } from "@/lib/telegram";
 
 const MAX_BODY = 20_000;
 
-const ICON: Record<LeadSource, string> = { ltd_callback: "🏢", talk_to_us: "📞", contact: "✉️" };
+const ICON: Record<LeadSource, string> = { get_started: "🚀", talk_to_us: "📞", contact: "✉️" };
 
 function text(value: unknown, max: number): string {
   return typeof value === "string" ? value.trim().slice(0, max) : "";
@@ -94,13 +94,12 @@ export async function POST(request: Request) {
     if (value) tags.push([name, value]);
   }
 
-  // The same rules the forms check before sending.
+  // The same rules the forms check before sending: every form needs a name
+  // and an email; the call-back form also a phone and the type of business.
   const phoneDigits = (fields.phone ?? "").replace(/\D/g, "").length;
   if (phoneDigits < MIN_PHONE_DIGITS) delete fields.phone;
-  if (!fields.name) return fail(400);
-  if (source === "contact" ? !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email ?? "") : !fields.phone) {
-    return fail(400);
-  }
+  if (!fields.name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email ?? "")) return fail(400);
+  if (source !== "contact" && (!fields.phone || !fields.business_type)) return fail(400);
 
   const code = (await cookies()).get(COUNTRY_COOKIE)?.value ?? "";
   const note = message(source, fields, tags, text(body.page, 200), code);

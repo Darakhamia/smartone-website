@@ -19,7 +19,6 @@ export type Dict = {
     industries: string;
     about: string;
     cases: string;
-    login: string;
     getStarted: string;
     region: string;
     language: string;
@@ -54,7 +53,6 @@ export const DICT: Record<Lang, Dict> = {
       industries: "Industries",
       about: "About",
       cases: "Case studies",
-      login: "Log in",
       getStarted: "Get started →",
       region: "Region",
       language: "Language",
@@ -88,7 +86,6 @@ export const DICT: Record<Lang, Dict> = {
       industries: "Sectores",
       about: "Nosotros",
       cases: "Casos de éxito",
-      login: "Iniciar sesión",
       getStarted: "Empezar →",
       region: "Región",
       language: "Idioma",

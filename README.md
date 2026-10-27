@@ -66,8 +66,8 @@ true.
 
 ### Leads to Telegram
 
-Until a CRM is chosen, every form on the site – `/contact`, the Ltd call-back
-in the homepage's Get started window and Talk to us – is posted by the
+Until a CRM is chosen, every form on the site – `/contact`, and the call-back
+form behind the homepage's Get started and Talk to us buttons – is posted by the
 server (`POST /api/leads`) to the team's Telegram group through a bot
 (`lib/telegram.ts`). Nothing is stored on the site. `/contact` still posts to
 its original endpoint as well.
@@ -94,7 +94,7 @@ not even `gtm.js` — loads before it, and nothing at all after Decline.
 deletes what it stored. Inside GTM, every tag must require its category
 (Consent Mode signals for Google tags, the `so_consent` event's
 `consent_marketing` value for the Meta pixel). A sent enquiry pushes
-`generate_lead` with `lead_source` (`contact`, `ltd_callback`, `talk_to_us`),
+`generate_lead` with `lead_source` (`contact`, `get_started`, `talk_to_us`),
 and SHA-256-hashed email and phone (`user_data`, `meta_user_data`) only when
 Marketing is on.
 

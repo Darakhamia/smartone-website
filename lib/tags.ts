@@ -100,9 +100,7 @@ async function sha256(text: string): Promise<string> {
    goes without them. Google and Meta normalise phone numbers differently
    (E.164 with "+" vs digits only), so each gets its own hash.
 
-   lead_source names the form (contact, ltd_callback, talk_to_us). The
-   call-back forms have no email field, so their events carry the phone
-   hash alone. */
+   lead_source names the form (contact, get_started, talk_to_us). */
 export async function trackLead(email: string, phone: string, source: string) {
   if (!loaded) return;
   const event: Record<string, unknown> = { event: "generate_lead", lead_source: source };

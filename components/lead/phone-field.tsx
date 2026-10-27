@@ -54,10 +54,15 @@ export function PhoneField({
   value,
   onChange,
   className,
+  required,
 }: {
   value: string;
   onChange: (v: string) => void;
   className: string;
+  /** Marks the field required for the browser and screen readers. The form
+      still has to check for a real number: the bare dial code it starts with
+      passes "required". */
+  required?: boolean;
 }) {
   const iso = detectIso(value);
   return (
@@ -71,6 +76,7 @@ export function PhoneField({
       <input
         name="phone"
         type="tel"
+        required={required}
         inputMode="tel"
         maxLength={50}
         autoComplete="tel"

@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import { PhoneField, COUNTRY_DIAL, flag } from "@/components/lead/phone-field";
 import { useCountry } from "@/components/country/country-context";
 import { PrivacyNote } from "@/components/lead/privacy-note";
-import { fieldCls } from "@/components/lead/styles";
+import { fieldCls, selectCls } from "@/components/lead/styles";
 import { submitLead } from "@/components/lead/submit-lead";
 import { ATTRIBUTION_FIELDS } from "@/lib/attribution";
 import { readFirstTouch } from "@/lib/consent";
@@ -37,7 +37,6 @@ const COUNTRY_BY_CODE: Record<string, string> = {
 // min-height keeps the label box the same height whether it wraps to one or
 // two lines, so the inputs in a row never drift out of alignment.
 const labelCls = "mb-1.5 flex min-h-[34px] items-end text-[13.5px] font-medium text-ink-2";
-const selectCls = `${fieldCls} appearance-none bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22 fill=%22none%22 stroke=%22%2386868b%22 stroke-width=%221.6%22 stroke-linecap=%22round%22><path d=%22m4 6 4 4 4-4%22/></svg>')] bg-[length:16px] bg-[right_1rem_center] bg-no-repeat pr-10`;
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (

@@ -27,7 +27,6 @@ import {
 import { Reveal } from "@/components/reveal";
 import { SectionHead } from "@/components/section-head";
 import { AppShot } from "@/components/product/app-shot";
-import { PortalLink } from "@/components/portal-link";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 import { promotesRegister, type Lang } from "@/lib/countries";
@@ -47,7 +46,6 @@ function copyFor(lang: Lang) {
       h1a: "Your entire business,",
       h1b: "in one clear view.",
       sub: "Track sales, card payments, cash-register shifts, fees and settlements across every store and terminal — from one secure portal.",
-      login: "Log in to Merchant Portal →",
       get: "Get SmartOne",
       included: "Included with every SmartOne terminal.",
       shotDashboard: "The Merchant Portal dashboard: revenue, average check, card versus cash and top sellers",
@@ -141,14 +139,12 @@ function copyFor(lang: Lang) {
       ctaB: "The Portal handles everything around it.",
       ctaText: "Manage payments, fiscal operations and settlements from one clear workspace connected to your SmartOne terminals.",
       ctaGet: "Get started →",
-      ctaLogin: "Log in to Merchant Portal",
     },
     {
       eyebrow: "SmartOne Merchant Portal",
       h1a: "Todo tu negocio,",
       h1b: "en una vista clara.",
       sub: "Controla ventas, pagos con tarjeta, turnos de caja, comisiones y liquidaciones de cada tienda y terminal, desde un único portal seguro.",
-      login: "Entrar al Merchant Portal →",
       get: "Consigue SmartOne",
       included: "Incluido con cada terminal SmartOne.",
       shotDashboard: "El panel del Merchant Portal: ingresos, ticket medio, tarjeta frente a efectivo y más vendidos",
@@ -233,7 +229,6 @@ function copyFor(lang: Lang) {
       ctaB: "El Portal, de todo lo demás.",
       ctaText: "Gestiona pagos, operaciones fiscales y liquidaciones desde un espacio de trabajo claro, conectado a tus terminales SmartOne.",
       ctaGet: "Empezar →",
-      ctaLogin: "Entrar al Merchant Portal",
     },
   );
 }
@@ -292,8 +287,7 @@ export default async function MerchantPortalPage() {
             </h1>
             <p className="anim-fade-up anim-d-2 mt-5 max-w-125 text-[17px] leading-relaxed text-ink-2">{c.sub}</p>
             <div className="anim-fade-up anim-d-3 mt-8 flex flex-wrap items-center gap-3.5">
-              <PortalLink className="btn-primary">{c.login}</PortalLink>
-              <Link href="/contact" className="btn-ghost">{c.get}</Link>
+              <Link href="/contact" className="btn-primary">{c.get}</Link>
             </div>
             <p className="anim-fade-up anim-d-3 mt-4 text-[13.5px] text-ink-3">{c.included}</p>
           </div>
@@ -463,7 +457,6 @@ export default async function MerchantPortalPage() {
                 <p className="mx-auto mt-4 mb-9 max-w-125 text-[16.5px] leading-relaxed text-white/80">{c.ctaText}</p>
                 <div className="flex flex-wrap justify-center gap-3.5">
                   <Link href="/contact" className="btn-light">{c.ctaGet}</Link>
-                  <PortalLink className="btn-ghost-dark">{c.ctaLogin}</PortalLink>
                 </div>
               </div>
             </div>

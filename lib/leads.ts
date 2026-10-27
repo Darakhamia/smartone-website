@@ -7,19 +7,19 @@
    TODO(crm): once the CRM is chosen, send each lead to it from
    app/api/leads/route.ts – the forms don't need to change. */
 
-export const LEAD_SOURCES = ["contact", "ltd_callback", "talk_to_us"] as const;
+export const LEAD_SOURCES = ["contact", "get_started", "talk_to_us"] as const;
 export type LeadSource = (typeof LEAD_SOURCES)[number];
 
 export const LEAD_SOURCE_LABELS: Record<LeadSource, string> = {
   contact: "Contact form",
-  ltd_callback: "Ltd call-back",
+  get_started: "Get started",
   talk_to_us: "Talk to us",
 };
 
 /* The fields a lead may carry, with the longest value passed on. The
    names are the /contact form's own (it also posts them to its original
-   endpoint); the call-back forms reuse them – the Ltd form's "Company name"
-   is business_name. Anything else in a submission is dropped. */
+   endpoint); the call-back forms reuse them. Anything else in a submission
+   is dropped. */
 export const LEAD_FIELDS = {
   name: 200,
   phone: 50,
@@ -50,3 +50,15 @@ export const LEAD_FIELD_LABELS: Record<LeadField, string> = {
 /* A phone number counts once it has this many digits. The phone field starts
    as a bare dial code ("+356 "), which is not a number yet. */
 export const MIN_PHONE_DIGITS = 8;
+
+/* "Type of business", as both the /contact form and the call-back forms
+   offer it. The values are fixed by /contact's original endpoint contract;
+   the labels are the English ones. */
+export const BUSINESS_TYPES = [
+  { value: "Festivals / Events", label: "Festivals & events" },
+  { value: "Retail", label: "Retail" },
+  { value: "Cafe / HoReCa", label: "Café & Restaurants" },
+  { value: "Services", label: "Services" },
+  { value: "Mobile / Street", label: "Mobile / Street" },
+  { value: "Other", label: "Other" },
+] as const;

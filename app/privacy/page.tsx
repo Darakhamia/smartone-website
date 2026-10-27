@@ -30,7 +30,7 @@ export default async function PrivacyPage() {
     lang,
     {
       title: "Privacy Policy",
-      updated: "Last updated: 8 October 2026",
+      updated: "Last updated: 27 October 2026",
       intro:
         "This policy explains what personal data SmartOne collects, why, and the rights you have under the EU General Data Protection Regulation (GDPR) and the Maltese Data Protection Act (Cap. 586).",
       sections: [
@@ -62,7 +62,7 @@ export default async function PrivacyPage() {
           p: [
             "To respond to your enquiry and to set up your account and device — processing necessary to take steps at your request and to perform a contract (GDPR Art. 6(1)(b)). This covers your name, business name, email, phone and message.",
             "To qualify and price our offer to you — your business type, monthly card-sales band and current processor, all optional — on the basis of our legitimate interest in preparing a suitable commercial proposal (GDPR Art. 6(1)(f)). You can object to this at any time.",
-            "To understand which channels our enquiries come from, to measure how the site is used, to see combined statistics across the devices of a signed-in Google user, and to match an enquiry to the advertisement that produced it — your consent, given through our cookie notice (GDPR Art. 6(1)(a)). None of this happens unless you agree, and you can withdraw your consent at any time from Cookie settings at the bottom of every page, which also deletes what was stored in your browser.",
+            "To understand which channels our enquiries come from, to measure how the site is used, to see combined statistics across the devices of a signed-in Google user, to match an enquiry to the advertisement that produced it, and to show our advertisements on other websites and apps to people who have visited the site — your consent, given through our cookie notice (GDPR Art. 6(1)(a)). None of this happens unless you agree, and you can withdraw your consent at any time from Cookie settings at the bottom of every page, which also deletes what was stored in your browser.",
             "To run the functional cookies that remember your country, language and that you have answered the cookie notice — our legitimate interest in a working site (GDPR Art. 6(1)(f)).",
             "To keep the site available and secure and to meet our legal, tax and accounting obligations — our legitimate interest in the security of our systems (GDPR Art. 6(1)(f)) and compliance with a legal obligation (GDPR Art. 6(1)(c)).",
           ],
@@ -88,8 +88,8 @@ export default async function PrivacyPage() {
                     "Google Ireland Limited, as our processor. The account data Google draws on is Google's own",
                   ],
                   [
-                    "Google Ads conversion measurement",
-                    "Attributing an enquiry to the campaign that produced it.",
+                    "Google Ads conversion measurement and remarketing",
+                    "Attributing an enquiry to the campaign or advertisement that produced it, and showing our advertisements on other websites and apps to people who have visited this site.",
                     "Google Ireland Limited, as an independent controller: Google also uses this data for its own purposes",
                   ],
                   [
@@ -132,14 +132,14 @@ export default async function PrivacyPage() {
         {
           h: "7. Automated decision-making",
           p: [
-            "We do not make decisions about you based solely on automated processing, and we do not build profiles of you for our own decisions: your enquiry is read and answered by a person. If you agree to analytics or advertising, Google and Meta use the data they receive for their own advertising purposes, which include profiling by them and, where Google Signals applies, linking your visit to your Google account across devices. The volume band you select on the site only helps us prepare the conversation.",
+            "We do not make decisions about you based solely on automated processing, and we do not build profiles of you for our own decisions: your enquiry is read and answered by a person. If you agree to analytics or advertising, Google and Meta use the data they receive for their own advertising purposes, which include profiling by them and, where Google Signals applies, linking your visit to your Google account across devices. The volume band you select on the site only helps us prepare the conversation. We also ask Google and Meta to group people who have visited this site into an audience, so that our advertisements can be shown to that group elsewhere; we are not shown who is in it.",
           ],
         },
         {
           h: "8. How long we keep it",
           p: [
             "We keep data only as long as needed for the purpose it was collected, then delete or anonymise it.",
-            "Enquiries from people who do not become customers: 24 months from your last contact with us, after which they are deleted from our CRM. Analytics data held in Google Analytics: 14 months. Advertising identifiers in your browser: as set out in the Cookie Policy, the longest being 90 days. Data held by Google and Meta for their own purposes is kept by them under their own policies, which we do not control.",
+            "Enquiries from people who do not become customers: 24 months from your last contact with us, after which they are deleted from our CRM. Analytics data held in Google Analytics: 14 months. Advertising identifiers in your browser: as set out in the Cookie Policy, the longest being 90 days. Lists of visitors used to show our advertisements: 90 days from your last visit (a period we set ourselves); the lists are held by Google and Meta under their own policies. Data held by Google and Meta for their own purposes is kept by them under their own policies, which we do not control.",
             "Customer and transaction records: for the duration of the relationship, and afterwards for the statutory retention periods that apply under Maltese law — including approximately 6 years for VAT records (VAT Act, Cap. 406) and up to 9–10 years for tax and accounting records (Income Tax Management Act, Cap. 372; Companies Act, Cap. 386).",
             "Technical server logs: a short period, normally no more than a few weeks.",
           ],
