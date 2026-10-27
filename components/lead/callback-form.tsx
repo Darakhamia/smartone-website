@@ -4,25 +4,26 @@ import { useRef, useState } from "react";
 import { useCountry } from "@/components/country/country-context";
 import { PhoneField } from "@/components/lead/phone-field";
 import { PrivacyNote } from "@/components/lead/privacy-note";
-import { fieldCls } from "@/components/lead/styles";
+import { fieldCls, selectCls } from "@/components/lead/styles";
 import { submitLead } from "@/components/lead/submit-lead";
 import type { CountryCode } from "@/lib/countries";
 import { COMPANY } from "@/lib/legal";
-import { MIN_PHONE_DIGITS } from "@/lib/leads";
+import { BUSINESS_TYPES, MIN_PHONE_DIGITS } from "@/lib/leads";
 import { trackLead } from "@/lib/tags";
 
-/* The short "call me back" forms of the Malta homepage (task §1):
-   - Ltd, inside the Get started window: Name, Phone, Company name;
-   - Talk to us: Name and Phone.
-   Both go to the team's Telegram group with their source and the visitor's
-   campaign tags (submitLead → /api/leads). The data-track values are the ones
-   the task fixes for GTM – keep them.
+/* The "call me back" form of the Malta homepage, behind both Get started and
+   Talk to us: Name, Phone, Email and Type of business, all required. Since
+   the 15.10 correction nobody is sent to sign up in the portal from the
+   site: every enquiry is a call-back. It goes to the team's Telegram group
+   with its source and the visitor's campaign tags (submitLead → /api/leads).
 
    Malta-only, so English-only. */
 
 const DIAL: Record<CountryCode, string> = { mt: "356", es: "34", cy: "357", sk: "421", uk: "44" };
 
-const TRACK = { ltd_callback: "form-ltd-callback", talk_to_us: "form-talk-to-us" } as const;
+const TRACK = { get_started: "form-get-started", talk_to_us: "form-talk-to-us" } as const;
+
+const labelCls = "mb-1.5 block text-[13.5px] font-medium text-ink-2";
 
 export function CallbackForm({ source }: { source: keyof typeof TRACK }) {
   const { country, lang } = useCountry();
@@ -30,7 +31,6 @@ export function CallbackForm({ source }: { source: keyof typeof TRACK }) {
   const [phone, setPhone] = useState(`+${DIAL[country.code]} `);
   const [phoneMissing, setPhoneMissing] = useState(false);
   const [status, setStatus] = useState<"idle" | "sending" | "error" | "done">("idle");
-  const company = source === "ltd_callback";
 
   const onSubmit = async (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
@@ -44,12 +44,14 @@ export function CallbackForm({ source }: { source: keyof typeof TRACK }) {
     }
     setStatus("sending");
     const data = new FormData(form);
+    const email = String(data.get("email") ?? "");
     const ok = await submitLead(
       source,
       {
         name: String(data.get("name") ?? ""),
         phone,
-        business_name: company ? String(data.get("business_name") ?? "") : undefined,
+        email,
+        business_type: String(data.get("business_type") ?? ""),
       },
       String(data.get("website") ?? ""),
     );
@@ -59,7 +61,7 @@ export function CallbackForm({ source }: { source: keyof typeof TRACK }) {
     }
     setStatus("done");
     // conversion for GA4 / Ads / Meta – a no-op unless tags were consented to and loaded
-    void trackLead("", phone, source);
+    void trackLead(email, phone, source);
   };
 
   if (status === "done") {
@@ -80,11 +82,11 @@ export function CallbackForm({ source }: { source: keyof typeof TRACK }) {
     <form ref={formRef} noValidate onSubmit={onSubmit} data-track={TRACK[source]} className="mt-6">
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="block">
-          <span className="mb-1.5 block text-[13.5px] font-medium text-ink-2">Name</span>
+          <span className={labelCls}>Name</span>
           <input name="name" required maxLength={200} autoComplete="name" className={fieldCls} />
         </label>
         <label className="block">
-          <span className="mb-1.5 block text-[13.5px] font-medium text-ink-2">Phone</span>
+          <span className={labelCls}>Phone</span>
           <PhoneField
             value={phone}
             onChange={(v) => {
@@ -92,15 +94,27 @@ export function CallbackForm({ source }: { source: keyof typeof TRACK }) {
               setPhoneMissing(false);
             }}
             className={fieldCls}
+            required
           />
           {phoneMissing && <span className="mt-1.5 block text-[13px] text-[#b4231f]">Enter your phone number.</span>}
         </label>
-        {company && (
-          <label className="block sm:col-span-2">
-            <span className="mb-1.5 block text-[13.5px] font-medium text-ink-2">Company name (optional)</span>
-            <input name="business_name" maxLength={200} autoComplete="organization" className={fieldCls} />
-          </label>
-        )}
+        <label className="block">
+          <span className={labelCls}>Email</span>
+          <input name="email" type="email" required maxLength={200} autoComplete="email" className={fieldCls} />
+        </label>
+        <label className="block">
+          <span className={labelCls}>Type of business</span>
+          <select name="business_type" required defaultValue="" className={selectCls}>
+            <option value="" disabled>
+              Choose…
+            </option>
+            {BUSINESS_TYPES.map((b) => (
+              <option key={b.value} value={b.value}>
+                {b.label}
+              </option>
+            ))}
+          </select>
+        </label>
       </div>
 
       {/* honeypot – visually hidden, must NOT be display:none, must stay in DOM */}

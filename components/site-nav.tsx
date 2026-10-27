@@ -3,10 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { ArrowUpRight } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { useCountry } from "@/components/country/country-context";
-import { PortalLink } from "@/components/portal-link";
 import { DICT, tr } from "@/lib/dictionaries";
 import { promotesRegister, terminalModel, TERMINAL_MODELS, type Lang } from "@/lib/countries";
 
@@ -240,11 +238,6 @@ export function SiteNav() {
           ))}
         </nav>
         <div className="ml-auto hidden items-center gap-4 lg:flex">
-          <PortalLink className="inline-flex items-center gap-1 text-[14.5px] font-medium text-ink-2 transition-colors hover:text-ink">
-            {t.nav.login}
-            {/* the portal is a separate app in a new tab – say so */}
-            <ArrowUpRight className="size-3.5 opacity-60" strokeWidth={2} aria-hidden />
-          </PortalLink>
           {/* shadow-none: btn-primary carries a violet glow that works on the
               page but reads as a smudge against the white header bar. */}
           <Link href="/contact" className="btn-primary px-5 py-2.5 shadow-none">
@@ -301,10 +294,6 @@ export function SiteNav() {
             </Link>
           ))}
           <div className="mt-3 flex items-center gap-4 border-t border-line pt-4">
-            <PortalLink onClick={() => setOpen(false)} className="inline-flex items-center gap-1 py-2 text-[15px] font-medium text-ink-2">
-              {t.nav.login}
-              <ArrowUpRight className="size-3.5 opacity-60" strokeWidth={2} aria-hidden />
-            </PortalLink>
             <Link href="/contact" onClick={() => setOpen(false)} className="btn-primary px-5 py-2.5 shadow-none">
               {t.nav.getStarted}
             </Link>
