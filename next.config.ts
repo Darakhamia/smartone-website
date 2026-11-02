@@ -38,7 +38,10 @@ const httpsReady = process.env.ENABLE_HSTS === "1";
    googleads.g.doubleclick.net and reports to ad.doubleclick.net (Nadya's
    list, 22.10). Its other calls – googleads.g.doubleclick.net in connect-src
    and img-src, www.google.com in both – are already covered by the entries
-   above.
+   above. It can also send the conversion with fetch rather than a script
+   (www.googleadservices.com/pagead/conversion/…, which may hand over to
+   www.google.com/pagead/1p-conversion/…), hence www.googleadservices.com in
+   connect-src too (Nadya, 02.11).
 
    td.doubleclick.net is deliberately absent: it is needed only by the Ads
    remarketing tag, for syncing audiences through an iframe, and audiences are
@@ -56,6 +59,7 @@ const TAG_CONNECT = [
   "https://*.analytics.google.com",
   "https://*.g.doubleclick.net",
   "https://ad.doubleclick.net",
+  "https://www.googleadservices.com",
   "https://www.google.com",
   "https://www.facebook.com",
 ];
