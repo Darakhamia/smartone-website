@@ -25,7 +25,7 @@ export function WelcomeScreen({
   const router = useRouter();
   const { lang } = useCountry();
   const t = DICT[lang];
-  const closeLabel = lang === "es" ? "Cerrar" : "Close";
+  const closeLabel = { en: "Close", es: "Cerrar", uk: "Закрити", ru: "Закрыть" }[lang];
 
   const destination = () => {
     const from = typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("from") : null;

@@ -23,7 +23,7 @@ export function FooterRegion() {
       </Link>
 
       {country.languages.length > 1 && (
-        <div className="flex gap-1.5">
+        <div className="flex flex-wrap gap-1.5">
           {country.languages.map((l: Lang) => {
             const active = l === lang;
             return (
