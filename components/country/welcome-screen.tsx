@@ -64,7 +64,7 @@ export function WelcomeScreen({
         </div>
 
         <div className="relative mt-10 hidden text-[12.5px] text-ink-3 lg:block">
-          © {new Date().getFullYear()} SmartOne · Across Europe
+          © {new Date().getFullYear()} SmartOne · {{ en: "Across Europe", es: "En toda Europa", uk: "По всій Європі", ru: "По всей Европе" }[lang]}
         </div>
       </aside>
 
