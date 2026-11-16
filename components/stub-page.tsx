@@ -18,6 +18,8 @@ export async function StubPage({
     lang,
     { home: "← Back to home", contact: "Contact us" },
     { home: "← Volver al inicio", contact: "Contáctanos" },
+    { home: "← На головну", contact: "Зв’язатися з нами" },
+    { home: "← На главную", contact: "Связаться с нами" },
   );
   return (
     <section className="py-24 lg:py-32">
