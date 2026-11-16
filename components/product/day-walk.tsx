@@ -51,7 +51,7 @@ function copyFor(lang: Lang, cur: string) {
 type Copy = ReturnType<typeof copyFor>;
 
 /* The real device photo for the visitor's market (Malta gets the dual-screen
-   Bank Pro S, every other country the Bank Pro). */
+   Bank Pro S, Spain the 5″ Bank, every other country the Bank Pro). */
 function PayScene({ country }: { country: Country }) {
   const { dir, name } = TERMINAL_MODELS[terminalModel(country)];
   return (

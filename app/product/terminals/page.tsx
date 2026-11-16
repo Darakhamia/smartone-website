@@ -53,6 +53,10 @@ const highlightIcons = [
 function copyFor(lang: Lang, model: TerminalModel) {
   const info = TERMINAL_MODELS[model];
   const { dual, dir, name } = info;
+  /* Spain's SmartOne Bank is the 5″ model: its screen, battery and size
+     differ, the rest of the spec sheet (Bank Pro / Bank, 16.11.2026) is the
+     same as the Bank Pro's. */
+  const five = model === "bank";
   // Angle set: the dual-screen model swaps the "other side" for the shot that
   // shows the customer-facing display.
   const shots: Shot[] = dual
@@ -90,7 +94,9 @@ function copyFor(lang: Lang, model: TerminalModel) {
       deviceFor: dual ? "The dual-screen terminal" : "The all-in-one terminal",
       deviceText: dual
         ? "Two screens – one for you, one facing the customer – for a clear, transparent checkout. Card, contactless and cash, with the receipt printer built in."
-        : "The big 6″ screen keeps a queue moving – ring up, tap, receipt out. Card, contactless and cash, no second box on the counter.",
+        : five
+          ? "The 5″ touchscreen keeps a queue moving – ring up, tap, receipt out. Card, contactless and cash, no second box on the counter."
+          : "The big 6″ screen keeps a queue moving – ring up, tap, receipt out. Card, contactless and cash, no second box on the counter.",
       facts: ["Battery lasts the shift", "SIM + Wi-Fi", "Receipt printer built in"],
       featEyebrow: "Inside the device",
       featTitle: "Everything built in.",
@@ -110,9 +116,9 @@ function copyFor(lang: Lang, model: TerminalModel) {
         ? { title: "Two screens", text: "A second, customer-facing display shows the amount and confirmation – a transparent checkout, where local law needs it." }
         : null,
       highlights: [
-        { value: "6″ HD", label: "Touchscreen display" },
+        { value: five ? "5″" : "6″ HD", label: "Touchscreen display" },
         { value: "Octa-core", label: "Kun T11 · 2.0 GHz" },
-        { value: "3000 mAh", label: "All-day battery" },
+        { value: five ? "2500 mAh" : "3000 mAh", label: "All-day battery" },
         { value: "4G · Wi-Fi", label: "Always connected" },
         { value: "Built-in printer", label: "2″ · 58 mm thermal" },
         { value: "PCI PTS 6.x", label: "Certified secure" },
@@ -122,7 +128,7 @@ function copyFor(lang: Lang, model: TerminalModel) {
           group: "Display",
           items: (dual
             ? [["Screen", "6″ HD capacitive · 1440×720"], ["Second screen", "Customer-facing display"], ["Touch", "Multi-touch, safety glass"]]
-            : [["Screen", "6″ HD capacitive · 1440×720"], ["Touch", "Multi-touch, safety glass"]]) as [string, string][],
+            : [["Screen", five ? "5″ TFT · 854×480" : "6″ HD capacitive · 1440×720"], ["Touch", "Multi-touch, safety glass"]]) as [string, string][],
         },
         {
           group: "Performance",
@@ -130,7 +136,7 @@ function copyFor(lang: Lang, model: TerminalModel) {
         },
         {
           group: "Power & connectivity",
-          items: [["Battery", "Li-Ion 3000 mAh (5000 optional)"], ["Mobile", "4G LTE · 3G · 2G"], ["Wireless", "Wi-Fi · Bluetooth · GPS"]],
+          items: [["Battery", five ? "Li-Ion 2500 mAh (3000 optional)" : "Li-Ion 3000 mAh (5000 optional)"], ["Mobile", "4G LTE · 3G · 2G"], ["Wireless", "Wi-Fi · Bluetooth · GPS"]],
         },
         {
           group: "Payments & printing",
@@ -138,7 +144,7 @@ function copyFor(lang: Lang, model: TerminalModel) {
         },
         {
           group: "Compliance & build",
-          items: [["Security", "PCI PTS 6.x"], ["Certifications", "RoHS · CE · FCC"], ["Dimensions", "225 × 82 mm"]],
+          items: [["Security", "PCI PTS 6.x"], ["Certifications", "RoHS · CE · FCC"], ["Dimensions", five ? "202 × 80 mm · 395 g" : "225 × 82 mm"]],
         },
       ] as { group: string; items: [string, string][] }[],
     },
@@ -161,7 +167,9 @@ function copyFor(lang: Lang, model: TerminalModel) {
       deviceFor: dual ? "El terminal de doble pantalla" : "El terminal todo en uno",
       deviceText: dual
         ? "Dos pantallas: una para ti y otra hacia el cliente, para un cobro claro y transparente. Tarjeta, contactless y efectivo, con la impresora de tickets integrada."
-        : "La pantalla grande de 6″ mantiene la cola en movimiento: cobra, tap, ticket fuera. Tarjeta, contactless y efectivo, sin una segunda caja en el mostrador.",
+        : five
+          ? "La pantalla táctil de 5″ mantiene la cola en movimiento: cobra, tap, ticket fuera. Tarjeta, contactless y efectivo, sin una segunda caja en el mostrador."
+          : "La pantalla grande de 6″ mantiene la cola en movimiento: cobra, tap, ticket fuera. Tarjeta, contactless y efectivo, sin una segunda caja en el mostrador.",
       facts: ["La batería aguanta el turno", "SIM + Wi-Fi", "Impresora de tickets integrada"],
       featEyebrow: "Dentro del dispositivo",
       featTitle: "Todo integrado.",
@@ -181,9 +189,9 @@ function copyFor(lang: Lang, model: TerminalModel) {
         ? { title: "Dos pantallas", text: "Una segunda pantalla hacia el cliente muestra el importe y la confirmación: un cobro transparente, donde lo exija la ley local." }
         : null,
       highlights: [
-        { value: "6″ HD", label: "Pantalla táctil" },
+        { value: five ? "5″" : "6″ HD", label: "Pantalla táctil" },
         { value: "Octa-core", label: "Kun T11 · 2.0 GHz" },
-        { value: "3000 mAh", label: "Batería para todo el día" },
+        { value: five ? "2500 mAh" : "3000 mAh", label: "Batería para todo el día" },
         { value: "4G · Wi-Fi", label: "Siempre conectado" },
         { value: "Impresora integrada", label: "Térmica 2″ · 58 mm" },
         { value: "PCI PTS 6.x", label: "Seguridad certificada" },
@@ -193,7 +201,7 @@ function copyFor(lang: Lang, model: TerminalModel) {
           group: "Pantalla",
           items: (dual
             ? [["Pantalla", "6″ HD capacitiva · 1440×720"], ["Segunda pantalla", "Hacia el cliente"], ["Táctil", "Multitáctil, cristal de seguridad"]]
-            : [["Pantalla", "6″ HD capacitiva · 1440×720"], ["Táctil", "Multitáctil, cristal de seguridad"]]) as [string, string][],
+            : [["Pantalla", five ? "5″ TFT · 854×480" : "6″ HD capacitiva · 1440×720"], ["Táctil", "Multitáctil, cristal de seguridad"]]) as [string, string][],
         },
         {
           group: "Rendimiento",
@@ -201,7 +209,7 @@ function copyFor(lang: Lang, model: TerminalModel) {
         },
         {
           group: "Energía y conexión",
-          items: [["Batería", "Li-Ion 3000 mAh (5000 opc.)"], ["Móvil", "4G LTE · 3G · 2G"], ["Inalámbrico", "Wi-Fi · Bluetooth · GPS"]],
+          items: [["Batería", five ? "Li-Ion 2500 mAh (3000 opc.)" : "Li-Ion 3000 mAh (5000 opc.)"], ["Móvil", "4G LTE · 3G · 2G"], ["Inalámbrico", "Wi-Fi · Bluetooth · GPS"]],
         },
         {
           group: "Pagos e impresión",
@@ -209,7 +217,7 @@ function copyFor(lang: Lang, model: TerminalModel) {
         },
         {
           group: "Cumplimiento y construcción",
-          items: [["Seguridad", "PCI PTS 6.x"], ["Certificaciones", "RoHS · CE · FCC"], ["Dimensiones", "225 × 82 mm"]],
+          items: [["Seguridad", "PCI PTS 6.x"], ["Certificaciones", "RoHS · CE · FCC"], ["Dimensiones", five ? "202 × 80 mm · 395 g" : "225 × 82 mm"]],
         },
       ] as { group: string; items: [string, string][] }[],
     },
@@ -219,7 +227,7 @@ function copyFor(lang: Lang, model: TerminalModel) {
 export default async function TerminalsPage() {
   const country = await getActiveCountry();
   const lang = await getActiveLang();
-  // One device per country, always: Malta = Bank Pro S, everyone else = Bank Pro.
+  // One device per country, always: Malta = Bank Pro S, Spain = Bank, everyone else = Bank Pro.
   const c = copyFor(lang, terminalModel(country));
 
   return (

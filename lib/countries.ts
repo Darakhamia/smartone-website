@@ -121,16 +121,19 @@ export function promotesRegister(country: Country): boolean {
   return country.code === "mt";
 }
 
-export type TerminalModel = "bank-pro" | "bank-pro-s";
+export type TerminalModel = "bank-pro" | "bank-pro-s" | "bank";
 
 /** IRONCLAD PRODUCT RULE (business, do not change without explicit sign-off):
  *  – Malta shows ONLY the SmartOne Bank Pro S (dual-screen). Nothing else.
+ *  – Spain shows ONLY the SmartOne Bank (5″) – signed off by David, 16.11.2026.
  *  – EVERY other country shows ONLY the SmartOne Bank Pro.
  *  This governs the device on /product/terminals (its photos, name and specs)
  *  and the register device shown on Malta's cash-register page. One device per
- *  country, always – never mix the two models on a single market. */
+ *  country, always – never mix models on a single market. */
 export function terminalModel(country: Country): TerminalModel {
-  return country.code === "mt" ? "bank-pro-s" : "bank-pro";
+  if (country.code === "mt") return "bank-pro-s";
+  if (country.code === "es") return "bank";
+  return "bank-pro";
 }
 
 /* `dir` is versioned: replacing a photo in place keeps its URL, so browsers and
@@ -141,6 +144,7 @@ export function terminalModel(country: Country): TerminalModel {
 export const TERMINAL_MODELS: Record<TerminalModel, { name: string; dir: string; dual: boolean }> = {
   "bank-pro": { name: "SmartOne Bank Pro", dir: "/pos/bank-pro", dual: false },
   "bank-pro-s": { name: "SmartOne Bank Pro S", dir: "/pos/bank-pro-s/v2", dual: true },
+  bank: { name: "SmartOne Bank", dir: "/pos/bank", dual: false },
 };
 
 /* The terminal cut-out on the homepage – the hero, the "Why no one else does

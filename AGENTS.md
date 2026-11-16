@@ -7,9 +7,10 @@ This version has breaking changes — APIs, conventions, and file structure may 
 # Product rules (business — do not break)
 
 - **One terminal model per country, always.** Malta shows ONLY the SmartOne
-  **Bank Pro S** (dual-screen) — nothing else. Every other country shows ONLY
-  the SmartOne **Bank Pro**. Never mix the two on one market. This is enforced
-  by `terminalModel()` in `lib/countries.ts`; change it only with explicit
+  **Bank Pro S** (dual-screen) — nothing else. Spain shows ONLY the SmartOne
+  **Bank** (5″; signed off 16.11.2026). Every other country shows ONLY the
+  SmartOne **Bank Pro**. Never mix models on one market. This is enforced by
+  `terminalModel()` in `lib/countries.ts`; change it only with explicit
   sign-off.
 - **Cash register is promoted only where it's live (Malta today).** Gate every
   cash-register mention on `promotesRegister()` in `lib/countries.ts`. Other
