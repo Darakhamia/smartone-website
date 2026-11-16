@@ -22,6 +22,18 @@ export async function FinalCta() {
       cta1: "Solicita tu terminal →",
       cta2: "Contactar con ventas",
     },
+    {
+      title: "Знайте, скільки продали. Знайте, скільки отримаєте.",
+      text: "Готові почати? Замовте термінал сьогодні. Залишилися запитання? Наша команда все пояснить.",
+      cta1: "Замовити термінал →",
+      cta2: "Зв’язатися з нами",
+    },
+    {
+      title: "Знайте, сколько продали. Знайте, сколько получите.",
+      text: "Готовы начать? Закажите терминал сегодня. Остались вопросы? Наша команда всё объяснит.",
+      cta1: "Заказать терминал →",
+      cta2: "Связаться с нами",
+    },
   );
   /* Malta follows the homepage task (§13): accounts are created online, so
      the main button is Get started (the self-employed / Ltd choice) and the
