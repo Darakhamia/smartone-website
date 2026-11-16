@@ -11,19 +11,31 @@ import { rentUndercutsBuy, tariffsFor, termsFor, type Tariffs } from "@/lib/pric
 /* FAQ accordion, CSS grid-rows transitions, no animation libraries. */
 
 /* The two answers that describe how prices work, for a market priced by card
-   type (Spain) rather than by volume band. Figures from lib/pricing.ts. */
+   type (Spain) rather than by volume band. Figures from lib/pricing.ts.
+   One branch per language (en, es, uk, ru) via tr(); figure() writes each
+   number in that language's notation. */
 function byCardAnswers(lang: Lang, c: string, t: Tariffs) {
   const f = (v: string) => figure(lang, v);
   const fx = `${c}${f(t.fixed)}`;
-  return lang === "es"
-    ? {
-        buyOrRent: `Tu tarifa es la misma en ambos casos. Alquilar el terminal cuesta ${c}${f(t.price.rent)} al mes; comprarlo, ${c}${f(t.price.buy)} una sola vez, IVA incluido en ambos casos. Ninguna de las dos opciones tiene permanencia.`,
-        howDecided: `Según el tipo de tarjeta con la que paga tu cliente. Hasta ${c}${f(t.cap)} al mes en ventas con tarjeta tienes la tarifa Light: ${f(t.rates.consumer)}% + ${fx} con tarjetas de consumo de la UE, ${f(t.rates.corporate)}% + ${fx} con tarjetas corporativas de la UE y ${f(t.rates.foreign)}% + ${fx} con tarjetas de fuera de la UE. Por encima de ${c}${f(t.cap)} al mes acordamos contigo una tarifa Individual: habla con nosotros y la confirmamos en un día hábil.`,
-      }
-    : {
-        buyOrRent: `Your rate is the same either way. Renting the terminal is ${c}${f(t.price.rent)} a month; buying it is ${c}${f(t.price.buy)}, once – both including VAT. Neither has a minimum term.`,
-        howDecided: `By the kind of card your customer pays with. Up to ${c}${f(t.cap)} a month in card sales you're on Light: ${f(t.rates.consumer)}% + ${fx} on consumer cards from the EU, ${f(t.rates.corporate)}% + ${fx} on corporate cards from the EU and ${f(t.rates.foreign)}% + ${fx} on cards from outside the EU. Above ${c}${f(t.cap)} a month we agree an Individual rate with you – talk to us and we'll confirm it within one business day.`,
-      };
+  return tr(
+    lang,
+    {
+      buyOrRent: `Your rate is the same either way. Renting the terminal is ${c}${f(t.price.rent)} a month; buying it is ${c}${f(t.price.buy)}, once – both including VAT. Neither has a minimum term.`,
+      howDecided: `By the kind of card your customer pays with. Up to ${c}${f(t.cap)} a month in card sales you're on Light: ${f(t.rates.consumer)}% + ${fx} on consumer cards from the EU, ${f(t.rates.corporate)}% + ${fx} on corporate cards from the EU and ${f(t.rates.foreign)}% + ${fx} on cards from outside the EU. Above ${c}${f(t.cap)} a month we agree an Individual rate with you – talk to us and we'll confirm it within one business day.`,
+    },
+    {
+      buyOrRent: `Tu tarifa es la misma en ambos casos. Alquilar el terminal cuesta ${c}${f(t.price.rent)} al mes; comprarlo, ${c}${f(t.price.buy)} una sola vez, IVA incluido en ambos casos. Ninguna de las dos opciones tiene permanencia.`,
+      howDecided: `Según el tipo de tarjeta con la que paga tu cliente. Hasta ${c}${f(t.cap)} al mes en ventas con tarjeta tienes la tarifa Light: ${f(t.rates.consumer)}% + ${fx} con tarjetas de consumo de la UE, ${f(t.rates.corporate)}% + ${fx} con tarjetas corporativas de la UE y ${f(t.rates.foreign)}% + ${fx} con tarjetas de fuera de la UE. Por encima de ${c}${f(t.cap)} al mes acordamos contigo una tarifa Individual: habla con nosotros y la confirmamos en un día hábil.`,
+    },
+    {
+      buyOrRent: `Ваша ставка однакова в обох випадках. Оренда термінала коштує ${c}${f(t.price.rent)} на місяць, купівля – ${c}${f(t.price.buy)} одноразово, в обох випадках з ПДВ. Мінімального терміну немає в жодному з варіантів.`,
+      howDecided: `Залежно від типу картки, якою платить ваш клієнт. Якщо ваші продажі карткою становлять до ${c}${f(t.cap)} на місяць, діє тариф Light: ${f(t.rates.consumer)}% + ${fx} для особистих карток із ЄС, ${f(t.rates.corporate)}% + ${fx} для корпоративних карток із ЄС і ${f(t.rates.foreign)}% + ${fx} для карток, випущених за межами ЄС. Якщо продажі перевищують ${c}${f(t.cap)} на місяць, ми погоджуємо з вами тариф Individual – зв’яжіться з нами, і ми підтвердимо його протягом одного робочого дня.`,
+    },
+    {
+      buyOrRent: `Ваша ставка одинакова в обоих случаях. Аренда терминала стоит ${c}${f(t.price.rent)} в месяц, покупка – ${c}${f(t.price.buy)} единоразово, в обоих случаях с НДС. Минимального срока нет ни в одном из вариантов.`,
+      howDecided: `В зависимости от типа карты, которой платит ваш клиент. Если ваши продажи картой составляют до ${c}${f(t.cap)} в месяц, действует тариф Light: ${f(t.rates.consumer)}% + ${fx} для личных карт из ЕС, ${f(t.rates.corporate)}% + ${fx} для корпоративных карт из ЕС и ${f(t.rates.foreign)}% + ${fx} для карт, выпущенных за пределами ЕС. Если продажи превышают ${c}${f(t.cap)} в месяц, мы согласуем с вами тариф Individual – свяжитесь с нами, и мы подтвердим его в течение одного рабочего дня.`,
+    },
+  );
 }
 
 export function Faq() {
@@ -66,6 +78,34 @@ export function Faq() {
         { q: "¿En cuánto tiempo puedo empezar a cobrar?", a: register ? "En cuatro días hábiles o menos, desde el alta hasta estar operativo, incluida la registración fiscal del dispositivo para tu mercado." : "En cuatro días hábiles o menos, desde el alta hasta estar operativo." },
         { q: "¿Comprar o alquilar? ¿Qué sale más barato?", a: byCard ? byCard.buyOrRent : rentCheaper ? "Alquilar mantiene bajo el coste inicial con una pequeña cuota mensual y una tarifa por operación algo más baja, con permanencia de un año. Comprar es un coste único del dispositivo, sin permanencia. En ambos casos aplican los mismos tres tramos por volumen." : "Tu tarifa es la misma en ambos casos: depende de tu volumen mensual con tarjeta, no de cómo conseguiste el dispositivo. El alquiler es una cuota mensual que baja según crece tu volumen; comprar es un coste único, sin cuota mensual. En ambos casos aplican los mismos tres tramos por volumen." },
         { q: "¿Cómo se decide mi tarifa?", a: byCard ? byCard.howDecided : "Según tu volumen mensual con tarjeta: cuanto más cobras, más baja la tarifa. Elige el tramo que encaja en la tabla de arriba; si estás cerca de un límite o quieres una oferta a medida, habla con nosotros y confirmamos tu tarifa en un día hábil." },
+      ],
+    },
+    {
+      title: "Поширені запитання",
+      leadA: "Маєте запитання, на яке ми не відповіли?",
+      talk: "Зв’яжіться з нами",
+      faqs: [
+        { q: "Що входить у ціну?", a: register ? "Усе: касовий апарат, схвалений податковою, і платіжний термінал, а також Merchant Portal. Жодної окремої підписки на програмне забезпечення, жодної оплати за окремі функції." : "Усе: платіжний термінал і Merchant Portal. Жодної окремої підписки на програмне забезпечення, жодної оплати за окремі функції." },
+        { q: "Чи потрібно відкривати новий банківський рахунок?", a: `Ні. Платежі обробляє ліцензований еквайр ${uk ? "у Великій Британії" : "у ЄС"}, а виплати надходять на ваш наявний банківський рахунок – жодного нового рахунку, нічого не потрібно змінювати.` },
+        { q: "Коли я отримаю свої гроші?", a: "Наступного робочого дня (T+1). У порталі точно видно, яку суму підтверджено до виплати, – за вирахуванням комісії, яку чітко показано." },
+        { q: "Чи є приховані комісії?", a: "Ні. Вашу комісію заздалегідь показано для кожного зарахування коштів у порталі. Жодних платежів за підключення, жодних щомісячних мінімумів, жодних несподіваних рядків у PDF-виписці." },
+        { q: "Як швидко я можу почати приймати платежі?", a: register ? "Чотири робочі дні або менше від підписання договору до запуску – включно з фіскальною реєстрацією пристрою для вашого ринку." : "Чотири робочі дні або менше від підписання договору до запуску." },
+        { q: "Купити чи орендувати – що вигідніше?", a: byCard ? byCard.buyOrRent : rentCheaper ? "З орендою стартові витрати низькі: невелика щомісячна плата і трохи нижча ставка за транзакцію, договір на один рік. Купівля – це одноразова оплата пристрою без мінімального терміну. В обох випадках діють ті самі три діапазони обороту." : "Ваша ставка однакова в обох випадках – вона залежить від ваших продажів карткою за місяць, а не від того, як ви отримали пристрій. Оренда – це щомісячна плата, яка знижується зі зростанням обороту; купівля – одноразова оплата пристрою без щомісячних платежів. В обох випадках діють ті самі три діапазони обороту." },
+        { q: "Як визначається моя ставка?", a: byCard ? byCard.howDecided : "Залежно від ваших продажів карткою за місяць – що більше ви приймаєте, то нижча ставка. Оберіть відповідний діапазон у таблиці вище; якщо ви близько до межі або хочете індивідуальну пропозицію, зв’яжіться з нами, і ми підтвердимо вашу ставку протягом одного робочого дня." },
+      ],
+    },
+    {
+      title: "Частые вопросы",
+      leadA: "Есть вопрос, на который мы не ответили?",
+      talk: "Свяжитесь с нами",
+      faqs: [
+        { q: "Что входит в цену?", a: register ? "Всё: кассовый аппарат, одобренный налоговой, и платёжный терминал, а также Merchant Portal. Никакой отдельной подписки на программное обеспечение, никакой платы за отдельные функции." : "Всё: платёжный терминал и Merchant Portal. Никакой отдельной подписки на программное обеспечение, никакой платы за отдельные функции." },
+        { q: "Нужно ли открывать новый банковский счёт?", a: `Нет. Платежи обрабатывает лицензированный эквайер ${uk ? "в Великобритании" : "в ЕС"}, а выплаты поступают на ваш текущий банковский счёт – никакого нового счёта, ничего не нужно менять.` },
+        { q: "Когда я получу свои деньги?", a: "На следующий рабочий день (T+1). В портале точно видно, какая сумма подтверждена к выплате, – за вычетом комиссии, которая чётко показана." },
+        { q: "Есть ли скрытые комиссии?", a: "Нет. Ваша комиссия заранее показана по каждому зачислению средств в портале. Никаких платежей за подключение, никаких ежемесячных минимумов, никаких неожиданных строк в PDF-выписке." },
+        { q: "Как быстро я смогу начать принимать платежи?", a: register ? "Четыре рабочих дня или меньше от подписания договора до запуска – включая фискальную регистрацию устройства для вашего рынка." : "Четыре рабочих дня или меньше от подписания договора до запуска." },
+        { q: "Купить или арендовать – что выгоднее?", a: byCard ? byCard.buyOrRent : rentCheaper ? "С арендой начальные расходы низкие: небольшая ежемесячная плата и немного более низкая ставка за транзакцию, договор на один год. Покупка – это единоразовая оплата устройства без минимального срока. В обоих случаях действуют те же три диапазона оборота." : "Ваша ставка одинакова в обоих случаях – она зависит от вашего оборота по картам за месяц, а не от того, как вы получили устройство. Аренда – это ежемесячная плата, которая снижается по мере роста оборота; покупка – единоразовая оплата устройства без ежемесячных платежей. В обоих случаях действуют те же три диапазона оборота." },
+        { q: "Как определяется моя ставка?", a: byCard ? byCard.howDecided : "В зависимости от вашего оборота по картам за месяц – чем больше вы принимаете, тем ниже ставка. Выберите подходящий диапазон в таблице выше; если вы близки к границе или хотите индивидуальное предложение, свяжитесь с нами, и мы подтвердим вашу ставку в течение одного рабочего дня." },
       ],
     },
   );

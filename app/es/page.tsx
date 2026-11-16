@@ -20,6 +20,16 @@ export default async function SpainPage() {
       title: "Preparado para Verifactu 2027.",
       description: "SmartOne está preparado para el plazo de Verifactu 2027 en España: un dispositivo fiscal con pagos con tarjeta en una sola caja. Habla con nosotros y adelántate.",
     },
+    {
+      eyebrow: "Іспанія · Verifactu",
+      title: "Готовий до Verifactu 2027.",
+      description: "SmartOne готовий до Verifactu ще до граничного терміну 2027 року в Іспанії – фіскальний пристрій і оплата карткою в одному корпусі. Зв’яжіться з нами та підготуйтеся заздалегідь.",
+    },
+    {
+      eyebrow: "Испания · Verifactu",
+      title: "Готов к Verifactu 2027.",
+      description: "SmartOne готов к Verifactu ещё до крайнего срока 2027 года в Испании – фискальное устройство и оплата картой в одном корпусе. Свяжитесь с нами и подготовьтесь заранее.",
+    },
   );
   return <StubPage eyebrow={c.eyebrow} title={c.title} description={c.description} />;
 }

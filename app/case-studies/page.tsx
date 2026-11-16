@@ -25,6 +25,16 @@ export default async function CaseStudiesPage() {
       title: "Historias desde el mostrador.",
       description: "Comercios reales, cifras reales, sin testimonios inventados. Publicaremos casos de éxito aquí en cuanto nuestros primeros clientes estén listos para compartir los suyos.",
     },
+    {
+      eyebrow: "Кейси клієнтів",
+      title: "Історії з-за прилавка.",
+      description: "Справжні підприємці, справжні цифри – жодних вигаданих відгуків. Ми опублікуємо тут кейси, щойно наші перші клієнти будуть готові поділитися своїми історіями.",
+    },
+    {
+      eyebrow: "Кейсы клиентов",
+      title: "Истории из-за прилавка.",
+      description: "Настоящие предприниматели, настоящие цифры – никаких выдуманных отзывов. Мы опубликуем здесь кейсы, как только наши первые клиенты будут готовы поделиться своими историями.",
+    },
   );
   return <StubPage eyebrow={c.eyebrow} title={c.title} description={c.description} />;
 }

@@ -18,6 +18,14 @@ export default async function LoginPage() {
       title: "Tu portal está en camino.",
       description: "El acceso al Merchant Portal estará aquí: lo que vendiste, lo que vas a recibir, tickets e informes Z, todo en un solo sitio.",
     },
+    {
+      title: "Ваш портал уже на підході.",
+      description: "Тут буде вхід до Merchant Portal – що ви продали, що отримаєте, чеки та Z-звіти, усе в одному місці.",
+    },
+    {
+      title: "Ваш портал уже на подходе.",
+      description: "Здесь будет вход в Merchant Portal – что вы продали, что получите, чеки и Z-отчёты, всё в одном месте.",
+    },
   );
   return <StubPage eyebrow="Merchant Portal" title={c.title} description={c.description} />;
 }

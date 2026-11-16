@@ -12,6 +12,8 @@ export async function DeviceQuiz() {
     lang,
     { eyebrow: "Build your setup", title: "Which products do you need?", sub: "Answer a few questions – we'll tell you exactly what to switch on." },
     { eyebrow: "Arma tu configuración", title: "¿Qué productos necesitas?", sub: "Responde unas preguntas y te decimos exactamente qué activar." },
+    { eyebrow: "Зберіть свою конфігурацію", title: "Які продукти вам потрібні?", sub: "Дайте відповідь на кілька запитань – і ми підкажемо, що саме підключити." },
+    { eyebrow: "Соберите свою конфигурацию", title: "Какие продукты вам нужны?", sub: "Ответьте на несколько вопросов – и мы подскажем, что именно подключить." },
   );
   return (
     <section className="bg-bg-2 py-24">

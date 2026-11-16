@@ -43,6 +43,22 @@ function HeroVisual({ country, lang }: { country: Country; lang: Lang }) {
       cardSales: "Ventas con tarjeta",
       bank: "Tu banco · mañana",
     },
+    {
+      alt: "Підприємець приймає безконтактну оплату карткою на терміналі SmartOne",
+      approved: "Платіж схвалено",
+      approvedSub: "Безконтактно · чек надруковано",
+      today: "Сьогодні",
+      cardSales: "Продажі карткою",
+      bank: "Ваш банк · завтра",
+    },
+    {
+      alt: "Предприниматель принимает бесконтактную оплату картой на терминале SmartOne",
+      approved: "Платёж одобрен",
+      approvedSub: "Бесконтактно · чек напечатан",
+      today: "Сегодня",
+      cardSales: "Продажи картой",
+      bank: "Ваш банк · завтра",
+    },
   );
   // the first photo is the one most visitors see; give each market its own
   const photos =
@@ -114,10 +130,25 @@ function HeroVisual({ country, lang }: { country: Country; lang: Lang }) {
    processes the payments. */
 function facts(country: Country, lang: Lang): { label: string; icon: LucideIcon }[] {
   const payouts = {
-    label: tr(lang, "Payouts to your own bank, next working day", "Cobros en tu propio banco, al siguiente día hábil"),
+    label: tr(
+      lang,
+      "Payouts to your own bank, next working day",
+      "Cobros en tu propio banco, al siguiente día hábil",
+      "Виплати у ваш власний банк наступного робочого дня",
+      "Выплаты в ваш собственный банк на следующий рабочий день",
+    ),
     icon: Landmark,
   };
-  const live = { label: tr(lang, "Live in 4 business days or less", "Operativo en 4 días hábiles o menos"), icon: Clock };
+  const live = {
+    label: tr(
+      lang,
+      "Live in 4 business days or less",
+      "Operativo en 4 días hábiles o menos",
+      "Запуск за 4 робочі дні або швидше",
+      "Запуск за 4 рабочих дня или быстрее",
+    ),
+    icon: Clock,
+  };
   if (country.code === "mt") {
     return [
       { label: "VAT-approved in Malta", icon: ShieldCheck },
@@ -126,7 +157,14 @@ function facts(country: Country, lang: Lang): { label: string; icon: LucideIcon 
     ];
   }
   if (country.code === "es") {
-    return [{ label: tr(lang, "Verifactu-ready for 2027", "Preparado para Verifactu 2027"), icon: ShieldCheck }, payouts, live];
+    return [
+      {
+        label: tr(lang, "Verifactu-ready for 2027", "Preparado para Verifactu 2027", "Готовність до Verifactu 2027", "Готовность к Verifactu 2027"),
+        icon: ShieldCheck,
+      },
+      payouts,
+      live,
+    ];
   }
   return [{ label: "Payments by a licensed acquirer", icon: ShieldCheck }, payouts, live];
 }
@@ -154,6 +192,24 @@ export async function Hero() {
         : "Un terminal de pago y herramientas de negocio en un solo equipo, con comisiones claras y sin letra pequeña.",
       cta1: "Solicita tu terminal →",
       cta2: "Ver precios",
+    },
+    {
+      titleA: "Один пристрій,",
+      titleB: "щоб вести бізнес.",
+      sub: register
+        ? "Затверджена податковою службою каса та платіжний термінал в одному пристрої – з прозорими комісіями, без дрібного шрифту."
+        : "Платіжний термінал та інструменти для бізнесу в одному пристрої – з прозорими комісіями, без дрібного шрифту.",
+      cta1: "Замовити термінал →",
+      cta2: "Переглянути ціни",
+    },
+    {
+      titleA: "Одно устройство,",
+      titleB: "чтобы вести бизнес.",
+      sub: register
+        ? "Одобренная налоговой службой касса и платёжный терминал в одном устройстве – с прозрачными комиссиями, без мелкого шрифта."
+        : "Платёжный терминал и инструменты для бизнеса в одном устройстве – с прозрачными комиссиями, без мелкого шрифта.",
+      cta1: "Заказать терминал →",
+      cta2: "Посмотреть цены",
     },
   );
   // Malta follows the homepage task: Get started asks self-employed or Ltd,

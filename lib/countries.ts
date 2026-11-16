@@ -4,7 +4,9 @@
    (fiscal register, Verifactu, currency) rather than being one-size-fits-all. */
 
 export type CountryCode = "mt" | "es" | "cy" | "sk" | "uk";
-export type Lang = "en" | "es";
+/* uk is Ukrainian (ISO 639-1) – not the United Kingdom, whose country code
+   happens to be the same two letters. */
+export type Lang = "en" | "es" | "uk" | "ru";
 
 export interface Country {
   code: CountryCode;
@@ -47,7 +49,7 @@ export const COUNTRIES: Country[] = [
     flag: "🇪🇸",
     currency: "EUR",
     currencySymbol: "€",
-    languages: ["en", "es"],
+    languages: ["en", "es", "uk", "ru"],
     fiscal: true,
     verifactu: true,
     tagline: "Verifactu-ready ahead of the 2027 deadline.",
@@ -99,6 +101,8 @@ export const COUNTRY_MAP: Record<CountryCode, Country> = Object.fromEntries(
 export const LANG_NAMES: Record<Lang, string> = {
   en: "English",
   es: "Español",
+  uk: "Українська",
+  ru: "Русский",
 };
 
 export function isCountryCode(v: string | undefined | null): v is CountryCode {
@@ -106,7 +110,7 @@ export function isCountryCode(v: string | undefined | null): v is CountryCode {
 }
 
 export function isLang(v: string | undefined | null): v is Lang {
-  return v === "en" || v === "es";
+  return v === "en" || v === "es" || v === "uk" || v === "ru";
 }
 
 export function getCountry(code: string | undefined | null): Country {
@@ -163,6 +167,6 @@ export const PREF_COOKIE_MAX_AGE = 60 * 60 * 24 * 182;
 /* The currency as a word, for copy like "every fee shown in euros". Keeps
    GBP markets from being told their fees are in euros. */
 export function currencyWord(country: Country, lang: Lang): string {
-  if (country.currency === "GBP") return lang === "es" ? "libras" : "pounds";
-  return "euros";
+  if (country.currency === "GBP") return { en: "pounds", es: "libras", uk: "фунтах", ru: "фунтах" }[lang];
+  return { en: "euros", es: "euros", uk: "євро", ru: "евро" }[lang];
 }

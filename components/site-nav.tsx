@@ -57,30 +57,76 @@ type MegaCol = { title: string; desc: string; items: MegaItem[] };
 function productMenu(lang: Lang, register: boolean, device: string): MegaCol[] {
   return [
     {
-      title: tr(lang, register ? "Payments & Fiscal" : "Payments", register ? "Pagos y fiscal" : "Pagos"),
+      title: tr(
+        lang,
+        register ? "Payments & Fiscal" : "Payments",
+        register ? "Pagos y fiscal" : "Pagos",
+        register ? "Платежі та фіскалізація" : "Платежі",
+        register ? "Платежи и фискализация" : "Платежи",
+      ),
       desc: register
-        ? tr(lang, "Take payment and stay compliant on one device.", "Cobra y cumple la normativa en un solo dispositivo.")
-        : tr(lang, "Take every kind of payment on one device.", "Acepta todo tipo de pago en un solo dispositivo."),
+        ? tr(
+            lang,
+            "Take payment and stay compliant on one device.",
+            "Cobra y cumple la normativa en un solo dispositivo.",
+            "Приймайте оплату й дотримуйтеся вимог на одному пристрої.",
+            "Принимайте оплату и соблюдайте требования на одном устройстве.",
+          )
+        : tr(
+            lang,
+            "Take every kind of payment on one device.",
+            "Acepta todo tipo de pago en un solo dispositivo.",
+            "Приймайте будь-які платежі на одному пристрої.",
+            "Принимайте любые платежи на одном устройстве.",
+          ),
       items: [
-        { label: tr(lang, "Card reader", "Datáfono"), sub: tr(lang, `The ${device} terminal`, `El terminal ${device}`), href: "/product/terminals", icon: cardReaderIcon },
+        {
+          label: tr(lang, "Card reader", "Datáfono", "Платіжний термінал", "Платёжный терминал"),
+          sub: tr(lang, `The ${device} terminal`, `El terminal ${device}`, `Термінал ${device}`, `Терминал ${device}`),
+          href: "/product/terminals",
+          icon: cardReaderIcon,
+        },
         ...(register
-          ? [{ label: tr(lang, "Cash register", "Caja registradora"), sub: tr(lang, "VAT-approved fiscal till", "Caja fiscal aprobada"), href: "/product/cash-register", icon: cashRegisterIcon }]
+          ? [
+              {
+                label: tr(lang, "Cash register", "Caja registradora", "Касовий апарат", "Кассовый аппарат"),
+                sub: tr(lang, "VAT-approved fiscal till", "Caja fiscal aprobada", "Фіскальна каса, схвалена податковою", "Фискальная касса, одобренная налоговой"),
+                href: "/product/cash-register",
+                icon: cashRegisterIcon,
+              },
+            ]
           : []),
-        { label: "Tap to Phone", sub: tr(lang, "Coming soon", "Muy pronto"), href: "/product/tap-to-phone", icon: tapToPhoneIcon },
+        { label: "Tap to Phone", sub: tr(lang, "Coming soon", "Muy pronto", "Незабаром", "Скоро"), href: "/product/tap-to-phone", icon: tapToPhoneIcon },
       ],
     },
     {
       title: "Retail",
-      desc: tr(lang, "Manage the money side of your business.", "Gestiona la parte financiera de tu negocio."),
+      desc: tr(
+        lang,
+        "Manage the money side of your business.",
+        "Gestiona la parte financiera de tu negocio.",
+        "Керуйте фінансами свого бізнесу.",
+        "Управляйте финансами своего бизнеса.",
+      ),
       items: [
-        { label: "Merchant Portal", sub: tr(lang, "Payments, payouts and reports", "Pagos, liquidaciones e informes"), href: "/merchant-portal", icon: portalIcon },
+        {
+          label: "Merchant Portal",
+          sub: tr(lang, "Payments, payouts and reports", "Pagos, liquidaciones e informes", "Платежі, виплати та звіти", "Платежи, выплаты и отчёты"),
+          href: "/merchant-portal",
+          icon: portalIcon,
+        },
       ],
     },
     {
       title: "HoReCa",
-      desc: tr(lang, "For cafés, bars and restaurants.", "Para cafeterías, bares y restaurantes."),
+      desc: tr(lang, "For cafés, bars and restaurants.", "Para cafeterías, bares y restaurantes.", "Для кав’ярень, барів і ресторанів.", "Для кафе, баров и ресторанов."),
       items: [
-        { label: "Click", sub: tr(lang, "Restaurant ordering, to the register", "Pedidos de restaurante, a la caja"), href: "/click", icon: clickIcon },
+        {
+          label: "Click",
+          sub: tr(lang, "Restaurant ordering, to the register", "Pedidos de restaurante, a la caja", "Замовлення в ресторані – одразу на касу", "Заказы в ресторане – сразу на кассу"),
+          href: "/click",
+          icon: clickIcon,
+        },
       ],
     },
   ];

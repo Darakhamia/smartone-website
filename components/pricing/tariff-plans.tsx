@@ -12,10 +12,13 @@ import type { Tariffs } from "@/lib/pricing";
    larger volumes. The figures come from lib/pricing.ts (tariffsFor) – change
    them there, not here. */
 
-/** A figure from lib/pricing.ts in the language's own notation: 1,20 and 10.000 in Spanish. */
+/** A figure from lib/pricing.ts in the language's own notation: 1,20 and
+    10.000 in Spanish, 1,20 and 10 000 (a no-break space) in Ukrainian and
+    Russian. */
 export function figure(lang: Lang, value: string): string {
-  if (lang !== "es") return value;
-  return value.replace(/,/g, "\u0000").replace(/\./g, ",").replace(/\u0000/g, ".");
+  if (lang === "en") return value;
+  const thousands = lang === "es" ? "." : "\u00a0";
+  return value.replace(/,/g, "\u0000").replace(/\./g, ",").replace(/\u0000/g, thousands);
 }
 
 function copyFor(lang: Lang, c: string, t: Tariffs) {
@@ -73,6 +76,58 @@ function copyFor(lang: Lang, c: string, t: Tariffs) {
         cta: "Consulta tu tarifa",
       },
       points: ["Sin permanencia", "Cobros en cualquier cuenta bancaria de la UE", "Sin otros pagos"],
+    },
+    {
+      light: {
+        name: "Light",
+        band: `Для продажів карткою до ${c}${f(t.cap)} на місяць`,
+        main: "особисті картки з ЄС",
+        fixed: `+ ${c}${f(t.fixed)} за операцію`,
+        others: [
+          { label: "Корпоративні картки з ЄС", rate: t.rates.corporate },
+          { label: "Картки, випущені за межами ЄС", rate: t.rates.foreign },
+        ],
+        rent: "Орендуйте термінал",
+        rentPrice: `${c}${f(t.price.rent)} / місяць`,
+        buy: "Або купіть його",
+        buyPrice: `${c}${f(t.price.buy)}`,
+        vat: "Ціни з ПДВ.",
+        cta: "Замовити термінал →",
+      },
+      individual: {
+        name: "Individual",
+        band: `Для продажів карткою понад ${c}${f(t.cap)} на місяць`,
+        main: "Ваша власна ставка",
+        sub: "Погоджуємо з вами залежно від обороту та карток, які ви приймаєте.",
+        cta: "Дізнатися свою ставку",
+      },
+      points: ["Без мінімального терміну", "Виплати на будь-який банківський рахунок у ЄС", "Жодних інших комісій"],
+    },
+    {
+      light: {
+        name: "Light",
+        band: `Для продаж картой до ${c}${f(t.cap)} в месяц`,
+        main: "личные карты из ЕС",
+        fixed: `+ ${c}${f(t.fixed)} за операцию`,
+        others: [
+          { label: "Корпоративные карты из ЕС", rate: t.rates.corporate },
+          { label: "Карты, выпущенные за пределами ЕС", rate: t.rates.foreign },
+        ],
+        rent: "Арендуйте терминал",
+        rentPrice: `${c}${f(t.price.rent)} / месяц`,
+        buy: "Или купите его",
+        buyPrice: `${c}${f(t.price.buy)}`,
+        vat: "Цены с НДС.",
+        cta: "Заказать терминал →",
+      },
+      individual: {
+        name: "Individual",
+        band: `Для продаж картой свыше ${c}${f(t.cap)} в месяц`,
+        main: "Ваша собственная ставка",
+        sub: "Согласуем с вами в зависимости от оборота и карт, которые вы принимаете.",
+        cta: "Узнать свою ставку",
+      },
+      points: ["Без минимального срока", "Выплаты на любой банковский счёт в ЕС", "Никаких других комиссий"],
     },
   );
 }

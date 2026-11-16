@@ -25,7 +25,7 @@ export function WelcomeScreen({
   const router = useRouter();
   const { lang } = useCountry();
   const t = DICT[lang];
-  const closeLabel = lang === "es" ? "Cerrar" : "Close";
+  const closeLabel = { en: "Close", es: "Cerrar", uk: "Закрити", ru: "Закрыть" }[lang];
 
   const destination = () => {
     const from = typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("from") : null;
@@ -64,7 +64,7 @@ export function WelcomeScreen({
         </div>
 
         <div className="relative mt-10 hidden text-[12.5px] text-ink-3 lg:block">
-          © {new Date().getFullYear()} SmartOne · Across Europe
+          © {new Date().getFullYear()} SmartOne · {{ en: "Across Europe", es: "En toda Europa", uk: "По всій Європі", ru: "По всей Европе" }[lang]}
         </div>
       </aside>
 
