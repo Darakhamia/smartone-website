@@ -25,6 +25,15 @@ export const metadata: Metadata = { title: "Privacy Policy" };
 export default async function PrivacyPage() {
   const country = await getActiveCountry();
   const emi = emiPartner(country);
+  /* lib/legal.ts names the regulator in English and Spanish only; these are the
+     Ukrainian and Russian forms (genitive), split by market the same way. */
+  const regulatorUkRu =
+    country.code === "uk"
+      ? {
+          uk: "Financial Conduct Authority (реєстраційний номер фірми 942777)",
+          ru: "Financial Conduct Authority (регистрационный номер фирмы 942777)",
+        }
+      : { uk: "Болгарського народного банку", ru: "Болгарского народного банка" };
   const lang = await getActiveLang();
   const c = tr(
     lang,
