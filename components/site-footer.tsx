@@ -15,8 +15,8 @@ export async function SiteFooter() {
   const t = DICT[lang].footer;
   const region =
     country.code === "es"
-      ? tr(lang, "Verifactu-ready for 2027", "Preparado para Verifactu 2027")
-      : tr(lang, "Connected payments across Europe", "Pagos conectados en toda Europa");
+      ? tr(lang, "Verifactu-ready for 2027", "Preparado para Verifactu 2027", "Готовність до Verifactu 2027", "Готовность к Verifactu 2027")
+      : tr(lang, "Connected payments across Europe", "Pagos conectados en toda Europa", "Зв’язані платежі по всій Європі", "Связанные платежи по всей Европе");
   const l = tr(
     lang,
     {
@@ -53,6 +53,40 @@ export async function SiteFooter() {
       cookieSettings: "Configuración de cookies",
       imprint: "Aviso legal",
     },
+    {
+      paymentsFiscal: "Платежі та фіскалізація",
+      payments: "Платежі",
+      horeca: "HoReCa",
+      cardReader: "Платіжний термінал",
+      cashRegister: "Касовий апарат",
+      whatIs: "Що це",
+      apiDocs: "Документація API",
+      pricing: "Ціни",
+      about: "Про нас",
+      industries: "Галузі",
+      contact: "Контакти",
+      privacy: "Політика конфіденційності",
+      cookies: "Політика щодо файлів cookie",
+      cookieSettings: "Налаштування cookie",
+      imprint: "Правова інформація",
+    },
+    {
+      paymentsFiscal: "Платежи и фискализация",
+      payments: "Платежи",
+      horeca: "HoReCa",
+      cardReader: "Платёжный терминал",
+      cashRegister: "Кассовый аппарат",
+      whatIs: "Что это",
+      apiDocs: "Документация API",
+      pricing: "Цены",
+      about: "О нас",
+      industries: "Отрасли",
+      contact: "Контакты",
+      privacy: "Политика конфиденциальности",
+      cookies: "Политика в отношении файлов cookie",
+      cookieSettings: "Настройки cookie",
+      imprint: "Правовая информация",
+    },
   );
 
   /* Names the licensed partner rather than "authorised financial partners",
@@ -60,10 +94,17 @@ export async function SiteFooter() {
      company, everyone else by the EEA one. Built here rather than kept in the
      dictionary because it depends on the active country, not just language. */
   const emi = emiPartner(country);
+  /* lib/legal.ts carries the regulator in English and Spanish only; the
+     Ukrainian and Russian names (genitive, after «під наглядом» / «под
+     надзором») are picked here from the same partner. */
+  const regulatorUk = emi.passported ? "Національного банку Болгарії" : "Financial Conduct Authority (FRN 942777)";
+  const regulatorRu = emi.passported ? "Национального банка Болгарии" : "Financial Conduct Authority (FRN 942777)";
   const disclaimer = tr(
     lang,
     `Product availability may vary by country. Payment, e-money and card-acquiring services are provided by ${emi.name}, an authorised electronic-money institution regulated by ${emi.regulator}; SmartOne is a technology provider and is not itself licensed. Settlement times are subject to banking days and the agreed commercial terms.`,
     `La disponibilidad de los productos puede variar según el país. Los servicios de pago, dinero electrónico y adquirencia de tarjetas los presta ${emi.name}, entidad de dinero electrónico autorizada y supervisada por ${emi.regulatorEs}; SmartOne es un proveedor tecnológico y no está licenciado como tal. Los plazos de liquidación dependen de los días bancarios y de las condiciones comerciales acordadas.`,
+    `Доступність продуктів може відрізнятися залежно від країни. Платіжні послуги, послуги з електронних грошей та еквайрингу карток надає ${emi.name}, авторизована установа електронних грошей під наглядом ${regulatorUk}; SmartOne – постачальник технологій і не має власної ліцензії. Строки зарахування коштів залежать від банківських днів і погоджених комерційних умов.`,
+    `Доступность продуктов может различаться в зависимости от страны. Платёжные услуги, услуги электронных денег и эквайринга карт предоставляет ${emi.name}, авторизованная организация электронных денег под надзором ${regulatorRu}; SmartOne – поставщик технологий и не имеет собственной лицензии. Сроки зачисления средств зависят от банковских дней и согласованных коммерческих условий.`,
   );
 
   // Mirrors the header's Product mega-menu: Payments & Fiscal, Merchant Portal, HoReCa.
