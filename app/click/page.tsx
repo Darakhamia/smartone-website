@@ -494,7 +494,7 @@ export default async function ClickPage() {
   const lang = await getActiveLang();
   const country = await getActiveCountry();
   const c = copyFor(lang);
-  // Spain publishes Click's price (its offer of 13.11); elsewhere it is quoted on request
+  // the pricing section shows only where Click's price is published (lib/pricing clickPricesFor) – nowhere for now
   const prices = clickPricesFor(country);
 
   return (

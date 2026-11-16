@@ -103,14 +103,19 @@ export function exampleSale(country: Country): { fee: string; receive: string } 
   return { fee: fee.toFixed(2), receive: (sale - fee).toFixed(2) };
 }
 
-/* SmartOne Click where it has a published price (Spain's offer of 13.11):
-   the software subscription with every module, and the counter set – a
-   terminal, receipt printer and cash drawer – as a one-off. VAT included. */
+/* SmartOne Click where its price is published on the site: the software
+   subscription with every module, and the counter set – a terminal, receipt
+   printer and cash drawer – as a one-off, VAT included. /click shows its
+   pricing section only for a market listed here.
+
+   None for now: the team asked (16.11.2026) not to publish Click's price on
+   the site yet. Spain's offer of 13.11 has it at €50 a month and €400 for the
+   counter set – to publish it, add
+     es: { monthly: "50", counterSet: "400" },
+   the section's copy is already there in all four languages. */
 export type ClickPrices = { monthly: string; counterSet: string };
 
-const CLICK_PRICES: Partial<Record<CountryCode, ClickPrices>> = {
-  es: { monthly: "50", counterSet: "400" },
-};
+const CLICK_PRICES: Partial<Record<CountryCode, ClickPrices>> = {};
 
 export function clickPricesFor(country: Country): ClickPrices | null {
   return CLICK_PRICES[country.code] ?? null;
