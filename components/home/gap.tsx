@@ -4,6 +4,7 @@ import { SeeInApp, type GapModal } from "@/components/home/gap-interactive";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 import { promotesRegister, SHOWCASE_DEVICE, type Lang } from "@/lib/countries";
+import { exampleSale } from "@/lib/pricing";
 
 /* "Why no one else does this": each gap is a row of its own – the claim on
    one side, the product that backs it on the other. Malta has two gaps, the
@@ -151,7 +152,20 @@ function RegisterVisual({ c, c$ }: { c: Copy; c$: string }) {
 /* The fees gap: a real transaction log behind, and on top the one line that
    matters – the sale, the fee taken from it, what reaches the merchant. Where
    the section has room (one gap, no register row) the terminal joins it. */
-function FeesVisual({ c, c$, withDevice, example }: { c: Copy; c$: string; withDevice: boolean; example: boolean }) {
+function FeesVisual({
+  c,
+  c$,
+  withDevice,
+  example,
+  sale,
+}: {
+  c: Copy;
+  c$: string;
+  withDevice: boolean;
+  example: boolean;
+  /** The fee and payout on the €24.60 example, in the market's own rate (lib/pricing). */
+  sale: { fee: string; receive: string };
+}) {
   return (
     <div className="relative h-[340px] overflow-hidden rounded-[28px] bg-bg-2 sm:h-[400px] lg:h-[460px]">
       <Image
@@ -180,9 +194,9 @@ function FeesVisual({ c, c$, withDevice, example }: { c: Copy; c$: string; withD
           <div className="flex justify-between text-ink-2"><span>{c.fees.sale}</span><span className="text-ink">{c$}24.60</span></div>
           <div className="mt-2 flex justify-between border-t border-dashed border-line-2 pt-2 text-ink-2">
             <span>{c.fees.fee}</span>
-            <span className="rounded-md bg-brand-tint px-1.5 font-semibold text-brand">−{c$}0.24</span>
+            <span className="rounded-md bg-brand-tint px-1.5 font-semibold text-brand">−{c$}{sale.fee}</span>
           </div>
-          <div className="mt-2 flex justify-between border-t border-line pt-2 font-semibold"><span>{c.fees.receive}</span><span>{c$}24.36</span></div>
+          <div className="mt-2 flex justify-between border-t border-line pt-2 font-semibold"><span>{c.fees.receive}</span><span>{c$}{sale.receive}</span></div>
         </div>
         {example && <div className="mt-3 text-[12px] text-ink-3">{c.fees.example}</div>}
       </div>
@@ -239,7 +253,7 @@ export async function Gap() {
                   <SeeInApp kind="portal" modal={c.modal} />
                 </div>
                 <div className="lg:order-1">
-                  <FeesVisual c={c} c$={c$} withDevice={false} example />
+                  <FeesVisual c={c} c$={c$} withDevice={false} example sale={exampleSale(country)} />
                 </div>
               </div>
             </Reveal>
@@ -258,7 +272,7 @@ export async function Gap() {
                 </ul>
                 <SeeInApp kind="portal" modal={c.modal} />
               </div>
-              <FeesVisual c={c} c$={c$} withDevice example={false} />
+              <FeesVisual c={c} c$={c$} withDevice example={false} sale={exampleSale(country)} />
             </div>
           </Reveal>
         )}

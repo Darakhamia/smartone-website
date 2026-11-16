@@ -5,11 +5,14 @@ import { useState } from "react";
 import { useCountry } from "@/components/country/country-context";
 import { tr } from "@/lib/dictionaries";
 import { promotesRegister, type Lang } from "@/lib/countries";
-import { termsFor, type PlanMode as Mode } from "@/lib/pricing";
+import { TariffPlans } from "@/components/pricing/tariff-plans";
+import { tariffsFor, termsFor, type PlanMode as Mode } from "@/lib/pricing";
 
 /* Buy / Rent plan picker – a segmented toggle over three volume-based tiers.
-   NOTE: rates, device prices and the volume bands are commercial terms and live
-   in lib/pricing.ts, keyed by market – change them there, not here. */
+   A market priced by card type instead (Spain) gets its own plans,
+   TariffPlans. NOTE: rates, device prices and the volume bands are commercial
+   terms and live in lib/pricing.ts, keyed by market – change them there, not
+   here. */
 
 function copyFor(lang: Lang) {
   return tr(
@@ -64,6 +67,8 @@ export function PlanPicker() {
   const [mode, setMode] = useState<Mode>("buy");
   const d = t.device[mode];
   const terms = termsFor(country);
+  const tariffs = tariffsFor(country);
+  if (tariffs) return <TariffPlans tariffs={tariffs} />;
 
   return (
     <div>

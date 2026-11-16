@@ -6,9 +6,10 @@
    language would work by accident and would hand Spain's rates to the next
    market that adds Spanish.
 
-   A market with no entry here uses DEFAULT_TERMS. Change commercial terms here
-   and nowhere else – the /pricing cards and the "Buy or rent" FAQ answer both
-   read from this file. */
+   A market with no entry here uses DEFAULT_TERMS. Spain is priced differently
+   and has its own model, Tariffs, below. Change commercial terms here and
+   nowhere else – the /pricing cards, the "Buy or rent" FAQ answer and the fee
+   example on the homepage all read from this file. */
 
 import type { Country, CountryCode } from "@/lib/countries";
 
@@ -35,11 +36,6 @@ const DEFAULT_TERMS: Terms = {
 };
 
 const TERMS: Partial<Record<CountryCode, Terms>> = {
-  es: {
-    bands: ["4,000", "15,000"],
-    rates: { buy: ["1.20", "1.00", "0.80"], rent: ["1.00", "0.90", "0.70"] },
-    price: { buy: flat("130"), rent: flat("20") },
-  },
   uk: {
     /* The UK prices differently from the other markets: the rate follows the
        volume band alone, so buying or renting changes what the device costs and
@@ -60,4 +56,49 @@ export function termsFor(country: Country): Terms {
     which in words, so it has to ask rather than assume. */
 export function rentUndercutsBuy(terms: Terms): boolean {
   return terms.rates.rent.some((rate, i) => Number(rate) < Number(terms.rates.buy[i]));
+}
+
+/* Spain (from 16.11.2026) has no volume bands. One published plan, Light,
+   covers card sales up to a cap and is priced by the kind of card – a
+   consumer card from the EU, a corporate card from the EU, a card from
+   outside it – with the same rate whether the terminal is bought or rented.
+   Above the cap is the Individual plan, a rate agreed with the merchant.
+   Both have no minimum term, pay out to any EU bank account and carry no
+   other fees. */
+export type Tariffs = {
+  /** Monthly card sales the Light plan covers, formatted for display. */
+  cap: string;
+  /** Light's rate per card transaction, by kind of card. */
+  rates: { consumer: string; corporate: string; foreign: string };
+  /** Fixed fee per transaction, on every kind of card. */
+  fixed: string;
+  /** The terminal: a one-off to buy, per month to rent. */
+  price: Record<PlanMode, string>;
+};
+
+const TARIFFS: Partial<Record<CountryCode, Tariffs>> = {
+  es: {
+    cap: "10,000",
+    rates: { consumer: "1.20", corporate: "2.30", foreign: "2.60" },
+    fixed: "0.02",
+    price: { buy: "169", rent: "20" },
+  },
+};
+
+/** The market's plans when it is priced by card type (Spain), else null. */
+export function tariffsFor(country: Country): Tariffs | null {
+  return TARIFFS[country.code] ?? null;
+}
+
+/* The fee and the payout on the 24.60 sale the homepage shows as its example:
+   the top band's rate where rates go by volume (0.90% + 0.02 in Malta), the
+   Light rate on a consumer card in Spain. Worked out here so the example
+   never quotes a rate the market doesn't charge. */
+export function exampleSale(country: Country): { fee: string; receive: string } {
+  const sale = 24.6;
+  const tariffs = tariffsFor(country);
+  const rate = Number(tariffs ? tariffs.rates.consumer : termsFor(country).rates.buy[2]);
+  // in cents: a rate in percent times the sale in euros, plus the 2-cent fixed fee
+  const fee = Math.round(sale * rate + 2) / 100;
+  return { fee: fee.toFixed(2), receive: (sale - fee).toFixed(2) };
 }

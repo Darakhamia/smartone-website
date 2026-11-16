@@ -2,8 +2,9 @@ import { Reveal } from "@/components/reveal";
 import { LogoMark } from "@/components/logo";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
+import { exampleSale } from "@/lib/pricing";
 
-function FeeVisual({ sale, fee, c$, note }: { sale: string; fee: string; c$: string; note?: string }) {
+function FeeVisual({ sale, fee, amount, c$, note }: { sale: string; fee: string; amount: string; c$: string; note?: string }) {
   return (
     <div>
       <div className="rounded-2xl bg-bg-2 p-4 font-mono text-[13px]">
@@ -13,7 +14,7 @@ function FeeVisual({ sale, fee, c$, note }: { sale: string; fee: string; c$: str
         </div>
         <div className="mt-2 flex items-baseline justify-between border-t border-dashed border-line-2 pt-2">
           <span className="text-ink-3">{fee}</span>
-          <b className="fee-pulse -mx-1.5 inline-block rounded-md px-1.5 font-semibold text-brand">−{c$}0.24</b>
+          <b className="fee-pulse -mx-1.5 inline-block rounded-md px-1.5 font-semibold text-brand">−{c$}{amount}</b>
         </div>
       </div>
       {note && <p className="mt-2 text-[12.5px] text-ink-3">{note}</p>}
@@ -97,12 +98,14 @@ export async function WhySwitch() {
   );
 
   const visuals = [
-    /* The fee shown is Malta's top band (0.90% + €0.02 on €24.60), so only
-       Malta says which volume it belongs to (homepage task §4). */
+    /* The fee shown is the market's own (lib/pricing exampleSale): Malta's top
+       band, 0.90% + €0.02 on €24.60, so only Malta says which volume it
+       belongs to (homepage task §4); Spain's Light rate on a consumer card. */
     <FeeVisual
       key="fee"
       sale={c.sale}
       fee={c.fee}
+      amount={exampleSale(country).fee}
       c$={country.currencySymbol}
       note={country.code === "mt" ? "Example: card sales over €15,000 a month." : undefined}
     />,

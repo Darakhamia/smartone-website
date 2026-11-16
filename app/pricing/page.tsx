@@ -7,6 +7,7 @@ import { PricingFaqJsonLd } from "@/components/seo/jsonld";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 import { promotesRegister } from "@/lib/countries";
+import { tariffsFor } from "@/lib/pricing";
 
 export const metadata: Metadata = {
   title: "Pricing",
@@ -18,19 +19,24 @@ export default async function PricingPage() {
   const country = await getActiveCountry();
   const lang = await getActiveLang();
   const register = promotesRegister(country);
+  // Spain is priced by card type, not by volume band (lib/pricing.ts)
+  const byCard = tariffsFor(country) !== null;
   const c = tr(
     lang,
     {
       eyebrow: "Pricing",
-      ratesHeading: "Rates by monthly card volume",
+      ratesHeading: byCard ? "Plans and rates" : "Rates by monthly card volume",
       titleA: "Transparent rates.",
       titleB: "No hidden fees.",
-      lead: "One rate per band, every fee shown up front. Buy the terminal or rent it – your call.",
+      lead: byCard
+        ? "One clear rate for each kind of card, every fee shown up front. Buy the terminal or rent it – your call."
+        : "One rate per band, every fee shown up front. Buy the terminal or rent it – your call.",
       included: register ? "Cash register, printer and portal included" : "Receipt printer and portal included",
-      footnote: "Rates shown are for domestic cards.",
+      footnote: byCard ? "" : "Rates shown are for domestic cards.",
       footnote2: "Paid to your own bank, T+1.",
-      smallprint:
-        "Corporate and international cards have their own clear rate, confirmed for your business. Device prices are indicative and confirmed for your country.",
+      smallprint: byCard
+        ? "Device prices are indicative and confirmed for your country."
+        : "Corporate and international cards have their own clear rate, confirmed for your business. Device prices are indicative and confirmed for your country.",
       honestEyebrow: "The honest bit",
       honestTitle: "What you'll never pay.",
       honestSub: "What you agreed at signing is exactly what you pay – nothing added, nothing hidden.",
@@ -47,15 +53,18 @@ export default async function PricingPage() {
     },
     {
       eyebrow: "Precios",
-      ratesHeading: "Tarifas por volumen mensual con tarjeta",
+      ratesHeading: byCard ? "Planes y tarifas" : "Tarifas por volumen mensual con tarjeta",
       titleA: "Tarifas transparentes.",
       titleB: "Sin comisiones ocultas.",
-      lead: "Una tarifa por tramo, cada comisión visible desde el principio. Compra el terminal o alquílalo, tú decides.",
+      lead: byCard
+        ? "Una tarifa clara para cada tipo de tarjeta, cada comisión visible desde el principio. Compra el terminal o alquílalo, tú decides."
+        : "Una tarifa por tramo, cada comisión visible desde el principio. Compra el terminal o alquílalo, tú decides.",
       included: register ? "Caja registradora, impresora y portal incluidos" : "Impresora de tickets y portal incluidos",
-      footnote: "Tarifas para tarjetas nacionales.",
+      footnote: byCard ? "" : "Tarifas para tarjetas nacionales.",
       footnote2: "Abonado a tu propio banco, T+1.",
-      smallprint:
-        "Las tarjetas corporativas e internacionales tienen su propia tarifa clara, confirmada para tu negocio. Los precios del dispositivo son orientativos y se confirman para tu país.",
+      smallprint: byCard
+        ? "Los precios del dispositivo son orientativos y se confirman para tu país."
+        : "Las tarjetas corporativas e internacionales tienen su propia tarifa clara, confirmada para tu negocio. Los precios del dispositivo son orientativos y se confirman para tu país.",
       honestEyebrow: "La parte honesta",
       honestTitle: "Lo que nunca pagarás.",
       honestSub: "Lo que acordaste al firmar es exactamente lo que pagas: nada añadido, nada oculto.",
@@ -104,7 +113,7 @@ export default async function PricingPage() {
           </Reveal>
           <Reveal>
             <p className="mx-auto mt-8 max-w-2xl text-center text-[12.5px] leading-relaxed text-ink-3">
-              {c.footnote} {c.included} · {c.footnote2}
+              {[c.footnote, c.included].filter(Boolean).join(" ")} · {c.footnote2}
             </p>
             {/* Legal qualifiers, set smaller so they don't compete with the
                 headline terms above – but not on a phone, where 11px is below

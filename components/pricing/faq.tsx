@@ -4,10 +4,27 @@ import Link from "next/link";
 import { useState } from "react";
 import { useCountry } from "@/components/country/country-context";
 import { tr } from "@/lib/dictionaries";
-import { promotesRegister } from "@/lib/countries";
-import { rentUndercutsBuy, termsFor } from "@/lib/pricing";
+import { promotesRegister, type Lang } from "@/lib/countries";
+import { figure } from "@/components/pricing/tariff-plans";
+import { rentUndercutsBuy, tariffsFor, termsFor, type Tariffs } from "@/lib/pricing";
 
 /* FAQ accordion, CSS grid-rows transitions, no animation libraries. */
+
+/* The two answers that describe how prices work, for a market priced by card
+   type (Spain) rather than by volume band. Figures from lib/pricing.ts. */
+function byCardAnswers(lang: Lang, c: string, t: Tariffs) {
+  const f = (v: string) => figure(lang, v);
+  const fx = `${c}${f(t.fixed)}`;
+  return lang === "es"
+    ? {
+        buyOrRent: `Tu tarifa es la misma en ambos casos. Alquilar el terminal cuesta ${c}${f(t.price.rent)} + IVA al mes; comprarlo, ${c}${f(t.price.buy)} + IVA una sola vez. Ninguna de las dos opciones tiene permanencia.`,
+        howDecided: `Según el tipo de tarjeta con la que paga tu cliente. Hasta ${c}${f(t.cap)} al mes en ventas con tarjeta tienes la tarifa Light: ${f(t.rates.consumer)}% + ${fx} con tarjetas de consumo de la UE, ${f(t.rates.corporate)}% + ${fx} con tarjetas corporativas de la UE y ${f(t.rates.foreign)}% + ${fx} con tarjetas de fuera de la UE. Por encima de ${c}${f(t.cap)} al mes acordamos contigo una tarifa Individual: habla con nosotros y la confirmamos en un día hábil.`,
+      }
+    : {
+        buyOrRent: `Your rate is the same either way. Renting the terminal is ${c}${f(t.price.rent)} + VAT a month; buying it is ${c}${f(t.price.buy)} + VAT, once. Neither has a minimum term.`,
+        howDecided: `By the kind of card your customer pays with. Up to ${c}${f(t.cap)} a month in card sales you're on Light: ${f(t.rates.consumer)}% + ${fx} on consumer cards from the EU, ${f(t.rates.corporate)}% + ${fx} on corporate cards from the EU and ${f(t.rates.foreign)}% + ${fx} on cards from outside the EU. Above ${c}${f(t.cap)} a month we agree an Individual rate with you – talk to us and we'll confirm it within one business day.`,
+      };
+}
 
 export function Faq() {
   const { country, lang } = useCountry();
@@ -19,6 +36,8 @@ export function Faq() {
   /* UK merchants are acquired by the FCA-authorised company, not the EEA one
      (lib/legal.ts emiPartner) – "EU acquirer" would be untrue there. */
   const uk = country.code === "uk";
+  const tariffs = tariffsFor(country);
+  const byCard = tariffs ? byCardAnswers(lang, country.currencySymbol, tariffs) : null;
   const c = tr(
     lang,
     {
@@ -31,8 +50,8 @@ export function Faq() {
         { q: "When do I get my money?", a: "Next business day (T+1). The portal shows exactly what's confirmed to pay you – net of commission, clearly shown." },
         { q: "Are there any hidden fees?", a: "No. Your commission is shown up front on every settlement in the portal. No setup fees, no monthly minimums, no surprise line items in a PDF statement." },
         { q: "How fast can I start taking payments?", a: register ? "Four business days or less from signing up to going live – including fiscal registration of the device for your market." : "Four business days or less from signing up to going live." },
-        { q: "Buy or rent – which is cheaper?", a: rentCheaper ? "Renting keeps your upfront cost low with a small monthly fee and a slightly lower transaction rate, on a one-year term. Buying is a one-off device cost with no minimum term. Either way, the same three volume bands apply." : "Your rate is the same either way – it follows your monthly card volume, not how you got the device. Renting is a monthly fee that falls as your volume grows; buying is a one-off device cost with nothing monthly. Either way, the same three volume bands apply." },
-        { q: "How is my rate decided?", a: "By your monthly card volume – the more you take, the lower the rate. Pick the band that fits on the table above; if you're near an edge or want a tailored quote, talk to us and we'll confirm your rate within one business day." },
+        { q: "Buy or rent – which is cheaper?", a: byCard ? byCard.buyOrRent : rentCheaper ? "Renting keeps your upfront cost low with a small monthly fee and a slightly lower transaction rate, on a one-year term. Buying is a one-off device cost with no minimum term. Either way, the same three volume bands apply." : "Your rate is the same either way – it follows your monthly card volume, not how you got the device. Renting is a monthly fee that falls as your volume grows; buying is a one-off device cost with nothing monthly. Either way, the same three volume bands apply." },
+        { q: "How is my rate decided?", a: byCard ? byCard.howDecided : "By your monthly card volume – the more you take, the lower the rate. Pick the band that fits on the table above; if you're near an edge or want a tailored quote, talk to us and we'll confirm your rate within one business day." },
       ],
     },
     {
@@ -45,8 +64,8 @@ export function Faq() {
         { q: "¿Cuándo recibo mi dinero?", a: "Al día hábil siguiente (T+1). El portal muestra exactamente lo que está confirmado para pagarte, neto de comisión y con total claridad." },
         { q: "¿Hay comisiones ocultas?", a: "No. Tu comisión se muestra por adelantado en cada liquidación en el portal. Sin cuotas de alta, sin mínimos mensuales, sin líneas sorpresa en un PDF." },
         { q: "¿En cuánto tiempo puedo empezar a cobrar?", a: register ? "En cuatro días hábiles o menos, desde el alta hasta estar operativo, incluida la registración fiscal del dispositivo para tu mercado." : "En cuatro días hábiles o menos, desde el alta hasta estar operativo." },
-        { q: "¿Comprar o alquilar? ¿Qué sale más barato?", a: rentCheaper ? "Alquilar mantiene bajo el coste inicial con una pequeña cuota mensual y una tarifa por operación algo más baja, con permanencia de un año. Comprar es un coste único del dispositivo, sin permanencia. En ambos casos aplican los mismos tres tramos por volumen." : "Tu tarifa es la misma en ambos casos: depende de tu volumen mensual con tarjeta, no de cómo conseguiste el dispositivo. El alquiler es una cuota mensual que baja según crece tu volumen; comprar es un coste único, sin cuota mensual. En ambos casos aplican los mismos tres tramos por volumen." },
-        { q: "¿Cómo se decide mi tarifa?", a: "Según tu volumen mensual con tarjeta: cuanto más cobras, más baja la tarifa. Elige el tramo que encaja en la tabla de arriba; si estás cerca de un límite o quieres una oferta a medida, habla con nosotros y confirmamos tu tarifa en un día hábil." },
+        { q: "¿Comprar o alquilar? ¿Qué sale más barato?", a: byCard ? byCard.buyOrRent : rentCheaper ? "Alquilar mantiene bajo el coste inicial con una pequeña cuota mensual y una tarifa por operación algo más baja, con permanencia de un año. Comprar es un coste único del dispositivo, sin permanencia. En ambos casos aplican los mismos tres tramos por volumen." : "Tu tarifa es la misma en ambos casos: depende de tu volumen mensual con tarjeta, no de cómo conseguiste el dispositivo. El alquiler es una cuota mensual que baja según crece tu volumen; comprar es un coste único, sin cuota mensual. En ambos casos aplican los mismos tres tramos por volumen." },
+        { q: "¿Cómo se decide mi tarifa?", a: byCard ? byCard.howDecided : "Según tu volumen mensual con tarjeta: cuanto más cobras, más baja la tarifa. Elige el tramo que encaja en la tabla de arriba; si estás cerca de un límite o quieres una oferta a medida, habla con nosotros y confirmamos tu tarifa en un día hábil." },
       ],
     },
   );
