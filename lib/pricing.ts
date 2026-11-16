@@ -72,7 +72,7 @@ export type Tariffs = {
   rates: { consumer: string; corporate: string; foreign: string };
   /** Fixed fee per transaction, on every kind of card. */
   fixed: string;
-  /** The terminal: a one-off to buy, per month to rent. */
+  /** The terminal, VAT included: a one-off to buy, per month to rent. */
   price: Record<PlanMode, string>;
 };
 
@@ -101,4 +101,17 @@ export function exampleSale(country: Country): { fee: string; receive: string } 
   // in cents: a rate in percent times the sale in euros, plus the 2-cent fixed fee
   const fee = Math.round(sale * rate + 2) / 100;
   return { fee: fee.toFixed(2), receive: (sale - fee).toFixed(2) };
+}
+
+/* SmartOne Click where it has a published price (Spain's offer of 13.11):
+   the software subscription with every module, and the counter set – a
+   terminal, receipt printer and cash drawer – as a one-off. VAT included. */
+export type ClickPrices = { monthly: string; counterSet: string };
+
+const CLICK_PRICES: Partial<Record<CountryCode, ClickPrices>> = {
+  es: { monthly: "50", counterSet: "400" },
+};
+
+export function clickPricesFor(country: Country): ClickPrices | null {
+  return CLICK_PRICES[country.code] ?? null;
 }

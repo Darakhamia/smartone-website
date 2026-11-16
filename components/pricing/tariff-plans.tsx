@@ -33,9 +33,10 @@ function copyFor(lang: Lang, c: string, t: Tariffs) {
           { label: "Cards from outside the EU", rate: t.rates.foreign },
         ],
         rent: "Rent the terminal",
-        rentPrice: `${c}${f(t.price.rent)} + VAT / month`,
+        rentPrice: `${c}${f(t.price.rent)} / month`,
         buy: "Or buy it",
-        buyPrice: `${c}${f(t.price.buy)} + VAT`,
+        buyPrice: `${c}${f(t.price.buy)}`,
+        vat: "Prices include VAT.",
         cta: "Get a terminal →",
       },
       individual: {
@@ -58,9 +59,10 @@ function copyFor(lang: Lang, c: string, t: Tariffs) {
           { label: "Tarjetas de fuera de la UE", rate: t.rates.foreign },
         ],
         rent: "Alquila el terminal",
-        rentPrice: `${c}${f(t.price.rent)} + IVA / mes`,
+        rentPrice: `${c}${f(t.price.rent)} / mes`,
         buy: "O cómpralo",
-        buyPrice: `${c}${f(t.price.buy)} + IVA`,
+        buyPrice: `${c}${f(t.price.buy)}`,
+        vat: "Precios con IVA incluido.",
         cta: "Solicita tu terminal →",
       },
       individual: {
@@ -131,6 +133,7 @@ export function TariffPlans({ tariffs }: { tariffs: Tariffs }) {
             <dd className="shrink-0 font-semibold">{t.light.buyPrice}</dd>
           </div>
         </dl>
+        <p className="mt-2 px-1 text-[12.5px] text-white/65">{t.light.vat}</p>
 
         <Points items={t.points} light />
 

@@ -20,9 +20,10 @@ import {
 import { Reveal } from "@/components/reveal";
 import { SectionHead } from "@/components/section-head";
 import { AppShot } from "@/components/product/app-shot";
-import { getActiveLang } from "@/lib/country-server";
+import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 import type { Lang } from "@/lib/countries";
+import { clickPricesFor } from "@/lib/pricing";
 
 export const metadata: Metadata = {
   title: "Click",
@@ -139,6 +140,16 @@ function copyFor(lang: Lang) {
         { name: "SmartOne terminal", text: "Takes the payment at the table" },
       ],
 
+      /* 12 · pricing (where Click has a published price – lib/pricing) */
+      priceEyebrow: "Pricing",
+      priceTitle: "What it costs.",
+      priceSub: "One subscription with every module, and the counter hardware if you need it.",
+      plans: [
+        { name: "SmartOne Click", per: "/ month", text: "Software subscription, all modules included." },
+        { name: "Pack Nova Counter Set", per: "one-off", text: "Terminal, receipt printer and cash drawer." },
+      ],
+      vat: "Prices include VAT.",
+
       /* final CTA */
       ctaTitle: "Ready to simplify restaurant operations?",
       ctaText: "Everything your restaurant needs – from the first setup to the final report.",
@@ -223,6 +234,15 @@ function copyFor(lang: Lang) {
         { name: "Terminal SmartOne", text: "Cobra en la mesa" },
       ],
 
+      priceEyebrow: "Precios",
+      priceTitle: "Lo que cuesta.",
+      priceSub: "Una suscripción con todos los módulos y, si lo necesitas, el equipo para la barra.",
+      plans: [
+        { name: "SmartOne Click", per: "/ mes", text: "Suscripción al software, todos los módulos incluidos." },
+        { name: "Kit Pack Nova", per: "pago único", text: "TPV, impresora de tickets y cajón portamonedas." },
+      ],
+      vat: "Precios con IVA incluido.",
+
       ctaTitle: "¿Listo para simplificar la operativa de tu restaurante?",
       ctaText: "Todo lo que tu restaurante necesita, desde la primera configuración hasta el informe final.",
     },
@@ -288,7 +308,10 @@ function Beat({
 
 export default async function ClickPage() {
   const lang = await getActiveLang();
+  const country = await getActiveCountry();
   const c = copyFor(lang);
+  // Spain publishes Click's price (its offer of 13.11); elsewhere it is quoted on request
+  const prices = clickPricesFor(country);
 
   return (
     <>
@@ -488,8 +511,35 @@ export default async function ClickPage() {
         </div>
       </section>
 
-      {/* final CTA */}
-      <section className="pb-24">
+      {/* 12 · pricing */}
+      {prices && (
+        <section className="bg-bg-2 py-22 lg:py-26">
+          <div className="mx-auto max-w-6xl px-6">
+            <SectionHead eyebrow={c.priceEyebrow} title={c.priceTitle} sub={c.priceSub} center />
+            <div className="mx-auto mt-12 grid max-w-3xl gap-4 sm:grid-cols-2">
+              {c.plans.map((plan, i) => (
+                <Reveal key={plan.name} delay={i * 90} className="h-full">
+                  <div className={`h-full rounded-3xl p-7 ${i === 0 ? "bg-brand-tint ring-1 ring-brand/20" : "bg-white ring-1 ring-line"}`}>
+                    <h3 className="text-[12.5px] font-semibold tracking-[0.08em] text-brand uppercase">{plan.name}</h3>
+                    <p className="mt-3 flex items-baseline gap-2">
+                      <span className="h-display text-[44px] leading-none tracking-tight">
+                        {country.currencySymbol}
+                        {i === 0 ? prices.monthly : prices.counterSet}
+                      </span>
+                      <span className="text-[15px] font-medium text-ink-2">{plan.per}</span>
+                    </p>
+                    <p className="mt-3 text-[15px] leading-relaxed text-ink-2">{plan.text}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+            <p className="mt-5 text-center text-[13px] text-ink-3">{c.vat}</p>
+          </div>
+        </section>
+      )}
+
+      {/* final CTA – after the grey pricing band it needs room above it too */}
+      <section className={`pb-24 ${prices ? "pt-22 lg:pt-26" : ""}`}>
         <div className="mx-auto max-w-6xl px-6">
           <Reveal>
             <div className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-brand to-brand-d px-8 py-14 text-center text-white">

@@ -17,11 +17,11 @@ function byCardAnswers(lang: Lang, c: string, t: Tariffs) {
   const fx = `${c}${f(t.fixed)}`;
   return lang === "es"
     ? {
-        buyOrRent: `Tu tarifa es la misma en ambos casos. Alquilar el terminal cuesta ${c}${f(t.price.rent)} + IVA al mes; comprarlo, ${c}${f(t.price.buy)} + IVA una sola vez. Ninguna de las dos opciones tiene permanencia.`,
+        buyOrRent: `Tu tarifa es la misma en ambos casos. Alquilar el terminal cuesta ${c}${f(t.price.rent)} al mes; comprarlo, ${c}${f(t.price.buy)} una sola vez, IVA incluido en ambos casos. Ninguna de las dos opciones tiene permanencia.`,
         howDecided: `Según el tipo de tarjeta con la que paga tu cliente. Hasta ${c}${f(t.cap)} al mes en ventas con tarjeta tienes la tarifa Light: ${f(t.rates.consumer)}% + ${fx} con tarjetas de consumo de la UE, ${f(t.rates.corporate)}% + ${fx} con tarjetas corporativas de la UE y ${f(t.rates.foreign)}% + ${fx} con tarjetas de fuera de la UE. Por encima de ${c}${f(t.cap)} al mes acordamos contigo una tarifa Individual: habla con nosotros y la confirmamos en un día hábil.`,
       }
     : {
-        buyOrRent: `Your rate is the same either way. Renting the terminal is ${c}${f(t.price.rent)} + VAT a month; buying it is ${c}${f(t.price.buy)} + VAT, once. Neither has a minimum term.`,
+        buyOrRent: `Your rate is the same either way. Renting the terminal is ${c}${f(t.price.rent)} a month; buying it is ${c}${f(t.price.buy)}, once – both including VAT. Neither has a minimum term.`,
         howDecided: `By the kind of card your customer pays with. Up to ${c}${f(t.cap)} a month in card sales you're on Light: ${f(t.rates.consumer)}% + ${fx} on consumer cards from the EU, ${f(t.rates.corporate)}% + ${fx} on corporate cards from the EU and ${f(t.rates.foreign)}% + ${fx} on cards from outside the EU. Above ${c}${f(t.cap)} a month we agree an Individual rate with you – talk to us and we'll confirm it within one business day.`,
       };
 }
