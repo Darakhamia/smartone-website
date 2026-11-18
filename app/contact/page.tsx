@@ -1,16 +1,14 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-meta-server";
 import { pageSeo } from "@/lib/seo";
 import { Reveal } from "@/components/reveal";
 import { LeadForm } from "@/components/lead/lead-form";
 import { getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 
-export const metadata: Metadata = {
-  title: "Contact",
-  description:
-    "Get a terminal or talk to sales. Tell us about your business and we'll get back to you within one business day.",
-  ...pageSeo("/contact"),
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return { ...(await pageMetadata("contact")), ...pageSeo("/contact") };
+}
 
 const icons = [
   <path key="0" d="M12 7v5l3.5 2M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />,

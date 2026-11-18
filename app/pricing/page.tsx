@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-meta-server";
 import { pageSeo } from "@/lib/seo";
 import Link from "next/link";
 import { Reveal } from "@/components/reveal";
@@ -10,12 +11,9 @@ import { tr } from "@/lib/dictionaries";
 import { promotesRegister } from "@/lib/countries";
 import { tariffsFor } from "@/lib/pricing";
 
-export const metadata: Metadata = {
-  title: "Pricing",
-  description:
-    "Transparent rates. No hidden fees. One rate per band, every fee shown up front. Buy the terminal or rent it – your call.",
-  ...pageSeo("/pricing"),
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return { ...(await pageMetadata("pricing")), ...pageSeo("/pricing") };
+}
 
 export default async function PricingPage() {
   const country = await getActiveCountry();

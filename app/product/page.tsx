@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-meta-server";
 import { pageSeo } from "@/lib/seo";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,12 +9,9 @@ import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 import { promotesRegister, terminalModel, TERMINAL_MODELS, type CountryCode, type Lang } from "@/lib/countries";
 
-export const metadata: Metadata = {
-  title: "Product",
-  description:
-    "A fiscal cash register and payment terminal in one device – plus the Merchant Portal behind it. The complete solution, not just a card machine.",
-  ...pageSeo("/product"),
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return { ...(await pageMetadata("product")), ...pageSeo("/product") };
+}
 
 const icons = {
   cardReader: (

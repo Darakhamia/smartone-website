@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-meta-server";
 import { pageSeo } from "@/lib/seo";
 import Image from "next/image";
 import Link from "next/link";
@@ -11,12 +12,9 @@ import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 import { promotesRegister, terminalModel, TERMINAL_MODELS, type Lang, type TerminalModel } from "@/lib/countries";
 
-export const metadata: Metadata = {
-  title: "Terminals",
-  description:
-    "The SmartOne payment terminal: card, contactless and cash on one device, with the receipt printer built in. Not just a card machine.",
-  ...pageSeo("/product/terminals"),
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return { ...(await pageMetadata("terminals")), ...pageSeo("/product/terminals") };
+}
 
 const factIcons = [
   <path key="0" d="M6 2h12v20l-3-2-3 2-3-2-3 2V2Zm3 5h6M9 11h6" />,

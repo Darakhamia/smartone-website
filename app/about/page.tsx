@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-meta-server";
 import { pageSeo } from "@/lib/seo";
 import Link from "next/link";
 import {
@@ -22,12 +23,9 @@ import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 import { promotesRegister } from "@/lib/countries";
 
-export const metadata: Metadata = {
-  title: "About",
-  description:
-    "SmartOne is a European fintech company helping small and medium-sized businesses accept payments, manage sales and simplify daily operations – enterprise-level technology without enterprise-level complexity.",
-  ...pageSeo("/about"),
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return { ...(await pageMetadata("about")), ...pageSeo("/about") };
+}
 
 // order matches c.platform
 const platformIcons: LucideIcon[] = [Smartphone, Globe, LayoutDashboard, Calculator, QrCode, LineChart, Boxes, Cloud];
@@ -48,6 +46,13 @@ export default async function AboutPage() {
       lead: "SmartOne is a European fintech company helping small and medium-sized businesses simplify the way they accept payments, manage sales and run their daily operations.",
       cta1: "Get a terminal →",
       cta2: "Talk to us",
+
+      /* Confirmed by Mark, 10.11.2026 – the same figures as the approved
+         comparison page. Change them only with a new confirmation. */
+      stats: [
+        { value: "200,000+", label: "SmartOne terminals deployed worldwide" },
+        { value: "15", label: "countries with SmartOne projects" },
+      ],
 
       storyEyebrow: "Why we exist",
       storyTitle: "Less admin. More business.",
@@ -100,6 +105,11 @@ export default async function AboutPage() {
       cta1: "Solicita tu terminal →",
       cta2: "Habla con nosotros",
 
+      stats: [
+        { value: "200.000+", label: "terminales SmartOne instalados en todo el mundo" },
+        { value: "15", label: "países con proyectos SmartOne" },
+      ],
+
       storyEyebrow: "Por qué existimos",
       storyTitle: "Menos gestión. Más negocio.",
       story: [
@@ -151,6 +161,11 @@ export default async function AboutPage() {
       cta1: "Замовити термінал →",
       cta2: "Зв’язатися з нами",
 
+      stats: [
+        { value: "200\u00a0000+", label: "терміналів SmartOne встановлено по всьому світу" },
+        { value: "15", label: "країн із проєктами SmartOne" },
+      ],
+
       storyEyebrow: "Навіщо ми існуємо",
       storyTitle: "Менше рутини. Більше бізнесу.",
       story: [
@@ -201,6 +216,11 @@ export default async function AboutPage() {
       lead: "SmartOne – европейская финтех-компания, которая помогает малому и среднему бизнесу проще принимать оплату, управлять продажами и вести повседневную работу.",
       cta1: "Заказать терминал →",
       cta2: "Связаться с нами",
+
+      stats: [
+        { value: "200\u00a0000+", label: "терминалов SmartOne установлено по всему миру" },
+        { value: "15", label: "стран с проектами SmartOne" },
+      ],
 
       storyEyebrow: "Зачем мы существуем",
       storyTitle: "Меньше рутины. Больше бизнеса.",
@@ -275,6 +295,24 @@ export default async function AboutPage() {
               <Link href="/contact" className="btn-ghost">{c.cta2}</Link>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* 1b · the numbers */}
+      <section className="pb-24">
+        <div className="mx-auto max-w-6xl px-6">
+          <Reveal>
+            <dl className="grid gap-4 sm:grid-cols-2">
+              {c.stats.map((s) => (
+                <div key={s.label} className="flex flex-col-reverse justify-end rounded-3xl border border-line bg-white p-7 sm:p-9">
+                  <dt className="mt-3 text-[16px] leading-snug text-ink-2">{s.label}</dt>
+                  <dd className="h-display bg-gradient-to-r from-brand via-[#7b3ce8] to-[#a86cf5] bg-clip-text text-[clamp(44px,5.6vw,68px)] leading-none text-transparent tabular-nums">
+                    {s.value}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </Reveal>
         </div>
       </section>
 

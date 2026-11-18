@@ -24,7 +24,10 @@ export const metadata: Metadata = {
     template: "%s – SmartOne",
   },
   description:
-    "A fiscal cash register and payment terminal in one device – plus a portal with clear fees. The rate you signed up for is the rate you pay.",
+    /* Fallback only – every indexable page sets its own, per market, from
+       lib/page-meta.ts. Kept free of the cash register: it shows on pages of
+       every market, and the register is promoted in Malta only. */
+    "A payment terminal and business tools in one device – plus a portal with clear fees. The rate you signed up for is the rate you pay.",
   /* No canonical here: a layout-level one is inherited by every page that
      doesn't set its own, and "/" made the whole site a duplicate of the
      homepage. Each page sets its own through pageSeo() in lib/seo.ts. These

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-meta-server";
 import { pageSeo } from "@/lib/seo";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,12 +11,9 @@ import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 import { promotesRegister, terminalModel, TERMINAL_MODELS, type CountryCode, type Lang } from "@/lib/countries";
 
-export const metadata: Metadata = {
-  title: "Cash register",
-  description:
-    "A fiscal cash register built into the device you already use to take payments. Fiscal receipts, Z-reports and fiscal registration for the market you trade in.",
-  ...pageSeo("/product/cash-register"),
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return { ...(await pageMetadata("cashRegister")), ...pageSeo("/product/cash-register") };
+}
 
 const whatIcons = [
   <path key="0" d="M6 2h12v20l-3-2-3 2-3-2-3 2V2Zm3 5h6M9 11h6m-6 4h4" />,

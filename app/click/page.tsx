@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-meta-server";
 import { pageSeo } from "@/lib/seo";
 import Link from "next/link";
 import {
@@ -26,12 +27,9 @@ import { tr } from "@/lib/dictionaries";
 import type { Lang } from "@/lib/countries";
 import { clickPricesFor } from "@/lib/pricing";
 
-export const metadata: Metadata = {
-  title: "Click",
-  description:
-    "SmartOne Click is a restaurant management platform: back office, POS, kitchen display, staff, multi-location and analytics in one connected system.",
-  ...pageSeo("/click"),
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return { ...(await pageMetadata("click")), ...pageSeo("/click") };
+}
 
 /* Every screenshot on this page is a real capture of the Click back office and
    POS, not a redrawn mock. They are 1960×1004 – the ratio is passed to AppShot
