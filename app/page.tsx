@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Hero } from "@/components/home/hero";
 import { Breadth } from "@/components/home/breadth";
 import { WhySwitch } from "@/components/home/why-switch";
@@ -12,6 +13,11 @@ import { GotDoubts } from "@/components/home/got-doubts";
 import { Proof, SHOW_PROOF } from "@/components/home/proof";
 import { FinalCta } from "@/components/home/final-cta";
 import { getActiveCountry } from "@/lib/country-server";
+import { pageMetadata } from "@/lib/page-meta-server";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return { ...(await pageMetadata("home")) };
+}
 
 /* Section order follows the homepage task (13.10.2026). The four sections
    written for Malta – where you're starting from, the local partner, the

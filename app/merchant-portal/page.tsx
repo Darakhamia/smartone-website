@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-meta-server";
 import Link from "next/link";
 import {
   LayoutDashboard,
@@ -31,11 +32,9 @@ import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 import { promotesRegister, type Lang } from "@/lib/countries";
 
-export const metadata: Metadata = {
-  title: "Merchant Portal",
-  description:
-    "Track sales, card payments, fees and settlements across every store and terminal – from one secure portal. Included with every SmartOne terminal.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return { ...(await pageMetadata("merchantPortal")) };
+}
 
 function copyFor(lang: Lang) {
   return tr(

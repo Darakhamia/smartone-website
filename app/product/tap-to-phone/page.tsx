@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-meta-server";
 import Link from "next/link";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 
-export const metadata: Metadata = {
-  title: "Tap to Phone",
-  description: "Accept contactless payments on a phone – no extra hardware. SmartOne Tap to Phone is coming soon.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return { ...(await pageMetadata("tapToPhone")) };
+}
 
 export default async function TapToPhonePage() {
   const country = await getActiveCountry();

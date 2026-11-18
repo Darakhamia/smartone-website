@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-meta-server";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -21,11 +22,9 @@ import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 import { currencyWord, terminalModel, TERMINAL_MODELS, type Lang } from "@/lib/countries";
 
-export const metadata: Metadata = {
-  title: "Industries",
-  description:
-    "One device, your kind of business. Festivals, retail, cafés, beauty, mobile vendors and more – SmartOne fits the counter you already run.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return { ...(await pageMetadata("industries")) };
+}
 
 type Industry = {
   id: string;

@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-meta-server";
 import { LegalLayout, type LegalSection } from "@/components/legal/legal-layout";
 import { getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 import { COMPANY } from "@/lib/legal";
 
-export const metadata: Metadata = { title: "Cookie Policy" };
+export async function generateMetadata(): Promise<Metadata> {
+  return { ...(await pageMetadata("cookies")) };
+}
 
 /* Legal text agreed with counsel – the English is final wording, so change it
    only with sign-off. Keep it in sync with what the site actually stores and

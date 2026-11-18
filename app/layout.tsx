@@ -23,7 +23,10 @@ export const metadata: Metadata = {
     template: "%s – SmartOne",
   },
   description:
-    "A fiscal cash register and payment terminal in one device – plus a portal with clear fees. The rate you signed up for is the rate you pay.",
+    /* Fallback only – every indexable page sets its own, per market, from
+       lib/page-meta.ts. Kept free of the cash register: it shows on pages of
+       every market, and the register is promoted in Malta only. */
+    "A payment terminal and business tools in one device – plus a portal with clear fees. The rate you signed up for is the rate you pay.",
   alternates: { canonical: "/" },
   /* Lets anyone confirm which build is actually live:
        curl -s https://smartoneglobal.com/ | grep x-build

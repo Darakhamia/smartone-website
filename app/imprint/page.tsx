@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-meta-server";
 import { LegalLayout, type LegalSection } from "@/components/legal/legal-layout";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 import { COMPANY, emiPartner } from "@/lib/legal";
 
-export const metadata: Metadata = { title: "Legal Notice" };
+export async function generateMetadata(): Promise<Metadata> {
+  return { ...(await pageMetadata("imprint")) };
+}
 
 /* Legal Notice / Imprint. Required by the Malta e-Commerce Act (Cap. 426,
    implementing Dir. 2000/31 Art. 5) and the Companies Act (Cap. 386 s.82):
