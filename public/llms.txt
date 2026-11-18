@@ -10,7 +10,7 @@ Key facts:
 - Transparent pricing: every fee shown up front. No settlement fees, no inactivity fees, no monthly minimums.
 - Payouts go to the merchant's own existing bank account, next business day (T+1). Payments are processed by a licensed payment partner.
 - The Merchant Portal shows net amounts and the commission actually paid for every settlement.
-- Usually live in 4 business days or less from sign-up, including fiscal registration of the device where the market requires it.
+- Usually live in 4 business days or less from your request, including fiscal registration of the device where the market requires it.
 
 ## Countries
 The site serves every country from the same URLs; the visitor picks a country, and pages without a choice show Malta.
@@ -23,6 +23,8 @@ The site serves every country from the same URLs; the visitor picks a country, a
 ## Pages
 - [Home](https://smartoneglobal.com/): what the device does and why merchants switch
 - [Cash register](https://smartoneglobal.com/product/cash-register): the VAT-approved fiscal cash register in Malta; fiscal readiness and Verifactu in other markets
+- [Fiscal cash register in Malta](https://smartoneglobal.com/malta/fiscal-cash-register): the VAT-approved fiscal cash register in Malta — no EXO number needed
+- [Malta: compare](https://smartoneglobal.com/malta/compare): SmartOne's first-year cost compared with a card reader plus a separate register
 - [Terminal](https://smartoneglobal.com/product/terminals): the country's payment terminal, photos and full specifications
 - [Merchant Portal](https://smartoneglobal.com/merchant-portal): sales, card payments, fees and settlements across every store and terminal
 - [Pricing](https://smartoneglobal.com/pricing): rates by monthly card volume (by card type in Spain), buy vs rent, FAQ

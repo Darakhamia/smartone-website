@@ -1,12 +1,11 @@
 /* Per-page SEO metadata: canonical URL, Open Graph and the Twitter card.
 
-   Every indexable page spreads pageSeo() with its own path into its metadata:
+   Every indexable page spreads pageSeo() with its own path into its metadata,
+   next to its title and description (per market, from lib/page-meta.ts):
 
-     export const metadata: Metadata = {
-       title: "Pricing",
-       description: "…",
-       ...pageSeo("/pricing"),
-     };
+     export async function generateMetadata(): Promise<Metadata> {
+       return { ...(await pageMetadata("pricing")), ...pageSeo("/pricing") };
+     }
 
    The path is resolved against metadataBase (SITE_URL, set in app/layout.tsx),
    so canonical and og:url come out as https://smartoneglobal.com/pricing. A
@@ -14,9 +13,8 @@
    homepage, which is what told search engines every page was a copy of "/".
 
    og:title and og:description are not set here: Next fills them from the
-   page's own title (with the "– SmartOne" template) and description, so the
-   share card can't drift from the <title>. The Twitter card inherits all three
-   from Open Graph. */
+   page's own title and description, so the share card can't drift from the
+   <title>. The Twitter card inherits all three from Open Graph. */
 
 import type { Metadata } from "next";
 
