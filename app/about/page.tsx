@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/page-meta-server";
+import { pageSeo } from "@/lib/seo";
 import Link from "next/link";
 import {
   Smartphone,
@@ -23,7 +24,7 @@ import { tr } from "@/lib/dictionaries";
 import { promotesRegister } from "@/lib/countries";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return { ...(await pageMetadata("about")) };
+  return { ...(await pageMetadata("about")), ...pageSeo("/about") };
 }
 
 // order matches c.platform

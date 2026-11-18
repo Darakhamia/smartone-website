@@ -47,7 +47,7 @@ restart.
 
 | Build arg | Purpose |
 | --- | --- |
-| `ENABLE_HSTS` | Set to `1` to add `Strict-Transport-Security` (2 years, includeSubDomains, preload) and `upgrade-insecure-requests` to the CSP. **Leave unset until HTTPS is live and verified on the production domain** — HSTS is effectively irreversible for the length of its max-age, and `upgrade-insecure-requests` breaks a build still served over plain HTTP. |
+| `ENABLE_HSTS` | On by default (HTTPS is live on the production domain): `Strict-Transport-Security: max-age=31536000` — one year, no includeSubDomains, no preload — and `upgrade-insecure-requests` in the CSP. Set to `0` only for a build served over plain HTTP. |
 | `NEXT_PUBLIC_SITE_URL` | Overrides the canonical origin. Only for a staging build that should advertise itself (e.g. `https://staging.example.com`) instead of the production domain. Leave unset in production. An empty value falls back to the canonical domain. |
 
 ### Security headers
@@ -122,7 +122,9 @@ this check in a clean browser profile whenever tags in the container change:
 
 ### TODOs before launch
 
-- HTTPS live on `smartoneglobal.com`, then rebuild with `ENABLE_HSTS=1`
+- Force HTTPS (http → https, 301) in the hosting panel or LiteSpeed – the app
+  can't see the original scheme, so it can't do this itself (see
+  `hostRedirects` in `next.config.ts`)
 - Create the `info@smartoneglobal.com` mailbox — it is already published in
   `/imprint`, `/privacy` and `/cookies` (see `lib/legal.ts`)
 - Confirm the Paynetics wording in `/imprint` and the footer disclaimer with

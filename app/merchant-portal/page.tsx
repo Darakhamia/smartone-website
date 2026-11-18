@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/page-meta-server";
+import { pageSeo } from "@/lib/seo";
 import Link from "next/link";
 import {
   LayoutDashboard,
@@ -33,7 +34,7 @@ import { tr } from "@/lib/dictionaries";
 import { promotesRegister, type Lang } from "@/lib/countries";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return { ...(await pageMetadata("merchantPortal")) };
+  return { ...(await pageMetadata("merchantPortal")), ...pageSeo("/merchant-portal") };
 }
 
 function copyFor(lang: Lang) {

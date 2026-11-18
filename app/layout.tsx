@@ -15,6 +15,7 @@ import { OrgJsonLd } from "@/components/seo/jsonld";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { BUILD_ID } from "@/lib/build-info";
 import { SITE_URL } from "@/lib/site";
+import { OG_BASE } from "@/lib/seo";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -27,7 +28,12 @@ export const metadata: Metadata = {
        lib/page-meta.ts. Kept free of the cash register: it shows on pages of
        every market, and the register is promoted in Malta only. */
     "A payment terminal and business tools in one device – plus a portal with clear fees. The rate you signed up for is the rate you pay.",
-  alternates: { canonical: "/" },
+  /* No canonical here: a layout-level one is inherited by every page that
+     doesn't set its own, and "/" made the whole site a duplicate of the
+     homepage. Each page sets its own through pageSeo() in lib/seo.ts. These
+     Open Graph defaults cover the pages that don't (404, login, welcome). */
+  openGraph: OG_BASE,
+  twitter: { card: "summary_large_image" },
   /* Lets anyone confirm which build is actually live:
        curl -s https://smartoneglobal.com/ | grep x-build
      Not indexable content – search engines ignore unknown meta names. */

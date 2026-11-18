@@ -1,17 +1,18 @@
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/page-meta-server";
+import { pageSeo } from "@/lib/seo";
 import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 import { PlanPicker } from "@/components/pricing/plan-picker";
 import { Faq } from "@/components/pricing/faq";
-import { PricingFaqJsonLd } from "@/components/seo/jsonld";
+import { PricingFaqJsonLd, ProductJsonLd } from "@/components/seo/jsonld";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 import { promotesRegister } from "@/lib/countries";
 import { tariffsFor } from "@/lib/pricing";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return { ...(await pageMetadata("pricing")) };
+  return { ...(await pageMetadata("pricing")), ...pageSeo("/pricing") };
 }
 
 export default async function PricingPage() {
@@ -213,6 +214,7 @@ export default async function PricingPage() {
       <section className="py-24">
         <div className="mx-auto max-w-6xl px-6">
           <PricingFaqJsonLd />
+          <ProductJsonLd country={country} />
           <Faq />
         </div>
       </section>

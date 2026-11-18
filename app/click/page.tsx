@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/page-meta-server";
+import { pageSeo } from "@/lib/seo";
 import Link from "next/link";
 import {
   LayoutGrid,
@@ -27,7 +28,7 @@ import type { Lang } from "@/lib/countries";
 import { clickPricesFor } from "@/lib/pricing";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return { ...(await pageMetadata("click")) };
+  return { ...(await pageMetadata("click")), ...pageSeo("/click") };
 }
 
 /* Every screenshot on this page is a real capture of the Click back office and

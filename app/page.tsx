@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageSeo } from "@/lib/seo";
 import { Hero } from "@/components/home/hero";
 import { Breadth } from "@/components/home/breadth";
 import { WhySwitch } from "@/components/home/why-switch";
@@ -16,7 +17,7 @@ import { getActiveCountry } from "@/lib/country-server";
 import { pageMetadata } from "@/lib/page-meta-server";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return { ...(await pageMetadata("home")) };
+  return { ...(await pageMetadata("home")), ...pageSeo("/") };
 }
 
 /* Section order follows the homepage task (13.10.2026). The four sections

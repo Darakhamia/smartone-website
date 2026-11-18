@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/page-meta-server";
+import { pageSeo } from "@/lib/seo";
 import { StubPage } from "@/components/stub-page";
 import { getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return { ...(await pageMetadata("spain")) };
+  return { ...(await pageMetadata("spain")), ...pageSeo("/es") };
 }
 
 /* Deadline-driven lead-gen page (Segment B) – full version to come. */

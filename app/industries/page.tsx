@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/page-meta-server";
+import { pageSeo } from "@/lib/seo";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -23,7 +24,7 @@ import { tr } from "@/lib/dictionaries";
 import { currencyWord, terminalModel, TERMINAL_MODELS, type Lang } from "@/lib/countries";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return { ...(await pageMetadata("industries")) };
+  return { ...(await pageMetadata("industries")), ...pageSeo("/industries") };
 }
 
 type Industry = {

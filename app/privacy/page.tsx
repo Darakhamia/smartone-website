@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/page-meta-server";
+import { pageSeo } from "@/lib/seo";
 import { LegalLayout, type LegalSection } from "@/components/legal/legal-layout";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 import { COMPANY, emiPartner, IDPC } from "@/lib/legal";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return { ...(await pageMetadata("privacy")) };
+  return { ...(await pageMetadata("privacy")), ...pageSeo("/privacy") };
 }
 
 /* Privacy policy. It describes what the site actually does – keep the two in

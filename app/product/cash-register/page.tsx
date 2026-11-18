@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/page-meta-server";
+import { pageSeo } from "@/lib/seo";
 import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "@/components/reveal";
@@ -11,7 +12,7 @@ import { tr } from "@/lib/dictionaries";
 import { promotesRegister, terminalModel, TERMINAL_MODELS, type CountryCode, type Lang } from "@/lib/countries";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return { ...(await pageMetadata("cashRegister")) };
+  return { ...(await pageMetadata("cashRegister")), ...pageSeo("/product/cash-register") };
 }
 
 const whatIcons = [

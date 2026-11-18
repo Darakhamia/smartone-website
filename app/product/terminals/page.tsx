@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/page-meta-server";
+import { pageSeo } from "@/lib/seo";
 import Image from "next/image";
 import Link from "next/link";
 import { Check } from "lucide-react";
@@ -12,7 +13,7 @@ import { tr } from "@/lib/dictionaries";
 import { promotesRegister, terminalModel, TERMINAL_MODELS, type Lang, type TerminalModel } from "@/lib/countries";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return { ...(await pageMetadata("terminals")) };
+  return { ...(await pageMetadata("terminals")), ...pageSeo("/product/terminals") };
 }
 
 const factIcons = [

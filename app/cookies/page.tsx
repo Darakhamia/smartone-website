@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/page-meta-server";
+import { pageSeo } from "@/lib/seo";
 import { LegalLayout, type LegalSection } from "@/components/legal/legal-layout";
 import { getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 import { COMPANY } from "@/lib/legal";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return { ...(await pageMetadata("cookies")) };
+  return { ...(await pageMetadata("cookies")), ...pageSeo("/cookies") };
 }
 
 /* Legal text agreed with counsel – the English is final wording, so change it

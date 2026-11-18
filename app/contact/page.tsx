@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/page-meta-server";
+import { pageSeo } from "@/lib/seo";
 import { Reveal } from "@/components/reveal";
 import { LeadForm } from "@/components/lead/lead-form";
 import { getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return { ...(await pageMetadata("contact")) };
+  return { ...(await pageMetadata("contact")), ...pageSeo("/contact") };
 }
 
 const icons = [
