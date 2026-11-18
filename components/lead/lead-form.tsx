@@ -3,12 +3,14 @@
 import { useRef, useState } from "react";
 import { PhoneField, COUNTRY_DIAL, flag } from "@/components/lead/phone-field";
 import { useCountry } from "@/components/country/country-context";
+import { CardVolumeOptions } from "@/components/lead/card-volume";
 import { PrivacyNote } from "@/components/lead/privacy-note";
 import { fieldCls, selectCls } from "@/components/lead/styles";
 import { submitLead } from "@/components/lead/submit-lead";
 import { ATTRIBUTION_FIELDS } from "@/lib/attribution";
 import { readFirstTouch } from "@/lib/consent";
 import { tr } from "@/lib/dictionaries";
+import { ACQUIRERS, HOW_HEARD, type HowHeard } from "@/lib/leads";
 import { COMPANY } from "@/lib/legal";
 import { LEAD_ENDPOINT } from "@/lib/links";
 import { trackLead } from "@/lib/tags";
@@ -19,9 +21,36 @@ import { trackLead } from "@/lib/tags";
    chosen. Either one taking it counts as sent. The field `name` attributes
    and every <option> value are fixed by the endpoint contract – do not rename
    or retype them (note the en-dash in "€4,000–€15,000"). Labels, order and
-   styling are ours. */
+   styling are ours.
+
+   Three fields now offer more than the endpoint's own form does (its page at
+   the endpoint's origin lists them): the providers in "Who processes your
+   cards today?", the market's own card-sales bands (the UK's and Spain's
+   differ from the endpoint's €4,000/€15,000), and the choices in "How did you
+   hear about us?". Telegram gets them as chosen; the endpoint gets only what
+   its contract has – see forEndpoint below. */
 
 const ENDPOINT = LEAD_ENDPOINT;
+
+/* What the endpoint's own form offers, exactly as it spells it. Its code is
+   not in this repository, so we don't know whether it turns away a value
+   outside these lists; nothing outside them is sent. */
+const ENDPOINT_ACQUIRERS = ["Bank", "SumUp", "myPOS", "Zettle", "Revolut", "None", "Other"];
+const ENDPOINT_VOLUMES = ["Under €4,000", "€4,000–€15,000", "Over €15,000"];
+
+/* The payload for the endpoint: a provider it doesn't list becomes "Other",
+   card sales in bands it doesn't have are left out (the field is optional
+   there). how_heard is free text there, so it goes as it is. */
+function forEndpoint(data: Record<string, string>): Record<string, string> {
+  const out = { ...data };
+  if (out.current_acquirer && !ENDPOINT_ACQUIRERS.includes(out.current_acquirer)) out.current_acquirer = "Other";
+  if (out.monthly_card_volume && !ENDPOINT_VOLUMES.includes(out.monthly_card_volume)) out.monthly_card_volume = "";
+  return out;
+}
+
+/* The provider names are brands and stay as they are; these three are
+   translated. */
+const ACQUIRER_LABEL = { Bank: "bank", None: "none", Other: "other" } as const;
 
 /* Active country code → the exact <option value> the endpoint expects. Keep it
    in step with the options below; a value it doesn't recognise is worse than
@@ -49,7 +78,6 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 
 export function LeadForm() {
   const { country: activeCountry, lang } = useCountry();
-  const c$ = activeCountry.currencySymbol;
   /* Only the display text is translated – every <option> value stays exactly
      as the endpoint contract expects it. */
   const t = tr(
@@ -77,11 +105,14 @@ export function LeadForm() {
       bank: "Bank",
       none: "None",
       volumeL: "Monthly card sales (optional)",
-      under: `Under ${c$}4,000`,
-      mid: `${c$}4,000–${c$}15,000`,
-      over: `Over ${c$}15,000`,
       messageL: "Anything you'd like to ask? (optional)",
       heardL: "How did you hear about us? (optional)",
+      heardGoogle: "Google search",
+      heardAi: "ChatGPT or another AI assistant",
+      heardSocial: "Facebook or Instagram",
+      heardRecommendation: "A recommendation",
+      heardPartner: "Our partner in Malta",
+      heardOtherL: "Where exactly? (optional)",
       submit: "Contact sales",
       sending: "Sending…",
       reply: "We'll reply within one business day.",
@@ -113,11 +144,14 @@ export function LeadForm() {
       bank: "Banco",
       none: "Ninguno",
       volumeL: "Ventas mensuales con tarjeta (opcional)",
-      under: `Menos de ${c$}4,000`,
-      mid: `${c$}4,000–${c$}15,000`,
-      over: `Más de ${c$}15,000`,
       messageL: "¿Algo que quieras preguntar? (opcional)",
       heardL: "¿Cómo nos conociste? (opcional)",
+      heardGoogle: "Búsqueda en Google",
+      heardAi: "ChatGPT u otro asistente de IA",
+      heardSocial: "Facebook o Instagram",
+      heardRecommendation: "Una recomendación",
+      heardPartner: "Nuestro socio en Malta",
+      heardOtherL: "¿Dónde exactamente? (opcional)",
       submit: "Contactar con ventas",
       sending: "Enviando…",
       reply: "Respondemos en un día hábil.",
@@ -149,11 +183,14 @@ export function LeadForm() {
       bank: "Банк",
       none: "Ніхто",
       volumeL: "Продажі карткою за місяць (необов’язково)",
-      under: `Менше ніж ${c$}4 000`,
-      mid: `${c$}4 000–${c$}15 000`,
-      over: `Понад ${c$}15 000`,
       messageL: "Хочете щось запитати? (необов’язково)",
       heardL: "Як ви про нас дізналися? (необов’язково)",
+      heardGoogle: "Пошук у Google",
+      heardAi: "ChatGPT або інший ШІ-асистент",
+      heardSocial: "Facebook або Instagram",
+      heardRecommendation: "Рекомендація",
+      heardPartner: "Наш партнер на Мальті",
+      heardOtherL: "Де саме? (необов’язково)",
       submit: "Зв’язатися з нами",
       sending: "Надсилаємо…",
       reply: "Відповімо протягом одного робочого дня.",
@@ -185,11 +222,14 @@ export function LeadForm() {
       bank: "Банк",
       none: "Никто",
       volumeL: "Продажи картой за месяц (необязательно)",
-      under: `Менее ${c$}4 000`,
-      mid: `${c$}4 000–${c$}15 000`,
-      over: `Более ${c$}15 000`,
       messageL: "Хотите что-то спросить? (необязательно)",
       heardL: "Как вы о нас узнали? (необязательно)",
+      heardGoogle: "Поиск в Google",
+      heardAi: "ChatGPT или другой ИИ-ассистент",
+      heardSocial: "Facebook или Instagram",
+      heardRecommendation: "Рекомендация",
+      heardPartner: "Наш партнёр на Мальте",
+      heardOtherL: "Где именно? (необязательно)",
       submit: "Связаться с нами",
       sending: "Отправляем…",
       reply: "Ответим в течение одного рабочего дня.",
@@ -207,6 +247,19 @@ export function LeadForm() {
      lead endpoint's contract, hence the map rather than the country name. */
   const initialCountry = COUNTRY_BY_CODE[activeCountry.code] ?? "";
   const [country, setCountry] = useState(initialCountry);
+  /* "Other" opens a line to say where; the lead gets "Other: <that>". */
+  const [heard, setHeard] = useState<HowHeard | "">("");
+  const [heardOther, setHeardOther] = useState("");
+  // our partner is in Malta, so only the Malta site offers it
+  const heardOptions = HOW_HEARD.filter((h) => h !== "Our partner in Malta" || activeCountry.code === "mt");
+  const heardLabel: Record<HowHeard, string> = {
+    "Google search": t.heardGoogle,
+    "ChatGPT or another AI assistant": t.heardAi,
+    "Facebook or Instagram": t.heardSocial,
+    "A recommendation": t.heardRecommendation,
+    "Our partner in Malta": t.heardPartner,
+    Other: t.other,
+  };
   const [phone, setPhone] = useState(
     initialCountry && COUNTRY_DIAL[initialCountry] ? `+${COUNTRY_DIAL[initialCountry]} ` : "",
   );
@@ -241,11 +294,13 @@ export function LeadForm() {
       const input = el as HTMLInputElement;
       if (input.name) data[input.name] = input.value;
     });
+    const detail = heardOther.trim();
+    if (heard === "Other" && detail) data.how_heard = `Other: ${detail}`.slice(0, 300);
 
     const toEndpoint = fetch(ENDPOINT, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
+      body: JSON.stringify(forEndpoint(data)),
     }).then(
       (r) => r.ok,
       () => false,
@@ -333,21 +388,17 @@ export function LeadForm() {
         <Field label={t.acquirerL}>
           <select name="current_acquirer" defaultValue="" className={selectCls}>
             <option value="">{t.choose}</option>
-            <option value="Bank">{t.bank}</option>
-            <option>SumUp</option>
-            <option>myPOS</option>
-            <option>Zettle</option>
-            <option>Revolut</option>
-            <option value="None">{t.none}</option>
-            <option value="Other">{t.other}</option>
+            {ACQUIRERS.map((a) => (
+              <option key={a} value={a}>
+                {a in ACQUIRER_LABEL ? t[ACQUIRER_LABEL[a as keyof typeof ACQUIRER_LABEL]] : a}
+              </option>
+            ))}
           </select>
         </Field>
         <Field label={t.volumeL}>
           <select name="monthly_card_volume" defaultValue="" className={selectCls}>
             <option value="">{t.choose}</option>
-            <option value="Under €4,000">{t.under}</option>
-            <option value="€4,000–€15,000">{t.mid}</option>
-            <option value="Over €15,000">{t.over}</option>
+            <CardVolumeOptions country={activeCountry} lang={lang} />
           </select>
         </Field>
       </div>
@@ -359,9 +410,34 @@ export function LeadForm() {
       </div>
       <div className="mt-4">
         <Field label={t.heardL}>
-          <input name="how_heard" maxLength={300} className={fieldCls} />
+          <select
+            name="how_heard"
+            value={heard}
+            onChange={(e) => setHeard(e.target.value as HowHeard | "")}
+            className={selectCls}
+          >
+            <option value="">{t.choose}</option>
+            {heardOptions.map((h) => (
+              <option key={h} value={h}>
+                {heardLabel[h]}
+              </option>
+            ))}
+          </select>
         </Field>
       </div>
+      {heard === "Other" && (
+        <div className="mt-4">
+          {/* no name: it travels inside how_heard, see onSubmit */}
+          <Field label={t.heardOtherL}>
+            <input
+              value={heardOther}
+              onChange={(e) => setHeardOther(e.target.value)}
+              maxLength={200}
+              className={fieldCls}
+            />
+          </Field>
+        </div>
+      )}
 
       {/* honeypot – visually hidden, must NOT be display:none, must stay in DOM */}
       <input
