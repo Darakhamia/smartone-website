@@ -22,8 +22,18 @@ import { Reveal } from "@/components/reveal";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 import { currencyWord, promotesRegister, terminalModel, TERMINAL_MODELS, type Lang } from "@/lib/countries";
+import { industryPagesFor, INDUSTRY_SHARED } from "@/lib/industries";
+import { MaltaIndustriesIndex } from "@/components/industries/malta-index";
 
+/* Malta gets its own index (components/industries/malta-index.tsx) linking
+   to the industry pages, with its title and description from
+   lib/industries.ts; every other market keeps the page below and the title
+   and description from lib/page-meta.ts. */
 export async function generateMetadata(): Promise<Metadata> {
+  if (industryPagesFor(await getActiveCountry())) {
+    const { title, description } = INDUSTRY_SHARED.index;
+    return { title: { absolute: title }, description, ...pageSeo("/industries") };
+  }
   return { ...(await pageMetadata("industries")), ...pageSeo("/industries") };
 }
 
@@ -443,6 +453,7 @@ function IndustrySection({ ind, i, get, sales, clickCallout }: { ind: Industry; 
 
 export default async function IndustriesPage() {
   const country = await getActiveCountry();
+  if (industryPagesFor(country)) return <MaltaIndustriesIndex />;
   const lang = await getActiveLang();
   // One device per country: never name a model the visitor's market can't buy.
   const c = copyFor(lang, TERMINAL_MODELS[terminalModel(country)].name, currencyWord(country, lang), country.fiscal, promotesRegister(country));
