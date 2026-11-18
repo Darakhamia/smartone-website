@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageSeo } from "@/lib/seo";
 import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "@/components/reveal";
@@ -11,6 +12,7 @@ export const metadata: Metadata = {
   title: "Product",
   description:
     "A fiscal cash register and payment terminal in one device – plus the Merchant Portal behind it. The complete solution, not just a card machine.",
+  ...pageSeo("/product"),
 };
 
 const icons = {

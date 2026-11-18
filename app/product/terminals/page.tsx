@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageSeo } from "@/lib/seo";
 import Image from "next/image";
 import Link from "next/link";
 import { Check } from "lucide-react";
@@ -13,6 +14,7 @@ export const metadata: Metadata = {
   title: "Terminals",
   description:
     "The SmartOne payment terminal: card, contactless and cash on one device, with the receipt printer built in. Not just a card machine.",
+  ...pageSeo("/product/terminals"),
 };
 
 const factIcons = [

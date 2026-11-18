@@ -1,6 +1,7 @@
 /* schema.org structured data (JSON-LD).
    <OrgJsonLd /> — rendered once in app/layout.tsx.
    <PricingFaqJsonLd /> — rendered on app/pricing/page.tsx.
+   <ProductJsonLd /> — rendered on app/pricing/page.tsx, Malta only (below).
 
    IMPORTANT: the FAQ text below is taken verbatim from the visible /pricing
    FAQ (components/pricing/faq.tsx, Malta/register variant — the default that
@@ -9,11 +10,21 @@
 
 import { COMPANY } from "@/lib/legal";
 import { SITE_URL } from "@/lib/site";
+import { terminalModel, TERMINAL_MODELS, type Country } from "@/lib/countries";
+import { termsFor } from "@/lib/pricing";
+
+const ORG_ID = `${SITE_URL}/#organization`;
+
+/* The brand's own profiles, for Organization.sameAs. Only accounts that are
+   confirmed to be ours – a wrong one tells search engines a stranger's page
+   is SmartOne. Add LinkedIn, Instagram and the like here once confirmed. */
+const SOCIAL_PROFILES = ["https://www.facebook.com/smartoneworld"];
 
 export function OrgJsonLd() {
   const data = {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": ORG_ID,
     name: "SmartOne",
     /* The registered entity behind the brand – same values as /imprint and the
        footer, so the structured data can't contradict the published notice. */
@@ -32,6 +43,7 @@ export function OrgJsonLd() {
     vatID: COMPANY.vat,
     identifier: COMPANY.registrationNumber,
     email: COMPANY.email,
+    sameAs: SOCIAL_PROFILES,
   };
   return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />;
 }
@@ -76,6 +88,51 @@ export function PricingFaqJsonLd() {
       name: question,
       acceptedAnswer: { "@type": "Answer", text: answer },
     })),
+  };
+  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />;
+}
+
+/* The device as a Product with its purchase price, for Malta only.
+
+   One URL serves every market and the country comes from a cookie, so a
+   crawler – which sends none – always gets the default market, Malta. Malta
+   is also the only market whose price is a single published figure on
+   /pricing (the Buy card, "+ VAT"); Google wants the offer in the markup to be
+   what the page shows. Rendering another market's offer would only ever reach
+   visitors, never a search engine, so it isn't rendered at all.
+
+   The model is the one terminalModel() gives the market – never a mix – and
+   the price is the Buy price from lib/pricing.ts, VAT excluded as the card
+   says. If Malta's price ever varies by volume band, this has to change from
+   a single Offer to an AggregateOffer. */
+export function ProductJsonLd({ country }: { country: Country }) {
+  if (country.code !== "mt") return null;
+  const model = TERMINAL_MODELS[terminalModel(country)];
+  const price = termsFor(country).price.buy[0];
+  const data = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: model.name,
+    image: `${SITE_URL}${model.dir}/hero.webp`,
+    description:
+      "Card payment terminal with a VAT-approved fiscal cash register and receipt printer built in, plus the Merchant Portal.",
+    brand: { "@type": "Brand", name: "SmartOne" },
+    manufacturer: { "@id": ORG_ID },
+    offers: {
+      "@type": "Offer",
+      url: `${SITE_URL}/pricing`,
+      price,
+      priceCurrency: country.currency,
+      priceSpecification: {
+        "@type": "UnitPriceSpecification",
+        price,
+        priceCurrency: country.currency,
+        valueAddedTaxIncluded: false,
+      },
+      eligibleRegion: { "@type": "Country", name: "MT" },
+      availability: "https://schema.org/InStock",
+      seller: { "@id": ORG_ID },
+    },
   };
   return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />;
 }
