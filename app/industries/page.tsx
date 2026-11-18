@@ -20,12 +20,25 @@ import { Reveal } from "@/components/reveal";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 import { currencyWord, terminalModel, TERMINAL_MODELS, type Lang } from "@/lib/countries";
+import { industryPagesFor, INDUSTRY_SHARED } from "@/lib/industries";
+import { SITE_URL } from "@/lib/site";
+import { MaltaIndustriesIndex } from "@/components/industries/malta-index";
 
-export const metadata: Metadata = {
-  title: "Industries",
-  description:
-    "One device, your kind of business. Festivals, retail, cafés, beauty, mobile vendors and more – SmartOne fits the counter you already run.",
-};
+/* Malta gets its own index (components/industries/malta-index.tsx) linking
+   to the industry pages; every other market keeps the page below. */
+export async function generateMetadata(): Promise<Metadata> {
+  const canonical = `${SITE_URL}/industries`;
+  if (industryPagesFor(await getActiveCountry())) {
+    const { title, description } = INDUSTRY_SHARED.index;
+    return { title: { absolute: title }, description, alternates: { canonical } };
+  }
+  return {
+    title: "Industries",
+    description:
+      "One device, your kind of business. Festivals, retail, cafés, beauty, mobile vendors and more – SmartOne fits the counter you already run.",
+    alternates: { canonical },
+  };
+}
 
 type Industry = {
   id: string;
@@ -440,6 +453,7 @@ function IndustrySection({ ind, i, get, sales, clickCallout }: { ind: Industry; 
 
 export default async function IndustriesPage() {
   const country = await getActiveCountry();
+  if (industryPagesFor(country)) return <MaltaIndustriesIndex />;
   const lang = await getActiveLang();
   // One device per country: never name a model the visitor's market can't buy.
   const c = copyFor(lang, TERMINAL_MODELS[terminalModel(country)].name, currencyWord(country, lang), country.fiscal);

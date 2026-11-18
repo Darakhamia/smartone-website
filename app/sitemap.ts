@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/site";
+import { INDUSTRIES } from "@/lib/industries";
 
 /* Substantive, indexable routes. The /welcome and /login utility pages are
    left out on purpose (they're also disallowed in robots + noindex), and so is
@@ -17,6 +18,7 @@ const PAGES = [
   "/merchant-portal",
   "/click",
   "/industries",
+  ...INDUSTRIES.map((i) => `/industries/${i.slug}`),
   "/about",
   "/contact",
   "/imprint",
