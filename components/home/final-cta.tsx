@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 import { GetStarted } from "@/components/home/get-started";
-import { TalkToUs } from "@/components/lead/talk-to-us";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 
@@ -37,7 +36,8 @@ export async function FinalCta() {
   );
   /* Malta has one button, Talk to us, which opens the call-back form (Alex's
      correction, 15.10.2026: no Get started, no self-employed / Ltd choice).
-     The "Prefer to talk?" line opens the same form. */
+     There is no second button and no "Prefer to talk?" line under it: they
+     opened the same form. */
   const malta = country.code === "mt";
 
   return (
@@ -63,18 +63,6 @@ export async function FinalCta() {
               </>
             )}
           </div>
-          {malta && (
-            // a <div>, not a <p>: the form's <dialog> renders in here, and a
-            // <p> can't contain it
-            <div className="mt-6 text-[14.5px] text-white/75">
-              <TalkToUs
-                location="final-line"
-                className="underline decoration-white/40 underline-offset-4 transition-colors hover:text-white hover:decoration-white"
-              >
-                Prefer to talk? Leave your name and number and we&apos;ll call you.
-              </TalkToUs>
-            </div>
-          )}
         </div>
       </Reveal>
     </section>

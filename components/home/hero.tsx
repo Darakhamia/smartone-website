@@ -245,7 +245,7 @@ export async function Hero() {
           </div>
           {malta && (
             <p className="anim-focus-in anim-d-3 mt-4 text-[13.5px] text-ink-3">
-              Free to create · usually live in 4 working days from sign-up
+              Our partner in Malta calls you back · usually live in 4 working days
             </p>
           )}
         </div>

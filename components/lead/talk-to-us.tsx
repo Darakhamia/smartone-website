@@ -4,10 +4,11 @@ import { useRef } from "react";
 import { CallbackForm } from "@/components/lead/callback-form";
 import { Modal } from "@/components/modal";
 
-/* A button that opens the call-back form (CallbackForm) in a window. Get
-   started and Talk to us are both this, with their own wording, source and
-   GTM attributes – data-track and data-location as the homepage task fixes
-   them, so keep their values. */
+/* A button that opens the call-back form (CallbackForm) in a window. Both
+   GetStarted (components/home/get-started.tsx) and TalkToUs below are this:
+   both read "Talk to us" now (Alex's correction, 15.10.2026) but keep their
+   own source and GTM attributes – data-track and data-location as the
+   homepage task fixes them, so keep their values. */
 export function LeadButton({
   source,
   track,
@@ -49,8 +50,10 @@ export function LeadButton({
   );
 }
 
-/* "Talk to us" on the Malta homepage. `children` replaces the button text
-   (the "Prefer to talk?" line under the final CTA opens the same form). */
+/* "Talk to us" with the source talk_to_us and data-track cta-talk-to-us.
+   The Malta homepage no longer uses it – its one button is GetStarted, which
+   keeps the old get_started identifiers for GTM. `children` replaces the
+   button text. */
 export function TalkToUs({
   location,
   className,
