@@ -15,12 +15,18 @@
      the prototype's text.
    – image alts describe the photos actually in public/industries (the
      prototype's alts were written for other shots).
+   Alex's edits of 18.11.2026 (industry-pages-task-david-2026-11-18.md) are
+   applied on top: no "in the portal" on products and prices yet (back when
+   the catalog is live there), "Next day" for T+1, the device on the first
+   screen, the "What it replaces" line, "Trades & services" as the name of
+   /industries/services (the slug stays). The Z-report stays "on the device"
+   until the portal reports are released.
 
    The copy is Malta's: fiscal receipts, EXO, the cash register. It is shown
    only where promotesRegister() holds (see industryPagesFor below) – never
    reuse it for another market. Do not add claims that are not in the source. */
 
-import { COUNTRY_MAP, promotesRegister, type Country } from "@/lib/countries";
+import { COUNTRY_MAP, promotesRegister, terminalModel, TERMINAL_MODELS, type Country } from "@/lib/countries";
 import { termsFor } from "@/lib/pricing";
 
 /** Whether the Malta industry pages are served to this market. They talk
@@ -29,9 +35,19 @@ export function industryPagesFor(country: Country): boolean {
   return promotesRegister(country);
 }
 
+/* The device shown on the first screen of every page: the one model the pages'
+   own market sells (terminalModel – Malta: SmartOne Bank Pro S). */
+const model = TERMINAL_MODELS[terminalModel(COUNTRY_MAP.mt)];
+export const INDUSTRY_DEVICE = { src: `${model.dir}/hero.webp`, alt: `The ${model.name}` };
+
+/* "Study on the payment attitudes of consumers in the euro area (SPACE) –
+   2024": Malta's cash share of point-of-sale payments behind "2 in 3". */
+const ECB_SPACE_2024 = "https://www.ecb.europa.eu/stats/ecb_surveys/space/html/ecb.space2024~19d46f0f17.en.html";
+
 /* Prices, rates and the rental term for the pages' own market. */
 const terms = termsFor(COUNTRY_MAP.mt);
-const rent = `€${terms.price.rent[0]} + VAT a month`;
+const rentPrice = `€${terms.price.rent[0]} + VAT`;
+const rent = `${rentPrice} a month`;
 const buy = `€${terms.price.buy[0]} + VAT`;
 const cardFee = `${terms.rates.rent[0]}% + €${terms.fixed}`;
 const rentTerm = terms.rentTermMonths ? `${terms.rentTermMonths}-month term.` : "";
@@ -53,9 +69,12 @@ export type Industry = {
   sub: string;
   chips: string[];
   moments: { when: string; title: string; text: string }[];
-  /** `source` may be empty – then no source line is shown. */
-  fact: { big: string; text: string; source: string };
+  /** `source` may be empty – then no source line is shown; `sourceHref`
+      makes it a link. */
+  fact: { big: string; text: string; source: string; sourceHref?: string };
   faq: { q: string; a: string };
+  /** "What it replaces" line, shown right above "What stays with you" */
+  replaces: string;
   stays: string;
   finalH2: string;
 };
@@ -69,14 +88,14 @@ export const INDUSTRY_SHARED = {
   factSourceLabel: "Source",
   price: {
     eyebrow: "Pricing",
-    heading: "One device, one price.",
+    heading: "One device. Rent it or buy it.",
     items: [
       { label: "Rent", value: rent, note: rentTerm },
       { label: "Or buy", value: buy, note: "No minimum term." },
       {
         label: "Card fee",
         value: cardFee,
-        note: `Rental plan, local cards, up to €${terms.bands[0]} a month. Lower above that.`,
+        note: `Rental plan, domestic cards, up to €${terms.bands[0]} a month. Lower above that.`,
       },
     ],
     foot: "Cash register, receipt printer and merchant portal included. Bought separately, a fiscal cash register alone costs €800–1,200.",
@@ -90,9 +109,10 @@ export const INDUSTRY_SHARED = {
     /* shown under the answer; not part of the FAQPage text */
     link: { label: "More on the fiscal cash register →", href: "/malta/fiscal-cash-register" },
   },
+  replacesLabel: "What it replaces",
   staysLabel: "What stays with you",
   finalSub:
-    "Leave your number and a few details. Our partner in Malta calls you back. Usually live in four business days or less once the details are agreed with them.",
+    "Leave your number and a few details. Our partner in Malta calls you back. Usually live in four business days once the details are agreed with them.",
   othersLabel: "Other industries",
   index: {
     title: "Industries – SmartOne Malta",
@@ -110,7 +130,7 @@ export const INDUSTRIES: Industry[] = [
   {
     slug: "cafes",
     cardTitle: "Cafés & HoReCa",
-    cardLine: "Orders reach the register",
+    cardLine: "From order to fiscal receipt",
     image: "/industries/cafes.jpg",
     imageAlt: "Latte art in coffee cups on a café table",
     title: "Cash register and card machine for cafés in Malta – SmartOne",
@@ -128,11 +148,13 @@ export const INDUSTRIES: Industry[] = [
       big: "2 in 3",
       text: "in-store payments in Malta are still made in cash. SmartOne puts cash and cards on the same register and the same Z-report.",
       source: "ECB SPACE study, 2024",
+      sourceHref: ECB_SPACE_2024,
     },
     faq: {
       q: "Do I need SmartOne Click to use the device?",
-      a: "No. The device works on its own as your cash register, card terminal and printer. Click adds tables, orders and a kitchen display when you need them.",
+      a: "No. The device works on its own as your cash register, card terminal and printer. SmartOne Click is a separate product that adds tables, orders and a kitchen display when you need them.",
     },
+    replaces: "The separate till, the bank's card machine and the receipt printer.",
     stays: "Reservations and delivery apps stay with the tools you use today.",
     finalH2: "Tell us about your café.",
   },
@@ -150,8 +172,8 @@ export const INDUSTRIES: Industry[] = [
     chips: ["Boutiques", "Gift shops", "Hardware stores", "Florists", "Pet shops"],
     moments: [
       { when: "At the counter", title: "Any way they pay", text: "Card, contactless or cash on the same screen, with one fiscal receipt at the end." },
-      { when: "Before you open", title: "Price it once", text: "Set products and prices in the portal. The register rings them up the same way every time." },
-      { when: "At month-end", title: "Know what sold", text: "Revenue, average basket and top categories for any period – plus the exact card fee, in euros." },
+      { when: "Before you open", title: "Price it once", text: "Set your products and prices once. The register rings them up the same way every time." },
+      { when: "At month-end", title: "Know what sold", text: "Revenue, average basket and top categories for any period – plus the card fee, in euros." },
     ],
     /* Replaces the prototype's "the only device in Malta…" (05.11 rule 2). */
     fact: {
@@ -163,6 +185,7 @@ export const INDUSTRIES: Industry[] = [
       q: "Does it replace both my cash register and my card machine?",
       a: "Yes. One device does both jobs and prints the receipt, so there is one contract and one thing on the counter.",
     },
+    replaces: "The separate cash register and the bank's card machine.",
     stays: "Stock counts and suppliers stay where you keep them today.",
     finalH2: "Tell us about your shop.",
   },
@@ -182,17 +205,18 @@ export const INDUSTRIES: Industry[] = [
       { when: "At the chair", title: "Service, then payment", text: "Finish the appointment and take payment on the same handheld device." },
       { when: "Every client", title: "A receipt every time", text: "The fiscal receipt prints from the device itself. No receipt book, no second printer." },
       /* Prototype: "what you will receive" – rephrased around the payout (05.11 rule 2). */
-      { when: "End of the week", title: "Know your week", text: "What you took and what is due in your next payout, in euros, on your phone." },
+      { when: "End of the week", title: "Know your week", text: "What you took and your estimated payout, in euros, on your phone." },
     ],
     fact: {
       big: "€0",
-      text: "extra in a quiet month. No minimum fee and no inactivity fee on your card payments.",
+      text: `in card fees in a quiet month. No minimum fee and no inactivity fee. If you rent, the ${rentPrice} rent continues.`,
       source: "SmartOne pricing",
     },
     faq: {
       q: "I work alone. Is a cash register too much for me?",
       a: `It is one handheld device, not a till on a desk. Rent it for ${rent} and the cash register, the card terminal and the printer are all covered.`,
     },
+    replaces: "The card reader and the paper receipt book. A card reader alone is not a fiscal till.",
     stays: "Appointment booking and reminders stay in your current scheduler.",
     finalH2: "Tell us about your salon.",
   },
@@ -210,7 +234,7 @@ export const INDUSTRIES: Industry[] = [
     sub: "A ftira, six pastizzi and a coffee – ring it up, tap, receipt out. One device is your till, your card machine and your receipt printer.",
     chips: ["Bakeries", "Pastizzerias", "Confectioneries", "Cake shops"],
     moments: [
-      { when: "At 7 a.m.", title: "Fast at the peak", text: "Your products are priced once in the portal, so ringing up a regular order takes a few taps." },
+      { when: "At 7 a.m.", title: "Fast at the peak", text: "Your products are priced once, so ringing up a regular order takes a few taps." },
       { when: "Small tickets", title: "Cards for small change", text: "Card, contactless or cash on the same screen – whatever the customer has in hand." },
       { when: "At close", title: "One Z-report", text: "Cash and card sales close together. The Z-report is on the device, ready for your accountant." },
     ],
@@ -218,11 +242,13 @@ export const INDUSTRIES: Industry[] = [
       big: "2 in 3",
       text: "in-store payments in Malta are still made in cash. SmartOne rings up coins and cards on the same register, with one Z-report at close.",
       source: "ECB SPACE study, 2024",
+      sourceHref: ECB_SPACE_2024,
     },
     faq: {
       q: "Do cash sales go through the same device?",
       a: "Yes. Cash and card sales are rung up on the same register and end up on the same Z-report.",
     },
+    replaces: "The cash-only till and the separate card machine.",
     stays: "Recipes, production and wholesale orders stay with you.",
     finalH2: "Tell us about your bakery.",
   },
@@ -241,18 +267,20 @@ export const INDUSTRIES: Industry[] = [
     chips: ["Mini markets", "Grocers", "Greengrocers", "Butchers", "Convenience stores"],
     moments: [
       { when: "At the till", title: "Any way they pay", text: "Card, contactless or cash on the same screen. One fiscal receipt either way." },
-      { when: "On the shelf", title: "Prices set once", text: "Set products and prices in the portal and the register follows." },
+      { when: "On the shelf", title: "Prices set once", text: "Set your products and prices once and the register follows." },
       { when: "At month-end", title: "See what the cards cost you", text: "The portal shows the commission you paid, in euros. No surprise line items." },
     ],
     fact: {
       big: "2 in 3",
       text: "in-store payments in Malta are still made in cash. SmartOne takes cash and cards on one register, so you run one till, not two machines.",
       source: "ECB SPACE study, 2024",
+      sourceHref: ECB_SPACE_2024,
     },
     faq: {
       q: "Will a quiet month cost me extra?",
       a: "No. There is no minimum fee and no inactivity fee. You pay the card fee on what you actually take, plus the device rent if you rent.",
     },
+    replaces: "The cash register and the card machine next to it.",
     stays: "Stock counts, scales and suppliers stay where you keep them today.",
     finalH2: "Tell us about your shop.",
   },
@@ -270,19 +298,20 @@ export const INDUSTRIES: Industry[] = [
     sub: "Set the menu once, put a SmartOne at every stand and watch the takings come in while the gates are still open.",
     chips: ["Festivals", "Village festas", "Concerts", "Pop-up bars", "Food courts"],
     moments: [
-      { when: "Before doors", title: "One menu, every stand", text: "Set products and prices once in the portal. Every bar rings up the same prices." },
+      { when: "Before doors", title: "One menu, every stand", text: "Set products and prices once. Every bar rings up the same prices." },
       { when: "During service", title: "A fiscal receipt at every bar", text: "The printer is built in, so each stand hands over its own fiscal receipt." },
       { when: "While it's on", title: "See the takings live", text: "Revenue by day and by bar in the portal, from your phone." },
     ],
     fact: {
-      big: "T+1",
-      text: "Card takings are paid to your own bank account the next business day.",
+      big: "Next day",
+      text: "Card payouts go to your own bank account the next business day.",
       source: "SmartOne pricing",
     },
     faq: {
       q: "Does it work without Wi-Fi?",
       a: "Yes – every device has its own SIM and runs on 4G. It does need a connection to take payments, so check mobile coverage at the venue.",
     },
+    replaces: "Card readers that print no fiscal receipt, and cash-only bars.",
     stays: "Ticketing and access control stay with your event platform.",
     finalH2: "Tell us about your event.",
   },
@@ -298,33 +327,34 @@ export const INDUSTRIES: Industry[] = [
     eyebrow: "Mobile & street",
     h1: "Your till goes where you go.",
     sub: "Market stall, food truck or kiosk – one standalone device takes the card, prints the fiscal receipt and runs on mobile data.",
-    chips: ["Market stalls", "Food trucks", "Kiosks", "Street hawkers", "Couriers"],
+    chips: ["Market stalls", "Food trucks", "Kiosks", "Street hawkers"],
     moments: [
-      { when: "No Wi-Fi", title: "4G built in", text: "The device has its own SIM. It needs mobile signal, not a router." },
-      { when: "All day", title: "Battery lasts the shift", text: "One charge covers the shift, receipts included." },
-      { when: "Nothing else to carry", title: "A standalone device", text: "No phone, no laptop, no separate printer." },
+      { when: "At the stall", title: "Card or cash, receipt on the spot", text: "Take the payment and print the fiscal receipt from the same device. No phone, no separate printer." },
+      { when: "No Wi-Fi", title: "4G and a full-shift battery", text: "The device has its own SIM and one charge covers the shift. It needs mobile signal, not a router." },
+      { when: "At close", title: "One Z-report", text: "Cash and card sales close together on the device." },
     ],
     fact: {
       big: "€0",
-      text: "extra when trade is slow. No minimum fee and no inactivity fee on your card payments.",
+      text: `in card fees when trade is slow. No minimum fee and no inactivity fee. If you rent, the ${rentPrice} rent continues.`,
       source: "SmartOne pricing",
     },
     faq: {
       q: "What happens if there is no signal?",
       a: "SmartOne needs a connection to take card payments. It runs on 4G through its own SIM, or on Wi-Fi where you have it.",
     },
+    replaces: "The card reader plus the paper receipt book.",
     stays: "Delivery apps stay separate.",
     finalH2: "Tell us about your business.",
   },
   {
     slug: "services",
-    cardTitle: "Professional services",
+    cardTitle: "Trades & services",
     cardLine: "Parts and labour, one bill",
     image: "/industries/services-electrician.jpg",
     imageAlt: "An electrician in a hard hat working on a panel",
     title: "Card machine and fiscal receipts for trades and services in Malta – SmartOne",
     description: `One handheld device for electricians, plumbers, garages and vets in Malta: take the payment on site and print the fiscal receipt. From ${rent}.`,
-    eyebrow: "Professional services",
+    eyebrow: "Trades & services",
     h1: "Job done. Paid on the spot.",
     sub: "Parts and labour on one bill, card or cash at the customer's door, and a fiscal receipt printed before you pack the van.",
     chips: ["Electricians", "Plumbers", "Garages", "Vets", "Repair shops"],
@@ -334,14 +364,15 @@ export const INDUSTRIES: Industry[] = [
       { when: "At month-end", title: "Ready for your accountant", text: "Receipts and Z-reports are on the device, ready for your accountant." },
     ],
     fact: {
-      big: "T+1",
-      text: "Paid to the bank account you already have, the next business day. No new account to open.",
+      big: "Next day",
+      text: "Card payouts go to the bank account you already have the next business day. No new account to open.",
       source: "SmartOne pricing",
     },
     faq: {
       q: "I'm on the road all day. Do I need a counter?",
       a: "No. SmartOne is a handheld device with its own SIM, battery and printer. It needs mobile signal to take payments.",
     },
+    replaces: "The invoice you send and wait on, and the paper receipt book.",
     stays: "Quotes and job scheduling stay in the tools you use today.",
     finalH2: "Tell us about your business.",
   },
