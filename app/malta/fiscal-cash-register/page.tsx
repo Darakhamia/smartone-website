@@ -16,6 +16,7 @@ import {
   landingMetadata,
   rateLine,
 } from "@/components/malta/shared";
+import { ORG_ID } from "@/components/seo/jsonld";
 import { SITE_URL } from "@/lib/site";
 
 /* /malta/fiscal-cash-register – the landing page for EXO-number and fiscal
@@ -136,6 +137,7 @@ export default function MaltaFiscalCashRegister() {
         description: DESCRIPTION,
         inLanguage: "en-MT",
         dateModified: DATE_MODIFIED,
+        publisher: { "@id": ORG_ID },
       },
       breadcrumbLd(PATH, "Fiscal cash register"),
       {

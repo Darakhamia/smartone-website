@@ -15,6 +15,7 @@ import {
   rateLine,
   yearOfFees,
 } from "@/components/malta/shared";
+import { ORG_ID } from "@/components/seo/jsonld";
 import { SITE_URL } from "@/lib/site";
 
 /* /malta/compare – the comparison page for brand searches (Nadia's prototype
@@ -175,6 +176,7 @@ export default function MaltaCompare() {
         name: TITLE,
         description: DESCRIPTION,
         inLanguage: "en-MT",
+        publisher: { "@id": ORG_ID },
       },
       breadcrumbLd(PATH, "Compare"),
     ],

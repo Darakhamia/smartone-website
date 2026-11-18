@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { COUNTRY_MAP, TERMINAL_MODELS, terminalModel } from "@/lib/countries";
 import { termsFor, type PlanMode } from "@/lib/pricing";
+import { pageSeo } from "@/lib/seo";
 import { SITE_URL } from "@/lib/site";
 
 /* Pieces shared by the Malta landing pages (/malta/*). They are written for
@@ -41,12 +42,15 @@ export function yearOfFees(mode: PlanMode, monthly: number, averageSale: number)
   return { rate, fees: Math.round((monthly * 12 * Number(rate)) / 100 + sales * Number(TERMS.fixed)) };
 }
 
-/** Title as given (no " – SmartOne" from the layout's template), canonical and en-MT. */
-export function landingMetadata(path: string, title: string, description: string): Metadata {
+/** Title as given (no " – SmartOne" from the layout's template), the site's
+    Open Graph (pageSeo in lib/seo.ts), and the canonical spelled out in full
+    with its one language, en-MT. */
+export function landingMetadata(path: `/${string}`, title: string, description: string): Metadata {
   const url = `${SITE_URL}${path}`;
   return {
     title: { absolute: title },
     description,
+    ...pageSeo(path),
     alternates: { canonical: url, languages: { "en-MT": url } },
   };
 }
