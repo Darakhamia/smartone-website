@@ -19,7 +19,7 @@ import { getActiveCountry } from "@/lib/country-server";
 export const metadata: Metadata = pageSeo("/");
 
 /* Section order follows the homepage task (13.10.2026). The four sections
-   written for Malta – where you're starting from, the local partner, the
+   written for Malta – where you're starting from, our partner in Malta, the
    first-year costs and the FAQ – speak about Malta's fiscal approval, partner
    and prices, so every other market goes without them. */
 export default async function Home() {

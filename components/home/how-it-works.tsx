@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Reveal } from "@/components/reveal";
 import { useCountry } from "@/components/country/country-context";
 import { tr } from "@/lib/dictionaries";
-import { currencyWord, type Lang } from "@/lib/countries";
+import { currencyWord, promotesRegister, type Lang } from "@/lib/countries";
 
 const STEP_MS = 6000;
 
@@ -31,27 +31,33 @@ function Row({ label, value, accent = false }: { label: string; value: string; a
   );
 }
 
-function copyFor(lang: Lang, cur: string) {
+/* Step 02 and its picture talk about the till and the Z-report only where
+   the cash register is promoted (promotesRegister()); elsewhere the same step
+   is about the receipts. */
+function copyFor(lang: Lang, cur: string, register: boolean) {
   return tr(
     lang,
     {
       eyebrow: "From the counter to your accountant",
       title: "Close the day. Know your real numbers.",
       steps: [
-        { n: "01", title: "Money & transparency", text: `Know what you'll receive and what you paid – in ${cur}.` },
-        { n: "02", title: "Reconcile the till", text: "Z-report & receipts in one place; reprint or email any one." },
+        { n: "01", title: "Money & transparency", text: `See your payout and what you paid – in ${cur}.` },
+        register
+          ? { n: "02", title: "Reconcile the till", text: "Z-report & receipts in one place; reprint or email any one." }
+          : { n: "02", title: "Every receipt in one place", text: "Find any receipt of the day; reprint or email any one." },
         { n: "03", title: "Find a transaction", text: "Search by RRN / receipt #, settle a dispute on the spot." },
         { n: "04", title: "See the period", text: "Revenue, average check, card vs cash, top categories." },
         { n: "05", title: "Export for your accountant", text: "Download the day's report from the portal – nothing to collect by hand." },
       ],
       f: { money: "Portal · Money", receipts: "Portal · Receipts", tx: "Portal · Transactions", analytics: "Portal · Analytics", reports: "Portal · Reports" },
       reportTitle: "Day report · 12 Jun",
+      tillTitle: register ? "Z-report #218" : "Receipts · 12 Jun",
       vat: "VAT",
       download: "Download report",
       exportBtn: "CSV · PDF",
       ready: "Ready for your accountant",
       sold: "Sold",
-      receive: "You'll receive",
+      receive: "Estimated payout",
       cardSales: "Card sales",
       commission: "Commission",
       status: "Status",
@@ -72,20 +78,23 @@ function copyFor(lang: Lang, cur: string) {
       eyebrow: "Del mostrador a tu contable",
       title: "Cierra el día. Conoce tus cifras reales.",
       steps: [
-        { n: "01", title: "Dinero y transparencia", text: `Mira lo que vas a recibir y lo que pagaste, en ${cur}.` },
-        { n: "02", title: "Cuadra la caja", text: "Informe Z y tickets en un solo sitio; reimprime o envía cualquiera por email." },
+        { n: "01", title: "Dinero y transparencia", text: `Mira tu cobro estimado y lo que pagaste, en ${cur}.` },
+        register
+          ? { n: "02", title: "Cuadra la caja", text: "Informe Z y tickets en un solo sitio; reimprime o envía cualquiera por email." }
+          : { n: "02", title: "Todos los tickets en un sitio", text: "Encuentra cualquier ticket del día; reimprímelo o envíalo por email." },
         { n: "03", title: "Encuentra una operación", text: "Busca por RRN o nº de ticket y resuelve una incidencia al momento." },
         { n: "04", title: "Mira el periodo", text: "Ingresos, ticket medio, tarjeta vs efectivo, categorías top." },
         { n: "05", title: "Exporta para tu contable", text: "Descarga el informe del día desde el portal, sin recopilar nada a mano." },
       ],
       f: { money: "Portal · Dinero", receipts: "Portal · Tickets", tx: "Portal · Operaciones", analytics: "Portal · Analítica", reports: "Portal · Informes" },
       reportTitle: "Informe del día · 12 jun",
+      tillTitle: register ? "Informe Z #218" : "Tickets · 12 jun",
       vat: "IVA",
       download: "Descargar informe",
       exportBtn: "CSV · PDF",
       ready: "Listo para tu contable",
       sold: "Vendido",
-      receive: "Recibirás",
+      receive: "Cobro estimado",
       cardSales: "Ventas con tarjeta",
       commission: "Comisión",
       status: "Estado",
@@ -106,20 +115,23 @@ function copyFor(lang: Lang, cur: string) {
       eyebrow: "Від прилавка до вашого бухгалтера",
       title: "Закрийте день. Знайте свої реальні цифри.",
       steps: [
-        { n: "01", title: "Гроші та прозорість", text: `Знайте, скільки ви отримаєте і скільки заплатили, – у ${cur}.` },
-        { n: "02", title: "Звірте касу", text: "Z-звіт і чеки в одному місці; будь-який чек можна передрукувати або надіслати на email." },
+        { n: "01", title: "Гроші та прозорість", text: `Ваша виплата і скільки ви заплатили – у ${cur}.` },
+        register
+          ? { n: "02", title: "Звірте касу", text: "Z-звіт і чеки в одному місці; будь-який чек можна передрукувати або надіслати на email." }
+          : { n: "02", title: "Усі чеки в одному місці", text: "Знайдіть будь-який чек за день – його можна передрукувати або надіслати на email." },
         { n: "03", title: "Знайдіть операцію", text: "Шукайте за RRN або номером чека й вирішуйте спірні питання на місці." },
         { n: "04", title: "Підсумки за період", text: "Виручка, середній чек, картка проти готівки, найпопулярніші категорії." },
         { n: "05", title: "Вивантажте для бухгалтера", text: "Завантажте звіт за день із порталу – нічого не треба збирати вручну." },
       ],
       f: { money: "Портал · Гроші", receipts: "Портал · Чеки", tx: "Портал · Операції", analytics: "Портал · Аналітика", reports: "Портал · Звіти" },
       reportTitle: "Звіт за день · 12 червня",
+      tillTitle: register ? "Z-звіт #218" : "Чеки · 12 червня",
       vat: "ПДВ",
       download: "Завантажити звіт",
       exportBtn: "CSV · PDF",
       ready: "Готово для бухгалтера",
       sold: "Продано",
-      receive: "Ви отримаєте",
+      receive: "Очікувана виплата",
       cardSales: "Продажі карткою",
       commission: "Комісія",
       status: "Статус",
@@ -140,20 +152,23 @@ function copyFor(lang: Lang, cur: string) {
       eyebrow: "От прилавка до вашего бухгалтера",
       title: "Закройте день. Знайте свои реальные цифры.",
       steps: [
-        { n: "01", title: "Деньги и прозрачность", text: `Знайте, сколько вы получите и сколько заплатили, – в ${cur}.` },
-        { n: "02", title: "Сверьте кассу", text: "Z-отчёт и чеки в одном месте; любой чек можно перепечатать или отправить на email." },
+        { n: "01", title: "Деньги и прозрачность", text: `Ваша выплата и сколько вы заплатили – в ${cur}.` },
+        register
+          ? { n: "02", title: "Сверьте кассу", text: "Z-отчёт и чеки в одном месте; любой чек можно перепечатать или отправить на email." }
+          : { n: "02", title: "Все чеки в одном месте", text: "Найдите любой чек за день – его можно перепечатать или отправить на email." },
         { n: "03", title: "Найдите операцию", text: "Ищите по RRN или номеру чека и решайте спорные вопросы на месте." },
         { n: "04", title: "Итоги за период", text: "Выручка, средний чек, карта против наличных, топ-категории." },
         { n: "05", title: "Выгрузите для бухгалтера", text: "Скачайте отчёт за день с портала – ничего не нужно собирать вручную." },
       ],
       f: { money: "Портал · Деньги", receipts: "Портал · Чеки", tx: "Портал · Операции", analytics: "Портал · Аналитика", reports: "Портал · Отчёты" },
       reportTitle: "Отчёт за день · 12 июня",
+      tillTitle: register ? "Z-отчёт #218" : "Чеки · 12 июня",
       vat: "НДС",
       download: "Скачать отчёт",
       exportBtn: "CSV · PDF",
       ready: "Готово для бухгалтера",
       sold: "Продано",
-      receive: "Вы получите",
+      receive: "Ожидаемая выплата",
       cardSales: "Продажи картой",
       commission: "Комиссия",
       status: "Статус",
@@ -201,7 +216,7 @@ function TillVisual({ c, c$ }: { c: Copy; c$: string }) {
     <Frame title={c.f.receipts}>
       <div className="rounded-xl bg-bg-2 p-4">
         <div className="flex items-baseline justify-between">
-          <span className="font-mono text-[12.5px] text-ink-2">Z-report #218</span>
+          <span className="font-mono text-[12.5px] text-ink-2">{c.tillTitle}</span>
           <span className="h-display text-[18px]">{c$}1,240.00</span>
         </div>
         <div className="mt-1 font-mono text-[11px] text-ink-3">{c.receiptsN}</div>
@@ -310,7 +325,7 @@ function ShareVisual({ c, c$ }: { c: Copy; c$: string }) {
 export function HowItWorks() {
   const { country, lang } = useCountry();
   const c$ = country.currencySymbol;
-  const c = copyFor(lang, currencyWord(country, lang));
+  const c = copyFor(lang, currencyWord(country, lang), promotesRegister(country));
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
 

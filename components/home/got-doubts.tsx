@@ -10,7 +10,7 @@ import { Reveal } from "@/components/reveal";
 const faqs: [question: string, answer: string][] = [
   ["Is the receipt legal for VAT in Malta?", "Yes. SmartOne is a VAT-approved fiscal cash register, approved by the MTCA, and it prints the fiscal receipt for card and cash sales alike."],
   ["Do I need an EXO audit?", "No. SmartOne is approved by the MTCA as a fiscal cash register, so you don't need an EXO number, a software certificate or an auditor's report."],
-  ["Who is SmartOne, and who holds my money?", "SmartOne is the device and the portal. Payments are processed by a licensed EU acquirer, and your payouts go to your own bank account. Our local partner in Malta calls you back when you get in touch."],
+  ["Who is SmartOne, and who holds my money?", "SmartOne is the device and the portal. Payments are processed by a licensed EU acquirer, and your payouts go to your own bank account. Our partner in Malta calls you back when you get in touch."],
   ["Do I need a new bank account?", "No. Money goes to the account you already have, the next working day."],
   ["Is there a contract?", "Buy the device: no minimum term. Rent it: one year, €30 + VAT a month."],
   ["Can my money get stuck?", "Payouts go to your own bank, not to a wallet you have to move money out of. Your account is reviewed by a person, not an algorithm, and if something needs checking, a person contacts you."],

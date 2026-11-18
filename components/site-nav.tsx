@@ -123,7 +123,9 @@ function productMenu(lang: Lang, register: boolean, device: string): MegaCol[] {
       items: [
         {
           label: "Click",
-          sub: tr(lang, "Restaurant ordering, to the register", "Pedidos de restaurante, a la caja", "Замовлення в ресторані – одразу на касу", "Заказы в ресторане – сразу на кассу"),
+          sub: register
+            ? tr(lang, "Restaurant ordering, to the register", "Pedidos de restaurante, a la caja", "Замовлення в ресторані – одразу на касу", "Заказы в ресторане – сразу на кассу")
+            : tr(lang, "Restaurant ordering, to your terminal", "Pedidos de restaurante, a tu terminal", "Замовлення в ресторані – одразу на термінал", "Заказы в ресторане – сразу на терминал"),
           href: "/click",
           icon: clickIcon,
         },

@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   ...pageSeo("/merchant-portal"),
 };
 
-function copyFor(lang: Lang) {
+function copyFor(lang: Lang, register: boolean) {
   return tr(
     lang,
     {
@@ -47,7 +47,9 @@ function copyFor(lang: Lang) {
       eyebrow: "SmartOne Merchant Portal",
       h1a: "Your entire business,",
       h1b: "in one clear view.",
-      sub: "Track sales, card payments, cash-register shifts, fees and settlements across every store and terminal — from one secure portal.",
+      sub: register
+        ? "Track sales, card payments, cash-register shifts, fees and settlements across every store and terminal — from one secure portal."
+        : "Track sales, card payments, fees and settlements across every store and terminal — from one secure portal.",
       get: "Get SmartOne",
       included: "Included with every SmartOne terminal.",
       shotDashboard: "The Merchant Portal dashboard: revenue, average check, card versus cash and top sellers",
@@ -55,7 +57,9 @@ function copyFor(lang: Lang) {
       // 2 · overview
       ovEyebrow: "One portal. The whole operation.",
       ovTitle: "From the first sale to the money in your bank.",
-      ovSub: "Daily sales, transactions, fiscal reporting and payouts — in one place.",
+      ovSub: register
+        ? "Daily sales, transactions, fiscal reporting and payouts — in one place."
+        : "Daily sales, transactions and payouts — in one place.",
       overview: [
         { title: "See the day at a glance", text: "Revenue, average check, payment mix and top-selling products in one dashboard." },
         { title: "Trace every payment", text: "Find sales and refunds, check their status and open complete transaction details." },
@@ -132,28 +136,34 @@ function copyFor(lang: Lang) {
       day: [
         { title: "One source of truth", text: "Sales, card payments, cash operations and settlements use the same business data." },
         { title: "Find anything quickly", text: "Search and filter information by date, amount, store, terminal, status or transaction reference." },
-        { title: "Ready for reporting", text: "Export payment and fiscal data whenever it is needed by finance or operations." },
+        { title: "Ready for reporting", text: register ? "Export payment and fiscal data whenever it is needed by finance or operations." : "Export payment data whenever it is needed by finance or operations." },
         { title: "Built for every location", text: "Review activity across different stores and terminals from the same account." },
       ],
 
       // 10 · CTA
       ctaA: "Your terminal handles the sale.",
       ctaB: "The Portal handles everything around it.",
-      ctaText: "Manage payments, fiscal operations and settlements from one clear workspace connected to your SmartOne terminals.",
-      ctaGet: "Get started →",
+      ctaText: register
+        ? "Manage payments, fiscal operations and settlements from one clear workspace connected to your SmartOne terminals."
+        : "Manage payments and settlements from one clear workspace connected to your SmartOne terminals.",
+      ctaGet: "Talk to us →",
     },
     {
       eyebrow: "SmartOne Merchant Portal",
       h1a: "Todo tu negocio,",
       h1b: "en una vista clara.",
-      sub: "Controla ventas, pagos con tarjeta, turnos de caja, comisiones y liquidaciones de cada tienda y terminal, desde un único portal seguro.",
+      sub: register
+        ? "Controla ventas, pagos con tarjeta, turnos de caja, comisiones y liquidaciones de cada tienda y terminal, desde un único portal seguro."
+        : "Controla ventas, pagos con tarjeta, comisiones y liquidaciones de cada tienda y terminal, desde un único portal seguro.",
       get: "Consigue SmartOne",
       included: "Incluido con cada terminal SmartOne.",
       shotDashboard: "El panel del Merchant Portal: ingresos, ticket medio, tarjeta frente a efectivo y más vendidos",
 
       ovEyebrow: "Un portal. Toda la operación.",
       ovTitle: "De la primera venta al dinero en tu banco.",
-      ovSub: "Ventas diarias, operaciones, informes fiscales y liquidaciones, en un solo sitio.",
+      ovSub: register
+        ? "Ventas diarias, operaciones, informes fiscales y liquidaciones, en un solo sitio."
+        : "Ventas diarias, operaciones y liquidaciones, en un solo sitio.",
       overview: [
         { title: "El día de un vistazo", text: "Ingresos, ticket medio, mezcla de pagos y productos más vendidos en un panel." },
         { title: "Rastrea cada pago", text: "Encuentra ventas y devoluciones, revisa su estado y abre el detalle completo." },
@@ -223,27 +233,33 @@ function copyFor(lang: Lang) {
       day: [
         { title: "Una sola fuente de verdad", text: "Ventas, pagos con tarjeta, operaciones de efectivo y liquidaciones usan los mismos datos." },
         { title: "Encuentra cualquier cosa rápido", text: "Busca y filtra por fecha, importe, tienda, terminal, estado o referencia de operación." },
-        { title: "Listo para informar", text: "Exporta datos de pagos y fiscales cuando finanzas u operaciones lo necesiten." },
+        { title: "Listo para informar", text: register ? "Exporta datos de pagos y fiscales cuando finanzas u operaciones lo necesiten." : "Exporta datos de pagos cuando finanzas u operaciones lo necesiten." },
         { title: "Pensado para varias tiendas", text: "Revisa la actividad de distintas tiendas y terminales desde la misma cuenta." },
       ],
 
       ctaA: "Tu terminal se encarga de la venta.",
       ctaB: "El Portal, de todo lo demás.",
-      ctaText: "Gestiona pagos, operaciones fiscales y liquidaciones desde un espacio de trabajo claro, conectado a tus terminales SmartOne.",
-      ctaGet: "Empezar →",
+      ctaText: register
+        ? "Gestiona pagos, operaciones fiscales y liquidaciones desde un espacio de trabajo claro, conectado a tus terminales SmartOne."
+        : "Gestiona pagos y liquidaciones desde un espacio de trabajo claro, conectado a tus terminales SmartOne.",
+      ctaGet: "Habla con nosotros →",
     },
     {
       eyebrow: "SmartOne Merchant Portal",
       h1a: "Весь ваш бізнес,",
       h1b: "як на долоні.",
-      sub: "Відстежуйте продажі, оплату карткою, касові зміни, комісії та зарахування коштів у всіх магазинах і на всіх терміналах — з одного захищеного порталу.",
+      sub: register
+        ? "Відстежуйте продажі, оплату карткою, касові зміни, комісії та зарахування коштів у всіх магазинах і на всіх терміналах — з одного захищеного порталу."
+        : "Відстежуйте продажі, оплату карткою, комісії та зарахування коштів у всіх магазинах і на всіх терміналах — з одного захищеного порталу.",
       get: "Замовити SmartOne",
       included: "Входить у вартість кожного термінала SmartOne.",
       shotDashboard: "Панель Merchant Portal: виручка, середній чек, картки й готівка, хіти продажів",
 
       ovEyebrow: "Один портал. Усі процеси.",
       ovTitle: "Від першого продажу до грошей на вашому рахунку.",
-      ovSub: "Щоденні продажі, транзакції, фіскальна звітність і виплати — в одному місці.",
+      ovSub: register
+        ? "Щоденні продажі, транзакції, фіскальна звітність і виплати — в одному місці."
+        : "Щоденні продажі, транзакції та виплати — в одному місці.",
       overview: [
         { title: "Увесь день одним поглядом", text: "Виручка, середній чек, структура платежів і хіти продажів на одній панелі." },
         { title: "Відстежуйте кожен платіж", text: "Знаходьте продажі й повернення, перевіряйте їхній статус і відкривайте повні дані транзакції." },
@@ -313,27 +329,33 @@ function copyFor(lang: Lang) {
       day: [
         { title: "Єдине джерело даних", text: "Продажі, оплата карткою, готівкові операції та зарахування коштів спираються на одні й ті самі дані." },
         { title: "Знаходьте все швидко", text: "Шукайте й фільтруйте інформацію за датою, сумою, магазином, терміналом, статусом або номером транзакції." },
-        { title: "Готово до звітності", text: "Експортуйте платіжні та фіскальні дані, коли вони потрібні фінансовому чи операційному відділу." },
+        { title: "Готово до звітності", text: register ? "Експортуйте платіжні та фіскальні дані, коли вони потрібні фінансовому чи операційному відділу." : "Експортуйте платіжні дані, коли вони потрібні фінансовому чи операційному відділу." },
         { title: "Для всіх ваших точок", text: "Переглядайте активність різних магазинів і терміналів з одного акаунта." },
       ],
 
       ctaA: "Ваш термінал проводить продаж.",
       ctaB: "Портал бере на себе все інше.",
-      ctaText: "Керуйте платежами, фіскальними операціями та зарахуванням коштів з одного зрозумілого робочого простору, підключеного до ваших терміналів SmartOne.",
-      ctaGet: "Почати →",
+      ctaText: register
+        ? "Керуйте платежами, фіскальними операціями та зарахуванням коштів з одного зрозумілого робочого простору, підключеного до ваших терміналів SmartOne."
+        : "Керуйте платежами та зарахуванням коштів з одного зрозумілого робочого простору, підключеного до ваших терміналів SmartOne.",
+      ctaGet: "Зв’яжіться з нами →",
     },
     {
       eyebrow: "SmartOne Merchant Portal",
       h1a: "Весь ваш бизнес,",
       h1b: "как на ладони.",
-      sub: "Отслеживайте продажи, оплату картой, кассовые смены, комиссии и зачисление средств по всем магазинам и терминалам — с одного защищённого портала.",
+      sub: register
+        ? "Отслеживайте продажи, оплату картой, кассовые смены, комиссии и зачисление средств по всем магазинам и терминалам — с одного защищённого портала."
+        : "Отслеживайте продажи, оплату картой, комиссии и зачисление средств по всем магазинам и терминалам — с одного защищённого портала.",
       get: "Заказать SmartOne",
       included: "Входит в стоимость каждого терминала SmartOne.",
       shotDashboard: "Панель Merchant Portal: выручка, средний чек, карты и наличные, хиты продаж",
 
       ovEyebrow: "Один портал. Все процессы.",
       ovTitle: "От первой продажи до денег на вашем счёте.",
-      ovSub: "Ежедневные продажи, транзакции, фискальная отчётность и выплаты — в одном месте.",
+      ovSub: register
+        ? "Ежедневные продажи, транзакции, фискальная отчётность и выплаты — в одном месте."
+        : "Ежедневные продажи, транзакции и выплаты — в одном месте.",
       overview: [
         { title: "Весь день одним взглядом", text: "Выручка, средний чек, структура платежей и хиты продаж на одной панели." },
         { title: "Отслеживайте каждый платёж", text: "Находите продажи и возвраты, проверяйте их статус и открывайте полные данные транзакции." },
@@ -403,14 +425,16 @@ function copyFor(lang: Lang) {
       day: [
         { title: "Единый источник данных", text: "Продажи, оплата картой, операции с наличными и зачисление средств опираются на одни и те же данные." },
         { title: "Находите всё быстро", text: "Ищите и фильтруйте информацию по дате, сумме, магазину, терминалу, статусу или номеру транзакции." },
-        { title: "Готово к отчётности", text: "Экспортируйте платёжные и фискальные данные, когда они нужны финансовому или операционному отделу." },
+        { title: "Готово к отчётности", text: register ? "Экспортируйте платёжные и фискальные данные, когда они нужны финансовому или операционному отделу." : "Экспортируйте платёжные данные, когда они нужны финансовому или операционному отделу." },
         { title: "Для всех ваших точек", text: "Просматривайте активность разных магазинов и терминалов из одного аккаунта." },
       ],
 
       ctaA: "Ваш терминал проводит продажу.",
       ctaB: "Портал берёт на себя всё остальное.",
-      ctaText: "Управляйте платежами, фискальными операциями и зачислением средств из одного понятного рабочего пространства, подключённого к вашим терминалам SmartOne.",
-      ctaGet: "Начать →",
+      ctaText: register
+        ? "Управляйте платежами, фискальными операциями и зачислением средств из одного понятного рабочего пространства, подключённого к вашим терминалам SmartOne."
+        : "Управляйте платежами и зачислением средств из одного понятного рабочего пространства, подключённого к вашим терминалам SmartOne.",
+      ctaGet: "Свяжитесь с нами →",
     },
   );
 }
@@ -443,7 +467,7 @@ export default async function MerchantPortalPage() {
   const country = await getActiveCountry();
   const lang = await getActiveLang();
   const register = promotesRegister(country);
-  const c = copyFor(lang);
+  const c = copyFor(lang, register);
 
   // The fiscal sections describe the cash register, which is promoted only
   // where it is live (Malta today). Icons ride along so the two stay in step.
