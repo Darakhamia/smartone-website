@@ -17,8 +17,13 @@ export const ORG_ID = `${SITE_URL}/#organization`;
 
 /* The brand's own profiles, for Organization.sameAs. Only accounts that are
    confirmed to be ours – a wrong one tells search engines a stranger's page
-   is SmartOne. Add LinkedIn, Instagram and the like here once confirmed. */
-const SOCIAL_PROFILES = ["https://www.facebook.com/smartoneworld"];
+   is SmartOne. These three are the company's only profiles (confirmed by
+   David, 18.11.2026). */
+const SOCIAL_PROFILES = [
+  "https://www.facebook.com/smartoneworld",
+  "https://www.instagram.com/smartone_world/",
+  "https://www.linkedin.com/company/smart-one-global/",
+];
 
 export function OrgJsonLd() {
   const data = {
