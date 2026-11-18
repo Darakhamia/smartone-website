@@ -3,7 +3,7 @@ import { notFound, redirect } from "next/navigation";
 import { IndustryPage } from "@/components/industries/industry-page";
 import { getActiveCountry } from "@/lib/country-server";
 import { getIndustry, industryPagesFor, INDUSTRIES } from "@/lib/industries";
-import { SITE_URL } from "@/lib/site";
+import { pageSeo } from "@/lib/seo";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     // the data's titles already end in "– SmartOne"; skip the layout's suffix
     title: { absolute: ind.title },
     description: ind.description,
-    alternates: { canonical: `${SITE_URL}/industries/${ind.slug}` },
+    ...pageSeo(`/industries/${ind.slug}`),
   };
 }
 

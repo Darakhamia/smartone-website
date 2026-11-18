@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageSeo } from "@/lib/seo";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -21,22 +22,20 @@ import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 import { currencyWord, terminalModel, TERMINAL_MODELS, type Lang } from "@/lib/countries";
 import { industryPagesFor, INDUSTRY_SHARED } from "@/lib/industries";
-import { SITE_URL } from "@/lib/site";
 import { MaltaIndustriesIndex } from "@/components/industries/malta-index";
 
 /* Malta gets its own index (components/industries/malta-index.tsx) linking
    to the industry pages; every other market keeps the page below. */
 export async function generateMetadata(): Promise<Metadata> {
-  const canonical = `${SITE_URL}/industries`;
   if (industryPagesFor(await getActiveCountry())) {
     const { title, description } = INDUSTRY_SHARED.index;
-    return { title: { absolute: title }, description, alternates: { canonical } };
+    return { title: { absolute: title }, description, ...pageSeo("/industries") };
   }
   return {
     title: "Industries",
     description:
       "One device, your kind of business. Festivals, retail, cafés, beauty, mobile vendors and more – SmartOne fits the counter you already run.",
-    alternates: { canonical },
+    ...pageSeo("/industries"),
   };
 }
 

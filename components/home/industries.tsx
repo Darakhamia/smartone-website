@@ -1,19 +1,22 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "@/components/reveal";
-import { getActiveLang } from "@/lib/country-server";
+import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 import type { Lang } from "@/lib/countries";
+import { industryPagesFor, type IndustrySlug } from "@/lib/industries";
 
-const imgs = [
-  { img: "/industries/events.jpg" },
-  { img: "/industries/retail.jpg" },
-  { img: "/industries/cafes.jpg" },
-  { img: "/industries/services-electrician.jpg" },
-  { img: "/industries/mobile-courier.jpg" },
-  { img: "/industries/bakery.jpg" },
-  { img: "/industries/beauty-salon.jpg" },
-  { img: "/industries/grocery.jpg" },
+/* `slug` is the tile's page under /industries – linked only where those
+   pages are served (Malta); elsewhere every tile goes to /industries. */
+const imgs: { img: string; slug: IndustrySlug }[] = [
+  { img: "/industries/events.jpg", slug: "events" },
+  { img: "/industries/retail.jpg", slug: "retail" },
+  { img: "/industries/cafes.jpg", slug: "cafes" },
+  { img: "/industries/services-electrician.jpg", slug: "services" },
+  { img: "/industries/mobile-courier.jpg", slug: "mobile" },
+  { img: "/industries/bakery.jpg", slug: "bakery" },
+  { img: "/industries/beauty-salon.jpg", slug: "beauty" },
+  { img: "/industries/grocery.jpg", slug: "grocery" },
 ];
 
 function copyFor(lang: Lang) {
@@ -50,14 +53,14 @@ function copyFor(lang: Lang) {
   );
 }
 
-function Cards({ lang }: { lang: Lang }) {
+function Cards({ lang, pages }: { lang: Lang; pages: boolean }) {
   const c = copyFor(lang);
   return (
     <>
       {imgs.map((ind, i) => (
         <Link
           key={c.titles[i]}
-          href="/industries"
+          href={pages ? `/industries/${ind.slug}` : "/industries"}
           className="group w-56 shrink-0 rounded-3xl bg-bg-2 p-3 transition-colors duration-300 hover:bg-brand-tint sm:w-64"
         >
           <div className="relative aspect-[4/5] overflow-hidden rounded-2xl">
@@ -96,6 +99,7 @@ function Cards({ lang }: { lang: Lang }) {
 
 export async function Industries() {
   const lang = await getActiveLang();
+  const pages = industryPagesFor(await getActiveCountry());
   const c = copyFor(lang);
   return (
     <section className="overflow-x-clip py-24">
@@ -113,10 +117,10 @@ export async function Industries() {
           <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-white to-transparent" />
           <div className="marquee-track flex w-max">
             <div className="flex gap-4 pr-4">
-              <Cards lang={lang} />
+              <Cards lang={lang} pages={pages} />
             </div>
             <div className="flex gap-4 pr-4" aria-hidden>
-              <Cards lang={lang} />
+              <Cards lang={lang} pages={pages} />
             </div>
           </div>
         </div>

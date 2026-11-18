@@ -7,14 +7,17 @@ import { INDUSTRIES } from "@/lib/industries";
    /case-studies: nothing on the site links to it and it has no stories on it
    yet, so listing it only offers search engines an orphaned page whose whole
    content is that we have nothing to show. Put it back the day it has a real
-   case study on it. */
+   case study on it. /product/tap-to-phone is out too while the product hasn't
+   launched (it is noindex until then); put it back when it does. /es, a
+   placeholder for Spain's Verifactu page, stays out until its full version is
+   up. Every URL is absolute on SITE_URL, the canonical bare-domain https
+   origin – the same as each page's canonical. */
 const PAGES = [
   "",
   "/pricing",
   "/product",
   "/product/terminals",
   "/product/cash-register",
-  "/product/tap-to-phone",
   "/merchant-portal",
   "/click",
   "/industries",

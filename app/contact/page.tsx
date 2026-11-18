@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageSeo } from "@/lib/seo";
 import { Reveal } from "@/components/reveal";
 import { LeadForm } from "@/components/lead/lead-form";
 import { getActiveLang } from "@/lib/country-server";
@@ -8,6 +9,7 @@ export const metadata: Metadata = {
   title: "Contact",
   description:
     "Get a terminal or talk to sales. Tell us about your business and we'll get back to you within one business day.",
+  ...pageSeo("/contact"),
 };
 
 const icons = [
