@@ -58,7 +58,7 @@ function copyFor(lang: Lang, register: boolean, device: string, c$: string) {
         },
         tapToPhone: { title: "Tap to Phone", text: "Take contactless payments on a phone, no extra hardware. In certification – coming soon." },
         portal: { title: "Merchant Portal", text: "Track payments, follow payouts, reprint receipts and know your numbers – one login." },
-        click: { title: "Click", text: "Orders for cafés and restaurants, sent straight to the register – one catalogue, one flow." },
+        click: { title: "Click", text: register ? "Orders for cafés and restaurants, sent straight to the register – one catalogue, one flow." : "Orders for cafés and restaurants, sent straight to your terminal – one catalogue, one flow." },
       },
       complianceEyebrow: "Compliance",
       complianceTitle: "Compliant market by market.",
@@ -73,7 +73,7 @@ function copyFor(lang: Lang, register: boolean, device: string, c$: string) {
       spainTitle: (isEs: boolean) => (isEs ? "Verifactu, explained" : "Selling in Spain? Verifactu 2027"),
       spainText: (isEs: boolean) => (isEs ? "What changes in 2027 and how the device keeps you compliant." : "Getting ready ahead of the deadline? Start here."),
       ctaTitle: "One box on the counter. Everything behind it.",
-      ctaText: "Live in four business days or less.",
+      ctaText: "Usually live in four business days or less.",
     },
     {
       eyebrow: "Producto",
@@ -99,7 +99,7 @@ function copyFor(lang: Lang, register: boolean, device: string, c$: string) {
         },
         tapToPhone: { title: "Tap to Phone", text: "Acepta pagos contactless en un móvil, sin hardware adicional. En certificación, muy pronto." },
         portal: { title: "Merchant Portal", text: "Controla pagos, sigue liquidaciones, reimprime tickets y conoce tus cifras: un solo acceso." },
-        click: { title: "Click", text: "Pedidos para cafeterías y restaurantes, directos a la caja: un catálogo, un flujo." },
+        click: { title: "Click", text: register ? "Pedidos para cafeterías y restaurantes, directos a la caja: un catálogo, un flujo." : "Pedidos para cafeterías y restaurantes, directos a tu terminal: un catálogo, un flujo." },
       },
       complianceEyebrow: "Cumplimiento",
       complianceTitle: "Cumplimiento mercado a mercado.",
@@ -114,7 +114,7 @@ function copyFor(lang: Lang, register: boolean, device: string, c$: string) {
       spainTitle: (isEs: boolean) => (isEs ? "Verifactu, explicado" : "¿Vendes en España? Verifactu 2027"),
       spainText: (isEs: boolean) => (isEs ? "Qué cambia en 2027 y cómo el dispositivo te mantiene en regla." : "¿Te preparas antes del plazo? Empieza aquí."),
       ctaTitle: "Una caja en el mostrador. Todo lo demás detrás.",
-      ctaText: "Operativo en cuatro días hábiles o menos.",
+      ctaText: "Normalmente operativo en cuatro días hábiles o menos.",
     },
     {
       eyebrow: "Продукт",
@@ -155,7 +155,7 @@ function copyFor(lang: Lang, register: boolean, device: string, c$: string) {
       spainTitle: (isEs: boolean) => (isEs ? "Verifactu простими словами" : "Продаєте в Іспанії? Verifactu 2027"),
       spainText: (isEs: boolean) => (isEs ? "Що зміниться у 2027 році і як пристрій допоможе вам відповідати вимогам." : "Готуєтеся заздалегідь? Почніть звідси."),
       ctaTitle: "Один пристрій на прилавку. Усе інше – за ним.",
-      ctaText: "Запуск за чотири робочі дні або швидше.",
+      ctaText: "Зазвичай запуск за чотири робочі дні або швидше.",
     },
     {
       eyebrow: "Продукт",
@@ -196,7 +196,7 @@ function copyFor(lang: Lang, register: boolean, device: string, c$: string) {
       spainTitle: (isEs: boolean) => (isEs ? "Verifactu простыми словами" : "Продаёте в Испании? Verifactu 2027"),
       spainText: (isEs: boolean) => (isEs ? "Что изменится в 2027 году и как устройство поможет вам соответствовать требованиям." : "Готовитесь заранее? Начните отсюда."),
       ctaTitle: "Одно устройство на прилавке. Всё остальное – за ним.",
-      ctaText: "Запуск за четыре рабочих дня или быстрее.",
+      ctaText: "Обычно запуск за четыре рабочих дня или быстрее.",
     },
   );
 }

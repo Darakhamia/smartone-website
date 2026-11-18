@@ -2,25 +2,29 @@
 
 import { LeadButton } from "@/components/lead/talk-to-us";
 
-/* "Get started" on the Malta homepage (hero, Where are you starting from,
-   A local partner in Malta, first-year costs, final CTA). It opens the same
-   call-back form as Talk to us, sent with the source get_started. Until the
-   15.10 correction it first asked self-employed or Ltd and sent the
-   self-employed to sign up in the Merchant Portal; nobody is sent to the
-   portal from the site now.
+/* The main call-back button on the Malta homepage (hero, Where are you
+   starting from, Our partner in Malta, first-year costs, final CTA). Since
+   Alex's 15.10.2026 correction there is no "Get started" and no
+   self-employed / Ltd choice anywhere: the visitor sees one button, Talk to
+   us, which opens the call-back form. Nobody is sent to the portal from the
+   site.
 
-   Malta-only, so English-only. Keep the data-track value: GTM counts it. */
+   The name, the source get_started and the data-track value are the old
+   Get started ones on purpose: GTM triggers and the lead source in Telegram
+   count them, so keep them until GTM is changed.
+
+   Malta-only, so English-only. */
 export function GetStarted({ location, className }: { location: string; className?: string }) {
   return (
     <LeadButton
       source="get_started"
       track="cta-get-started"
       location={location}
-      title="Get started"
+      title="Talk to us"
       intro="Leave your details and we'll call you within one working day."
       className={className}
     >
-      Get started →
+      Talk to us →
     </LeadButton>
   );
 }
