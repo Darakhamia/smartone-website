@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useId, useRef } from "react";
 import { CallbackForm } from "@/components/lead/callback-form";
 import { Modal } from "@/components/modal";
 
@@ -13,6 +13,7 @@ export function LeadButton({
   source,
   track,
   location,
+  page,
   title,
   intro,
   className,
@@ -21,13 +22,16 @@ export function LeadButton({
   source: "get_started" | "talk_to_us";
   track: string;
   location: string;
+  /** Names the landing page for GTM (data-page), where a campaign needs it. */
+  page?: string;
   title: string;
   intro: string;
   className?: string;
   children: React.ReactNode;
 }) {
   const dialog = useRef<HTMLDialogElement>(null);
-  const titleId = `${source}-${location}`;
+  // unique per button: one location can appear twice (the header's desktop and mobile buttons)
+  const titleId = useId();
   return (
     <>
       <button
@@ -35,6 +39,7 @@ export function LeadButton({
         onClick={() => dialog.current?.showModal()}
         data-track={track}
         data-location={location}
+        data-page={page}
         className={className}
       >
         {children}
@@ -56,10 +61,12 @@ export function LeadButton({
    button text. */
 export function TalkToUs({
   location,
+  page,
   className,
   children = "Talk to us",
 }: {
   location: string;
+  page?: string;
   className?: string;
   children?: React.ReactNode;
 }) {
@@ -68,6 +75,7 @@ export function TalkToUs({
       source="talk_to_us"
       track="cta-talk-to-us"
       location={location}
+      page={page}
       title="Talk to us"
       intro="Leave your name and number and we'll call you."
       className={className}

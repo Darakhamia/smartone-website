@@ -309,6 +309,12 @@ export default async function CashRegisterPage() {
                 </span>
               </p>
             )}
+            {/* Malta's landing page for fiscal searches – only where the register is live */}
+            {register && (
+              <Link href="/malta/fiscal-cash-register" className="anim-fade-up anim-d-3 mt-5 inline-block text-[14.5px] font-semibold text-brand hover:underline">
+                {tr(lang, "Fiscal cash register in Malta", "Caja registradora fiscal en Malta", "Фіскальний касовий апарат на Мальті", "Фискальный кассовый аппарат на Мальте")} →
+              </Link>
+            )}
           </div>
           <div className="anim-fade-up anim-d-2 relative">
             <div className="pointer-events-none absolute -inset-6 rounded-[48px] bg-[radial-gradient(circle,rgba(90,25,181,0.12),transparent_70%)]" />

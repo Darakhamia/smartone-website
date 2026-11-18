@@ -13,7 +13,7 @@ import { SITE_URL } from "@/lib/site";
 import { terminalModel, TERMINAL_MODELS, type Country } from "@/lib/countries";
 import { termsFor } from "@/lib/pricing";
 
-const ORG_ID = `${SITE_URL}/#organization`;
+export const ORG_ID = `${SITE_URL}/#organization`;
 
 /* The brand's own profiles, for Organization.sameAs. Only accounts that are
    confirmed to be ours – a wrong one tells search engines a stranger's page

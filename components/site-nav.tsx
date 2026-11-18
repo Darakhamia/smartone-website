@@ -6,7 +6,8 @@ import { useEffect, useRef, useState } from "react";
 import { Logo } from "@/components/logo";
 import { useCountry } from "@/components/country/country-context";
 import { DICT, tr } from "@/lib/dictionaries";
-import { promotesRegister, terminalModel, TERMINAL_MODELS, type Lang } from "@/lib/countries";
+import { TalkToUs } from "@/components/lead/talk-to-us";
+import { marketForPath, promotesRegister, terminalModel, TERMINAL_MODELS, type Lang } from "@/lib/countries";
 
 export function Brand({ light = false }: { light?: boolean }) {
   return (
@@ -225,6 +226,11 @@ export function SiteNav() {
   // The country picker is a full-screen splash – no nav there.
   if (pathname === "/welcome") return null;
 
+  /* A market landing page (/malta/*) has one action, the call-back form, so
+     the header button opens it there (data-location "nav", data-page the
+     landing) instead of going to /contact. */
+  const landing = marketForPath(pathname) ? pathname.split("/").filter(Boolean).pop() : undefined;
+
   const rest = [
     { href: "/pricing", label: t.nav.pricing },
     { href: "/industries", label: t.nav.industries },
@@ -288,9 +294,13 @@ export function SiteNav() {
         <div className="ml-auto hidden items-center gap-4 lg:flex">
           {/* shadow-none: btn-primary carries a violet glow that works on the
               page but reads as a smudge against the white header bar. */}
-          <Link href="/contact" className="btn-primary px-5 py-2.5 shadow-none">
-            {t.nav.getStarted}
-          </Link>
+          {landing ? (
+            <TalkToUs location="nav" page={landing} className="btn-primary px-5 py-2.5 shadow-none" />
+          ) : (
+            <Link href="/contact" className="btn-primary px-5 py-2.5 shadow-none">
+              {t.nav.getStarted}
+            </Link>
+          )}
         </div>
         <button
           aria-label="Toggle menu"
@@ -342,9 +352,14 @@ export function SiteNav() {
             </Link>
           ))}
           <div className="mt-3 flex items-center gap-4 border-t border-line pt-4">
-            <Link href="/contact" onClick={() => setOpen(false)} className="btn-primary px-5 py-2.5 shadow-none">
-              {t.nav.getStarted}
-            </Link>
+            {/* the form's window lives inside this menu, so the menu stays open behind it */}
+            {landing ? (
+              <TalkToUs location="nav" page={landing} className="btn-primary px-5 py-2.5 shadow-none" />
+            ) : (
+              <Link href="/contact" onClick={() => setOpen(false)} className="btn-primary px-5 py-2.5 shadow-none">
+                {t.nav.getStarted}
+              </Link>
+            )}
           </div>
         </nav>
       )}

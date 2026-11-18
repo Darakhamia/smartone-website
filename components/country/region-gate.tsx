@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useCountry } from "@/components/country/country-context";
 import { WelcomeScreen } from "@/components/country/welcome-screen";
-import { COUNTRY_COOKIE, DEFAULT_COUNTRY_CODE } from "@/lib/countries";
+import { COUNTRY_COOKIE, DEFAULT_COUNTRY_CODE, marketForPath } from "@/lib/countries";
 
 /* First-visit region picker, shown as a dismissable overlay rather than a
    redirect – so every page still serves real, indexable content to crawlers
@@ -21,6 +21,12 @@ export function RegionGate() {
   const router = useRouter();
   const { enter } = useCountry();
   const [show, setShow] = useState(false);
+  /* A market page (/malta/*) already says where it is for – most of its
+     visitors arrive from an ad for that market – so the picker never covers
+     it, nor the pages they go on to in this visit. A later visit asks as
+     usual: nothing is stored for this. */
+  const [fromMarketPage, setFromMarketPage] = useState(() => marketForPath(pathname) !== null);
+  if (!fromMarketPage && marketForPath(pathname) !== null) setFromMarketPage(true);
 
   /* Re-read the cookie on every route change, not just on mount. Picking a
      country on /welcome writes the cookie and then navigates; the layout never
@@ -38,7 +44,7 @@ export function RegionGate() {
     setShow(false);
   }, [enter]);
 
-  const open = show && pathname !== "/welcome";
+  const open = show && !fromMarketPage && pathname !== "/welcome";
 
   useEffect(() => {
     if (!open) return;

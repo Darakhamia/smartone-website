@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 import { SeeInApp, type GapModal } from "@/components/home/gap-interactive";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
@@ -31,6 +32,7 @@ function copyFor(lang: Lang) {
         text: "A VAT-approved fiscal cash register, not a card reader bolted onto your tablet. Approved by Malta's tax authority (MTCA).",
         approval: "SmartOne Bank Pro ECR — approved fiscal cash register",
         approvalSource: "Government Gazette of Malta, Notice No. 46, 10 January 2025",
+        exoLink: "Fiscal cash register in Malta: no EXO number needed",
         closeDay: "Close the day",
         closeDayText: "Z-report in one tap – the till is reconciled.",
       },
@@ -74,6 +76,7 @@ function copyFor(lang: Lang) {
         text: "Una caja registradora fiscal aprobada, no un lector de tarjetas pegado a tu tablet. Aprobada por la autoridad fiscal de Malta (MTCA).",
         approval: "SmartOne Bank Pro ECR — caja registradora fiscal aprobada",
         approvalSource: "Government Gazette de Malta, aviso n.º 46, 10 de enero de 2025",
+        exoLink: "Caja registradora fiscal en Malta: sin número EXO",
         closeDay: "Cierra el día",
         closeDayText: "Informe Z con un toque: la caja queda cuadrada.",
       },
@@ -117,6 +120,7 @@ function copyFor(lang: Lang) {
         text: "Затверджений фіскальний касовий апарат, а не зчитувач карток, прикручений до вашого планшета. Схвалений податковою службою Мальти (MTCA).",
         approval: "SmartOne Bank Pro ECR — затверджений фіскальний касовий апарат",
         approvalSource: "Government Gazette of Malta, повідомлення № 46, 10 січня 2025 р.",
+        exoLink: "Фіскальний касовий апарат на Мальті: без номера EXO",
         closeDay: "Закрийте день",
         closeDayText: "Z-звіт одним дотиком – і каса зійшлася.",
       },
@@ -160,6 +164,7 @@ function copyFor(lang: Lang) {
         text: "Утверждённый фискальный кассовый аппарат, а не картридер, прикрученный к вашему планшету. Одобрен налоговой службой Мальты (MTCA).",
         approval: "SmartOne Bank Pro ECR — утверждённый фискальный кассовый аппарат",
         approvalSource: "Government Gazette of Malta, уведомление № 46, 10 января 2025 г.",
+        exoLink: "Фискальный кассовый аппарат на Мальте: без номера EXO",
         closeDay: "Закройте день",
         closeDayText: "Z-отчёт одним касанием – и касса сошлась.",
       },
@@ -325,6 +330,10 @@ export async function Gap() {
                     </span>
                   </div>
                   <SeeInApp kind="cashbox" modal={c.modal} />
+                  {/* the Malta landing page for fiscal searches; this block is Malta-only (promotesRegister) */}
+                  <Link href="/malta/fiscal-cash-register" className="mt-4 block text-[14.5px] font-semibold text-brand hover:underline">
+                    {c.register.exoLink} →
+                  </Link>
                 </div>
                 <RegisterVisual c={c} c$={c$} />
               </div>

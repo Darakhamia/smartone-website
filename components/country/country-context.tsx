@@ -1,12 +1,13 @@
 "use client";
 
-import { createContext, useCallback, useContext, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import {
   COUNTRY_COOKIE,
   LANG_COOKIE,
   PREF_COOKIE_MAX_AGE,
   getCountry,
+  marketForPath,
   type Country,
   type CountryCode,
   type Lang,
@@ -41,10 +42,27 @@ export function CountryProvider({
   children: React.ReactNode;
 }) {
   const router = useRouter();
+  const pathname = usePathname();
   const [code, setCode] = useState<CountryCode>(initialCode);
   const [lang, setLangState] = useState<Lang>(initialLang);
 
-  const country = useMemo(() => getCountry(code), [code]);
+  /* `code` and `lang` are the visitor's choice. A market page (/malta/*)
+     shows its market instead, in a language that market offers, and leaves
+     the choice as it was for the rest of the site (lib/countries.ts). */
+  const market = marketForPath(pathname);
+  const country = useMemo(() => getCountry(market ?? code), [market, code]);
+  const shownLang: Lang = country.languages.includes(lang) ? lang : country.languages[0];
+
+  /* The footer is a server component in the root layout, which a client-side
+     navigation doesn't re-render. Crossing into or out of a market page
+     changes the country it should show (and <html lang>), so fetch the layout
+     again then. */
+  const lastMarket = useRef(market);
+  useEffect(() => {
+    if (lastMarket.current === market) return;
+    lastMarket.current = market;
+    router.refresh();
+  }, [market, router]);
 
   const setLang = useCallback(
     (next: Lang) => {
@@ -85,8 +103,8 @@ export function CountryProvider({
   }, []);
 
   const value = useMemo(
-    () => ({ country, lang, setCountry, setLang, enter }),
-    [country, lang, setCountry, setLang, enter],
+    () => ({ country, lang: shownLang, setCountry, setLang, enter }),
+    [country, shownLang, setCountry, setLang, enter],
   );
 
   return <CountryContext.Provider value={value}>{children}</CountryContext.Provider>;
