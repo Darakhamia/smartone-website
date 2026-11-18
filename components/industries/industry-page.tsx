@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Check } from "lucide-react";
 import { Reveal } from "@/components/reveal";
 import { TalkToUs } from "@/components/lead/talk-to-us";
-import { INDUSTRIES, INDUSTRY_SHARED as S, industryFaq, type Industry } from "@/lib/industries";
+import { INDUSTRIES, INDUSTRY_DEVICE, INDUSTRY_SHARED as S, industryFaq, type Industry } from "@/lib/industries";
 
 /* One Malta industry page (/industries/<slug>). Layout per Nadya's prototype
    of 12.11.2026; every word comes from lib/industries.ts. */
@@ -38,12 +38,7 @@ export function IndustryPage({ ind }: { ind: Industry }) {
               ))}
             </ul>
           </div>
-          <div className="relative">
-            <div className="pointer-events-none absolute -inset-6 rounded-[40px] bg-[radial-gradient(circle,rgba(90,25,181,0.1),transparent_70%)]" />
-            <div className="relative aspect-[4/3] overflow-hidden rounded-[28px] shadow-[0_40px_80px_-48px_rgba(90,25,181,0.5)]">
-              <Image src={ind.image} alt={ind.imageAlt} fill priority sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover" />
-            </div>
-          </div>
+          <TradePhoto src={ind.image} alt={ind.imageAlt} />
         </div>
       </section>
 
@@ -89,7 +84,14 @@ export function IndustryPage({ ind }: { ind: Industry }) {
                 <p className="lead max-w-140 text-[18px] leading-relaxed text-ink sm:text-[20px]">{ind.fact.text}</p>
                 {ind.fact.source && (
                   <figcaption className="mt-3 text-[13px] text-ink-3">
-                    {S.factSourceLabel}: {ind.fact.source}
+                    {S.factSourceLabel}:{" "}
+                    {ind.fact.sourceHref ? (
+                      <a href={ind.fact.sourceHref} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-brand">
+                        {ind.fact.source}
+                      </a>
+                    ) : (
+                      ind.fact.source
+                    )}
                   </figcaption>
                 )}
               </div>
@@ -138,8 +140,11 @@ export function IndustryPage({ ind }: { ind: Industry }) {
               </div>
             ))}
           </div>
-          {/* 7 · what stays with you */}
+          {/* 7 · what it replaces, what stays with you */}
           <p className="mt-8 text-[15px] leading-relaxed text-ink-2">
+            <b className="font-semibold text-ink">{S.replacesLabel}:</b> {ind.replaces}
+          </p>
+          <p className="mt-2 text-[15px] leading-relaxed text-ink-2">
             <b className="font-semibold text-ink">{S.staysLabel}:</b> {ind.stays}
           </p>
         </div>
@@ -182,6 +187,23 @@ export function IndustryPage({ ind }: { ind: Industry }) {
         </div>
       </section>
     </>
+  );
+}
+
+/* The trade photo with the device over its lower corner – the same on every
+   industry page and on the index (Alex, 18.11: a visitor from an ad should
+   see what we sell). The device is the market's one model (INDUSTRY_DEVICE). */
+export function TradePhoto({ src, alt, priority = true }: { src: string; alt: string; priority?: boolean }) {
+  return (
+    <div className="relative pr-6 pb-10 sm:pr-10 sm:pb-12">
+      <div className="pointer-events-none absolute -inset-6 rounded-[40px] bg-[radial-gradient(circle,rgba(90,25,181,0.1),transparent_70%)]" />
+      <div className="relative aspect-[4/3] overflow-hidden rounded-[28px] shadow-[0_40px_80px_-48px_rgba(90,25,181,0.5)]">
+        <Image src={src} alt={alt} fill priority={priority} sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover" />
+      </div>
+      <div className="absolute right-0 bottom-0 w-[38%] max-w-60 drop-shadow-[0_24px_32px_rgba(18,7,34,0.35)]">
+        <Image src={INDUSTRY_DEVICE.src} alt={INDUSTRY_DEVICE.alt} width={900} height={900} sizes="(max-width: 1024px) 38vw, 240px" className="h-auto w-full" />
+      </div>
+    </div>
   );
 }
 

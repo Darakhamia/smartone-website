@@ -10,7 +10,7 @@ Key facts:
 - Transparent pricing: every fee shown up front. No settlement fees, no inactivity fees, no monthly minimums.
 - Payouts go to the merchant's own existing bank account, next business day (T+1). Payments are processed by a licensed payment partner.
 - The Merchant Portal shows net amounts and the commission actually paid for every settlement.
-- Usually live in 4 business days or less from your request, including fiscal registration of the device where the market requires it.
+- Usually live in 4 business days from registration, including fiscal registration of the device where the market requires it.
 
 ## Countries
 The site serves every country from the same URLs; the visitor picks a country, and pages without a choice show Malta.

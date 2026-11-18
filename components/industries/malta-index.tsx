@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 import { TalkToUs } from "@/components/lead/talk-to-us";
+import { TradePhoto } from "@/components/industries/industry-page";
 import { INDUSTRIES, INDUSTRY_SHARED } from "@/lib/industries";
 
 /* /industries for Malta: a hero, eight tiles to the industry pages and a
@@ -9,15 +10,19 @@ import { INDUSTRIES, INDUSTRY_SHARED } from "@/lib/industries";
    the page in app/industries/page.tsx. */
 export function MaltaIndustriesIndex() {
   const S = INDUSTRY_SHARED.index;
+  const hero = INDUSTRIES[0];
   return (
     <>
-      <section className="pt-16 pb-14 lg:pt-22">
-        <div className="mx-auto max-w-6xl px-6">
-          <div className="mx-auto max-w-170 text-center">
+      {/* the first screen matches the industry pages: a trade photo with the
+          device over its corner (TradePhoto) */}
+      <section className="pt-14 pb-14 lg:pt-20">
+        <div className="mx-auto grid max-w-6xl items-center gap-10 px-6 lg:grid-cols-2 lg:gap-14">
+          <div>
             <span className="anim-fade-up eyebrow">{S.eyebrow}</span>
             <h1 className="anim-fade-up anim-d-1 h-display mt-4 text-[clamp(36px,4.8vw,60px)] leading-[1.04]">{S.h1}</h1>
-            <p className="lead anim-fade-up anim-d-2 mx-auto mt-5 max-w-130 text-lg leading-relaxed text-ink-2">{S.sub}</p>
+            <p className="lead anim-fade-up anim-d-2 mt-5 max-w-130 text-lg leading-relaxed text-ink-2">{S.sub}</p>
           </div>
+          <TradePhoto src={hero.image} alt={hero.imageAlt} />
         </div>
       </section>
 
