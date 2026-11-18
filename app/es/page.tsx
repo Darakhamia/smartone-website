@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import { pageSeo } from "@/lib/seo";
 import { StubPage } from "@/components/stub-page";
 import { getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 
-export const metadata: Metadata = { title: "Spain · Verifactu 2027" };
+export const metadata: Metadata = { title: "Spain · Verifactu 2027", ...pageSeo("/es") };
 
 /* Deadline-driven lead-gen page (Segment B) – full version to come. */
 export default async function SpainPage() {

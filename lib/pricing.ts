@@ -25,7 +25,7 @@ export type Terms = {
   rates: Record<PlanMode, PerBand>;
   /** Device cost by band: a one-off to buy, per month to rent. */
   price: Record<PlanMode, PerBand>;
-  /** Fixed fee on every card transaction, on top of the rate. */
+  /** Fixed fee per transaction, on top of the rate. */
   fixed: string;
 };
 

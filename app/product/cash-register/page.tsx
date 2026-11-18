@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { pageSeo } from "@/lib/seo";
 import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 import { SectionHead } from "@/components/section-head";
 import { DayWalk } from "@/components/product/day-walk";
+import { ALL_REGISTER_FAQS, approvalFact, RegisterFaq } from "@/components/product/register-faq";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 import { promotesRegister, terminalModel, TERMINAL_MODELS, type CountryCode, type Lang } from "@/lib/countries";
@@ -12,6 +14,7 @@ export const metadata: Metadata = {
   title: "Cash register",
   description:
     "A fiscal cash register built into the device you already use to take payments. Fiscal receipts, Z-reports and fiscal registration for the market you trade in.",
+  ...pageSeo("/product/cash-register"),
 };
 
 const whatIcons = [
@@ -270,6 +273,7 @@ export default async function CashRegisterPage() {
   // Fiscal-compliance block: only fiscal markets not yet live (not Malta / UK).
   // The Verifactu card is Spain-only.
   const showCompliance = fiscal && country.code !== "mt";
+  const approval = approvalFact(lang);
 
   return (
     <>
@@ -293,6 +297,18 @@ export default async function CashRegisterPage() {
                 <Link href="/product/terminals" className="btn-ghost">{c.seeTerminals}</Link>
               )}
             </div>
+            {/* the approval, as the homepage states it – no link to the notice, which names our partner */}
+            {register && (
+              <p className="anim-fade-up anim-d-3 mt-8 flex max-w-125 items-center gap-3.5 rounded-2xl border border-line bg-white px-4 py-3.5">
+                <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#e6f4ee] text-[#0e6b4a]">
+                  <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3Z" /><path d="m9 12 2 2 4-4.5" /></svg>
+                </span>
+                <span>
+                  <span className="block text-[13.5px] font-semibold">{approval.claim},</span>
+                  <span className="block text-[12.5px] text-ink-3">{approval.source}.</span>
+                </span>
+              </p>
+            )}
             {/* Malta's landing page for fiscal searches – only where the register is live */}
             {register && (
               <Link href="/malta/fiscal-cash-register" className="anim-fade-up anim-d-3 mt-5 inline-block text-[14.5px] font-semibold text-brand hover:underline">
@@ -400,6 +416,9 @@ export default async function CashRegisterPage() {
               </Reveal>
             </div>
           </section>
+
+          {/* 6 · questions and answers (Malta) – with their FAQPage JSON-LD */}
+          <RegisterFaq lang={lang} country={country} ids={ALL_REGISTER_FAQS} className="bg-bg-2" />
         </>
       ) : !fiscal ? (
         /* non-fiscal (UK): a single explainer + routes onward */
@@ -449,7 +468,8 @@ export default async function CashRegisterPage() {
       )}
 
       {/* 7 · CTA */}
-      <section className={`${showCompliance ? "" : "bg-bg-2"} py-24`}>
+      {/* white after the bg-2 compliance block or the bg-2 FAQ */}
+      <section className={`${showCompliance || register ? "" : "bg-bg-2"} py-24`}>
         <div className="mx-auto max-w-6xl px-6">
           <Reveal>
             <div className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-brand to-brand-d px-8 py-14 text-center text-white">

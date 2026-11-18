@@ -16,7 +16,7 @@ COPY . .
 #   ENABLE_HSTS is read by next.config.ts, whose headers() is compiled into
 #   .next/routes-manifest.json at build time.
 # Leaving them unset is the normal production case: SITE_URL then falls back to
-# the canonical domain, and HSTS stays off until TLS is confirmed working.
+# the canonical domain, and HSTS is on (ENABLE_HSTS=0 switches it off).
 ARG NEXT_PUBLIC_SITE_URL=""
 ARG ENABLE_HSTS=""
 ENV NEXT_TELEMETRY_DISABLED=1 \

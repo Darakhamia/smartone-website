@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageSeo } from "@/lib/seo";
 import Link from "next/link";
 import {
   Smartphone,
@@ -25,6 +26,7 @@ export const metadata: Metadata = {
   title: "About",
   description:
     "SmartOne is a European fintech company helping small and medium-sized businesses accept payments, manage sales and simplify daily operations – enterprise-level technology without enterprise-level complexity.",
+  ...pageSeo("/about"),
 };
 
 // order matches c.platform
