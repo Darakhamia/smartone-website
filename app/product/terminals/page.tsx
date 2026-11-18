@@ -68,7 +68,7 @@ function copyFor(lang: Lang, model: TerminalModel) {
         { src: `${dir}/back.webp`, alt: `${name} terminal, rear view`, label: tr(lang, "Back", "Detrás", "Ззаду", "Сзади") },
       ]
     : [
-        { src: `${dir}/front.webp`, alt: `${name} terminal, front view showing the till screen`, label: tr(lang, "Front", "Frente", "Спереду", "Спереди") },
+        { src: `${dir}/front.webp`, alt: `${name} terminal, front view showing the payment screen`, label: tr(lang, "Front", "Frente", "Спереду", "Спереди") },
         { src: `${dir}/angle-r.webp`, alt: `${name} terminal, three-quarter view`, label: tr(lang, "Angle", "Ángulo", "Під кутом", "Под углом") },
         { src: `${dir}/angle-l.webp`, alt: `${name} terminal, opposite three-quarter view`, label: tr(lang, "Side", "Lateral", "Збоку", "Сбоку") },
         { src: `${dir}/back.webp`, alt: `${name} terminal, rear view with the built-in printer`, label: tr(lang, "Back", "Detrás", "Ззаду", "Сзади") },
