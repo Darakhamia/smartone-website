@@ -160,6 +160,21 @@ export const TERMINAL_MODELS: Record<TerminalModel, { name: string; dir: string;
 export const SHOWCASE_DEVICE = `${TERMINAL_MODELS["bank-pro-s"].dir}/hero.webp`;
 
 export const COUNTRY_COOKIE = "so_country";
+
+/* Pages written for one market. A visitor on /malta/* sees the site as Malta –
+   page, navigation, footer and the call-back form – whatever so_country says,
+   and so_country is not touched: the visitor chose a page, not a country (the
+   cookie is written only on an actual choice, as /cookies says). proxy.ts
+   forwards the market to server components in MARKET_HEADER; client
+   components get it from the pathname through useCountry(); /api/leads reads
+   it from the page the lead was sent from. */
+export const MARKET_HEADER = "x-so-market";
+
+export function marketForPath(pathname: string | null | undefined): CountryCode | null {
+  if (!pathname) return null;
+  if (pathname === "/malta" || pathname.startsWith("/malta/")) return "mt";
+  return null;
+}
 export const LANG_COOKIE = "so_lang";
 /** Lifetime of so_country / so_lang – 6 months, as /cookies states. */
 export const PREF_COOKIE_MAX_AGE = 60 * 60 * 24 * 182;

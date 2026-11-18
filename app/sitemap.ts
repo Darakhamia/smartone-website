@@ -17,6 +17,8 @@ const PAGES = [
   "/merchant-portal",
   "/click",
   "/industries",
+  "/malta/fiscal-cash-register",
+  "/malta/compare",
   "/about",
   "/contact",
   "/imprint",

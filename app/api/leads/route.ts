@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { ATTRIBUTION_FIELDS } from "@/lib/attribution";
-import { COUNTRIES, COUNTRY_COOKIE } from "@/lib/countries";
+import { COUNTRIES, COUNTRY_COOKIE, marketForPath } from "@/lib/countries";
 import {
   LEAD_FIELD_LABELS,
   LEAD_FIELDS,
@@ -101,8 +101,11 @@ export async function POST(request: Request) {
   if (!fields.name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email ?? "")) return fail(400);
   if (source !== "contact" && (!fields.phone || !fields.business_type)) return fail(400);
 
-  const code = (await cookies()).get(COUNTRY_COOKIE)?.value ?? "";
-  const note = message(source, fields, tags, text(body.page, 200), code);
+  // A lead from a market page (/malta/*) is from that market's site whatever
+  // the visitor's country cookie says – that page showed them its market.
+  const page = text(body.page, 200);
+  const code = marketForPath(page) ?? (await cookies()).get(COUNTRY_COOKIE)?.value ?? "";
+  const note = message(source, fields, tags, page, code);
   try {
     await postToTelegram(note);
   } catch (e) {
