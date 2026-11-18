@@ -19,7 +19,7 @@ import {
 import { Reveal } from "@/components/reveal";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
-import { currencyWord, terminalModel, TERMINAL_MODELS, type Lang } from "@/lib/countries";
+import { currencyWord, promotesRegister, terminalModel, TERMINAL_MODELS, type Lang } from "@/lib/countries";
 
 export const metadata: Metadata = {
   title: "Industries",
@@ -55,7 +55,10 @@ const scenarioIcons: Record<string, LucideIcon[]> = {
    alone, which is a fiscal market, so its wording is always right. If a
    non-fiscal Spanish-speaking market is ever added, the Spanish strings below
    need the same treatment. */
-function copyFor(lang: Lang, device: string, cur: string, fiscal: boolean) {
+function copyFor(lang: Lang, device: string, cur: string, fiscal: boolean, register: boolean) {
+  // The cash register is named only where it is promoted (promotesRegister());
+  // elsewhere the orders and the ringing-up happen on the terminal.
+  const R = (withRegister: string, without: string) => (register ? withRegister : without);
   const receipt = fiscal ? "fiscal receipt" : "receipt";
   return tr(
     lang,
@@ -65,7 +68,7 @@ function copyFor(lang: Lang, device: string, cur: string, fiscal: boolean) {
       titleB: "your kind of business.",
       lead: "It's the same job everywhere – take the payment, print the receipt, know your money. Here's what that looks like at your counter.",
       cardsHeading: "Industries we serve",
-      clickCallout: "is a connected ordering solution – orders flow to the register in real time.",
+      clickCallout: R("is a connected ordering solution – orders flow to the register in real time.", "is a connected ordering solution – orders flow to your terminal in real time."),
       get: "Get a terminal →",
       sales: "Contact sales",
       spainTitle: "Selling in Spain?",
@@ -76,7 +79,7 @@ function copyFor(lang: Lang, device: string, cur: string, fiscal: boolean) {
       cards: [
         { img: "/industries/events.jpg", title: "Festivals & events", hook: "Every bar takes cards", href: "#events" },
         { img: "/industries/retail.jpg", title: "Retail", hook: "Ring up, tap, receipt out", href: "#retail" },
-        { img: "/industries/cafes.jpg", title: "Cafés & HoReCa", hook: "Orders reach the register", href: "#cafes" },
+        { img: "/industries/cafes.jpg", title: "Cafés & HoReCa", hook: R("Orders reach the register", "Orders reach the terminal"), href: "#cafes" },
         { img: "/industries/beauty-salon.jpg", title: "Beauty & wellness", hook: "Book, serve, get paid", href: "#beauty" },
         { img: "/industries/mobile-courier.jpg", title: "Mobile / Street", hook: "No Wi-Fi? No problem", href: "#mobile" },
         { img: "/industries/services-electrician.jpg", title: "Professional services", hook: "Parts and labour, one bill", href: "/contact" },
@@ -97,7 +100,7 @@ function copyFor(lang: Lang, device: string, cur: string, fiscal: boolean) {
         {
           id: "retail", img: "/industries/retail.jpg", alt: "Interior of a modern clothing boutique", eyebrow: "", title: "Retail",
           scenarios: [
-            { title: "Products priced once", text: "Set prices in the portal, ring up on the register." },
+            { title: "Products priced once", text: R("Set prices in the portal, ring up on the register.", "Set prices in the portal, ring up on the terminal.") },
             { title: "Any way they pay", text: "Card, contactless or cash, all on the same screen." },
             { title: "See your best sellers", text: "Revenue, average basket and top categories in the portal." },
           ],
@@ -107,7 +110,7 @@ function copyFor(lang: Lang, device: string, cur: string, fiscal: boolean) {
         {
           id: "cafes", img: "/industries/cafes.jpg", alt: "Barista and a fresh coffee on the café counter", eyebrow: "+ Click", title: "Cafés & HoReCa",
           scenarios: [
-            { title: "Orders reach the register", text: "Click sends the order straight to the register." },
+            { title: R("Orders reach the register", "Orders reach the terminal"), text: R("Click sends the order straight to the register.", "Click sends the order straight to the terminal.") },
             { title: "Fast at the peak", text: "The big screen keeps the morning rush moving." },
             { title: fiscal ? "One fiscal receipt" : "One receipt", text: fiscal ? "Every order closes with a compliant receipt." : "Every order closes with a printed receipt." },
           ],
@@ -120,7 +123,7 @@ function copyFor(lang: Lang, device: string, cur: string, fiscal: boolean) {
           scenarios: [
             { title: "Service, then payment", text: "Finish the appointment, take payment on the same device." },
             { title: "Receipt every time", text: `A ${receipt} prints for every client.` },
-            { title: "Know your week", text: `What you took and what you'll receive, in ${cur}.` },
+            { title: "Know your week", text: `What you took and your payouts, in ${cur}.` },
           ],
           device: `${device} at the chair`,
           scope: "Appointment booking stays in your current scheduler.",
@@ -143,7 +146,7 @@ function copyFor(lang: Lang, device: string, cur: string, fiscal: boolean) {
       titleB: "para tu tipo de negocio.",
       lead: "Es el mismo trabajo en todas partes: cobrar, imprimir el ticket, controlar tu dinero. Así se ve en tu mostrador.",
       cardsHeading: "Sectores a los que servimos",
-      clickCallout: "es una solución de pedidos conectada: los pedidos llegan a la caja en tiempo real.",
+      clickCallout: R("es una solución de pedidos conectada: los pedidos llegan a la caja en tiempo real.", "es una solución de pedidos conectada: los pedidos llegan al terminal en tiempo real."),
       get: "Solicita tu terminal →",
       sales: "Contactar con ventas",
       spainTitle: "¿Vendes en España?",
@@ -154,7 +157,7 @@ function copyFor(lang: Lang, device: string, cur: string, fiscal: boolean) {
       cards: [
         { img: "/industries/events.jpg", title: "Festivales y eventos", hook: "Todas las barras cobran con tarjeta", href: "#events" },
         { img: "/industries/retail.jpg", title: "Retail", hook: "Cobra, tap, ticket fuera", href: "#retail" },
-        { img: "/industries/cafes.jpg", title: "Cafeterías y HoReCa", hook: "Los pedidos llegan a la caja", href: "#cafes" },
+        { img: "/industries/cafes.jpg", title: "Cafeterías y HoReCa", hook: R("Los pedidos llegan a la caja", "Los pedidos llegan al terminal"), href: "#cafes" },
         { img: "/industries/beauty-salon.jpg", title: "Belleza y bienestar", hook: "Reserva, atiende, cobra", href: "#beauty" },
         { img: "/industries/mobile-courier.jpg", title: "Móvil / Calle", hook: "¿Sin Wi-Fi? Sin problema", href: "#mobile" },
         { img: "/industries/services-electrician.jpg", title: "Servicios profesionales", hook: "Piezas y mano de obra, una factura", href: "/contact" },
@@ -175,7 +178,7 @@ function copyFor(lang: Lang, device: string, cur: string, fiscal: boolean) {
         {
           id: "retail", img: "/industries/retail.jpg", alt: "Interior de una tienda de ropa moderna", eyebrow: "", title: "Retail",
           scenarios: [
-            { title: "Precios una sola vez", text: "Configura precios en el portal y cobra en la caja." },
+            { title: "Precios una sola vez", text: R("Configura precios en el portal y cobra en la caja.", "Configura precios en el portal y cobra en el terminal.") },
             { title: "Como quieran pagar", text: "Tarjeta, contactless o efectivo, todo en la misma pantalla." },
             { title: "Mira tus más vendidos", text: "Ingresos, cesta media y categorías top en el portal." },
           ],
@@ -185,7 +188,7 @@ function copyFor(lang: Lang, device: string, cur: string, fiscal: boolean) {
         {
           id: "cafes", img: "/industries/cafes.jpg", alt: "Barista y un café recién hecho en el mostrador de la cafetería", eyebrow: "+ Click", title: "Cafeterías y HoReCa",
           scenarios: [
-            { title: "Los pedidos llegan a la caja", text: "SmartOne Click toma el pedido y lo envía directo a la caja, un solo catálogo, sin volver a teclear." },
+            { title: R("Los pedidos llegan a la caja", "Los pedidos llegan al terminal"), text: R("SmartOne Click toma el pedido y lo envía directo a la caja, un solo catálogo, sin volver a teclear.", "SmartOne Click toma el pedido y lo envía directo al terminal, un solo catálogo, sin volver a teclear.") },
             { title: "Rápido en la hora punta", text: "La pantalla grande mantiene el ritmo en la hora punta de la mañana." },
             { title: "Un ticket fiscal", text: "Cada pedido cierra con un ticket conforme desde la impresora integrada." },
           ],
@@ -198,7 +201,7 @@ function copyFor(lang: Lang, device: string, cur: string, fiscal: boolean) {
           scenarios: [
             { title: "Servicio y luego pago", text: "Termina la cita y cobra en el mismo dispositivo, tarjeta o contactless." },
             { title: "Ticket siempre", text: "Un ticket fiscal conforme se imprime para cada cliente, automáticamente." },
-            { title: "Controla tu semana", text: `Lo que cobraste y lo que vas a recibir, en ${cur}.` },
+            { title: "Controla tu semana", text: `Lo que vendiste y tus cobros, en ${cur}.` },
           ],
           device: `${device} en el sillón`,
           scope: "Pagos y tickets fiscales. Las reservas de cita se quedan en tu agenda actual.",
@@ -221,7 +224,7 @@ function copyFor(lang: Lang, device: string, cur: string, fiscal: boolean) {
       titleB: "для вашого бізнесу.",
       lead: "Скрізь та сама робота – прийняти оплату, надрукувати чек, контролювати гроші. Ось як це виглядає за вашим прилавком.",
       cardsHeading: "Галузі, з якими ми працюємо",
-      clickCallout: "– це підключена система замовлень: замовлення надходять на касу в реальному часі.",
+      clickCallout: R("– це підключена система замовлень: замовлення надходять на касу в реальному часі.", "– це підключена система замовлень: замовлення надходять на термінал у реальному часі."),
       get: "Замовити термінал →",
       sales: "Зв’язатися з нами",
       spainTitle: "Продаєте в Іспанії?",
@@ -232,7 +235,7 @@ function copyFor(lang: Lang, device: string, cur: string, fiscal: boolean) {
       cards: [
         { img: "/industries/events.jpg", title: "Фестивалі та заходи", hook: "Кожен бар приймає картки", href: "#events" },
         { img: "/industries/retail.jpg", title: "Роздрібна торгівля", hook: "Пробили, оплатили, чек у руках", href: "#retail" },
-        { img: "/industries/cafes.jpg", title: "Кав’ярні та HoReCa", hook: "Замовлення надходять на касу", href: "#cafes" },
+        { img: "/industries/cafes.jpg", title: "Кав’ярні та HoReCa", hook: R("Замовлення надходять на касу", "Замовлення надходять на термінал"), href: "#cafes" },
         { img: "/industries/beauty-salon.jpg", title: "Краса та здоров’я", hook: "Запис, послуга, оплата", href: "#beauty" },
         { img: "/industries/mobile-courier.jpg", title: "На виїзді / на вулиці", hook: "Немає Wi-Fi? Не проблема", href: "#mobile" },
         { img: "/industries/services-electrician.jpg", title: "Професійні послуги", hook: "Матеріали й робота в одному рахунку", href: "/contact" },
@@ -253,7 +256,7 @@ function copyFor(lang: Lang, device: string, cur: string, fiscal: boolean) {
         {
           id: "retail", img: "/industries/retail.jpg", alt: "Інтер’єр сучасного бутика одягу", eyebrow: "", title: "Роздрібна торгівля",
           scenarios: [
-            { title: "Ціни задаються один раз", text: "Задайте ціни в порталі й пробивайте товари на касі." },
+            { title: "Ціни задаються один раз", text: R("Задайте ціни в порталі й пробивайте товари на касі.", "Задайте ціни в порталі й пробивайте товари на терміналі.") },
             { title: "Будь-який спосіб оплати", text: "Картка, безконтактна оплата чи готівка – усе на одному екрані." },
             { title: "Хіти продажів як на долоні", text: "Виручка, середній чек і найпопулярніші категорії в порталі." },
           ],
@@ -263,7 +266,7 @@ function copyFor(lang: Lang, device: string, cur: string, fiscal: boolean) {
         {
           id: "cafes", img: "/industries/cafes.jpg", alt: "Бариста й свіжа кава на стійці кав’ярні", eyebrow: "+ Click", title: "Кав’ярні та HoReCa",
           scenarios: [
-            { title: "Замовлення надходять на касу", text: "Click надсилає замовлення прямо на касу." },
+            { title: R("Замовлення надходять на касу", "Замовлення надходять на термінал"), text: R("Click надсилає замовлення прямо на касу.", "Click надсилає замовлення прямо на термінал.") },
             { title: "Швидко в пікові години", text: "Великий екран допомагає впоратися з ранковим напливом." },
             { title: fiscal ? "Один фіскальний чек" : "Один чек", text: fiscal ? "Кожне замовлення закривається чеком, що відповідає вимогам." : "Кожне замовлення закривається надрукованим чеком." },
           ],
@@ -299,7 +302,7 @@ function copyFor(lang: Lang, device: string, cur: string, fiscal: boolean) {
       titleB: "для вашего бизнеса.",
       lead: "Везде одна и та же работа – принять оплату, распечатать чек, контролировать деньги. Вот как это выглядит за вашим прилавком.",
       cardsHeading: "Отрасли, с которыми мы работаем",
-      clickCallout: "– это подключённая система заказов: заказы поступают на кассу в реальном времени.",
+      clickCallout: R("– это подключённая система заказов: заказы поступают на кассу в реальном времени.", "– это подключённая система заказов: заказы поступают на терминал в реальном времени."),
       get: "Заказать терминал →",
       sales: "Связаться с нами",
       spainTitle: "Продаёте в Испании?",
@@ -310,7 +313,7 @@ function copyFor(lang: Lang, device: string, cur: string, fiscal: boolean) {
       cards: [
         { img: "/industries/events.jpg", title: "Фестивали и мероприятия", hook: "Каждый бар принимает карты", href: "#events" },
         { img: "/industries/retail.jpg", title: "Розничная торговля", hook: "Пробили, оплатили, чек в руках", href: "#retail" },
-        { img: "/industries/cafes.jpg", title: "Кафе и HoReCa", hook: "Заказы поступают на кассу", href: "#cafes" },
+        { img: "/industries/cafes.jpg", title: "Кафе и HoReCa", hook: R("Заказы поступают на кассу", "Заказы поступают на терминал"), href: "#cafes" },
         { img: "/industries/beauty-salon.jpg", title: "Красота и здоровье", hook: "Запись, услуга, оплата", href: "#beauty" },
         { img: "/industries/mobile-courier.jpg", title: "На выезде / на улице", hook: "Нет Wi-Fi? Не проблема", href: "#mobile" },
         { img: "/industries/services-electrician.jpg", title: "Профессиональные услуги", hook: "Материалы и работа в одном счёте", href: "/contact" },
@@ -331,7 +334,7 @@ function copyFor(lang: Lang, device: string, cur: string, fiscal: boolean) {
         {
           id: "retail", img: "/industries/retail.jpg", alt: "Интерьер современного бутика одежды", eyebrow: "", title: "Розничная торговля",
           scenarios: [
-            { title: "Цены задаются один раз", text: "Задайте цены в портале и пробивайте товары на кассе." },
+            { title: "Цены задаются один раз", text: R("Задайте цены в портале и пробивайте товары на кассе.", "Задайте цены в портале и пробивайте товары на терминале.") },
             { title: "Любой способ оплаты", text: "Карта, бесконтактная оплата или наличные – всё на одном экране." },
             { title: "Хиты продаж как на ладони", text: "Выручка, средний чек и самые популярные категории в портале." },
           ],
@@ -341,7 +344,7 @@ function copyFor(lang: Lang, device: string, cur: string, fiscal: boolean) {
         {
           id: "cafes", img: "/industries/cafes.jpg", alt: "Бариста и свежий кофе на стойке кафе", eyebrow: "+ Click", title: "Кафе и HoReCa",
           scenarios: [
-            { title: "Заказы поступают на кассу", text: "Click отправляет заказ прямо на кассу." },
+            { title: R("Заказы поступают на кассу", "Заказы поступают на терминал"), text: R("Click отправляет заказ прямо на кассу.", "Click отправляет заказ прямо на терминал.") },
             { title: "Быстро в часы пик", text: "Большой экран помогает справиться с утренним наплывом." },
             { title: fiscal ? "Один фискальный чек" : "Один чек", text: fiscal ? "Каждый заказ закрывается чеком, соответствующим требованиям." : "Каждый заказ закрывается распечатанным чеком." },
           ],
@@ -442,7 +445,7 @@ export default async function IndustriesPage() {
   const country = await getActiveCountry();
   const lang = await getActiveLang();
   // One device per country: never name a model the visitor's market can't buy.
-  const c = copyFor(lang, TERMINAL_MODELS[terminalModel(country)].name, currencyWord(country, lang), country.fiscal);
+  const c = copyFor(lang, TERMINAL_MODELS[terminalModel(country)].name, currencyWord(country, lang), country.fiscal, promotesRegister(country));
   return (
     <>
       {/* 1 · hero */}

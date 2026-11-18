@@ -3,7 +3,6 @@ import Link from "next/link";
 import { Clock, Landmark, MapPin, ShieldCheck, type LucideIcon } from "lucide-react";
 import { GetStarted } from "@/components/home/get-started";
 import { HeroCarousel } from "@/components/home/hero-carousel";
-import { TalkToUs } from "@/components/lead/talk-to-us";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 import { promotesRegister, SHOWCASE_DEVICE, type Country, type Lang } from "@/lib/countries";
@@ -125,8 +124,8 @@ function HeroVisual({ country, lang }: { country: Country; lang: Lang }) {
 }
 
 /* Three facts under the hero, each the market's own: the fiscal approval
-   exists only in Malta (MTCA, January 2025) and the local partner is
-   Malta's; Spain's fact is Verifactu readiness; elsewhere it is who
+   exists only in Malta (MTCA, January 2025), and so does our partner in
+   Malta; Spain's fact is Verifactu readiness; elsewhere it is who
    processes the payments. */
 function facts(country: Country, lang: Lang): { label: string; icon: LucideIcon }[] {
   const payouts = {
@@ -142,10 +141,10 @@ function facts(country: Country, lang: Lang): { label: string; icon: LucideIcon 
   const live = {
     label: tr(
       lang,
-      "Live in 4 business days or less",
-      "Operativo en 4 días hábiles o menos",
-      "Запуск за 4 робочі дні або швидше",
-      "Запуск за 4 рабочих дня или быстрее",
+      "Usually live in 4 business days or less",
+      "Normalmente operativo en 4 días hábiles o menos",
+      "Зазвичай запуск за 4 робочі дні або швидше",
+      "Обычно запуск за 4 рабочих дня или быстрее",
     ),
     icon: Clock,
   };
@@ -153,7 +152,7 @@ function facts(country: Country, lang: Lang): { label: string; icon: LucideIcon 
     return [
       { label: "VAT-approved in Malta", icon: ShieldCheck },
       payouts,
-      { label: "A local partner in Malta", icon: MapPin },
+      { label: "Our partner in Malta", icon: MapPin },
     ];
   }
   if (country.code === "es") {
@@ -212,8 +211,8 @@ export async function Hero() {
       cta2: "Посмотреть цены",
     },
   );
-  // Malta follows the homepage task: Get started asks self-employed or Ltd,
-  // Talk to us is the second button. Other markets keep their own two.
+  // Malta has one button, Talk to us, which opens the call-back form (Alex's
+  // correction, 15.10.2026). Other markets keep their own two.
   const malta = country.code === "mt";
 
   return (
@@ -236,10 +235,7 @@ export async function Hero() {
           </p>
           <div className="anim-focus-in anim-d-3 mt-9 flex flex-wrap items-center gap-3.5">
             {malta ? (
-              <>
-                <GetStarted location="hero" className="btn-primary" />
-                <TalkToUs location="hero" className="btn-ghost" />
-              </>
+              <GetStarted location="hero" className="btn-primary" />
             ) : (
               <>
                 <Link href="/contact" className="btn-primary">{c.cta1}</Link>

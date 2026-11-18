@@ -92,7 +92,7 @@ function copyFor(lang: Lang) {
       products: {
         terminal: { name: "Payment terminal", short: "Card, contactless and cash", href: "/product/terminals" },
         cashRegister: { name: "Cash register", short: "VAT-approved fiscal till", shortWeb: "VAT-approved, with a web dashboard", href: "/product/cash-register" },
-        click: { name: "Click", short: "Orders straight to the register", href: "/click" },
+        click: { name: "Click", short: "Orders straight to the register", shortNoRegister: "Orders straight to your terminal", href: "/click" },
         portal: { name: "Merchant Portal", short: "Included", href: "/merchant-portal" },
         tapToPhone: { name: "Tap to Phone", short: "", href: "/product/tap-to-phone" },
       },
@@ -146,7 +146,7 @@ function copyFor(lang: Lang) {
       products: {
         terminal: { name: "Terminal de pago", short: "Tarjeta, contactless y efectivo", href: "/product/terminals" },
         cashRegister: { name: "Caja registradora", short: "Caja fiscal aprobada", shortWeb: "Aprobada, con panel web", href: "/product/cash-register" },
-        click: { name: "Click", short: "Pedidos directos a la caja", href: "/click" },
+        click: { name: "Click", short: "Pedidos directos a la caja", shortNoRegister: "Pedidos directos a tu terminal", href: "/click" },
         portal: { name: "Merchant Portal", short: "Incluido", href: "/merchant-portal" },
         tapToPhone: { name: "Tap to Phone", short: "", href: "/product/tap-to-phone" },
       },
@@ -200,7 +200,7 @@ function copyFor(lang: Lang) {
       products: {
         terminal: { name: "Платіжний термінал", short: "Картка, безконтактна оплата і готівка", href: "/product/terminals" },
         cashRegister: { name: "Касовий апарат", short: "Схвалена фіскальна каса", shortWeb: "Схвалений, з веб-панеллю", href: "/product/cash-register" },
-        click: { name: "Click", short: "Замовлення прямо на касу", href: "/click" },
+        click: { name: "Click", short: "Замовлення прямо на касу", shortNoRegister: "Замовлення прямо на термінал", href: "/click" },
         portal: { name: "Merchant Portal", short: "Включено", href: "/merchant-portal" },
         tapToPhone: { name: "Tap to Phone", short: "", href: "/product/tap-to-phone" },
       },
@@ -254,7 +254,7 @@ function copyFor(lang: Lang) {
       products: {
         terminal: { name: "Платёжный терминал", short: "Карта, бесконтактная оплата и наличные", href: "/product/terminals" },
         cashRegister: { name: "Кассовый аппарат", short: "Одобренная фискальная касса", shortWeb: "Одобренный, с веб-панелью", href: "/product/cash-register" },
-        click: { name: "Click", short: "Заказы прямо на кассу", href: "/click" },
+        click: { name: "Click", short: "Заказы прямо на кассу", shortNoRegister: "Заказы прямо на терминал", href: "/click" },
         portal: { name: "Merchant Portal", short: "Включено", href: "/merchant-portal" },
         tapToPhone: { name: "Tap to Phone", short: "", href: "/product/tap-to-phone" },
       },
@@ -429,7 +429,13 @@ export function NeedsQuiz() {
             <div className="grid flex-1 gap-3 sm:grid-cols-2">
               {r.keys.map((k) => {
                 const p = c.products[k];
-                const short = k === "cashRegister" && r.webTill ? c.products.cashRegister.shortWeb : p.short;
+                // Click's line names the register only where the register is promoted.
+                const short =
+                  k === "cashRegister" && r.webTill
+                    ? c.products.cashRegister.shortWeb
+                    : k === "click" && !promotesRegister(country)
+                      ? c.products.click.shortNoRegister
+                      : p.short;
                 return (
                   <Link
                     key={k}

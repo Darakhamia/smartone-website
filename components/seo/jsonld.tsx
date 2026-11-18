@@ -55,7 +55,7 @@ const PRICING_FAQ: Array<[question: string, answer: string]> = [
   ],
   [
     "How fast can I start taking payments?",
-    "Four business days or less from signing up to going live – including fiscal registration of the device for your market.",
+    "Usually four business days or less from signing up to going live – including fiscal registration of the device for your market.",
   ],
   [
     "Buy or rent – which is cheaper?",
