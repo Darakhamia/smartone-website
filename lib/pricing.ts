@@ -25,9 +25,8 @@ export type Terms = {
   rates: Record<PlanMode, PerBand>;
   /** Device cost by band: a one-off to buy, per month to rent. */
   price: Record<PlanMode, PerBand>;
-  /** Fixed fee per card transaction, on top of the rate. Set only where it is
-      confirmed for the market; copy that needs it must handle its absence. */
-  fixed?: string;
+  /** Fixed fee per transaction, on top of the rate. */
+  fixed: string;
   /** Minimum term of the rental plan, in months, where it is confirmed. */
   rentTermMonths?: number;
 };
@@ -51,6 +50,7 @@ const TERMS: Partial<Record<CountryCode, Terms>> = {
     bands: ["5,000", "20,000"],
     rates: { buy: ["1.10", "1.00", "0.90"], rent: ["1.10", "1.00", "0.90"] },
     price: { buy: flat("150"), rent: ["15", "10", "0"] },
+    fixed: "0.02",
   },
 };
 

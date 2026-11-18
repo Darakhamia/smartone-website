@@ -33,7 +33,7 @@ export function industryPagesFor(country: Country): boolean {
 const terms = termsFor(COUNTRY_MAP.mt);
 const rent = `€${terms.price.rent[0]} + VAT a month`;
 const buy = `€${terms.price.buy[0]} + VAT`;
-const cardFee = `${terms.rates.rent[0]}%${terms.fixed ? ` + €${terms.fixed}` : ""}`;
+const cardFee = `${terms.rates.rent[0]}% + €${terms.fixed}`;
 const rentTerm = terms.rentTermMonths ? `${terms.rentTermMonths}-month term.` : "";
 
 export type IndustrySlug = "cafes" | "retail" | "beauty" | "bakery" | "grocery" | "events" | "mobile" | "services";

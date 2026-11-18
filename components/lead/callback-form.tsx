@@ -2,11 +2,13 @@
 
 import { useRef, useState } from "react";
 import { useCountry } from "@/components/country/country-context";
+import { CardVolumeOptions } from "@/components/lead/card-volume";
 import { PhoneField } from "@/components/lead/phone-field";
 import { PrivacyNote } from "@/components/lead/privacy-note";
 import { fieldCls, selectCls } from "@/components/lead/styles";
 import { submitLead } from "@/components/lead/submit-lead";
 import type { CountryCode } from "@/lib/countries";
+import { tr } from "@/lib/dictionaries";
 import { COMPANY } from "@/lib/legal";
 import { BUSINESS_TYPES, MIN_PHONE_DIGITS } from "@/lib/leads";
 import { trackLead } from "@/lib/tags";
@@ -17,7 +19,12 @@ import { trackLead } from "@/lib/tags";
    site: every enquiry is a call-back. It goes to the team's Telegram group
    with its source and the visitor's campaign tags (submitLead → /api/leads).
 
-   Malta-only, so English-only. */
+   Monthly card sales (optional, 18.11.2026) is in the market's own bands
+   from lib/pricing.ts; the Malta comparison page says this form asks for it.
+   It already speaks all four languages, so the form can follow when it is
+   shown outside Malta.
+
+   The rest is Malta-only, so English-only. */
 
 const DIAL: Record<CountryCode, string> = { mt: "356", es: "34", cy: "357", sk: "421", uk: "44" };
 
@@ -52,6 +59,7 @@ export function CallbackForm({ source }: { source: keyof typeof TRACK }) {
         phone,
         email,
         business_type: String(data.get("business_type") ?? ""),
+        monthly_card_volume: String(data.get("monthly_card_volume") ?? ""),
       },
       String(data.get("website") ?? ""),
     );
@@ -113,6 +121,21 @@ export function CallbackForm({ source }: { source: keyof typeof TRACK }) {
                 {b.label}
               </option>
             ))}
+          </select>
+        </label>
+        <label className="block sm:col-span-2">
+          <span className={labelCls}>
+            {tr(
+              lang,
+              "Monthly card sales (optional)",
+              "Ventas mensuales con tarjeta (opcional)",
+              "Продажі карткою за місяць (необов’язково)",
+              "Продажи картой за месяц (необязательно)",
+            )}
+          </span>
+          <select name="monthly_card_volume" defaultValue="" className={selectCls}>
+            <option value="">{tr(lang, "Choose…", "Elige…", "Оберіть…", "Выберите…")}</option>
+            <CardVolumeOptions country={country} lang={lang} />
           </select>
         </label>
       </div>
