@@ -32,5 +32,6 @@ The site serves every country from the same URLs; the visitor picks a country, a
 - [Product](https://smartoneglobal.com/product): the terminal, cash register (Malta), Merchant Portal and Click
 - [Click](https://smartoneglobal.com/click): restaurant platform — POS, kitchen display, staff, tables and analytics
 - [Industries](https://smartoneglobal.com/industries): festivals and events, retail, cafés and HoReCa, beauty and wellness, mobile vendors
+- Malta industry pages — the VAT-approved fiscal cash register and card terminal in each trade: [Cafés & HoReCa](https://smartoneglobal.com/industries/cafes), [Retail](https://smartoneglobal.com/industries/retail), [Beauty & wellness](https://smartoneglobal.com/industries/beauty), [Bakeries](https://smartoneglobal.com/industries/bakery), [Grocery](https://smartoneglobal.com/industries/grocery), [Festivals & events](https://smartoneglobal.com/industries/events), [Mobile & street](https://smartoneglobal.com/industries/mobile), [Professional services](https://smartoneglobal.com/industries/services)
 - [Verifactu 2027](https://smartoneglobal.com/es): Spain's Verifactu deadline
 - [About](https://smartoneglobal.com/about): the company and its figures
