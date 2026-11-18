@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-meta-server";
 import { pageSeo } from "@/lib/seo";
 import Link from "next/link";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
@@ -7,12 +8,13 @@ import { tr } from "@/lib/dictionaries";
 /* Not launched yet: kept out of the index (and out of app/sitemap.ts) until it
    is. follow stays on so the links on it still count. When it launches, drop
    the robots line and put the path back in the sitemap. */
-export const metadata: Metadata = {
-  title: "Tap to Phone",
-  robots: { index: false, follow: true },
-  description: "Accept contactless payments on a phone – no extra hardware. SmartOne Tap to Phone is coming soon.",
-  ...pageSeo("/product/tap-to-phone"),
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    ...(await pageMetadata("tapToPhone")),
+    robots: { index: false, follow: true },
+    ...pageSeo("/product/tap-to-phone"),
+  };
+}
 
 export default async function TapToPhonePage() {
   const country = await getActiveCountry();

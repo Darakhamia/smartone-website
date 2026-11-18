@@ -84,10 +84,11 @@ export const INDUSTRY_SHARED = {
     linkHref: "/pricing",
   },
   faqHeading: "Quick answers",
-  /* When /malta/fiscal-cash-register is live, link it from this answer. */
   faqExo: {
     q: "Do I need an EXO number?",
     a: "No. SmartOne is approved by Malta's tax authority (MTCA) as a fiscal cash register – Government Gazette, 10 January 2025, Notice 46. The EXO number is for POS software, so an approved cash register does not need one.",
+    /* shown under the answer; not part of the FAQPage text */
+    link: { label: "More on the fiscal cash register →", href: "/malta/fiscal-cash-register" },
   },
   staysLabel: "What stays with you",
   finalSub:
@@ -352,6 +353,6 @@ export function getIndustry(slug: string): Industry | undefined {
 
 /** The two "Quick answers" on an industry page, in the order shown – the
     visible list and the FAQPage JSON-LD both read this, so they can't drift. */
-export function industryFaq(ind: Industry): { q: string; a: string }[] {
+export function industryFaq(ind: Industry): { q: string; a: string; link?: { label: string; href: string } }[] {
   return [ind.faq, INDUSTRY_SHARED.faqExo];
 }

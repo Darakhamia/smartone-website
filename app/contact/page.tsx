@@ -1,16 +1,14 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-meta-server";
 import { pageSeo } from "@/lib/seo";
 import { Reveal } from "@/components/reveal";
 import { LeadForm } from "@/components/lead/lead-form";
 import { getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 
-export const metadata: Metadata = {
-  title: "Contact",
-  description:
-    "Get a terminal or talk to sales. Tell us about your business and we'll get back to you within one business day.",
-  ...pageSeo("/contact"),
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return { ...(await pageMetadata("contact")), ...pageSeo("/contact") };
+}
 
 const icons = [
   <path key="0" d="M12 7v5l3.5 2M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />,
@@ -23,49 +21,49 @@ export default async function ContactPage() {
   const c = tr(
     lang,
     {
-      eyebrow: "Get started",
+      eyebrow: "Talk to us",
       titleA: "Let's get you",
       titleB: "on the counter.",
       pointsHeading: "What you get",
       lead: "Tell us about your business. Ready to order or just have questions – either way, we'll reply within one business day.",
       points: [
-        { title: "Live in ≤4 business days", text: "From this form to taking payments – including fiscal registration for your market." },
+        { title: "Usually live in ≤4 business days", text: "From this form to taking payments – including fiscal registration for your market." },
         { title: "Your exact rate, up front", text: "We'll work out your band from your volume – no effective-rate surprises." },
         { title: "Keep your own bank", text: "Payouts go to the account you already have, next business day." },
       ],
     },
     {
-      eyebrow: "Empieza",
+      eyebrow: "Habla con nosotros",
       titleA: "Vamos a ponerlo",
       titleB: "en tu mostrador.",
       pointsHeading: "Qué obtienes",
       lead: "Cuéntanos sobre tu negocio. ¿Listo para pedir o solo tienes dudas? En cualquier caso, respondemos en un día hábil.",
       points: [
-        { title: "Operativo en ≤4 días hábiles", text: "De este formulario a cobrar, incluida la registración fiscal para tu mercado." },
+        { title: "Normalmente operativo en ≤4 días hábiles", text: "De este formulario a cobrar, incluida la registración fiscal para tu mercado." },
         { title: "Tu tarifa exacta, por adelantado", text: "Calculamos tu tramo según tu volumen, sin sorpresas de tarifa efectiva." },
         { title: "Mantén tu propio banco", text: "Los pagos llegan a la cuenta que ya tienes, al día hábil siguiente." },
       ],
     },
     {
-      eyebrow: "Почати",
+      eyebrow: "Зв’яжіться з нами",
       titleA: "Поставимо термінал",
       titleB: "на ваш прилавок.",
       pointsHeading: "Що ви отримуєте",
       lead: "Розкажіть про свій бізнес. Готові замовити чи маєте запитання – у будь-якому разі ми відповімо протягом одного робочого дня.",
       points: [
-        { title: "Запуск за ≤4 робочі дні", text: "Від цієї форми до прийому платежів – включно з фіскальною реєстрацією для вашого ринку." },
+        { title: "Зазвичай запуск за ≤4 робочі дні", text: "Від цієї форми до прийому платежів – включно з фіскальною реєстрацією для вашого ринку." },
         { title: "Ваша точна ставка – одразу", text: "Визначимо ваш тарифний діапазон за оборотом – без сюрпризів з ефективною ставкою." },
         { title: "Залишайтеся зі своїм банком", text: "Виплати надходять на ваш наявний рахунок наступного робочого дня." },
       ],
     },
     {
-      eyebrow: "Начать",
+      eyebrow: "Свяжитесь с нами",
       titleA: "Поставим терминал",
       titleB: "на ваш прилавок.",
       pointsHeading: "Что вы получаете",
       lead: "Расскажите о своём бизнесе. Готовы заказать или есть вопросы – в любом случае мы ответим в течение одного рабочего дня.",
       points: [
-        { title: "Запуск за ≤4 рабочих дня", text: "От этой формы до приёма платежей – включая фискальную регистрацию для вашего рынка." },
+        { title: "Обычно запуск за ≤4 рабочих дня", text: "От этой формы до приёма платежей – включая фискальную регистрацию для вашего рынка." },
         { title: "Ваша точная ставка – сразу", text: "Определим ваш тарифный диапазон по обороту – без сюрпризов с эффективной ставкой." },
         { title: "Оставайтесь со своим банком", text: "Выплаты поступают на ваш текущий счёт на следующий рабочий день." },
       ],

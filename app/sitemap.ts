@@ -22,6 +22,8 @@ const PAGES = [
   "/click",
   "/industries",
   ...INDUSTRIES.map((i) => `/industries/${i.slug}`),
+  "/malta/fiscal-cash-register",
+  "/malta/compare",
   "/about",
   "/contact",
   "/imprint",

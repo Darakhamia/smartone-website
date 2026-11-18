@@ -56,7 +56,7 @@ export function StartingFrom() {
         </div>
         <div className="mt-10 flex flex-wrap items-center gap-x-5 gap-y-3">
           <GetStarted location="starting-from" className="btn-primary" />
-          <p className="text-[13.5px] text-ink-3">Free to create · usually live in 4 working days from sign-up</p>
+          <p className="text-[13.5px] text-ink-3">Our partner in Malta calls you back · usually live in 4 working days</p>
         </div>
       </div>
     </section>

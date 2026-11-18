@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-meta-server";
 import { pageSeo } from "@/lib/seo";
 import Image from "next/image";
 import Link from "next/link";
@@ -11,12 +12,9 @@ import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 import { promotesRegister, terminalModel, TERMINAL_MODELS, type Lang, type TerminalModel } from "@/lib/countries";
 
-export const metadata: Metadata = {
-  title: "Terminals",
-  description:
-    "The SmartOne payment terminal: card, contactless and cash on one device, with the receipt printer built in. Not just a card machine.",
-  ...pageSeo("/product/terminals"),
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return { ...(await pageMetadata("terminals")), ...pageSeo("/product/terminals") };
+}
 
 const factIcons = [
   <path key="0" d="M6 2h12v20l-3-2-3 2-3-2-3 2V2Zm3 5h6M9 11h6" />,
@@ -110,7 +108,7 @@ function copyFor(lang: Lang, model: TerminalModel) {
         { title: "Always connected", text: "SIM and Wi-Fi, with a battery that lasts the shift. It works where your counter is." },
       ],
       ctaTitle: "Ready to take your first tap?",
-      ctaText: "Live in four business days or less.",
+      ctaText: "Usually live in four business days or less.",
       sales: "Contact sales",
       specEyebrow: "Full specifications",
       specTitle: "The numbers, in full.",
@@ -183,7 +181,7 @@ function copyFor(lang: Lang, model: TerminalModel) {
         { title: "Siempre conectado", text: "SIM y Wi-Fi, con una batería que aguanta el turno. Funciona donde esté tu mostrador." },
       ],
       ctaTitle: "¿Listo para tu primer tap?",
-      ctaText: "Operativo en cuatro días hábiles o menos.",
+      ctaText: "Normalmente operativo en cuatro días hábiles o menos.",
       sales: "Contactar con ventas",
       specEyebrow: "Ficha técnica",
       specTitle: "Los números, al completo.",
@@ -256,7 +254,7 @@ function copyFor(lang: Lang, model: TerminalModel) {
         { title: "Завжди на зв’язку", text: "SIM і Wi-Fi, а батареї вистачає на всю зміну. Працює там, де ваш прилавок." },
       ],
       ctaTitle: "Готові прийняти перший платіж?",
-      ctaText: "Запуск за чотири робочі дні або швидше.",
+      ctaText: "Зазвичай запуск за чотири робочі дні або швидше.",
       sales: "Зв’язатися з нами",
       specEyebrow: "Технічні характеристики",
       specTitle: "Усі характеристики в цифрах.",
@@ -329,7 +327,7 @@ function copyFor(lang: Lang, model: TerminalModel) {
         { title: "Всегда на связи", text: "SIM и Wi-Fi, а батареи хватает на всю смену. Работает там, где ваш прилавок." },
       ],
       ctaTitle: "Готовы принять первый платёж?",
-      ctaText: "Запуск за четыре рабочих дня или быстрее.",
+      ctaText: "Обычно запуск за четыре рабочих дня или быстрее.",
       sales: "Связаться с нами",
       specEyebrow: "Технические характеристики",
       specTitle: "Все характеристики в цифрах.",

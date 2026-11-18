@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-meta-server";
 import { pageSeo } from "@/lib/seo";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,12 +11,9 @@ import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 import { promotesRegister, terminalModel, TERMINAL_MODELS, type CountryCode, type Lang } from "@/lib/countries";
 
-export const metadata: Metadata = {
-  title: "Cash register",
-  description:
-    "A fiscal cash register built into the device you already use to take payments. Fiscal receipts, Z-reports and fiscal registration for the market you trade in.",
-  ...pageSeo("/product/cash-register"),
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return { ...(await pageMetadata("cashRegister")), ...pageSeo("/product/cash-register") };
+}
 
 const whatIcons = [
   <path key="0" d="M6 2h12v20l-3-2-3 2-3-2-3 2V2Zm3 5h6M9 11h6m-6 4h4" />,
@@ -81,7 +79,7 @@ function copyFor(lang: Lang, register: boolean, fiscal: boolean, c$: string, cou
       spainText: (isEs: boolean) => (isEs ? "What changes in 2027 and how the device keeps you compliant." : "Getting ready ahead of the deadline? Start here."),
       // cta
       ctaTitle: register ? "One box on the counter. VAT-approved." : fiscal ? "Payments now, fiscal-ready for later." : "Card payments, ready in days.",
-      ctaText: "Live in four business days or less.",
+      ctaText: "Usually live in four business days or less.",
       sales: "Contact sales",
       // no-fiscal helpers
       seeTerminals: "See the terminals",
@@ -136,7 +134,7 @@ function copyFor(lang: Lang, register: boolean, fiscal: boolean, c$: string, cou
       spainTitle: (isEs: boolean) => (isEs ? "Verifactu, explicado" : "¿Vendes en España? Verifactu 2027"),
       spainText: (isEs: boolean) => (isEs ? "Qué cambia en 2027 y cómo el dispositivo te mantiene en regla." : "¿Te preparas antes del plazo? Empieza aquí."),
       ctaTitle: register ? "Una caja en el mostrador. Fiscal y aprobada." : fiscal ? "Cobra ahora, listo para lo fiscal cuando toque." : "Pagos con tarjeta, listos en días.",
-      ctaText: "Operativo en cuatro días hábiles o menos.",
+      ctaText: "Normalmente operativo en cuatro días hábiles o menos.",
       sales: "Contactar con ventas",
       seeTerminals: "Ver los terminales",
       seePortal: "Descubre el Merchant Portal",
@@ -190,7 +188,7 @@ function copyFor(lang: Lang, register: boolean, fiscal: boolean, c$: string, cou
       spainTitle: (isEs: boolean) => (isEs ? "Verifactu простими словами" : "Продаєте в Іспанії? Verifactu 2027"),
       spainText: (isEs: boolean) => (isEs ? "Що зміниться у 2027 році і як пристрій допоможе вам відповідати вимогам." : "Готуєтеся заздалегідь? Почніть звідси."),
       ctaTitle: register ? "Один пристрій на прилавку. Схвалений податковою." : fiscal ? "Платежі вже зараз, фіскалізація – коли знадобиться." : "Оплата карткою – за лічені дні.",
-      ctaText: "Запуск за чотири робочі дні або швидше.",
+      ctaText: "Зазвичай запуск за чотири робочі дні або швидше.",
       sales: "Зв’язатися з нами",
       seeTerminals: "Переглянути термінали",
       seePortal: "Детальніше про Merchant Portal",
@@ -244,7 +242,7 @@ function copyFor(lang: Lang, register: boolean, fiscal: boolean, c$: string, cou
       spainTitle: (isEs: boolean) => (isEs ? "Verifactu простыми словами" : "Продаёте в Испании? Verifactu 2027"),
       spainText: (isEs: boolean) => (isEs ? "Что изменится в 2027 году и как устройство поможет вам соответствовать требованиям." : "Готовитесь заранее? Начните отсюда."),
       ctaTitle: register ? "Одно устройство на прилавке. Одобрено налоговой." : fiscal ? "Платежи уже сейчас, фискализация – когда понадобится." : "Оплата картой – за считаные дни.",
-      ctaText: "Запуск за четыре рабочих дня или быстрее.",
+      ctaText: "Обычно запуск за четыре рабочих дня или быстрее.",
       sales: "Связаться с нами",
       seeTerminals: "Посмотреть терминалы",
       seePortal: "Подробнее о Merchant Portal",
@@ -308,6 +306,12 @@ export default async function CashRegisterPage() {
                   <span className="block text-[12.5px] text-ink-3">{approval.source}.</span>
                 </span>
               </p>
+            )}
+            {/* Malta's landing page for fiscal searches – only where the register is live */}
+            {register && (
+              <Link href="/malta/fiscal-cash-register" className="anim-fade-up anim-d-3 mt-5 inline-block text-[14.5px] font-semibold text-brand hover:underline">
+                {tr(lang, "Fiscal cash register in Malta", "Caja registradora fiscal en Malta", "Фіскальний касовий апарат на Мальті", "Фискальный кассовый аппарат на Мальте")} →
+              </Link>
             )}
           </div>
           <div className="anim-fade-up anim-d-2 relative">

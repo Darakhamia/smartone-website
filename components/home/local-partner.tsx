@@ -1,9 +1,8 @@
 import { Headset, Landmark, UserCheck, type LucideIcon } from "lucide-react";
 import { Reveal } from "@/components/reveal";
 import { GetStarted } from "@/components/home/get-started";
-import { TalkToUs } from "@/components/lead/talk-to-us";
 
-/* "A local partner in Malta" (homepage task §8, Malta only). Only what is
+/* "Our partner in Malta" (homepage task §8, Malta only). Only what is
    certain today: a person on the island calls back, a person reviews the
    account, the money goes to the merchant's own bank.
 
@@ -12,7 +11,7 @@ import { TalkToUs } from "@/components/lead/talk-to-us";
    point. Not before. */
 
 const points: { icon: LucideIcon; title: string; text: string }[] = [
-  { icon: Headset, title: "A person, not a call centre.", text: "Leave your number and our partner on the island calls you back." },
+  { icon: Headset, title: "A person, not a call centre.", text: "Leave your number and our partner in Malta calls you back." },
   { icon: UserCheck, title: "A person reviews your account.", text: "Not an algorithm deciding on its own." },
   { icon: Landmark, title: "Your money stays in your bank.", text: "Payouts go to the account you already have, with no wallet in between." },
 ];
@@ -24,7 +23,7 @@ export function LocalPartner() {
       <div className="relative mx-auto max-w-6xl px-6">
         <Reveal>
           <span className="eyebrow eyebrow-dark">On the island</span>
-          <h2 className="h-display mt-4 max-w-165 text-[clamp(30px,4vw,48px)] leading-[1.06]">A local partner in Malta.</h2>
+          <h2 className="h-display mt-4 max-w-165 text-[clamp(30px,4vw,48px)] leading-[1.06]">Our partner in Malta.</h2>
         </Reveal>
         <div className="mt-11 grid gap-4 md:grid-cols-3">
           {points.map((p, i) => (
@@ -41,7 +40,6 @@ export function LocalPartner() {
         </div>
         <div className="mt-10 flex flex-wrap gap-3.5">
           <GetStarted location="partner" className="btn-light" />
-          <TalkToUs location="partner" className="btn-ghost-dark" />
         </div>
       </div>
     </section>

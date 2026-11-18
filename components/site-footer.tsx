@@ -25,6 +25,8 @@ export async function SiteFooter() {
       horeca: "HoReCa",
       cardReader: "Card reader",
       cashRegister: "Cash register",
+      maltaRegister: "Fiscal cash register in Malta",
+      maltaCompare: "Compare providers in Malta",
       whatIs: "What it is",
       apiDocs: "API docs",
       pricing: "Pricing",
@@ -42,6 +44,8 @@ export async function SiteFooter() {
       horeca: "HoReCa",
       cardReader: "Datáfono",
       cashRegister: "Caja registradora",
+      maltaRegister: "Caja registradora fiscal en Malta",
+      maltaCompare: "Comparar proveedores en Malta",
       whatIs: "Qué es",
       apiDocs: "Documentación de la API",
       pricing: "Precios",
@@ -59,6 +63,8 @@ export async function SiteFooter() {
       horeca: "HoReCa",
       cardReader: "Платіжний термінал",
       cashRegister: "Касовий апарат",
+      maltaRegister: "Фіскальний касовий апарат на Мальті",
+      maltaCompare: "Порівняння провайдерів на Мальті",
       whatIs: "Що це",
       apiDocs: "Документація API",
       pricing: "Ціни",
@@ -76,6 +82,8 @@ export async function SiteFooter() {
       horeca: "HoReCa",
       cardReader: "Платёжный терминал",
       cashRegister: "Кассовый аппарат",
+      maltaRegister: "Фискальный кассовый аппарат на Мальте",
+      maltaCompare: "Сравнение провайдеров на Мальте",
       whatIs: "Что это",
       apiDocs: "Документация API",
       pricing: "Цены",
@@ -116,6 +124,13 @@ export async function SiteFooter() {
         { href: "/product/terminals", label: l.cardReader },
         ...(register ? [{ href: "/product/cash-register", label: l.cashRegister }] : []),
         { href: "/product/tap-to-phone", label: "Tap to Phone" },
+        // Malta's landing pages – the register is live only there (promotesRegister)
+        ...(register
+          ? [
+              { href: "/malta/fiscal-cash-register", label: l.maltaRegister },
+              { href: "/malta/compare", label: l.maltaCompare },
+            ]
+          : []),
       ],
     },
     {

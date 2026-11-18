@@ -130,6 +130,11 @@ export function IndustryPage({ ind }: { ind: Industry }) {
               <div key={f.q} className="rounded-3xl bg-white p-7">
                 <h3 className="font-display text-[18px] font-semibold tracking-tight">{f.q}</h3>
                 <p className="mt-2 text-[15px] leading-relaxed text-ink-2">{f.a}</p>
+                {f.link && (
+                  <Link href={f.link.href} className="mt-3 inline-block text-[15px] font-semibold text-brand hover:text-brand-d">
+                    {f.link.label}
+                  </Link>
+                )}
               </div>
             ))}
           </div>

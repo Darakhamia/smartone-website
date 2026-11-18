@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-meta-server";
 import { pageSeo } from "@/lib/seo";
 import Link from "next/link";
 import {
@@ -26,12 +27,9 @@ import { tr } from "@/lib/dictionaries";
 import type { Lang } from "@/lib/countries";
 import { clickPricesFor } from "@/lib/pricing";
 
-export const metadata: Metadata = {
-  title: "Click",
-  description:
-    "SmartOne Click is a restaurant management platform: back office, POS, kitchen display, staff, multi-location and analytics in one connected system.",
-  ...pageSeo("/click"),
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return { ...(await pageMetadata("click")), ...pageSeo("/click") };
+}
 
 /* Every screenshot on this page is a real capture of the Click back office and
    POS, not a redrawn mock. They are 1960×1004 – the ratio is passed to AppShot
@@ -54,7 +52,7 @@ function copyFor(lang: Lang) {
       h1a: "Run your restaurant",
       h1b: "from a single platform.",
       sub: "Manage menus, staff, tables, orders, kitchens and business analytics from one connected ecosystem built for modern restaurants.",
-      get: "Get started →",
+      get: "Talk to us →",
       demo: "Book a demo",
       included: "Back office, POS, kitchen display and analytics – all included.",
 
@@ -161,7 +159,7 @@ function copyFor(lang: Lang) {
       h1a: "Gestiona tu restaurante",
       h1b: "desde una sola plataforma.",
       sub: "Gestiona cartas, personal, mesas, pedidos, cocina y analítica de negocio desde un ecosistema conectado, hecho para restaurantes modernos.",
-      get: "Empezar →",
+      get: "Habla con nosotros →",
       demo: "Reservar una demo",
       included: "Back office, TPV, pantalla de cocina y analítica, todo incluido.",
 
@@ -253,7 +251,7 @@ function copyFor(lang: Lang) {
       h1a: "Керуйте рестораном",
       h1b: "з однієї платформи.",
       sub: "Меню, персонал, столики, замовлення, кухня та бізнес-аналітика – в одній екосистемі, створеній для сучасних ресторанів.",
-      get: "Почати →",
+      get: "Зв’яжіться з нами →",
       demo: "Записатися на демо",
       included: "Бек-офіс, POS, кухонний екран і аналітика – усе включено.",
 
@@ -345,7 +343,7 @@ function copyFor(lang: Lang) {
       h1a: "Управляйте рестораном",
       h1b: "с одной платформы.",
       sub: "Меню, персонал, столы, заказы, кухня и бизнес-аналитика – в одной экосистеме, созданной для современных ресторанов.",
-      get: "Начать →",
+      get: "Свяжитесь с нами →",
       demo: "Записаться на демо",
       included: "Бэк-офис, POS, кухонный экран и аналитика – всё включено.",
 

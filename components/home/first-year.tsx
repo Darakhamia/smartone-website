@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 import { GetStarted } from "@/components/home/get-started";
 
@@ -105,6 +106,10 @@ export function FirstYear() {
         <div className="mt-9 flex flex-wrap items-center gap-x-5 gap-y-3">
           <GetStarted location="first-year" className="btn-primary" />
           <p className="text-[13.5px] text-ink-3">No setup, inactivity or minimum fees.</p>
+          {/* the full comparison, with the providers named, lives on Malta's landing page */}
+          <Link href="/malta/compare" className="text-[14.5px] font-semibold text-brand hover:underline">
+            See the full comparison →
+          </Link>
         </div>
       </div>
     </section>

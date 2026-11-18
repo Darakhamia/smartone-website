@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/page-meta-server";
 import { pageSeo } from "@/lib/seo";
 import Link from "next/link";
 import { Reveal } from "@/components/reveal";
@@ -10,12 +11,9 @@ import { tr } from "@/lib/dictionaries";
 import { promotesRegister } from "@/lib/countries";
 import { tariffsFor } from "@/lib/pricing";
 
-export const metadata: Metadata = {
-  title: "Pricing",
-  description:
-    "Transparent rates. No hidden fees. One rate per band, every fee shown up front. Buy the terminal or rent it – your call.",
-  ...pageSeo("/pricing"),
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return { ...(await pageMetadata("pricing")), ...pageSeo("/pricing") };
+}
 
 export default async function PricingPage() {
   const country = await getActiveCountry();
@@ -180,6 +178,17 @@ export default async function PricingPage() {
             <p className="mx-auto mt-2 max-w-2xl text-center text-[12.5px] leading-relaxed text-ink-3/75 sm:text-[11px]">
               {c.smallprint}
             </p>
+            {/* Malta's landing pages – the register is live only there */}
+            {register && (
+              <p className="mx-auto mt-4 flex max-w-2xl flex-wrap justify-center gap-x-6 gap-y-2 text-[14px] font-semibold">
+                <Link href="/malta/fiscal-cash-register" className="text-brand hover:underline">
+                  {tr(lang, "Fiscal cash register in Malta", "Caja registradora fiscal en Malta", "Фіскальний касовий апарат на Мальті", "Фискальный кассовый аппарат на Мальте")} →
+                </Link>
+                <Link href="/malta/compare" className="text-brand hover:underline">
+                  {tr(lang, "Compare providers in Malta", "Comparar proveedores en Malta", "Порівняння провайдерів на Мальті", "Сравнение провайдеров на Мальте")} →
+                </Link>
+              </p>
+            )}
           </Reveal>
         </div>
       </section>

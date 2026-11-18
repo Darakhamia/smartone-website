@@ -1,18 +1,34 @@
 # SmartOne
 
-> SmartOne makes Android payment devices for European small businesses: a card payment terminal, a fiscal cash register (VAT-approved in Malta) and a receipt printer in one box, with a Merchant Portal included. Live in Malta; Spain (Verifactu-ready) and Slovakia in scope.
+> SmartOne makes Android payment devices for European small businesses: a card payment terminal with a built-in receipt printer and the Merchant Portal, and in Malta a VAT-approved fiscal cash register in the same device. SmartOne serves Malta, Spain, Cyprus, Slovakia and the United Kingdom.
+
+Approval: VAT-approved fiscal cash register in Malta — Government Gazette No. 21,373, Notice 46, 10 January 2025.
 
 Key facts:
-- One device replaces a separate cash register, receipt printer and card terminal — and the contracts that come with them.
-- Transparent pricing: one rate per monthly-volume band, every fee shown up front. No setup fees, no inactivity fees, no settlement fees, no monthly minimums.
-- Payouts go to the merchant's own existing bank account (payments processed by a licensed EU acquirer), next business day (T+1).
-- The Merchant Portal shows net amounts and the commission actually paid, in euros, for every settlement.
-- Activation in four business days or less, including fiscal registration of the device.
+- 200,000+ SmartOne terminals deployed worldwide; SmartOne projects in 15 countries.
+- One terminal model per country, as listed below.
+- Transparent pricing: every fee shown up front. No settlement fees, no inactivity fees, no monthly minimums.
+- Payouts go to the merchant's own existing bank account, next business day (T+1). Payments are processed by a licensed payment partner.
+- The Merchant Portal shows net amounts and the commission actually paid for every settlement.
+- Usually live in 4 business days or less from sign-up, including fiscal registration of the device where the market requires it.
+
+## Countries
+The site serves every country from the same URLs; the visitor picks a country, and pages without a choice show Malta.
+- Malta: the SmartOne Bank Pro S (dual-screen) card terminal with the VAT-approved fiscal cash register built in — fiscal receipts and Z-reports on the same device. Live today, with our partner in Malta.
+- Spain: the SmartOne Bank (5″) payment terminal, Verifactu-ready ahead of the 2027 deadline. Site in English, Spanish, Ukrainian and Russian.
+- Cyprus: the SmartOne Bank Pro payment terminal — card payments and compliant receipts on one device.
+- Slovakia: the SmartOne Bank Pro payment terminal, ready for local fiscal requirements.
+- United Kingdom: the SmartOne Bank Pro payment terminal — card payments and the Merchant Portal; no fiscal register is required.
 
 ## Pages
 - [Home](https://smartoneglobal.com/): what the device does and why merchants switch
-- [Pricing](https://smartoneglobal.com/pricing): rates by monthly card volume, buy vs rent, FAQ
-- [Product](https://smartoneglobal.com/product): terminal, cash register, Tap to Phone
-- [Industries](https://smartoneglobal.com/industries): retail, services, hospitality
-- [About](https://smartoneglobal.com/about): company
+- [Cash register](https://smartoneglobal.com/product/cash-register): the VAT-approved fiscal cash register in Malta; fiscal readiness and Verifactu in other markets
+- [Terminal](https://smartoneglobal.com/product/terminals): the country's payment terminal, photos and full specifications
+- [Merchant Portal](https://smartoneglobal.com/merchant-portal): sales, card payments, fees and settlements across every store and terminal
+- [Pricing](https://smartoneglobal.com/pricing): rates by monthly card volume (by card type in Spain), buy vs rent, FAQ
 - [Contact](https://smartoneglobal.com/contact): get a terminal or ask for your exact rate
+- [Product](https://smartoneglobal.com/product): the terminal, cash register (Malta), Merchant Portal and Click
+- [Click](https://smartoneglobal.com/click): restaurant platform — POS, kitchen display, staff, tables and analytics
+- [Industries](https://smartoneglobal.com/industries): festivals and events, retail, cafés and HoReCa, beauty and wellness, mobile vendors
+- [Verifactu 2027](https://smartoneglobal.com/es): Spain's Verifactu deadline
+- [About](https://smartoneglobal.com/about): the company and its figures

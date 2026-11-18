@@ -12,7 +12,7 @@ import { CookieNotice } from "@/components/legal/cookie-notice";
 import { HideOnWelcome } from "@/components/country/hide-on-welcome";
 import { RegionGate } from "@/components/country/region-gate";
 import { OrgJsonLd } from "@/components/seo/jsonld";
-import { getActiveCountry, getActiveLang } from "@/lib/country-server";
+import { getActiveLang, getSavedCountry, getSavedLang } from "@/lib/country-server";
 import { BUILD_ID } from "@/lib/build-info";
 import { SITE_URL } from "@/lib/site";
 import { OG_BASE } from "@/lib/seo";
@@ -24,7 +24,10 @@ export const metadata: Metadata = {
     template: "%s – SmartOne",
   },
   description:
-    "A fiscal cash register and payment terminal in one device – plus a portal with clear fees. The rate you signed up for is the rate you pay.",
+    /* Fallback only – every indexable page sets its own, per market, from
+       lib/page-meta.ts. Kept free of the cash register: it shows on pages of
+       every market, and the register is promoted in Malta only. */
+    "A payment terminal and business tools in one device – plus a portal with clear fees. The rate you signed up for is the rate you pay.",
   /* No canonical here: a layout-level one is inherited by every page that
      doesn't set its own, and "/" made the whole site a duplicate of the
      homepage. Each page sets its own through pageSeo() in lib/seo.ts. These
@@ -42,14 +45,17 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const country = await getActiveCountry();
+  // <html lang> follows the page (a market page is in its market's language);
+  // the provider gets the visitor's own choice and applies the market itself.
   const lang = await getActiveLang();
+  const saved = await getSavedCountry();
+  const savedLang = await getSavedLang();
 
   return (
     <html lang={lang} className="h-full antialiased">
       <body className="flex min-h-full flex-col">
         <OrgJsonLd />
-        <CountryProvider initialCode={country.code} initialLang={lang}>
+        <CountryProvider initialCode={saved.code} initialLang={savedLang}>
           <SiteNav />
           <main className="flex-1">{children}</main>
           <HideOnWelcome>
