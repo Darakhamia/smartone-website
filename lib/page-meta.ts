@@ -1,4 +1,5 @@
 import { tr } from "./dictionaries";
+import { COMPANY } from "./legal";
 import { promotesRegister, terminalModel, TERMINAL_MODELS, type Country, type Lang } from "./countries";
 
 /* Title and description of every indexable page, per market and language.
@@ -447,22 +448,22 @@ const PAGES = {
       {
         title: "Legal Notice – SmartOne Company, Registration & VAT Details",
         description:
-          "Who operates this website: SmartOne POS Europe Limited, registered in Malta – registration and VAT numbers, registered office, contact and payment partner.",
+          `Who operates this website: ${COMPANY.name}, registered in Malta – registration and VAT numbers, registered office, contact and payment partner.`,
       },
       {
         title: "Aviso legal: datos de la empresa SmartOne, registro e IVA",
         description:
-          "Quién gestiona esta web: SmartOne POS Europe Limited, registrada en Malta. Número de registro, NIF-IVA, domicilio social, contacto y socio de pagos.",
+          `Quién gestiona esta web: ${COMPANY.name}, registrada en Malta. Número de registro, NIF-IVA, domicilio social, contacto y socio de pagos.`,
       },
       {
         title: "Юридична інформація: компанія SmartOne, реєстрація та ПДВ",
         description:
-          "Хто керує сайтом: SmartOne POS Europe Limited, Мальта. Реєстраційний номер і номер ПДВ, юридична адреса, контакти й платіжний партнер.",
+          `Хто керує сайтом: ${COMPANY.name}, Мальта. Реєстраційний номер і номер ПДВ, юридична адреса, контакти й платіжний партнер.`,
       },
       {
         title: "Юридическая информация: компания SmartOne, регистрация и НДС",
         description:
-          "Кто управляет сайтом: SmartOne POS Europe Limited, Мальта. Регистрационный номер и номер НДС, юридический адрес, контакты и платёжный партнёр.",
+          `Кто управляет сайтом: ${COMPANY.name}, Мальта. Регистрационный номер и номер НДС, юридический адрес, контакты и платёжный партнёр.`,
       },
     ),
 };
