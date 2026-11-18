@@ -6,9 +6,10 @@ import { Check } from "lucide-react";
 import { Reveal } from "@/components/reveal";
 import { SectionHead } from "@/components/section-head";
 import { TerminalGallery, type Shot } from "@/components/product/terminal-gallery";
+import { RegisterFaq } from "@/components/product/register-faq";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
-import { terminalModel, TERMINAL_MODELS, type Lang, type TerminalModel } from "@/lib/countries";
+import { promotesRegister, terminalModel, TERMINAL_MODELS, type Lang, type TerminalModel } from "@/lib/countries";
 
 export async function generateMetadata(): Promise<Metadata> {
   return { ...(await pageMetadata("terminals")) };
@@ -374,6 +375,8 @@ export default async function TerminalsPage() {
   const lang = await getActiveLang();
   // One device per country, always: Malta = Bank Pro S, Spain = Bank, everyone else = Bank Pro.
   const c = copyFor(lang, terminalModel(country));
+  // In Malta the terminal is the cash register, so it answers the buying questions too.
+  const register = promotesRegister(country);
 
   return (
     <>
@@ -554,8 +557,11 @@ export default async function TerminalsPage() {
         </div>
       </section>
 
-      {/* 5 · CTA (closer) */}
-      <section className="bg-bg-2 py-24">
+      {/* questions and answers (Malta) – with their FAQPage JSON-LD */}
+      {register && <RegisterFaq lang={lang} country={country} ids={["oneDevice", "cost", "payout", "start"]} className="bg-bg-2" />}
+
+      {/* 5 · CTA (closer) – white after the bg-2 FAQ */}
+      <section className={`${register ? "" : "bg-bg-2"} py-24`}>
         <div className="mx-auto max-w-6xl px-6">
           <Reveal>
             <div className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-brand to-brand-d px-8 py-14 text-center text-white">

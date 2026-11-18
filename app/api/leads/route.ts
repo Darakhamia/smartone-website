@@ -3,6 +3,7 @@ import { ATTRIBUTION_FIELDS } from "@/lib/attribution";
 import { COUNTRIES, COUNTRY_COOKIE } from "@/lib/countries";
 import {
   LEAD_FIELD_LABELS,
+  LEAD_FIELD_VALUES,
   LEAD_FIELDS,
   LEAD_SOURCE_LABELS,
   LEAD_SOURCES,
@@ -84,7 +85,9 @@ export async function POST(request: Request) {
   const fields: Partial<Record<LeadField, string>> = {};
   for (const [name, max] of Object.entries(LEAD_FIELDS) as [LeadField, number][]) {
     const value = text(given[name], max);
-    if (value) fields[name] = value;
+    // a select's field passes only with one of the values the forms offer
+    const allowed = LEAD_FIELD_VALUES[name];
+    if (value && (!allowed || allowed.includes(value))) fields[name] = value;
   }
 
   const taken = (body.tags ?? {}) as Record<string, unknown>;
