@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageSeo } from "@/lib/seo";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -25,6 +26,7 @@ export const metadata: Metadata = {
   title: "Industries",
   description:
     "One device, your kind of business. Festivals, retail, cafés, beauty, mobile vendors and more – SmartOne fits the counter you already run.",
+  ...pageSeo("/industries"),
 };
 
 type Industry = {

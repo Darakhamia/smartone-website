@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageSeo } from "@/lib/seo";
 import Link from "next/link";
 import {
   LayoutGrid,
@@ -29,6 +30,7 @@ export const metadata: Metadata = {
   title: "Click",
   description:
     "SmartOne Click is a restaurant management platform: back office, POS, kitchen display, staff, multi-location and analytics in one connected system.",
+  ...pageSeo("/click"),
 };
 
 /* Every screenshot on this page is a real capture of the Click back office and
