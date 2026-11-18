@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import { pageSeo } from "@/lib/seo";
 import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 import { PlanPicker } from "@/components/pricing/plan-picker";
 import { Faq } from "@/components/pricing/faq";
-import { PricingFaqJsonLd } from "@/components/seo/jsonld";
+import { PricingFaqJsonLd, ProductJsonLd } from "@/components/seo/jsonld";
 import { getActiveCountry, getActiveLang } from "@/lib/country-server";
 import { tr } from "@/lib/dictionaries";
 import { promotesRegister } from "@/lib/countries";
@@ -13,6 +14,7 @@ export const metadata: Metadata = {
   title: "Pricing",
   description:
     "Transparent rates. No hidden fees. One rate per band, every fee shown up front. Buy the terminal or rent it – your call.",
+  ...pageSeo("/pricing"),
 };
 
 export default async function PricingPage() {
@@ -214,6 +216,7 @@ export default async function PricingPage() {
       <section className="py-24">
         <div className="mx-auto max-w-6xl px-6">
           <PricingFaqJsonLd />
+          <ProductJsonLd country={country} />
           <Faq />
         </div>
       </section>

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageSeo } from "@/lib/seo";
 import Link from "next/link";
 import {
   LayoutDashboard,
@@ -35,6 +36,7 @@ export const metadata: Metadata = {
   title: "Merchant Portal",
   description:
     "Track sales, card payments, fees and settlements across every store and terminal – from one secure portal. Included with every SmartOne terminal.",
+  ...pageSeo("/merchant-portal"),
 };
 
 function copyFor(lang: Lang) {

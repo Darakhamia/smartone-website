@@ -8,12 +8,14 @@ const isDev = process.env.NODE_ENV === "development";
    it here too, or the only form on the site stops submitting. */
 const LEAD_ORIGIN = "https://smartone-lead-form.vercel.app";
 
-/* Enable once the site is served over stable HTTPS. HSTS is hard to undo (a
-   browser that has seen it refuses plain HTTP for the whole max-age), and
-   upgrade-insecure-requests rewrites subresource URLs to https://, so both
-   would break a build still being served over plain HTTP. Set ENABLE_HSTS=1
-   in Coolify after TLS is live and verified. */
-const httpsReady = process.env.ENABLE_HSTS === "1";
+/* HTTPS is live and verified on smartoneglobal.com and www (checked
+   18.11.2026), and build args can't be set on the host, so HSTS is on by
+   default. One year, deliberately without includeSubDomains and preload: a
+   subdomain still on plain HTTP would be locked out, and the preload list is
+   close to impossible to leave. Browsers ignore the header on a plain-HTTP
+   response, so sending it there is harmless – it takes hold on the first
+   HTTPS visit. ENABLE_HSTS=0 as a build arg switches it off again. */
+const hsts = process.env.ENABLE_HSTS !== "0";
 
 /* Google Tag Manager and the tags it is meant to carry: GA4, the Google Ads
    conversion tag and the Meta pixel.
@@ -98,7 +100,7 @@ const csp = [
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "object-src 'none'",
-  ...(httpsReady ? ["upgrade-insecure-requests"] : []),
+  ...(hsts ? ["upgrade-insecure-requests"] : []),
 ].join("; ");
 
 const securityHeaders = [
@@ -110,9 +112,7 @@ const securityHeaders = [
     key: "Permissions-Policy",
     value: "geolocation=(), camera=(), microphone=(), payment=(), usb=()",
   },
-  ...(httpsReady
-    ? [{ key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" }]
-    : []),
+  ...(hsts ? [{ key: "Strict-Transport-Security", value: "max-age=31536000" }] : []),
 ];
 
 /* The Webflow site this replaced used different paths, and those are the URLs
@@ -132,6 +132,25 @@ const legacyRedirects = [
   { source: "/smartone-about-company", destination: "/about", permanent: true },
 ];
 
+/* www → bare domain, one hop and always to https://, so http://www lands on
+   the canonical URL directly. Matched on the Host header, so it can only fire
+   for www and can't loop: the target host never matches it. It runs before the
+   legacy redirects, so /smartone-bank on www goes www → bare → new path.
+
+   http → https is NOT done here. Next can't see the original scheme: when the
+   proxy in front (LiteSpeed) doesn't send X-Forwarded-Proto, Next fills it in
+   from its own plain-HTTP socket, so every request would look like http and a
+   scheme redirect would loop on HTTPS too. That redirect belongs in the
+   hosting panel (force HTTPS) or in LiteSpeed itself. */
+const hostRedirects = [
+  {
+    source: "/:path*",
+    has: [{ type: "host" as const, value: "www.smartoneglobal.com" }],
+    destination: "https://smartoneglobal.com/:path*",
+    statusCode: 301 as const,
+  },
+];
+
 const nextConfig: NextConfig = {
   // Standalone output for the Docker image deployed via Coolify
   output: "standalone",
@@ -141,7 +160,7 @@ const nextConfig: NextConfig = {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
   async redirects() {
-    return legacyRedirects;
+    return [...hostRedirects, ...legacyRedirects];
   },
 };
 
