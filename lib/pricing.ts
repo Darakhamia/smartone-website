@@ -86,7 +86,7 @@ export type Tariffs = {
 const TARIFFS: Partial<Record<CountryCode, Tariffs>> = {
   es: {
     cap: "10,000",
-    rates: { consumer: "1.20", corporate: "2.30", foreign: "2.60" },
+    rates: { consumer: "0.90", corporate: "2.30", foreign: "2.60" },
     fixed: "0.02",
     price: { buy: "169", rent: "20" },
   },
