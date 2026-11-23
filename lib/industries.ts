@@ -75,6 +75,8 @@ export type Industry = {
   faq: { q: string; a: string };
   /** "What it replaces" line, shown right above "What stays with you" */
   replaces: string;
+  /** Leave the device render off the first screen (only the trade photo). */
+  hideDevice?: boolean;
   stays: string;
   finalH2: string;
 };
@@ -286,6 +288,8 @@ export const INDUSTRIES: Industry[] = [
   },
   {
     slug: "events",
+    /* No device over the crowd photo (David, 23.11.2026). */
+    hideDevice: true,
     cardTitle: "Festivals & events",
     cardLine: "Every bar takes cards",
     image: "/industries/events.jpg",
