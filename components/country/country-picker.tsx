@@ -96,11 +96,6 @@ export function CountryPicker({ onComplete }: { onComplete?: () => void }) {
             <span className="min-w-0 flex-1 font-display text-[15px] font-semibold tracking-tight text-ink transition-colors group-hover:text-brand">
               {c.name}
             </span>
-            {c.languages.length > 1 && (
-              <span className="shrink-0 rounded-full bg-bg-2 px-2 py-0.5 font-mono text-[10px] tracking-wide text-ink-3 uppercase">
-                {c.languages.join(" · ")}
-              </span>
-            )}
           </button>
         ))}
       </div>
