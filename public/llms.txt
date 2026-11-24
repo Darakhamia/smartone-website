@@ -17,7 +17,7 @@ The site serves every country from the same URLs; the visitor picks a country, a
 - Malta: the SmartOne Bank Pro S (dual-screen) card terminal with the VAT-approved fiscal cash register built in — fiscal receipts and Z-reports on the same device. Live today, with our partner in Malta.
 - Spain: the SmartOne Bank (5″) payment terminal, Verifactu-ready ahead of the 2027 deadline. Site in English, Spanish, Ukrainian and Russian.
 - Cyprus: the SmartOne Bank Pro payment terminal — card payments and compliant receipts on one device.
-- Slovakia: the SmartOne Bank Pro payment terminal, ready for local fiscal requirements.
+- Slovakia: the SmartOne Bank Pro payment terminal.
 - United Kingdom: the SmartOne Bank Pro payment terminal — card payments and the Merchant Portal; no fiscal register is required.
 
 ## Pages

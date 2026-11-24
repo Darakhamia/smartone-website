@@ -77,7 +77,7 @@ export const COUNTRIES: Country[] = [
     languages: ["en"],
     fiscal: true,
     verifactu: false,
-    tagline: "A fiscal-ready payment terminal for your counter.",
+    tagline: "A payment terminal for your counter.",
   },
   {
     code: "uk",

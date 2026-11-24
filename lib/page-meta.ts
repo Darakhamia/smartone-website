@@ -147,6 +147,15 @@ const PAGES = {
               description:
                 "SmartOne is built for Spain's Verifactu programme ahead of the 2027 deadline. When the rules change, your device is ready – no new hardware needed.",
             }
+          : x.country.code === "sk"
+            ? /* Slovakia: eKasa is required by law (Act No. 384/2025 Coll.) and
+                 SmartOne's eKasa certification isn't confirmed – so no
+                 "fiscal-ready" and no "not required" (Alex, 24.11.2026). */
+              {
+                title: "Fiscal Requirements in Slovakia",
+                description:
+                  "Slovak law requires most businesses to record cash and card sales through an eKasa cash register. Talk to us about how SmartOne fits your setup.",
+              }
           : x.country.fiscal
             ? {
                 title: `Fiscal Requirements in ${x.where}: a Fiscal-Ready Terminal`,

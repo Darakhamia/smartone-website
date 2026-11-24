@@ -27,7 +27,7 @@ import { SITE_URL } from "@/lib/site";
    the prototype's, from their Malta websites on 5 November 2026. */
 
 const PATH = "/malta/compare";
-const TITLE = "More than a card reader | SmartOne Malta compare";
+const TITLE = "Card Machine Costs in Malta: First Year Compared – SmartOne";
 const DESCRIPTION =
   "A card reader cannot issue a fiscal receipt in Malta. Compare the first-year cost of SmartOne against myPOS and SumUp plus a register.";
 

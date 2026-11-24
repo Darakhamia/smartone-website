@@ -21,7 +21,7 @@ export const ORG_ID = `${SITE_URL}/#organization`;
    David, 18.11.2026). */
 const SOCIAL_PROFILES = [
   "https://www.facebook.com/smartoneworld",
-  "https://www.instagram.com/smartone_world/",
+  "https://www.instagram.com/smartoneglobal/",
   "https://www.linkedin.com/company/smart-one-global/",
 ];
 
