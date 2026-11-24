@@ -29,7 +29,7 @@ export default async function CookiesPage() {
     lang,
     {
       title: "Cookie Policy",
-      updated: "Last updated: 8 October 2026",
+      updated: "Last updated: 24 November 2026",
       intro:
         "Cookies are small files a site stores in your browser. Some are needed to run the site and remember your preferences. Others, for analytics and advertising, are used only if you agree.",
       sections: [
@@ -164,7 +164,7 @@ export default async function CookiesPage() {
     },
     {
       title: "Política de cookies",
-      updated: "Última actualización: 8 de octubre de 2026",
+      updated: "Última actualización: 24 de noviembre de 2026",
       intro:
         "Las cookies son pequeños archivos que un sitio guarda en tu navegador. Algunas son necesarias para que el sitio funcione y para recordar tus preferencias. Otras, de analítica y publicidad, solo se usan si lo aceptas.",
       sections: [
@@ -299,7 +299,7 @@ export default async function CookiesPage() {
     },
     {
       title: "Політика щодо файлів cookie",
-      updated: "Останнє оновлення: 8 жовтня 2026 р.",
+      updated: "Останнє оновлення: 24 листопада 2026 р.",
       intro:
         "Файли cookie — це невеликі файли, які сайт зберігає у вашому браузері. Деякі з них потрібні для роботи сайту та запам’ятовування ваших уподобань. Інші, для аналітики та реклами, використовуються, лише якщо ви погоджуєтеся.",
       sections: [
@@ -434,7 +434,7 @@ export default async function CookiesPage() {
     },
     {
       title: "Политика в отношении файлов cookie",
-      updated: "Последнее обновление: 8 октября 2026 г.",
+      updated: "Последнее обновление: 24 ноября 2026 г.",
       intro:
         "Файлы cookie — это небольшие файлы, которые сайт сохраняет в вашем браузере. Некоторые из них нужны для работы сайта и запоминания ваших предпочтений. Другие, для аналитики и рекламы, используются, только если вы соглашаетесь.",
       sections: [

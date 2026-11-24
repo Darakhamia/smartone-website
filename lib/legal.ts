@@ -17,7 +17,7 @@ export const COMPANY = {
   /* One monitored mailbox for both general and privacy enquiries. Split it
      (e.g. privacy@) only once the second mailbox actually exists – a policy
      that names an address nobody reads is worse than one that doesn't. */
-  email: "info@smartoneglobal.com",
+  email: "info@smartoneworld.com",
 } as const;
 
 /* SmartOne is a technology provider, not a licensed payment institution: the

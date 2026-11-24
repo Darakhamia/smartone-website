@@ -34,7 +34,7 @@ export default async function ImprintPage() {
     lang,
     {
       title: "Legal Notice",
-      updated: "Last updated: 29 July 2026",
+      updated: "Last updated: 24 November 2026",
       intro:
         "Information about the company operating this website, published in line with the Malta e-Commerce Act (Cap. 426) and the Companies Act (Cap. 386).",
       sections: [
@@ -79,7 +79,7 @@ export default async function ImprintPage() {
     },
     {
       title: "Aviso legal",
-      updated: "Última actualización: 29 de julio de 2026",
+      updated: "Última actualización: 24 de noviembre de 2026",
       intro:
         "Información sobre la empresa que opera este sitio web, publicada conforme a la Malta e-Commerce Act (Cap. 426) y la Companies Act (Cap. 386).",
       sections: [
@@ -124,7 +124,7 @@ export default async function ImprintPage() {
     },
     {
       title: "Правова інформація",
-      updated: "Останнє оновлення: 29 липня 2026 р.",
+      updated: "Останнє оновлення: 24 листопада 2026 р.",
       intro:
         "Інформація про компанію, яка є оператором цього вебсайту, опублікована відповідно до Malta e-Commerce Act (Cap. 426) і Companies Act (Cap. 386).",
       sections: [
@@ -169,7 +169,7 @@ export default async function ImprintPage() {
     },
     {
       title: "Правовая информация",
-      updated: "Последнее обновление: 29 июля 2026 г.",
+      updated: "Последнее обновление: 24 ноября 2026 г.",
       intro:
         "Информация о компании, которая является оператором этого веб-сайта, опубликованная в соответствии с Malta e-Commerce Act (Cap. 426) и Companies Act (Cap. 386).",
       sections: [

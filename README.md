@@ -125,8 +125,6 @@ this check in a clean browser profile whenever tags in the container change:
 - Force HTTPS (http → https, 301) in the hosting panel or LiteSpeed – the app
   can't see the original scheme, so it can't do this itself (see
   `hostRedirects` in `next.config.ts`)
-- Create the `info@smartoneglobal.com` mailbox — it is already published in
-  `/imprint`, `/privacy` and `/cookies` (see `lib/legal.ts`)
 - Confirm the Paynetics wording in `/imprint` and the footer disclaimer with
   the partner, and have the legal texts read by Maltese counsel
 - Real sales phone number on `/contact`, if one is to be published
