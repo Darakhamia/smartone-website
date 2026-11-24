@@ -67,7 +67,7 @@ function copyFor(lang: Lang, register: boolean, device: string, c$: string) {
         mt: { title: "Malta – live today", text: "VAT-approved fiscal device, merchants on the counter now." },
         es: { title: "Spain – Verifactu-ready for 2027", text: "Built for the Verifactu programme, ahead of the deadline." },
         cy: { title: "Cyprus – fiscal receipts supported", text: "Card payments and compliant receipts on one device." },
-        sk: { title: "Slovakia – fiscal-ready", text: "A payment terminal ready for local fiscal requirements." },
+        sk: { title: "Slovakia", text: "Slovak law requires most businesses to record cash and card sales through an eKasa cash register." },
         uk: { title: "United Kingdom – no fiscal register", text: "No fiscal register is required. Take card payments and run your business from the Merchant Portal." },
       } as Record<CountryCode, { title: string; text: string }>,
       spainTitle: (isEs: boolean) => (isEs ? "Verifactu, explained" : "Selling in Spain? Verifactu 2027"),
@@ -108,7 +108,7 @@ function copyFor(lang: Lang, register: boolean, device: string, c$: string) {
         mt: { title: "Malta – activo hoy", text: "Dispositivo fiscal aprobado, con comercios operando ya." },
         es: { title: "España – preparado para Verifactu 2027", text: "Diseñado para el programa Verifactu, antes del plazo." },
         cy: { title: "Chipre – tickets fiscales soportados", text: "Pagos con tarjeta y tickets conformes en un solo dispositivo." },
-        sk: { title: "Eslovaquia – preparado para la normativa fiscal", text: "Un terminal de pago listo para los requisitos fiscales locales." },
+        sk: { title: "Eslovaquia", text: "La ley eslovaca obliga a la mayoría de los negocios a registrar las ventas en efectivo y con tarjeta en una caja registradora eKasa." },
         uk: { title: "Reino Unido – sin caja fiscal", text: "No se requiere caja fiscal. Cobra con tarjeta y gestiona tu negocio desde el Merchant Portal." },
       } as Record<CountryCode, { title: string; text: string }>,
       spainTitle: (isEs: boolean) => (isEs ? "Verifactu, explicado" : "¿Vendes en España? Verifactu 2027"),
@@ -149,7 +149,7 @@ function copyFor(lang: Lang, register: boolean, device: string, c$: string) {
         mt: { title: "Мальта – вже працює", text: "Фіскальний пристрій, схвалений податковою, – підприємці вже користуються ним." },
         es: { title: "Іспанія – готові до Verifactu 2027", text: "Розроблено для програми Verifactu – заздалегідь, до кінцевого терміну." },
         cy: { title: "Кіпр – підтримка фіскальних чеків", text: "Оплата карткою й чеки за вимогами закону в одному пристрої." },
-        sk: { title: "Словаччина – готові до фіскалізації", text: "Платіжний термінал, готовий до місцевих фіскальних вимог." },
+        sk: { title: "Словаччина", text: "Закон Словаччини зобов’язує більшість підприємців реєструвати продажі готівкою та карткою через касу eKasa." },
         uk: { title: "Велика Британія – без фіскальної каси", text: "Фіскальна каса не потрібна. Приймайте оплату карткою та керуйте бізнесом через Merchant Portal." },
       } as Record<CountryCode, { title: string; text: string }>,
       spainTitle: (isEs: boolean) => (isEs ? "Verifactu простими словами" : "Продаєте в Іспанії? Verifactu 2027"),
@@ -190,7 +190,7 @@ function copyFor(lang: Lang, register: boolean, device: string, c$: string) {
         mt: { title: "Мальта – уже работает", text: "Фискальное устройство, одобренное налоговой, – предприниматели уже им пользуются." },
         es: { title: "Испания – готовы к Verifactu 2027", text: "Разработано для программы Verifactu – заранее, до наступления срока." },
         cy: { title: "Кипр – поддержка фискальных чеков", text: "Оплата картой и чеки по требованиям закона в одном устройстве." },
-        sk: { title: "Словакия – готовы к фискализации", text: "Платёжный терминал, готовый к местным фискальным требованиям." },
+        sk: { title: "Словакия", text: "Закон Словакии обязывает большинство предпринимателей регистрировать продажи наличными и картой через кассу eKasa." },
         uk: { title: "Великобритания – без фискальной кассы", text: "Фискальная касса не нужна. Принимайте оплату картой и управляйте бизнесом через Merchant Portal." },
       } as Record<CountryCode, { title: string; text: string }>,
       spainTitle: (isEs: boolean) => (isEs ? "Verifactu простыми словами" : "Продаёте в Испании? Verifactu 2027"),
@@ -228,7 +228,9 @@ export default async function ProductPage() {
   const isEs = country.code === "es";
   // Fiscal-compliance block: only fiscal markets that aren't already live (so
   // not Malta, and not the non-fiscal UK). The Verifactu card is Spain-only.
-  const showCompliance = fiscal && country.code !== "mt";
+  // Slovakia gets no plaque: SmartOne's eKasa certification isn't confirmed,
+  // so nothing that reads as "fiscal-ready" (Alex, 24.11.2026).
+  const showCompliance = fiscal && country.code !== "mt" && country.code !== "sk";
 
   return (
     <>
