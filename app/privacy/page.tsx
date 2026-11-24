@@ -43,7 +43,7 @@ export default async function PrivacyPage() {
     lang,
     {
       title: "Privacy Policy",
-      updated: "Last updated: 27 October 2026",
+      updated: "Last updated: 24 November 2026",
       intro:
         "This policy explains what personal data SmartOne collects, why, and the rights you have under the EU General Data Protection Regulation (GDPR) and the Maltese Data Protection Act (Cap. 586).",
       sections: [
@@ -181,7 +181,7 @@ export default async function PrivacyPage() {
     },
     {
       title: "Política de privacidad",
-      updated: "Última actualización: 8 de octubre de 2026",
+      updated: "Última actualización: 24 de noviembre de 2026",
       intro:
         "Esta política explica qué datos personales recopila SmartOne, por qué, y los derechos que tienes según el Reglamento General de Protección de Datos (RGPD) de la UE y la Ley de protección de datos de Malta (Cap. 586).",
       sections: [
@@ -319,7 +319,7 @@ export default async function PrivacyPage() {
     },
     {
       title: "Політика конфіденційності",
-      updated: "Останнє оновлення: 27 жовтня 2026 р.",
+      updated: "Останнє оновлення: 24 листопада 2026 р.",
       intro:
         "Ця політика пояснює, які персональні дані збирає SmartOne, навіщо, а також які права ви маєте відповідно до Загального регламенту ЄС про захист даних (GDPR) і Закону Мальти про захист даних (Cap. 586).",
       sections: [
@@ -457,7 +457,7 @@ export default async function PrivacyPage() {
     },
     {
       title: "Политика конфиденциальности",
-      updated: "Последнее обновление: 27 октября 2026 г.",
+      updated: "Последнее обновление: 24 ноября 2026 г.",
       intro:
         "Эта политика объясняет, какие персональные данные собирает SmartOne, зачем, а также какие права у вас есть в соответствии с Общим регламентом ЕС по защите данных (GDPR) и Законом Мальты о защите данных (Cap. 586).",
       sections: [
