@@ -17,8 +17,7 @@
      prototype's alts were written for other shots).
    Alex's edits of 18.11.2026 (industry-pages-task-david-2026-11-18.md) are
    applied on top: no "in the portal" on products and prices yet (back when
-   the catalog is live there), "Next day" for T+1, the device on the first
-   screen, the "What it replaces" line, "Trades & services" as the name of
+   the catalog is live there), "Next day" for T+1, the "What it replaces" line, "Trades & services" as the name of
    /industries/services (the slug stays). The Z-report stays "on the device"
    until the portal reports are released.
 
@@ -26,7 +25,7 @@
    only where promotesRegister() holds (see industryPagesFor below) – never
    reuse it for another market. Do not add claims that are not in the source. */
 
-import { COUNTRY_MAP, promotesRegister, terminalModel, TERMINAL_MODELS, type Country } from "@/lib/countries";
+import { COUNTRY_MAP, promotesRegister, type Country } from "@/lib/countries";
 import { termsFor } from "@/lib/pricing";
 
 /** Whether the Malta industry pages are served to this market. They talk
@@ -34,11 +33,6 @@ import { termsFor } from "@/lib/pricing";
 export function industryPagesFor(country: Country): boolean {
   return promotesRegister(country);
 }
-
-/* The device shown on the first screen of every page: the one model the pages'
-   own market sells (terminalModel – Malta: SmartOne Bank Pro S). */
-const model = TERMINAL_MODELS[terminalModel(COUNTRY_MAP.mt)];
-export const INDUSTRY_DEVICE = { src: `${model.dir}/hero.webp`, alt: `The ${model.name}` };
 
 /* "Study on the payment attitudes of consumers in the euro area (SPACE) –
    2024": Malta's cash share of point-of-sale payments behind "2 in 3". */
@@ -75,8 +69,6 @@ export type Industry = {
   faq: { q: string; a: string };
   /** "What it replaces" line, shown right above "What stays with you" */
   replaces: string;
-  /** Leave the device render off the first screen (only the trade photo). */
-  hideDevice?: boolean;
   stays: string;
   finalH2: string;
 };
@@ -288,8 +280,6 @@ export const INDUSTRIES: Industry[] = [
   },
   {
     slug: "events",
-    /* No device over the crowd photo (David, 23.11.2026). */
-    hideDevice: true,
     cardTitle: "Festivals & events",
     cardLine: "Every bar takes cards",
     image: "/industries/events.jpg",

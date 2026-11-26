@@ -13,8 +13,7 @@ export function MaltaIndustriesIndex() {
   const hero = INDUSTRIES[0];
   return (
     <>
-      {/* the first screen matches the industry pages: a trade photo with the
-          device over its corner (TradePhoto) */}
+      {/* the first screen matches the industry pages: a trade photo (TradePhoto) */}
       <section className="pt-14 pb-14 lg:pt-20">
         <div className="mx-auto grid max-w-6xl items-center gap-10 px-6 lg:grid-cols-2 lg:gap-14">
           <div>

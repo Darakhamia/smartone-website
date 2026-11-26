@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Check } from "lucide-react";
 import { Reveal } from "@/components/reveal";
 import { TalkToUs } from "@/components/lead/talk-to-us";
-import { INDUSTRIES, INDUSTRY_DEVICE, INDUSTRY_SHARED as S, industryFaq, type Industry } from "@/lib/industries";
+import { INDUSTRIES, INDUSTRY_SHARED as S, industryFaq, type Industry } from "@/lib/industries";
 
 /* One Malta industry page (/industries/<slug>). Layout per Nadya's prototype
    of 12.11.2026; every word comes from lib/industries.ts. */
@@ -38,7 +38,7 @@ export function IndustryPage({ ind }: { ind: Industry }) {
               ))}
             </ul>
           </div>
-          <TradePhoto src={ind.image} alt={ind.imageAlt} device={!ind.hideDevice} />
+          <TradePhoto src={ind.image} alt={ind.imageAlt} />
         </div>
       </section>
 
@@ -190,21 +190,16 @@ export function IndustryPage({ ind }: { ind: Industry }) {
   );
 }
 
-/* The trade photo with the device over its lower corner – the same on every
-   industry page and on the index (Alex, 18.11: a visitor from an ad should
-   see what we sell). The device is the market's one model (INDUSTRY_DEVICE). */
-export function TradePhoto({ src, alt, priority = true, device = true }: { src: string; alt: string; priority?: boolean; device?: boolean }) {
+/* The trade photo on the first screen – the same on every industry page and
+   on the index. The device render that used to overlap its corner (18.11) was
+   taken off on 26.11.2026 (Nadya): it read as stuck onto the photo. */
+export function TradePhoto({ src, alt, priority = true }: { src: string; alt: string; priority?: boolean }) {
   return (
-    <div className={`relative ${device ? "pr-6 pb-10 sm:pr-10 sm:pb-12" : ""}`}>
+    <div className="relative">
       <div className="pointer-events-none absolute -inset-6 rounded-[40px] bg-[radial-gradient(circle,rgba(90,25,181,0.1),transparent_70%)]" />
       <div className="relative aspect-[4/3] overflow-hidden rounded-[28px] shadow-[0_40px_80px_-48px_rgba(90,25,181,0.5)]">
         <Image src={src} alt={alt} fill priority={priority} sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover" />
       </div>
-      {device && (
-        <div className="absolute right-0 bottom-0 w-[38%] max-w-60 drop-shadow-[0_24px_32px_rgba(18,7,34,0.35)]">
-          <Image src={INDUSTRY_DEVICE.src} alt={INDUSTRY_DEVICE.alt} width={900} height={900} sizes="(max-width: 1024px) 38vw, 240px" className="h-auto w-full" />
-        </div>
-      )}
     </div>
   );
 }
